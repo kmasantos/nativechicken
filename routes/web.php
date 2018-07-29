@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Socialite Routes
+Route::get('login/google', 'Auth\LoginController@redirectToProvider')->name('google_login');
+Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
