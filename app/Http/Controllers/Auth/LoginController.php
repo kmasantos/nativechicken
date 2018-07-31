@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
 use Socialite;
 use Google_Client;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -57,8 +60,21 @@ class LoginController extends Controller
     public function handleProviderCallback()
     {
         $user = Socialite::driver('google')->stateless()->user();
-
+        $findUser = User::where('email', $user->email)->first();
+        Auth::login($findUser, true);
         $user->remember_token = $user->token;
-        dd($user);
+        if(!is_null($findUser)){
+            if($findUser->role_id == 2){
+              return redirect()->action('AdminController@index');
+            }else{
+              return redirect()->action('FarmController@index');
+            }
+          }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/');
     }
 }

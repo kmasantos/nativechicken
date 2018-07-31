@@ -13,12 +13,32 @@
 
 Route::get('/', function () {
     return view('welcome');
+})->middleware('guest');
+
+Route::group(['middleware' => ['web']], function () 
+{
+    Auth::routes();
+    Route::get('/home', 'HomeController@index')->name('home');
+    // Farm Routes
+    Route::group(['prefix' => 'farm'], function()
+    {
+        // General Routes
+        Route::get('/',['as' => 'farm.index', 'uses' => 'FarmController@index']);
+        Route::get('pens',['as' => 'farm.pens', 'uses' => 'FarmController@getPensPage']);
+
+        // Breeder Routes
+        Route::get('generation',['as' => 'farm.chicken.breeder.generation', 'uses' => 'BreederController@getGenerationsPage']);
+        Route::get('family_record',['as' => 'farm.chicken.breeder.family_record', 'uses' => 'BreederController@getFamilyRecordsPage']);
+        Route::get('family_record_new',['as' => 'farm.chicken.breeder.family_record_new', 'uses' => 'BreederController@getFamilyRecordsPageNew']);
+    });
+    // Admin Routes
+    Route::group(['prefix' => 'admin'], function()
+    {
+        Route::get('/',['as' => 'admin.index', 'uses' => 'AdminController@index']);
+    });
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 // Socialite Routes
 Route::get('login/google', 'Auth\LoginController@redirectToProvider')->name('google_login');
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('logout', 'Auth\LoginController@logout');
