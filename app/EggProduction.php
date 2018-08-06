@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FamilyFeeding extends Model
+class EggProduction extends Model
 {
     //
 }

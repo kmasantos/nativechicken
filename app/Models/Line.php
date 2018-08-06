@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Breed extends Model
+class Line extends Model
 {
     public $timestamps = false;
 	/**
@@ -12,24 +12,23 @@ class Breed extends Model
      *
      * @var string
      */
-    protected $table = 'breeds';
+    protected $table = 'lines';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'breed'
+        'number', 'is_active'
     ];
 
-    public function farms()
+    public function generations()
     {
-        return $this->hasMany(Farm::class);
+        return $this->belongsTo(Generation::class);
     }
 
-    public function animaltype()
+    public function families()
     {
-        return $this->hasOne(AnimalType::class);
+        return $this->hasMany(Family::class);
     }
-    
 }

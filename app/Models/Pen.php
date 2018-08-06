@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Pen extends Model
 {
     public $timestamps = false;
 	/**
@@ -12,16 +12,14 @@ class Role extends Model
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'pens';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'number', 'type', 'total_capacity', 'current_capacity', 'is_active'
+    ];
     
-    public function users()
-    {
-    	return $this->hasMany(User::class);
-    }
 }

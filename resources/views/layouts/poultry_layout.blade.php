@@ -53,7 +53,6 @@
                         <li><a href="#!">Daily Records</a></li>
                         <li><a href="#!">Hatchery Records</a></li>
                         <li><a href="#!">Egg Quality Records</a></li>
-                        <li><a href="#!">Hatchery Records</a></li>
                         <li><a href="#!">Breeder Inventory</a></li>
                     </ul>
                 </div>

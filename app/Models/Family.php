@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Family extends Model
 {
     public $timestamps = false;
 	/**
@@ -12,16 +12,20 @@ class Role extends Model
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'families';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [];
-    
-    public function users()
+    protected $fillable = [
+        'number', 'is_active'
+    ];
+
+    public function lines()
     {
-    	return $this->hasMany(User::class);
+        return $this->belongsTo(Generation::class);
     }
+
+    
 }
