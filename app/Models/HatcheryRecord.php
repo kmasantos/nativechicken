@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AnimalType extends Model
+class HatcheryRecord extends Model
 {
     public $timestamps = false;
 	/**
@@ -12,28 +12,19 @@ class AnimalType extends Model
      *
      * @var string
      */
-    protected $table = 'animal_types';
+    protected $table = 'hatchery_records';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'species',
+        'date_eggs_set', 'batching_date', 'number_eggs_set', 'week_of_lay', 
+        'number_fertile', 'number_hatched', 'date_hatched'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        
-    ];
-
-    public function breeds()
+    public function breeders()
     {
-        return $this->hasMany('App\Models\Breed');
+        return $this->belongsTo(Breeder::class);
     }
-    
 }

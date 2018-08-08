@@ -77,6 +77,7 @@ class ApplicationSeeder extends Seeder
         $user->farm_id = $farmSample->id;
         $user->role_id = $farmRole->id;
         $user->save();
+        // TODO: pivot table for roles and users
         $this->command->info('Users Seeded');
     }
 }

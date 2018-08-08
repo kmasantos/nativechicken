@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pen extends Model
+class Replacement extends Model
 {
     public $timestamps = false;
 	/**
@@ -12,19 +12,19 @@ class Pen extends Model
      *
      * @var string
      */
-    protected $table = 'pens';
+    protected $table = 'replacements';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'number', 'type', 'total_capacity', 'current_capacity', 'is_active'
+        'batching_date', 'date_added'
     ];
-    
-    public function breeder_inventories()
+
+    public function families()
     {
-        return $this->hasMany(BreederInventory::class);
+        return $this->belongsTo(Family::class);
     }
 
     public function replacement_inventories()
@@ -32,13 +32,13 @@ class Pen extends Model
         return $this->hasMany(ReplacementInventory::class);
     }
 
-    public function broodergrower_inventories()
+    public function replacement_feedings()
     {
-        return $this->hasMany(BrooderGrower::class);
+        return $this->hasMany(ReplacementFeeding::class);
     }
 
-    public function animal_movements()
+    public function replacement_pheno_morphos()
     {
-        return $this->hasMany(AnimalMovement::class);
+        return $this->hasMany(ReplacementPhenoMorpho::class);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AnimalType extends Model
+class ReplacementPhenoMorphoValue extends Model
 {
     public $timestamps = false;
 	/**
@@ -12,28 +12,18 @@ class AnimalType extends Model
      *
      * @var string
      */
-    protected $table = 'animal_types';
+    protected $table = 'replacement_pheno_morpho_values';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'species',
+        'gender', 'phenotypic', 'morphometric', 'date_collected'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        
-    ];
-
-    public function breeds()
+    public function replacement_pheno_morpho()
     {
-        return $this->hasMany('App\Models\Breed');
+        return $this->hasMany(ReplacementPhenoMorpho::class);
     }
-    
 }

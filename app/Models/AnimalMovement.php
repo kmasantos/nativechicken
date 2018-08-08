@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Breed extends Model
+class AnimalMovement extends Model
 {
     public $timestamps = false;
 	/**
@@ -12,24 +12,24 @@ class Breed extends Model
      *
      * @var string
      */
-    protected $table = 'breeds';
+    protected $table = 'animal_movements';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'breed'
+        'type', 'activity', 'price', 'number_male', 'number_female', 'number_total', 'remarks'  
     ];
 
-    public function farms()
+    public function pens()
     {
-        return $this->hasMany(Farm::class);
+        return $this->belongsTo(Pen::class);
     }
 
-    public function animaltypes()
+    public function families()
     {
-        return $this->hasOne(AnimalType::class);
+        return $this->belongsTo(Family::class);
     }
     
 }

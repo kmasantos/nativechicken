@@ -27,5 +27,24 @@ class Family extends Model
         return $this->belongsTo(Generation::class);
     }
 
-    
+    public function breeders()
+    {
+        return $this->hasMany(Breeder::class);
+    }
+
+    public function replacements()
+    {
+        return $this->hasMany(Replacement::class);
+    }
+
+    public function broodersgrowers()
+    {
+        return $this->hasMany(BrooderGrower::class);
+    }
+
+    public function animal_movements()
+    {
+        return $this->hasMany(AnimalMovement::class);
+    }    
+
 }
