@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Pen extends Model
 {
+    use Searchable;
     public $timestamps = false;
 	/**
      * The database table used by the model.
@@ -40,5 +42,27 @@ class Pen extends Model
     public function animal_movements()
     {
         return $this->hasMany(AnimalMovement::class);
+    }
+
+    /**
+     * Pen specific functions
+    **/
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    public function getRemainingSlots()
+    {
+        return $this->total_capacity - $this->current_capacity;
+    }
+
+    public function hasSlots()
+    {
+        if(($this->total_capacity - $this->current_capacity)>0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

@@ -65,11 +65,11 @@ class LoginController extends Controller
         $user->remember_token = $user->token;
         if(!is_null($findUser)){
             if($findUser->role_id == 2){
-              return redirect()->action('AdminController@index');
+                return redirect()->action('AdminController@index');
             }else{
-              return redirect()->action('FarmController@index');
+                return redirect()->action('FarmController@index');
             }
-          }
+        }
     }
 
     public function logout(Request $request)

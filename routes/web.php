@@ -25,7 +25,8 @@ Route::group(['middleware' => ['web']], function ()
         // General Routes
         Route::get('/',['as' => 'farm.index', 'uses' => 'FarmController@index']);
         Route::get('pens',['as' => 'farm.pens', 'uses' => 'FarmController@getPensPage']);
-
+        Route::post('pens_add',['as' => 'farm.pens_add', 'uses' => 'FarmController@addPen']);
+        Route::post('pens_search',['as' => 'farm.pens_search', 'uses' => 'FarmController@searchPen']);
         // Breeder Routes
         Route::get('generation',['as' => 'farm.chicken.breeder.generation', 'uses' => 'BreederController@getGenerationsPage']);
         Route::get('family_record',['as' => 'farm.chicken.breeder.family_record', 'uses' => 'BreederController@getFamilyRecordsPage']);

@@ -7,3 +7,13 @@ nav, main, footer {
         padding-left: 0;    
     }
 }
+
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:after {
+    background-color: #78909c;
+}
+
+[type="checkbox"].filled-in:checked+label:after {
+    border-color: #78909c;
+    background-color: #78909c;
+}

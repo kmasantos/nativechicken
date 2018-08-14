@@ -10,7 +10,7 @@
     @yield('customcss')
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>PAB-IS | @yield('title')</title>
 </head>
 
@@ -123,16 +123,16 @@
     {{-- Top navigation --}}
     <nav class="blue-grey">
         <div class="nav-wrapper">
-            <a href="#" data-activates="slide-out" class="button-collapse hide-on-med-and-up"><i class="material-icons">menu</i></a>
+            <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only"><i class="material-icons">menu</i></a>
             <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="/images/logo-poultry.png" height="60px" width="200px"/ ></a>
-            <ul id="nav-mobile" class="right hide-on-small-and-down">
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{{route('farm.index')}}"><i class="material-icons">account_circle</i></a></li>
                 <li><a href="!#"><i class="material-icons">notification_important</i></a></li>
                 <li><a href="{{route('logout')}}"><i class="material-icons">power_settings_new</i></a></li>
             </ul>
 
             <!-- Dropdown Trigger -->
-            <a class='right dropdown-button hide-on-med-and-up' href='#' data-activates='dropdown_nav'><i class="material-icons">arrow_drop_down</i></a>
+            <a class='right dropdown-button hide-on-large-only' href='#' data-activates='dropdown_nav'><i class="material-icons">arrow_drop_down</i></a>
 
             <!-- Dropdown Structure -->
             <ul id='dropdown_nav' class='dropdown-content'>

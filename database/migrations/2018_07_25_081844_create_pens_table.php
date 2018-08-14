@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Route;
 
 class CreatePensTable extends Migration
 {
@@ -19,7 +20,7 @@ class CreatePensTable extends Migration
             $table->string('type');
             $table->integer('total_capacity');
             $table->integer('current_capacity')->default(0);
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(true);
         });
     }
 
