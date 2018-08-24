@@ -7,12 +7,20 @@
 @section('content')
     <div class="row">
         <div class="col s12 m12 l12">
-           <div class="row">
-               <div class="col s12 m12 l12">
-                   <h5>Generation</h5>
-               </div>
-           </div>
-           <form>
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <h5>Generation</h5>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col s12 m12 l12">
+                        <ul class="breadcrumb">
+                            <li><a href={{route('farm.index')}}>Home</a></li>
+                            <li>Generation</li>
+                        </ul>
+                    </div>
+                </div>
+            <form>
                 <div class="row valign-wrapper">
                     <div class="col s12 m9 l9 valign">
                         <label for="search">Search</label>
@@ -25,6 +33,7 @@
             </form>
             <div class="row">
                 <div class="col s12 m12 112">
+                    @if(!$generations->isEmpty())
                     <table class="bordered highlight responsive-table">
                         <thead>
                             <tr>
@@ -35,23 +44,28 @@
                         </thead>
 
                         <tbody>
+                            @forelse ($generations as $generation)
                             <tr>
-                                <td>0001</td>
+                                <td>{{$generation->number}}</td>
                                 <td><a><i class="material-icons">edit</i></a></td>
                                 <td><a><i class="material-icons">close</i></a></td>
                             </tr>
-                            <tr>
-                                <td>0002</td>
-                                <td><a><i class="material-icons">edit</i></a></td>
-                                <td><a><i class="material-icons">close</i></a></td>
-                            </tr>
-                            <tr>
-                                <td>0003</td>
-                                <td><a><i class="material-icons">edit</i></a></td>
-                                <td><a><i class="material-icons">close</i></a></td>
-                            </tr>
+                            @empty
+                                <tr>
+                                    <td></td>
+                                    <td>No Generation</td>
+                                    <td></td>
+                                </tr>
+                            @endforelse 
                         </tbody>
                     </table>
+                    @else
+                    <div class="row">
+                        <div class="col s12 m12 l12 center">
+                                <h5>No Generation Available</h5>
+                        </div>    
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -62,7 +76,8 @@
         </a>
     </div>
     <div id="modal" class="modal bottom-sheet generation_modal">
-        <form>
+        {!! Form::open([ 'route' => 'farm.chicken.breeder.generation_add', 'method' => 'post']) !!}
+            @csrf
             <div class="modal-content">
                 <div class="row">
                     <div class="col s12 m12 l12">
@@ -73,13 +88,13 @@
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <label for="generation">Generation</label>
-                        <input placeholder="Enter generation number" id="generation" type="text" name="generation">
+                        <input placeholder="Enter generation number" id="generation" type="number" min=0 name="generation_number">
                     </div>
                 </div>
                 <div id="line_div" class="row">
                     <div class="col s12 m12 l12">
                         <label for="line">Lines</label>
-                        <input placeholder="Enter line number" id="line" type="text" name="line[]">
+                        <input placeholder="Enter line code" id="line" type="text" name="line[]">
                     </div>
                 </div>
                 <div class="row center">
@@ -90,9 +105,9 @@
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                <button href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
+                <button type="submit" href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
             </div>
-        </form>
+        {!! Form::close() !!}
     </div>
 @endsection
 

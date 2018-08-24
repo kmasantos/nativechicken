@@ -12,6 +12,14 @@
                     <h5>Pens</h5>
                 </div>
             </div>
+            <div class="row">
+                    <div class="col s12 m12 l12">
+                        <ul class="breadcrumb">
+                            <li><a href={{route('farm.index')}}>Home</a></li>
+                            <li>Pens</li>
+                        </ul>
+                    </div>
+                </div>
             {!! Form::open([ 'route' => 'farm.pens_search', 'method' => 'post']) !!}
                 <div class="row valign-wrapper">
                     <div class="col s12 m9 l9 valign">

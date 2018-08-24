@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Pen;
 
@@ -26,6 +27,7 @@ class FarmController extends Controller
      * Show the pens list page
      * @param none
      * @return view
+     * @return collection
      */    
     public function getPensPage()
     {
@@ -62,10 +64,10 @@ class FarmController extends Controller
     }
 
     /**
-     * Post created pen to database
+     * Search pens from search request
      * @param request
      * @return view
-     * @return parameter
+     * @return collection
      */
     public function searchPen(Request $request)
     {
@@ -87,4 +89,46 @@ class FarmController extends Controller
         }
     }
 
+    /**
+     * Get farm settings page
+     * @param none
+     * @return view
+     * @return variable
+     */
+    public function getFarmSettingPage()
+    {
+        if (Auth::check())
+        {
+            $farm = Auth::user()->getFarm();
+            return view('general.farm_settings', compact('farm'));
+        }
+    }
+
+    /**
+     * Edit farm attributes
+     * @param request
+     * @return view
+     * @return parameter
+     */
+    public function editFarmSetting(Request $request)
+    {
+        if (Auth::check())
+        {
+            $farm = Auth::user()->getFarm();
+            if(!is_null($request->farm_name)){
+                $farm->name = $request->farm_name;
+            }
+            if(!is_null($request->farm_address)){
+                $farm->address = $request->farm_address;
+            }
+            if(!is_null($request->farm_batching_week) && $request->farm_batching_week>0 && $request->farm_batching_week <= 10){
+                $farm->batching_week = $request->farm_batching_week;
+            }
+            $farm->save();
+            return redirect()->back()->with('success', ['Farm settings edit successful']);   
+        }
+        else{
+            return redirect()->back()->with('fail', ['Farm settings edit failed']); 
+        }
+    }
 }

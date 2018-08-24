@@ -107,15 +107,9 @@
             </ul>
         </li>
         <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
+            <ul class="collapsible">
                 <li>
-                    <a class="collapsible-header" class="waves-effect"><i class="material-icons">settings_applications</i>Farm Settings</a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="#!">Farm Options</a></li>
-                            <li><a href="#!">Settings</a></li>
-                        </ul>
-                    </div>
+                    <a href="{{route('farm.farm_settings')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">settings_applications</i>Farm Settings</a>
                 </li>
             </ul>
         </li>

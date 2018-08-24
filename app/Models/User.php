@@ -41,4 +41,12 @@ class User extends Authenticatable
         return $this->hasOne(Role::class);
     }
 
+    /**
+     * Helper functions for User class
+     */
+    public function getFarm()
+    {
+        $farm = Farm::where('id', $this->farm_id)->firstOrFail();
+        return $farm;
+    }
 }
