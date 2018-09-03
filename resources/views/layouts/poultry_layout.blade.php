@@ -137,14 +137,15 @@
         </div>
     </nav>
     <main>
-        <div class="container">
+        <div class="container" id="app">
             @yield('content')
         </div>
     </main>
-    
+
+    <script type="text/javascript" src="/js/app.js"></script>
     <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
-    <script type="text/javascript" src="/js/application_materilize.js"></script>
+    <script type="text/javascript" src="/js/application_materialize.js"></script>
     @yield('customscripts')
 </body>
 </html>
