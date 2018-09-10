@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Pen;
+use App\Models\Generation;
+use App\Models\Line;
 
 class FarmController extends Controller
 {
@@ -130,5 +132,88 @@ class FarmController extends Controller
         else{
             return redirect()->back()->with('fail', ['Farm settings edit failed']); 
         }
+    }
+
+    /**
+     * Get Generations
+     * @param request
+     * @return view
+     */    
+
+    public function getGenerationLinesPage()
+    {
+        return view('general.generation_lines');
+    }
+
+    /**
+     * Add Generations
+     * @param request
+     * @return response
+     */
+    public function addGeneration(Request $request)
+    {
+        $request->validate([
+            'generation_number' => 'required',
+        ]);
+        $generation = new Generation;
+        $generation->number = str_pad($request->generation_number, 4, '0', STR_PAD_LEFT);
+        $generation->numerical_generation = $request->generation_number;
+        $generation->is_active = true;
+        $generation->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Generation added']);
+    }
+
+    /**
+     * Add Lines
+     * @param request
+     * @return response
+     */
+    public function addLineToGeneration(Request $request)
+    {
+        $request->validate([
+            'line_number' => 'required',
+            'generation_number' => 'required',
+        ]);
+        $new = new Line;
+        $new->number = str_pad($request->line_number, 4, '0', STR_PAD_LEFT);
+        $new->generation_id = $request->generation_number;
+        $new->is_active = true;
+        $new->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Line added']);
+    }
+
+    /**
+     * Fetch Generations
+     * @param request
+     * @return data
+     */
+    public function fetchGenerations()
+    {
+        $generations = Generation::where('is_active', true)->get();
+        return $generations;
+    }
+
+    /**
+     * Show Generation Details
+     * @param var
+     * @return data
+     */
+    public function showGenerationDetails($generation)
+    {
+        $lines = Line::where('generation_id', $generation)->get();        
+        return $lines;
+    }
+
+    /**
+     * Search Generation Number
+     * @param request
+     * @return data
+     */
+    public function searchGeneration($search)
+    {
+        $generations = Generation::where('number', 'like', '%'.$search.'%')->where('is_active', true)->get();        
+        return $generations;
     }
 }

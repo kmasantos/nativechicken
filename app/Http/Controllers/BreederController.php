@@ -88,15 +88,27 @@ class BreederController extends Controller
         return view('chicken.breeder.family_record', compact('generations','families'));
     }
 
-    public function getLinesOfGeneration($generation)
+    public function getGenerationList()
     {
-        $lines = Lines::where('generation_id', $generation)->where('is_active', true)->get();
+        $generations = Generation::where('is_active', true)->get();
+        return $generations;
+    }
+
+    public function getLinesList($generation_id)
+    {
+        $lines = Line::where('generation_id', $generation_id)->where('is_active', true)->get();
         return $lines;
     }
 
     public function addFamilyRecord(Request $request)
     {
-        dd($request);
+        $new = new Family;
+        $new->number = str_pad($request->family_id, 4, '0', STR_PAD_LEFT);
+        $new->is_active = true;
+        $new->line_id = $request->line_id;
+        $new->save();
+        
+        return redirect()->route('farm.chicken.breeder.family_record');
     }
 
     public function searchFamilyRecordsPage(Request $request)

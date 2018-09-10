@@ -43,13 +43,27 @@
             </ul>
         </li>
         <li class="no-padding">
+            <ul class="collapsible">
+                <li>
+                    <a href="{{route('farms.generation_lines_page')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">linear_scale</i>Generations & Lines</a>
+                </li>
+            </ul>
+        </li>
+        <li class="no-padding">
+            <ul class="collapsible">
+                <li>
+                    <a href="{{route('farm.chicken.breeder.family_record')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">queue</i>Families</a>
+                </li>
+            </ul>
+        </li>
+        <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
                 <li>
                 <a class="collapsible-header">Breeder<i class="material-icons">stars</i></a>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="{{route('farm.chicken.breeder.generation')}}">Generations</a></li>
-                        <li><a href="{{route('farm.chicken.breeder.family_record')}}">Family Records</a></li>
+                        {{-- <li><a href="{{route('farm.chicken.breeder.family_record')}}">Family Records</a></li> --}}
+                        <li><a href="#!">Add Breeders</a></li>
                         <li><a href="#!">Daily Records</a></li>
                         <li><a href="#!">Hatchery Records</a></li>
                         <li><a href="#!">Egg Quality Records</a></li>
@@ -65,7 +79,7 @@
                 <a class="collapsible-header">Replacement<i class="material-icons">autorenew</i></a>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="#!">Add Replacements</a></li>
+                        <li><a href="{{route('farm.chicken.replacemnt.replacement_add')}}">Add Replacements</a></li>
                         <li><a href="#!">Phenotypic and Morphometric</a></li>
                         <li><a href="#!">Feeding Records</a></li>
                     </ul>

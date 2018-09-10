@@ -15,8 +15,17 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// General Vue Components
+Vue.component('generation-line', require('./components/GenerationLine.vue'));
+
+// Breeder Vue Components
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('line-select', require('./components/LineComponent.vue'));
+Vue.component('add-family-record', require('./components/AddFamilyRecord.vue'));
+Vue.component('line-list', require('./components/LineList.vue'));
+
+// Replacement Vue Components
+Vue.component('add-replacement', require('./components/AddReplacement.vue'));
+
 
 const app = new Vue({
     el: '#app'
