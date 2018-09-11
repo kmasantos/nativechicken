@@ -24,8 +24,9 @@
                     <tbody>
                         <tr v-for="generation in generations" :key="generation.id">
                             <td>{{generation.number}}</td>
-                            <td>{{generation.is_active}}</td>
-                            <td><a href="javascript:void(0);" @click.prevent="viewDetails"><i class="material-icons">details</i></a></td>
+                            <td v-if="generation.is_active">Active</td>
+                            <td v-else>Inactive</td>
+                            <td><a href="#details_modal" @click.prevent="viewDetails(generation.id)" class="modal-trigger"><i class="material-icons">details</i></a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -98,6 +99,19 @@
                 <a @click="addLine" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
             </div>
         </div>
+        
+        <div id="details_modal" class="modal">
+            <div class="modal-content">
+                <ul class="collection with-header">
+                    <li class="collection-header"><h4>Lines</h4></li>
+                    <li v-if="line_list.length == 0" class="collection-item"><div>No Lines in this Generation</div></li>
+                    <li v-for="line in line_list" :key="line.id" class="collection-item"><div>{{line.number}}</div></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -111,7 +125,8 @@
                 selected_generation : '',
                 add_generation : '',
                 line_number : '',
-                toggle : false
+                generation_details : '',
+                line_list : [],
             }
         },
         methods : {
@@ -155,9 +170,11 @@
                 this.fetchGenerations();
             },
             
-            viewDetails : function(event){
-                this.toggle = !this.toggle;
-                alert("Helloooooo");
+            viewDetails : function(generation){
+                this.generation_details = generation;
+                axios.get('get_details/'+this.generation_details)
+                .then(response => this.line_list = response.data)
+                .catch(error => console.log(error));
             },
         },
         created () {

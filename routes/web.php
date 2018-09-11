@@ -29,6 +29,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('pens_search',['as' => 'farm.pens_search', 'uses' => 'FarmController@searchPen']);
         Route::get('generation_lines_page', ['as' => 'farms.generation_lines_page', 'uses' => 'FarmController@getGenerationLinesPage']);
         
+        Route::get('family_records', ['as' => 'farm.family_records', 'uses' => 'FarmController@getFamilyRecordsPage']);
+
         Route::get('farm_settings', ['as' => 'farm.farm_settings', 'uses' => 'FarmController@getFarmSettingPage']);
         Route::put('farm_settings_edit', ['as' => 'farm.farm_settings_edit', 'uses' => 'FarmController@editFarmSetting']);
         // Breeder Routes
@@ -41,6 +43,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('family_record_new',['as' => 'farm.chicken.breeder.family_record_new', 'uses' => 'BreederController@getFamilyRecordsPageNew']);
         Route::post('family_record_search',['as' => 'farm.chicken.breeder.family_record_search', 'uses' => 'BreederController@searchFamilyRecordsPage']);
         
+        Route::get('add_breeder', ['as' => 'farm.chicken.breeder.add_breeder', 'uses' => 'BreederController@addBreederPage']);
+
         // Replacement Routes
         Route::get('replacement_add',['as' => 'farm.chicken.replacemnt.replacement_add', 'uses' => 'ReplacementController@getAddReplacement']);
         
@@ -49,6 +53,11 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_generation', 'FarmController@addGeneration');
         Route::get('search_generation/{search}', 'FarmController@searchGeneration');
         Route::post('add_line', 'FarmController@addLineToGeneration');
+        Route::get('get_details/{generation}', 'FarmController@showGenerationDetails');
+        Route::get('fetch_lines/{generation}', 'FarmController@fetchLinesInGeneration');
+        Route::get('fetch_families', 'FarmController@fetchFamilies');
+        Route::post('add_family', 'FarmController@addFamilyRecord');
+        Route::get('search_family/{search}', 'FarmController@searchFamily');
         // Breeder Axios Routes
 
         // Replacement Axios Routes

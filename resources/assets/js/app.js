@@ -17,11 +17,12 @@ window.Vue = require('vue');
 
 // General Vue Components
 Vue.component('generation-line', require('./components/GenerationLine.vue'));
+Vue.component('family-record', require('./components/FamilyRecord.vue'));
 
 // Breeder Vue Components
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('add-family-record', require('./components/AddFamilyRecord.vue'));
 Vue.component('line-list', require('./components/LineList.vue'));
+Vue.component('add-breeder', require('./components/AddBreeder.vue'));
 
 // Replacement Vue Components
 Vue.component('add-replacement', require('./components/AddReplacement.vue'));

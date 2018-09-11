@@ -52,7 +52,7 @@
         <li class="no-padding">
             <ul class="collapsible">
                 <li>
-                    <a href="{{route('farm.chicken.breeder.family_record')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">queue</i>Families</a>
+                    <a href="{{route('farm.family_records')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">queue</i>Families</a>
                 </li>
             </ul>
         </li>
@@ -63,7 +63,7 @@
                 <div class="collapsible-body">
                     <ul>
                         {{-- <li><a href="{{route('farm.chicken.breeder.family_record')}}">Family Records</a></li> --}}
-                        <li><a href="#!">Add Breeders</a></li>
+                        <li><a href="{{route('farm.chicken.breeder.add_breeder')}}">Add Breeders</a></li>
                         <li><a href="#!">Daily Records</a></li>
                         <li><a href="#!">Hatchery Records</a></li>
                         <li><a href="#!">Egg Quality Records</a></li>
@@ -141,7 +141,6 @@
 
             <!-- Dropdown Trigger -->
             <a class='right dropdown-button hide-on-large-only' href='#' data-activates='dropdown_nav'><i class="material-icons">arrow_drop_down</i></a>
-
             <!-- Dropdown Structure -->
             <ul id='dropdown_nav' class='dropdown-content'>
                 <li><a href="{{route('farm.index')}}">{{Auth::user()->name}}</a></li>

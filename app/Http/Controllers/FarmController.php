@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Pen;
 use App\Models\Generation;
 use App\Models\Line;
+use App\Models\Family;
 
 class FarmController extends Controller
 {
@@ -195,6 +196,12 @@ class FarmController extends Controller
         return $generations;
     }
 
+    public function fetchLinesInGeneration($generation)
+    {
+        $lines = Line::where('generation_id', $generation)->where('is_active', true)->get();        
+        return $lines;
+    }
+
     /**
      * Show Generation Details
      * @param var
@@ -202,7 +209,7 @@ class FarmController extends Controller
      */
     public function showGenerationDetails($generation)
     {
-        $lines = Line::where('generation_id', $generation)->get();        
+        $lines = Line::where('generation_id', $generation)->where('is_active', true)->get();        
         return $lines;
     }
 
@@ -215,5 +222,45 @@ class FarmController extends Controller
     {
         $generations = Generation::where('number', 'like', '%'.$search.'%')->where('is_active', true)->get();        
         return $generations;
+    }
+
+    public function getFamilyRecordsPage()
+    {
+        return view('general.family_records');
+    }
+
+    public function fetchFamilies()
+    {
+        $families = Family::
+        join('lines', 'families.line_id', '=', 'lines.id')
+        ->where('families.is_active', true)
+        ->select('lines.number AS line_number', 'families.number AS family_number', 'families.is_active as is_active')
+        ->get();
+        return $families;
+    }
+
+    public function addFamilyRecord(Request $request)
+    {
+        $request->validate([
+            'family_number' => 'required',
+            'line_id' => 'required',
+        ]);
+
+        $new = new Family;
+        $new->number = str_pad($request->family_number, 4, '0', STR_PAD_LEFT);
+        $new->line_id = $request->line_id;
+        $new->is_active = true;
+        $new->save();
+        return response()->json(['status' => 'success', 'message' => 'Family added']);
+    }
+
+    public function searchFamily($search)
+    {
+        $families = Family::join('lines', 'families.line_id', '=', 'lines.id')
+        ->where('families.is_active', true)
+        ->where('families.number', 'like', '%'.$search.'%')
+        ->select('lines.number AS line_number', 'families.number AS family_number', 'families.is_active as is_active')
+        ->get();
+        return $families;
     }
 }

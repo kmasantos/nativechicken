@@ -123,4 +123,9 @@ class BreederController extends Controller
     {
         return view('chicken.breeder.family_record_new');
     }
+
+    public function addBreederPage()
+    {
+        return view('chicken.breeder.add_breeder');
+    }
 }
