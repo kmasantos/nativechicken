@@ -23,6 +23,8 @@ Vue.component('family-record', require('./components/FamilyRecord.vue'));
 Vue.component('add-family-record', require('./components/AddFamilyRecord.vue'));
 Vue.component('line-list', require('./components/LineList.vue'));
 Vue.component('add-breeder', require('./components/AddBreeder.vue'));
+Vue.component('add-daily', require('./components/AddDailyRecord.vue'));
+Vue.component('hatchery-record', require('./components/AddHatcheryRecord.vue'));
 
 // Replacement Vue Components
 Vue.component('add-replacement', require('./components/AddReplacement.vue'));

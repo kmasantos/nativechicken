@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Generation;
 use App\Models\Line;
 use App\Models\Family;
+use App\Models\Breeder;
+use App\Models\Pen;
 
 class BreederController extends Controller
 {
@@ -102,6 +104,10 @@ class BreederController extends Controller
 
     public function addFamilyRecord(Request $request)
     {
+        $request->validate([
+            'family_id' => 'required',
+            'line_id' => 'required',
+        ]);
         $new = new Family;
         $new->number = str_pad($request->family_id, 4, '0', STR_PAD_LEFT);
         $new->is_active = true;
@@ -127,5 +133,98 @@ class BreederController extends Controller
     public function addBreederPage()
     {
         return view('chicken.breeder.add_breeder');
+    }
+
+    public function fetchBreederFamilies()
+    {
+        $families = Family::join('lines', 'families.line_id', '=', 'lines.id')
+                    ->join('generations', 'lines.generation_id', '=', 'generations.id')
+                    ->select('families.number as family_number', 
+                    'lines.number as line_number', 
+                    'generations.number as generation_number', 
+                    'families.*')
+                    ->where('families.is_active', true)
+                    ->get();
+        return $families;
+    }
+
+    public function addBreeder(Request $request)
+    {
+        $request->validate([
+            'family_id' => 'required',
+            'female_family' => 'required',
+            'date_added' => 'required',
+            'number_male' => 'required',
+            'number_female' => 'required',
+            'pen_id' => 'required'
+        ]);
+        dd($request);
+        $new = new Breeder;
+        $new->family_id = $request->family_id;
+        $new->female_family = $request->female_family;
+        $new->date_added = $request->date_added;
+        $new->save();
+        
+        return response()->json(['status' => 'success', 'message' => 'Breeders added']);
+    }
+
+    public function dailyRecordPage()
+    {
+        return view('chicken.breeder.daily_record');
+    }
+
+    public function hatcheryRecordPage()
+    {
+        return view('chicken.breeder.hatchery_record');
+    }
+
+    public function eggQualityPage()
+    {
+        return view('chicken.breeder.egg_quality');
+    }
+
+    public function breederInventoryPage()
+    {
+        return view('chicken.breeder.breeder_inventory');
+    }
+
+    /*
+    ** Helper methods for this controller
+    */ 
+    public function fetchGenerations() 
+    {
+        $generations = Generation::where('is_active', true)->get();
+        return $generations;
+    }
+    public function fetchLines($generation_id) 
+    {
+        if($generation_id == ""){
+            $lines = Line::where('is_active', true)->get();
+            return $lines;
+        }else{
+            $lines = Line::where('is_active', true)->where('generation_id', $generation_id)->get();
+            return $lines;
+        }
+        
+    }
+    public function fetchFemaleFamilies($line_id, $male_family) 
+    {
+        if($line_id == "" && $male_family == ""){
+            return null;
+        }else{
+            $females = Family::where('is_active', true)
+                    ->where('line_id', $line_id)
+                    ->where('id', '!=', $male_family)
+                    ->get();
+            return $females;
+        }
+    }
+    public function fetchBreederPens()
+    {
+        $pens = Pen::where('is_active', true)
+                    ->where('type', 'layer')
+                    ->where('current_capacity', '==', 0)
+                    ->get();
+        return $pens;
     }
 }

@@ -25,7 +25,17 @@ class FarmController extends Controller
     {
         return view('general.dashboard');
     }
-
+    
+    /**
+     *  Test Page for Semantic UI
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function testPage()
+    {
+        return view('general.test');
+    }
+    
     /**
      * Show the pens list page
      * @param none
@@ -263,4 +273,5 @@ class FarmController extends Controller
         ->get();
         return $families;
     }
+
 }

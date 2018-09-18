@@ -29,17 +29,17 @@ class Family extends Model
 
     public function breeders()
     {
-        return $this->hasMany(Breeder::class);
+        return $this->hasOne(Breeder::class);
     }
 
     public function replacements()
     {
-        return $this->hasMany(Replacement::class);
+        return $this->hasOne(Replacement::class);
     }
 
     public function broodersgrowers()
     {
-        return $this->hasMany(BrooderGrower::class);
+        return $this->hasOne(BrooderGrower::class);
     }
 
     public function animal_movements()
@@ -47,4 +47,22 @@ class Family extends Model
         return $this->hasMany(AnimalMovement::class);
     }    
 
+    /*
+    ** Model Functions
+    */
+    public function hasBreeders()
+    {
+        $breeder = Breeder::where('family_id', $this->id)->first();
+        if($breeder != null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function getBreeder()
+    {
+        $breeder = Breeder::where('family_id', $this->id)->first();
+        return $breeder;
+    }
 }

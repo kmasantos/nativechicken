@@ -22,4 +22,14 @@ class ReplacementController extends Controller
         $replacements = Replacement::get();
         return $replacements;
     }
+
+    public function phenoMorphoPage()
+    {
+        return view('chicken.replacement.phenomorpho_record');
+    }
+
+    public function feedingRecordPage()
+    {
+        return view('chicken.replacement.feeding_record');
+    }
 }

@@ -7,6 +7,7 @@
     <link type="text/css" rel="stylesheet" href="/thirdparty/fontawesome-free-5.0.4/web-fonts-with-css/css/fontawesome-all.min.css">
     <link type="text/css" rel="stylesheet" href="/thirdparty/materialize/css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/application_materialize.css"  media="screen,projection"/>
+    {{-- <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css"> --}}
     @yield('customcss')
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -64,10 +65,10 @@
                     <ul>
                         {{-- <li><a href="{{route('farm.chicken.breeder.family_record')}}">Family Records</a></li> --}}
                         <li><a href="{{route('farm.chicken.breeder.add_breeder')}}">Add Breeders</a></li>
-                        <li><a href="#!">Daily Records</a></li>
-                        <li><a href="#!">Hatchery Records</a></li>
-                        <li><a href="#!">Egg Quality Records</a></li>
-                        <li><a href="#!">Breeder Inventory</a></li>
+                        <li><a href="{{route('farm.chicken.breeder.daily_record')}}">Daily Records</a></li>
+                        <li><a href="{{route('farm.chicken.breeder.hatchery_record')}}">Hatchery Records</a></li>
+                        <li><a href="{{route('farm.chicken.breeder.egg_quality')}}">Egg Quality Records</a></li>
+                        <li><a href="{{route('farm.chicken.breeder.breeder_inventory')}}">Breeder Inventory</a></li>
                     </ul>
                 </div>
                 </li>
@@ -80,8 +81,8 @@
                 <div class="collapsible-body">
                     <ul>
                         <li><a href="{{route('farm.chicken.replacemnt.replacement_add')}}">Add Replacements</a></li>
-                        <li><a href="#!">Phenotypic and Morphometric</a></li>
-                        <li><a href="#!">Feeding Records</a></li>
+                        <li><a href="{{route('farm.chicken.replacemnt.phenomorpho_record')}}">Phenotypic and Morphometric</a></li>
+                        <li><a href="{{route('farm.chicken.replacemnt.feeding_record')}}">Feeding Records</a></li>
                     </ul>
                 </div>
                 </li>
@@ -93,6 +94,7 @@
                 <a class="collapsible-header">Brooders & Growers<i class="material-icons">group_work</i></a>
                 <div class="collapsible-body">
                     <ul>
+                        <li><a href="#!">Add Brooders & Growers</a></li>
                         <li><a href="#!">Feeding Records</a></li>
                         <li><a href="#!">Growth Performance</a></li>
                     </ul>
@@ -132,10 +134,10 @@
     <nav class="blue-grey">
         <div class="nav-wrapper">
             <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only"><i class="material-icons">menu</i></a>
-            <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="/images/logo-poultry.png" height="60px" width="200px"/ ></a>
+            <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="/images/logo-poultry.png" height="60px" width="150px"/ ></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{{route('farm.index')}}"><i class="material-icons">account_circle</i></a></li>
-                <li><a href="!#"><i class="material-icons">notification_important</i></a></li>
+                <li><a href="{{route('farm.test')}}"><i class="material-icons">notification_important</i></a></li>
                 <li><a href="{{route('logout')}}"><i class="material-icons">power_settings_new</i></a></li>
             </ul>
 
@@ -144,7 +146,7 @@
             <!-- Dropdown Structure -->
             <ul id='dropdown_nav' class='dropdown-content'>
                 <li><a href="{{route('farm.index')}}">{{Auth::user()->name}}</a></li>
-                <li><a href="!#">Notifications</a></li>
+                <li><a href="#!">Notifications</a></li>
                 <li><a href="#!">Logout</a></li>
             </ul>
         </div>
@@ -154,7 +156,7 @@
             @yield('content')
         </div>
     </main>
-
+    {{-- <script src="semantic/dist/semantic.min.js"></script> --}}
     <script type="text/javascript" src="/js/app.js"></script>
     <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
