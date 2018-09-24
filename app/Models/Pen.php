@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pen extends Model
 {
-    use Searchable;
+    // use Searchable;
     public $timestamps = false;
 	/**
      * The database table used by the model.

@@ -13,13 +13,13 @@
                 </div>
             </div>
             <div class="row">
-                    <div class="col s12 m12 l12">
-                        <ul class="breadcrumb">
-                            <li><a href={{route('farm.index')}}>Home</a></li>
-                            <li>Generation</li>
-                        </ul>
-                    </div>
+                <div class="col s12 m12 l12">
+                    <ul class="breadcrumb">
+                        <li><a href={{route('farm.index')}}>Home</a></li>
+                        <li>Generation</li>
+                    </ul>
                 </div>
+            </div>
             {!! Form::open([ 'route' => 'farm.chicken.breeder.generation_search', 'method' => 'post']) !!}
                 <div class="row valign-wrapper">
                     <div class="col s12 m9 l9 valign">

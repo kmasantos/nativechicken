@@ -8,6 +8,7 @@ use App\Models\Generation;
 use App\Models\Line;
 use App\Models\Family;
 use App\Models\Breeder;
+use App\Models\BreederInventory;
 use App\Models\Pen;
 
 class BreederController extends Controller
@@ -161,10 +162,40 @@ class BreederController extends Controller
         dd($request);
         $new = new Breeder;
         $new->family_id = $request->family_id;
-        $new->female_family = $request->female_family;
+        $new->female_family_id = $request->female_family;
         $new->date_added = $request->date_added;
         $new->save();
         
+        return response()->json(['status' => 'success', 'message' => 'Breeders added']);
+    }
+
+    public function addBreederExternal(Request $request) 
+    {
+        $request->validate([
+            'family_id' => 'required',
+            'date_added' => 'required',
+            'number_male' => 'required',
+            'number_female' => 'required',
+            'pen_id' => 'required',
+        ]);
+        $new = new Breeder;
+        $new->family_id = $request->family_id;
+        $new->female_family_id = null;
+        $new->date_added = $request->date_added;
+        $new->save();
+        $inventory = new BreederInventory;
+        $inventory->breeder_id = $new->id;
+        $inventory->pen_id = $request->pen_id;
+        $inventory->date_removed = null;
+        $inventory->number_male = $request->number_male;
+        $inventory->number_female = $request->number_female;
+        $inventory->total = $request->number_male + $request->number_female;
+        $inventory->activity = "Add External Source Breeders";
+        $inventory->reason = null;
+        $inventory->save();
+        $pen = Pen::where('id', $request->pen_id)->first();
+        $pen->current_capacity = $pen->current_capacity + $inventory->total;
+        $pen->save();
         return response()->json(['status' => 'success', 'message' => 'Breeders added']);
     }
 

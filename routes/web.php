@@ -25,7 +25,7 @@ Route::group(['middleware' => ['web']], function ()
         // Test Routes
         Route::get('test', ['as' => 'farm.test', 'uses' => 'FarmController@testPage']);
         // General Routes
-        Route::get('/',['as' => 'farm.index', 'uses' => 'FarmController@index']);
+        Route::get('/', ['as' => 'farm.index', 'uses' => 'FarmController@index']);
         Route::get('pens',['as' => 'farm.pens', 'uses' => 'FarmController@getPensPage']);
         Route::post('pens_add',['as' => 'farm.pens_add', 'uses' => 'FarmController@addPen']);
         Route::post('pens_search',['as' => 'farm.pens_search', 'uses' => 'FarmController@searchPen']);
@@ -56,7 +56,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('replacement_add',['as' => 'farm.chicken.replacemnt.replacement_add', 'uses' => 'ReplacementController@getAddReplacement']);
         Route::get('phenomorpho_record',['as' => 'farm.chicken.replacemnt.phenomorpho_record', 'uses' => 'ReplacementController@phenoMorphoPage']);
         Route::get('feeding_record',['as' => 'farm.chicken.replacemnt.feeding_record', 'uses' => 'ReplacementController@feedingRecordPage']);
-        
+        Route::get('add_pheno_morpho/{id}', ['as' => 'farm.chicken.replacement.add_pheno_morpho', 'uses' => 'ReplacementController@addPhenoMorphoPage']);
         // General Axios Routes
         Route::get('fetch_generation', 'FarmController@fetchGenerations');
         Route::post('add_generation', 'FarmController@addGeneration');
@@ -70,18 +70,25 @@ Route::group(['middleware' => ['web']], function ()
         // Breeder Axios Routes
         Route::get('fetch_breeder_families', 'BreederController@fetchBreederFamilies');
         Route::post('add_breeder_submit', 'BreederController@addBreeder');
+        Route::post('add_breeder_submit_external', 'BreederController@addBreederExternal');
         Route::get('fetch_generation', 'BreederController@fetchGenerations');
         Route::get('fetch_line/{generation_id}', 'BreederController@fetchLines');
         Route::get('fetch_female/{line_number}/{male_family}', 'BreederController@fetchFemaleFamilies');
         Route::get('fetch_breeder_pens', 'BreederController@fetchBreederPens');    
         // Replacement Axios Routes
-
+        Route::get('replacement_list', 'ReplacementController@getReplacementList');
+        Route::get('fetch_generations', 'ReplacementController@fetchGenerations');
+        Route::get('fetch_lines/{generation_id}', 'ReplacementController@fetchLines');
+        Route::get('fetch_families/{line_id}', 'ReplacementController@fetchFamilies');
+        Route::get('fetch_pens', 'ReplacementController@fetchPens');
+        Route::post('add_replacements', 'ReplacementController@addReplacements');
+        Route::get('search_replacements/{search}', 'ReplacementController@searchReplacements');
         // Axios Routes
         Route::get('generation_list', 'BreederController@getGenerationList');
         Route::get('line_list/{generation_id}', 'BreederController@getLinesList');
         Route::post('family_record_add', 'BreederController@addFamilyRecord');
 
-        Route::get('replacement_list', 'ReplacementController@getReplacementList');
+        
         
     });
     // Admin Routes

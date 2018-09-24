@@ -25,8 +25,9 @@
                                 </div>
                             </div> 
                             <div class="card-action">
-                                <a href="#add_breeder" class="black-text modal-trigger" @click="selected_family = family.id">Add Breeders</a>
-                                <a href="#!" class="black-text">Update Breeders</a>
+                                <a href="#add_breeder" class="black-text modal-trigger tooltipped" @click="selected_family = family.id" data-position="bottom" data-delay="50" data-tooltip="Add from existing Family"><i class="material-icons">add</i></a>
+                                <a href="#add_external" class="black-text modal-trigger tooltipped" @click="selected_family = family.id" data-position="bottom" data-delay="50" data-tooltip="Add from external Sources"><i class="material-icons">add_box</i></a>
+                                <a href="#!" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Update"><i class="material-icons">update</i></a>
                             </div>
                         </div>
                     </div>
@@ -35,7 +36,7 @@
         </div>
         <div class="row center" v-else>
             <div class="col s12 m12 l12">
-                <h5>No Family</h5>
+                <h5>No Breeders</h5>
             </div>
         </div>
         <div id="add_breeder" class="modal modal-fixed-footer">
@@ -108,9 +109,55 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-grey btn-flat ">Submit</a>
+                <a class="modal-action modal-close waves-effect waves-grey btn-flat" @click="addBreeder">Submit</a>
             </div>
         </div>
+
+        <div id="add_external" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <h4>Add Breeder</h4>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <label>Move to Pen</label>
+                                <select class="browser-default" v-model="selected_pen">
+                                    <option value="" disabled selected>Choose pen</option>
+                                    <option v-for="pen in pens" :key="pen.id" v-bind:value="pen.id">{{pen.number}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <label for="no_male">Number of Male</label>
+                                <input v-model.number="number_male" placeholder="Number of Male" id="no_male" type="number" min=0 class="validate">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <label for="no_female">Number of Female</label>
+                                <input v-model.number="number_female" placeholder="Number of Female" id="no_female" type="number" min=0 class="validate">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <label>Date Added</label>
+                                <datepicker :format="customFormatter" v-model="date_added" ></datepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-grey btn-flat" @click="addBreederExternal">Submit</a>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -118,8 +165,13 @@
     import Datepicker from 'vuejs-datepicker';
     var moment = require('moment');
     export default {
-        components: {
+        components : {
             Datepicker
+        },
+        computed : {
+            checkBreederAttached : function () {
+
+            }
         },
         data() {
             return {
@@ -185,6 +237,21 @@
                 axios.post('add_breeder_submit', {
                     family_id: this.selected_family,
                     female_family: this.selected_females,
+                    date_added : this.customFormatter(this.date_added),
+                    number_male : this.number_male,
+                    number_female : this.number_female,
+                    pen_id : this.selected_pen
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            addBreederExternal : function () {
+                axios.post('add_breeder_submit_external', {
+                    family_id: this.selected_family,
                     date_added : this.customFormatter(this.date_added),
                     number_male : this.number_male,
                     number_female : this.number_female,

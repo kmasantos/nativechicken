@@ -1,6 +1,7 @@
 
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
+require('@fortawesome/fontawesome-free');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

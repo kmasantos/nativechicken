@@ -16,7 +16,7 @@ class CreateReplacementsTable extends Migration
         Schema::create('replacements', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('family_id');
-            $table->date('batching_date');
+            $table->date('batching_date')->nullable();
             $table->date('date_added');
         });
 
