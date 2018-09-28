@@ -19,15 +19,11 @@ class CreateReplacementInventoriesTable extends Migration
             $table->integer('number_male')->default(0);
             $table->integer('number_female')->default(0);
             $table->integer('total')->default(0);
-            $table->string('activity')->nullable();
-            $table->unsignedInteger('pen_id')->nullable();
-            $table->date('date');
-            
+            $table->date('last_update');
         });
 
         Schema::table('replacement_inventories', function($table) {
             $table->foreign('replacement_id')->references('id')->on('replacements');
-            $table->foreign('pen_id')->references('id')->on('pens');
         });
     }
 

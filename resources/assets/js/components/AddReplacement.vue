@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </form>
-            <div class="row" v-if="replacements.length === 0">
+            <div class="row" v-if="replacements.data === undefined">
                 <div class="col s12 m12 l12 center">
                     <h5>No Replacement Stocks</h5>    
                 </div>
@@ -262,7 +262,7 @@
             },
             preloadLines : function () {
                 this.lines_loaded = false;
-                axios.get('fetch_lines/'+'%')
+                axios.get('replacement_fetch_lines/'+'%')
                 .then(response => this.lines = response.data)
                 .catch(error => console.log(error));
                 this.lines_loaded = true;
@@ -276,28 +276,28 @@
             },
             fetchGenerations :function () {
                 this.generations_loaded = false;
-                axios.get('fetch_generations')
+                axios.get('replacement_fetch_generations')
                 .then(response => this.generations = response.data)
                 .catch(error => console.log(error));
                 this.generations_loaded = true;
             },
             fetchLines : function () {
                 this.lines_loaded = false;
-                axios.get('fetch_lines/'+this.selected_generation)
+                axios.get('replacement_fetch_lines/'+this.selected_generation)
                 .then(response => this.lines = response.data)
                 .catch(error => console.log(error));
                 this.lines_loaded = true;
             },
             fetchFamilies : function () {
                 this.families_loaded = false;
-                axios.get('fetch_families/'+this.selected_line)
+                axios.get('replacement_fetch_families/'+this.selected_line)
                 .then(response => this.families = response.data)
                 .catch(error => console.log(error));
                 this.families_loaded = true;
             },
             fetchPens : function () {
                 this.pens_loaded = false;
-                axios.get('fetch_pens')
+                axios.get('replacement_fetch_pens')
                 .then(response => this.pens = response.data)
                 .catch(error => console.log(error));
                 this.pens_loaded = true;

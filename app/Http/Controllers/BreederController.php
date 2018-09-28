@@ -10,6 +10,9 @@ use App\Models\Family;
 use App\Models\Breeder;
 use App\Models\BreederInventory;
 use App\Models\Pen;
+use App\Models\AnimalMovement;
+use App\Models\Replacement;
+use App\Models\ReplacementInventory;
 
 class BreederController extends Controller
 {
@@ -136,67 +139,179 @@ class BreederController extends Controller
         return view('chicken.breeder.add_breeder');
     }
 
-    public function fetchBreederFamilies()
+    public function getBreederList()
     {
-        $families = Family::join('lines', 'families.line_id', '=', 'lines.id')
-                    ->join('generations', 'lines.generation_id', '=', 'generations.id')
-                    ->select('families.number as family_number', 
-                    'lines.number as line_number', 
-                    'generations.number as generation_number', 
-                    'families.*')
-                    ->where('families.is_active', true)
-                    ->get();
-        return $families;
+        $breeders = Breeder::join('families', 'families.id', 'breeders.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->select('breeders.*', 'families.number as family_number',
+                    'lines.number as line_number', 'generations.number as generation_number')
+                    ->paginate(8);
+        return $breeders;
     }
 
     public function addBreeder(Request $request)
     {
-        $request->validate([
-            'family_id' => 'required',
-            'female_family' => 'required',
-            'date_added' => 'required',
-            'number_male' => 'required',
-            'number_female' => 'required',
-            'pen_id' => 'required'
-        ]);
-        dd($request);
-        $new = new Breeder;
-        $new->family_id = $request->family_id;
-        $new->female_family_id = $request->female_family;
-        $new->date_added = $request->date_added;
-        $new->save();
-        
-        return response()->json(['status' => 'success', 'message' => 'Breeders added']);
-    }
+        if($request->external == false){
+            $request->validate([
+                'family_id' => 'required',
+                'selected_female_family' => 'required',
+                'date_added' => 'required',
+                'number_male' => 'required',
+                'number_female' => 'required',
+                'pen_id' => 'required'
+            ]);
+            // create new breeder instance
+            $new = new Breeder;
+            $new->family_id = $request->family_id;
+            $new->female_family_id = null;
+            $new->date_added = $request->date_added;
+            $new->pen_id = $request->pen_id;
+            $new->save();
 
-    public function addBreederExternal(Request $request) 
-    {
-        $request->validate([
-            'family_id' => 'required',
-            'date_added' => 'required',
-            'number_male' => 'required',
-            'number_female' => 'required',
-            'pen_id' => 'required',
-        ]);
-        $new = new Breeder;
-        $new->family_id = $request->family_id;
-        $new->female_family_id = null;
-        $new->date_added = $request->date_added;
-        $new->save();
-        $inventory = new BreederInventory;
-        $inventory->breeder_id = $new->id;
-        $inventory->pen_id = $request->pen_id;
-        $inventory->date_removed = null;
-        $inventory->number_male = $request->number_male;
-        $inventory->number_female = $request->number_female;
-        $inventory->total = $request->number_male + $request->number_female;
-        $inventory->activity = "Add External Source Breeders";
-        $inventory->reason = null;
-        $inventory->save();
-        $pen = Pen::where('id', $request->pen_id)->first();
-        $pen->current_capacity = $pen->current_capacity + $inventory->total;
-        $pen->save();
-        return response()->json(['status' => 'success', 'message' => 'Breeders added']);
+            // create breeder's inventory instance
+            $inventory = new BreederInventory;
+            $inventory->breeder_id = $new->id;
+            $inventory->date_removed = $request->selected_female_family;
+            $inventory->number_male = $request->number_male;
+            $inventory->number_female = $request->number->female;
+            $inventory->total = $inventory->number_male + $inventory->number_female;
+            $inventory->last_update = $request->date_added;
+            $inventory->save();
+            
+            // @TODO check
+            // create log in animal movement for the new breeder
+            $newAnimalMovement = new AnimalMovement;
+            $newAnimalMovement->date = $request->date_added;
+            $newAnimalMovement->family_id = $request->family_id;
+            $newAnimalMovement->pen_id = $request->pen_id;
+            $newAnimalMovement->type = 'breeder';
+            $newAnimalMovement->activity = 'add breeder internal';
+            $newAnimalMovement->price = null;
+            $newAnimalMovement->number_male = $request->number_male;
+            $newAnimalMovement->number_female = $request->number_female;
+            $newAnimalMovement->number_total = $request->number_male + $request->number_female;
+            $newAnimalMovement->remarks = null;
+            $newAnimalMovement->save();
+            
+            // @TODO change model of all inventories to one to one relationship
+            // @TODO update the animal movements table to track all movements
+            // @TODO NOTE DO THIS FOR ALL ADD AND UPDATES IN BREEDERS, REPLACEMENTS, BROODERS&GROWERS
+            $maleReplacement = Replacement::where('family_id', $request->family_id)->firstOrFail();
+            $femaleReplacement = Replacement::where('family_id', $request->selected_female_family)->firstOrFail();
+            // update male replacement inventory
+            $replacementInventoryMale = ReplacementInventory::where('replacement_id', $maleReplacement->id)->firstOrFail();
+            $replacementInventoryMale->number_male = $replacementInventoryMale->number_male - $request->number_male;
+            $replacementInventoryMale->total = $replacementInventoryMale->total - $request->number_male;
+            $replacementInventoryMale->last_update = $request->date_added;
+            $replacementInventoryMale->save();
+            
+            // @TODO check
+            // create record in animal movement for the replacement male
+            $newAnimalMovementReplacementMale = new AnimalMovement;
+            $newAnimalMovementReplacementMale->date = $request->date_added;
+            $newAnimalMovementReplacementMale->family_id = $maleReplacement->family_id;
+            $newAnimalMovementReplacementMale->pen_id = $maleReplacement->pen_id;
+            $newAnimalMovementReplacementMale->type = 'replacement';
+            $newAnimalMovementReplacementMale->activity = 'move replacement';
+            $newAnimalMovementReplacementMale->price = null;
+            $newAnimalMovementReplacementMale->number_male = $request->number_male;
+            $newAnimalMovementReplacementMale->number_female = 0;
+            $newAnimalMovementReplacementMale->number_total = $request->number_male;
+            $newAnimalMovementReplacementMale->remarks = null;
+            $newAnimalMovementReplacementMale->save();
+
+            // update female replacement inventory
+            $replacementInventoryFemale = ReplacementInventory::where('replacement_id', $femaleReplacement->id)->firstOrFail();
+            $replacementInventoryFemale->number_female = $replacementInventoryFemale->number_female - $request->number_female;
+            $replacementInventoryFemale->total = $replacementInventoryFemale->total - $request->number_female;
+            $replacementInventoryFemale->last_update = $request->date_added;
+            $replacementInventoryFemale->save();
+            
+            // @TODO check
+            // create record in animal movement for the replacement female
+            $newAnimalMovementReplacementFemale = new AnimalMovement;
+            $newAnimalMovementReplacementFemale->date = $request->date_added;
+            $newAnimalMovementReplacementFemale->family_id = $femaleReplacement->family_id;
+            $newAnimalMovementReplacementFemale->pen_id = $femaleReplacement->pen_id;
+            $newAnimalMovementReplacementFemale->type = 'replacement';
+            $newAnimalMovementReplacementFemale->activity = 'move replacement';
+            $newAnimalMovementReplacementFemale->price = null;
+            $newAnimalMovementReplacementFemale->number_male = 0;
+            $newAnimalMovementReplacementFemale->number_female = $request->number_female;
+            $newAnimalMovementReplacementFemale->number_total = $request->number_female;
+            $newAnimalMovementReplacementFemale->remarks = null;
+            $newAnimalMovementReplacementFemale->save();
+
+            // update male replacement pen
+            $replacementPenMale = Pen::where('id', $maleReplacement->pen_id)->firstOrFail();
+            $replacementPenMale->current_capacity = $replacementPenMale->current_capacity - $request->number_male;
+            $replacementPenMale->save();
+
+            // update female replacement pen
+            $replacementPenFemale = Pen::where('id', $femaleReplacement->pen_id)->firstOrFail();;
+            $replacementPenFemale->current_capacity = $replacementPenFemale->current_capacity - $request->number_female;
+            $replacementPenFemale->save();
+
+            // update pen where breeder is assigned
+            $pen = Pen::where('id', $request->pen_id)->firstOrFail();
+            $pen->current_capacity = $inventory->total;
+            $pen->save();
+
+            // update family breeder trigger to true
+            $family = Family::where('id', $request->family_id)->firstOrFail();
+            $family->breeder = true;
+            $family->save();
+            return response()->json(['status' => 'success', 'message' => 'Breeders added']);
+        }else{
+            $request->validate([
+                'family_id' => 'required',
+                'date_added' => 'required',
+                'number_male' => 'required',
+                'number_female' => 'required',
+                'pen_id' => 'required'
+            ]);
+            // create new breeder instance
+            $new = new Breeder;
+            $new->family_id = $request->family_id;
+            $new->female_family_id = null;
+            $new->date_added = $request->date_added;
+            $new->pen_id = $request->pen_id;
+            $new->save();
+            // create breeder's inventory instance
+            $inventory = new BreederInventory;
+            $inventory->breeder_id = $new->id;
+            $inventory->date_removed = null;
+            $inventory->number_male = $request->number_male;
+            $inventory->number_female = $request->number_female;
+            $inventory->total = $inventory->number_male + $inventory->number_female;
+            $inventory->last_update = $request->date_added;
+            $inventory->save();
+            // update pen where breeder is assigned
+            $pen = Pen::where('id', $request->pen_id)->firstOrFail();
+            $pen->current_capacity = $inventory->total;
+            $pen->save();
+            // update family breeder trigger to true
+            $family = Family::where('id', $request->family_id)->firstOrFail();
+            $family->breeder = true;
+            $family->save();
+            // create animal movement instance
+            $movement = new AnimalMovement;
+            $movement->date = $request->date_added;
+            $movement->family_id = $request->family_id;
+            $movement->pen_id = $pen->id;
+            $movement->type = "breeder";
+            $movement->activity = "add breeder external";
+            $movement->price = null;
+            $movement->number_male = $request->number_male;
+            $movement->number_female = $request->number_female;
+            $movement->number_total = $request->number_male + $request->number_female;
+            $movement->remarks = null;
+            $movement->save();
+            return response()->json(['status' => 'success', 'message' => 'Breeders added']);
+        }
+        
+        // return response()->json(['status' => 'success', 'message' => 'Breeders added']);
     }
 
     public function dailyRecordPage()
@@ -237,6 +352,11 @@ class BreederController extends Controller
             return $lines;
         }
         
+    }
+    public function fetchFamilies ($line_id)
+    {
+        $families = Family::where('is_active', true)->where('line_id', $line_id)->where('breeder', false)->get();
+        return $families;
     }
     public function fetchFemaleFamilies($line_id, $male_family) 
     {

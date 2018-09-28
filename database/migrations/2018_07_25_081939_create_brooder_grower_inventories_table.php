@@ -19,15 +19,11 @@ class CreateBrooderGrowerInventoriesTable extends Migration
             $table->integer('number_male')->nullable();
             $table->integer('number_female')->nullable();
             $table->integer('total')->default(0);
-            $table->string('activity')->nullable();
-            $table->unsignedInteger('pen_id')->nullable();
-            $table->date('date');
-            
+            $table->date('last_update');
         });
 
         Schema::table('brooder_grower_inventories', function($table) {
             $table->foreign('broodergrower_id')->references('id')->on('brooder_growers');
-            $table->foreign('pen_id')->references('id')->on('pens');
         });
     }
 

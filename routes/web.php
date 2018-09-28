@@ -68,19 +68,19 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_family', 'FarmController@addFamilyRecord');
         Route::get('search_family/{search}', 'FarmController@searchFamily');
         // Breeder Axios Routes
-        Route::get('fetch_breeder_families', 'BreederController@fetchBreederFamilies');
-        Route::post('add_breeder_submit', 'BreederController@addBreeder');
-        Route::post('add_breeder_submit_external', 'BreederController@addBreederExternal');
-        Route::get('fetch_generation', 'BreederController@fetchGenerations');
-        Route::get('fetch_line/{generation_id}', 'BreederController@fetchLines');
-        Route::get('fetch_female/{line_number}/{male_family}', 'BreederController@fetchFemaleFamilies');
-        Route::get('fetch_breeder_pens', 'BreederController@fetchBreederPens');    
+        Route::get('breeder_list', 'BreederController@getBreederList');
+        Route::post('add_breeder', 'BreederController@addBreeder');
+        Route::get('breeder_fetch_generation', 'BreederController@fetchGenerations');
+        Route::get('breeder_fetch_line/{generation_id}', 'BreederController@fetchLines');
+        Route::get('breeder_fetch_families/{line_id}', 'BreederController@fetchFamilies');
+        Route::get('breeder_fetch_female_families/{line_number}/{male_family}', 'BreederController@fetchFemaleFamilies');
+        Route::get('breeder_fetch_pens', 'BreederController@fetchBreederPens');    
         // Replacement Axios Routes
         Route::get('replacement_list', 'ReplacementController@getReplacementList');
-        Route::get('fetch_generations', 'ReplacementController@fetchGenerations');
-        Route::get('fetch_lines/{generation_id}', 'ReplacementController@fetchLines');
-        Route::get('fetch_families/{line_id}', 'ReplacementController@fetchFamilies');
-        Route::get('fetch_pens', 'ReplacementController@fetchPens');
+        Route::get('replacement_fetch_generations', 'ReplacementController@fetchGenerations');
+        Route::get('replacement_fetch_lines/{generation_id}', 'ReplacementController@fetchLines');
+        Route::get('replacement_fetch_families/{line_id}', 'ReplacementController@fetchFamilies');
+        Route::get('replacement_fetch_pens', 'ReplacementController@fetchPens');
         Route::post('add_replacements', 'ReplacementController@addReplacements');
         Route::get('search_replacements/{search}', 'ReplacementController@searchReplacements');
         // Axios Routes

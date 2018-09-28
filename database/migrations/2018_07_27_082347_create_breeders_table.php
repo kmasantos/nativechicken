@@ -17,13 +17,14 @@ class CreateBreedersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('family_id');
             $table->unsignedInteger('female_family_id')->nullable();
+            $table->unsignedInteger('pen_id');
             $table->date('date_added');
         });
 
         Schema::table('breeders', function($table) {
             $table->foreign('family_id')->references('id')->on('families');
             $table->foreign('female_family_id')->references('id')->on('families');
-            
+            $table->foreign('pen_id')->references('id')->on('pens');
         });
     }
 

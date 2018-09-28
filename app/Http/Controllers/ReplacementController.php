@@ -48,25 +48,103 @@ class ReplacementController extends Controller
             $new->batching_date = null;
             $new->family_id = $request->family_id;
             $new->date_added = $request->date_added;
+            $new->pen_id = $request->pen_id;
             $new->save();
+
             $inventory = new ReplacementInventory;
             $inventory->replacement_id = $new->id;
             $inventory->number_male = $request->number_male;
             $inventory->number_female = $request->number_female;
             $inventory->total = $inventory->number_male + $inventory->number_female;
-            $inventory->activity = "Add replacements from external source";
-            $inventory->pen_id = $request->pen_id;
-            $inventory->date = $request->date_added;
+            $inventory->last_update = $request->date_added;
             $inventory->save();
+            
+            $movement = new AnimalMovement;
+            $movement->date = $request->date_added;
+            $movement->family_id = $request->family_id;
+            $movement->pen_id = $request->pen_id;
+            $movement->type = "replacement";
+            $movement->activity = "add replacement external";
+            $movement->price = null;
+            $movement->number_male = $request->number_male;
+            $movement->number_female = $request->number_female;
+            $movement->number_total = $movement->number_male + $movement->number_female;
+            $movement->remarks = null;
+            $movement->save();
+            
             $family = Family::where('id', $request->family_id)->first();
             $family->replacement = true;
             $family->save();
+            
             $pen = Pen::where('id', $request->pen_id)->first();
             $pen->current_capacity = $pen->current_capacity + $inventory->total;
             $pen->save();
-            return "Ok";
+            
+            return response()->json(['status' => 'success', 'message' => 'Replacement added']);
         }else{
-            dd($request);        
+            $new = new Replacement;
+            $new->batching_date = null;
+            $new->family_id = $request->family_id;
+            $new->date_added = $request->date_added;
+            $new->pen_id = $request->pen_id;
+            $new->save();
+
+            $inventory = new ReplacementInventory;
+            $inventory->replacement_id = $new->id;
+            $inventory->number_male = $request->number_male;
+            $inventory->number_female = $request->number_female;
+            $inventory->total = $inventory->number_male + $inventory->number_female;
+            $inventory->last_update = $request->date_added;
+            $inventory->save();
+
+            $movement = new AnimalMovement;
+            $movement->date = $request->date_added;
+            $movement->family_id = $request->family_id;
+            $movement->pen_id = $request->pen_id;
+            $movement->type = "replacement";
+            $movement->activity = "add replacement internal";
+            $movement->price = null;
+            $movement->number_male = $request->number_male;
+            $movement->number_female = $request->number_female;
+            $movement->number_total = $movement->number_male + $movement->number_female;
+            $movement->remarks = null;
+            $movement->save();
+            
+            $family = Family::where('id', $request->family_id)->firstOrFail();
+            $family->replacement = true;
+            $family->save();
+            
+            $pen = Pen::where('id', $request->pen_id)->firstOrFail();
+            $pen->current_capacity = $pen->current_capacity + $inventory->total;
+            $pen->save();
+
+            // update affected brooder
+            $brooderGrower = BrooderGrower::where('family_id', $request->family_id)->firstOrFail();
+            $brooderGrowerInventory = BrooderGrowerInventory::where('broodergrower_id', $brooderGrower->id)->firstOrFail();
+            $brooderGrowerInventory->number_male = $brooderGrowerInventory->number_male - $request->number_male;
+            $brooderGrowerInventory->number_female = $brooderGrowerInventory->number_female - $request->number_female;
+            $brooderGrowerInventory->total = $brooderGrowerInventory->number_male + $brooderGrowerInventory->number_female;
+            $brooderGrowerInventory->last_update = $request->date_added;
+            $brooderGrowerInventory->save();
+
+            // update pen of brooder
+            $brooderPen = Pen::where('id', $brooderGrower->pen_id)->firstOrFail();
+            $brooderPen->capacity = $brooderPen->capacity + ($request->number_male + $request->number_female);
+            $brooderPen->save();
+
+            // record the animal movement
+            $brooderMovement = new AnimalMovement;
+            $brooderMovement->date = $request->date_added;
+            $brooderMovement->family_id = $brooderGrower->family_id;
+            $brooderMovement->pen_id = $brooderGrower->pen_id;
+            $brooderMovement->type = "broodersgrowers";
+            $brooderMovement->activity = "move broodergrowers";
+            $brooderMovement->price = null;
+            $brooderMovement->number_male = $request->number_male;
+            $brooderMovement->number_female = $request->number_female;
+            $brooderMovement->number_total = $request->number_male + $request->number_female;
+            $brooderMovement->remarks = null;
+            $brooderMovement->save();
         }
     
     }

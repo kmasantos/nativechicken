@@ -29,7 +29,7 @@ class Breeder extends Model
     
     public function breeder_inventories()
     {
-        return $this->hasMany(BreederInventory::class);
+        return $this->hasOne(BreederInventory::class);
     }
 
     public function breeder_feedings()
