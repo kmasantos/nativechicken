@@ -94,7 +94,7 @@
                 <a class="collapsible-header">Brooders & Growers<i class="material-icons">group_work</i></a>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="#!">Add Brooders & Growers</a></li>
+                        <li><a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}">Add Brooders & Growers</a></li>
                         <li><a href="#!">Feeding Records</a></li>
                         <li><a href="#!">Growth Performance</a></li>
                     </ul>

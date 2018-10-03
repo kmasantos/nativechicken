@@ -6,7 +6,7 @@
                 <label for="search">Search Breeder Family</label>
             </div>
             <div class="col s12 m4 l4">
-                <a class="waves-effect waves-light btn blue-gray">Search
+                <a class="waves-effect waves-light btn blue-grey">Search
                     <i class="material-icons right">search</i>
                 </a>
             </div>
@@ -19,7 +19,7 @@
         <div class="row" v-else>
             <div class="col s12 m12 l12">
                 <div class="row">
-                    <div class="col s12 m4 l4" v-for="breeder in breeders.data" :key="breeder.id">
+                    <div class="col s12 m6 l6" v-for="breeder in breeders.data" :key="breeder.id">
                         <div class="card blue-grey lighten-5">
                             <div class="card-content">
                                 <span class="card-title">Family <strong>{{breeder.family_number}}</strong></span>
@@ -30,7 +30,12 @@
                                 </div>
                             </div> 
                             <div class="card-action right-align">
-                                <a href="#!" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Update"><i class="far fa-edit"></i></a>
+                                <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Daily Records"><i class="fas fa-calendar-alt"></i></a>
+                                <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Hatchery Record"><i class="fas fa-ellipsis-v"></i></a>
+                                <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Egg Quality"><i class="fas fa-th-list"></i></a>
+                                <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Inventory"><i class="fas fa-home"></i></a>
+                                <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Update"><i class="far fa-edit"></i></a>
+                                <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cull"><i class="fas fa-window-close"></i></a>
                             </div>
                         </div>
                     </div>
@@ -175,7 +180,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-                    <button href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</button>
+                    <button class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
                 </div>
             </form>
         </div>

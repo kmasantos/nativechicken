@@ -12,7 +12,7 @@ class BrooderGrowerInventory extends Model
      *
      * @var string
      */
-    protected $table = 'brooder_grower_inventory';
+    protected $table = 'brooder_grower_inventories';
     /**
      * The attributes that are mass assignable.
      *

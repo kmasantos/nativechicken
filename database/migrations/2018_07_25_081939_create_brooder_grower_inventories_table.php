@@ -16,6 +16,7 @@ class CreateBrooderGrowerInventoriesTable extends Migration
         Schema::create('brooder_grower_inventories', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('broodergrower_id');
+            $table->unsignedInteger('data_completion');
             $table->integer('number_male')->nullable();
             $table->integer('number_female')->nullable();
             $table->integer('total')->default(0);

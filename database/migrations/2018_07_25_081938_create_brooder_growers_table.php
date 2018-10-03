@@ -16,7 +16,7 @@ class CreateBrooderGrowersTable extends Migration
         Schema::create('brooder_growers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('family_id');
-            $table->unsignedInteger('pen_id');
+            $table->unsignedInteger('pen_id')->nullable();
             $table->date('batching_date')->nullable();
             $table->date('date_added');
         });

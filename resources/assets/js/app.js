@@ -29,6 +29,8 @@ Vue.component('hatchery-record', require('./components/AddHatcheryRecord.vue'));
 // Replacement Vue Components
 Vue.component('add-replacement', require('./components/AddReplacement.vue'));
 
+// Brooder & Grower Vue Components
+Vue.component('add-broodergrower', require('./components/AddBrooderGrower.vue'));
 
 const app = new Vue({
     el: '#app'

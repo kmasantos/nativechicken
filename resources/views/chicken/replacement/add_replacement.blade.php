@@ -1,7 +1,7 @@
 @extends('layouts.poultry_layout')
 
 @section('title')
-    Add Replacement
+    Replacements
 @endsection
 
 @section('content')
