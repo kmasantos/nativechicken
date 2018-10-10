@@ -9,6 +9,7 @@ use App\Models\Family;
 use App\Models\Pen;
 use App\Models\BrooderGrower;
 use App\Models\BrooderGrowerInventory;
+use App\Models\BrooderGrowerFeeding;
 
 class BrooderGrowerController extends Controller
 {
@@ -69,10 +70,20 @@ class BrooderGrowerController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Brooder & Grower added']); 
     }
 
-    public function getFeedingRecord($broodergrower_id) 
+    public function getFeedingRecord() 
     {
-        // return redirect()->route('broodergrower_feedingrecord', ['broodergrower_id' => $broodergrower_id]);
         return view('chicken.broodergrower.feedingrecord');
+    }
+
+    public function fetchFeedingRecords($broodergrower_id) 
+    {
+        $feedingrecords = BrooderGrowerFeeding::where('broodergrower_id', $broodergrower_id)->orderBy('date_collected', 'desc')->paginate(10);
+        return $feedingrecords;
+    }
+
+    public function addFeedingRecord(Request $request) 
+    {
+
     }
 
     public function getGrowthRecord() 
@@ -80,6 +91,16 @@ class BrooderGrowerController extends Controller
         return view('chicken.broodergrower.growthrecord');
     }
 
+    public function fetchGrowthRecords($broodergrower_id) 
+    {
+
+    }
+
+    public function addGrowthRecord(Request $request)
+    {
+        dd($request);
+    }
+    
     // Helper functions
     public function fetchGenerations ()
     {

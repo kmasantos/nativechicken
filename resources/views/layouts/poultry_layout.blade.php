@@ -95,8 +95,8 @@
                 <div class="collapsible-body">
                     <ul>
                         <li><a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}">Add Brooders & Growers</a></li>
-                        <li><a href="#!">Feeding Records</a></li>
-                        <li><a href="#!">Growth Performance</a></li>
+                        <li><a href="{{route('farm.chicken.broodergrower.broodergrower_feedingrecord')}}">Feeding Records</a></li>
+                        <li><a href="{{route('farm.chicken.broodergrower.broodergrower_growthrecord')}}">Growth Performance</a></li>
                     </ul>
                 </div>
                 </li>

@@ -64,7 +64,9 @@ Route::group(['middleware' => ['web']], function ()
         
         // Brooder & Grower Routes
         Route::get('broodergrower_add', ['as' => 'farm.chicken.broodergrower.broodergrower_add', 'uses' => 'BrooderGrowerController@getAddBrooderGrower']);
+        Route::get('broodergrower_feedingrecord', ['as' => 'farm.chicken.broodergrower.broodergrower_feedingrecord', 'uses' => 'BrooderGrowerController@getFeedingRecord']);
         Route::get('broodergrower_growthrecord', ['as' => 'farm.chicken.broodergrower.broodergrower_growthrecord', 'uses' => 'BrooderGrowerController@getGrowthRecord']);
+        
         /*****************
         ***AXIOS ROUTES***
         *****************/
@@ -101,7 +103,10 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('broodergrower_fetch_families/{line_id}','BrooderGrowerController@fetchFamilies');
         Route::get('broodergrower_fetch_pens','BrooderGrowerController@fetchPens');
         Route::post('add_broodergrower', 'BrooderGrowerController@addBrooderGrower');
-        Route::get('broodergrower_feedingrecord/{broodergrower_id}', 'BrooderGrowerController@getFeedingRecord');
+        Route::get('broodergrower_feeding_records/{broodergrower_id}', 'BrooderGrowerController@fetchFeedingRecords');
+        Route::post('add_broodergrower_feeding', 'BrooderGrowerController@addFeedingRecord');
+        Route::get('broodergrower_growth_records/{broodergrower_id}', 'BrooderGrowerController@fetchGrowthRecords');
+        Route::post('add_broodergrower_growth', 'BrooderGrowerController@addGrowthRecord');
     });
     // Admin Routes
     Route::group(['prefix' => 'admin'], function()

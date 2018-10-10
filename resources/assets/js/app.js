@@ -31,7 +31,9 @@ Vue.component('add-replacement', require('./components/AddReplacement.vue'));
 
 // Brooder & Grower Vue Components
 Vue.component('add-broodergrower', require('./components/AddBrooderGrower.vue'));
+Vue.component('feedingrecord-broodergrower', require('./components/BrooderGrowerFeedingRecord.vue'));
+Vue.component('growthrecord-broodergrower', require('./components/BrooderGrowerGrowthRecord.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

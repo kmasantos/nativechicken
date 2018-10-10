@@ -53,8 +53,6 @@
                                     </div>
                                 </div>
                                 <div class="card-action right-align">
-                                    <a href="javascript:void(0)" @click="feedingRecordPage(broodergrower.id)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Feeding Record"><i class="fas fa-lemon"></i></a>
-                                    <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Growth Record"><i class="fas fa-balance-scale"></i></a>
                                     <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Update"><i class="fas fa-pen-square"></i></a>
                                     <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cull"><i class="fas fa-window-close"></i></a>
                                 </div>
@@ -84,19 +82,6 @@
                             <h4>Add Brooder & Grower Outside of System</h4>
                         </div>
                     </div>
-                    <!-- <div class="row">
-                        <div class="col s12 m6 l6">
-                            <label for="external">Add from External Sources</label>
-                            <div id="external" class="switch">
-                                <label>
-                                    Off
-                                    <input type="checkbox" @click="external=!external">
-                                    <span class="lever"></span>
-                                    On
-                                </label>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="row">
                         <div class="col s12 m6 l6">
                             <label>Generation</label>
@@ -273,14 +258,6 @@
                     console.log(error);
                 });
                 this.broodergrowerloaded = true;
-            },
-            feedingRecordPage : function (id) {
-                axios.get('broodergrower_feedingrecord/'+id)
-                .then(response)
-                .catch(function (error) {
-                    console.log(error);
-                });
-                console.log(response);
             },
         },
         mounted() {
