@@ -20,6 +20,9 @@
     "vue": "^2.5.7"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.4.0",
+    "laravel-vue-pagination": "^2.1.0",
+    "moment": "^2.22.2",
     "vuejs-datepicker": "^1.5.3"
   }
 }

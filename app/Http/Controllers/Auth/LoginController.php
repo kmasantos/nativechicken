@@ -43,7 +43,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Redirect the user to the GitHub authentication page.
+     * Redirect the user to the Google authentication page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -53,13 +53,13 @@ class LoginController extends Controller
     }
 
     /**
-     * Obtain the user information from GitHub.
+     * Obtain the user information from Google.
      *
      * @return \Illuminate\Http\Response
      */
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('google')->stateless()->user();
+        $user = Socialite::driver('google')->user();
         $findUser = User::where('email', $user->email)->first();
         Auth::login($findUser, true);
         $user->remember_token = $user->token;

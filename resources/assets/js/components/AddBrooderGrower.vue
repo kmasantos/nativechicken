@@ -53,7 +53,8 @@
                                     </div>
                                 </div>
                                 <div class="card-action right-align">
-                                    <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Update"><i class="fas fa-pen-square"></i></a>
+                                    <a href="#updatebroodermodal1" v-if="broodergrower.data_completion==1" @click="selected_broodergrower=broodergrower.id; data_collected=broodergrower.data_completion; selected_broodergrower_total=broodergrower.total;male=0;female=0;"
+                                    class="black-text modal-trigger tooltipped" data-position="bottom" data-delay="50" data-tooltip="Update"><i class="fas fa-pen-square"></i></a>
                                     <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cull"><i class="fas fa-window-close"></i></a>
                                 </div>
                             </div>
@@ -67,12 +68,12 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- FAB -->
         <div class="fixed-action-btn">
             <a href="#broodergrowermodal" class="btn-floating btn-large blue-grey darken-1 modal-trigger"><i class="fas fa-plus"></i></a>
         </div>
-        
+
         <!-- Modals -->
         <div id="broodergrowermodal" class="modal modal-fixed-footer">
             <form v-on:submit.prevent="addBrooderGrower" method="post">
@@ -127,7 +128,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s12 m6 l6 input-field">                  
+                        <div class="col s12 m6 l6 input-field">
                             <input v-model.number="total" id="total" type="number" min="0">
                             <label for="total">Total</label>
                         </div>
@@ -142,6 +143,39 @@
                         <div class="col s12 m6 l6">
                             <label for="date_added">Date Added</label>
                             <datepicker id="date_added" :format="customFormatter" v-model="date_added"></datepicker>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Close</a>
+                    <button class="modal-action modal-close waves-effect waves-grey btn-flat">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div id="updatebroodermodal1" class="modal modal-fixed-footer">
+            <form method="patch" v-on:submit.prevent="updateBrooderGrower">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h4>Update Brooder & Grower Record</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6 l6 input-field">
+                            <input v-model.number="male" id="fertile" type="number" class="validate" min="0" v-bind:max="selected_broodergrower_total-female">
+                            <label for="fertile">Number of Male</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6 l6 input-field">
+                            <input v-model.number="female" id="fertile" type="number" class="validate" min="0" v-bind:max="selected_broodergrower_total-male">
+                            <label for="fertile">Number of Female</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <label for="date_updated">Date Updated</label>
+                            <datepicker id="date_updated" :format="customFormatter" v-model="date_updated"></datepicker>
                         </div>
                     </div>
                 </div>
@@ -170,7 +204,7 @@
                 lines : [],
                 families : [],
                 pens : [],
-                
+
                 // external : false,
                 selectedgeneration : '',
                 selectedline : '',
@@ -187,6 +221,13 @@
                 pensloaded : false,
 
                 clicked_family : '',
+
+                male : 0,
+                female : 0,
+                date_updated : '',
+                data_collected : '',
+                selected_broodergrower : '',
+                selected_broodergrower_total : '',
             }
         },
         methods : {
@@ -246,7 +287,7 @@
                     Materialize.toast('Successfully added brooders and growers', 3000, 'rounded');
                 })
                 .catch(function (error) {
-                    Materialize.toast('Failed to add brooders and growers', 3000, 'rounded'); 
+                    Materialize.toast('Failed to add brooders and growers', 3000, 'rounded');
                 });
                 this.initialize();
             },
@@ -258,6 +299,25 @@
                     console.log(error);
                 });
                 this.broodergrowerloaded = true;
+            },
+            updateBrooderGrower : function () {
+                if(this.selected_broodergrower_total != (this.male + this.female)){
+                    Materialize.toast('Sum of male and female does not match to the total', 3000, 'rounded');
+                }else{
+                    axios.patch('update_broodergrower', {
+                        broodergrower_id : this.selected_broodergrower,
+                        male : this.male,
+                        female : this.female,
+                        date_updated : this.customFormatter(this.date_updated),
+                    })
+                    .then(function (response) {
+                        Materialize.toast('Data updated', 3000, 'rounded');
+                    })
+                    .catch(function (error) {
+                        Materialize.toast('Data failed to update', 3000, 'rounded');
+                    });
+                    this.initialize();
+                }
             },
         },
         mounted() {

@@ -10,7 +10,7 @@
             </div>
         </div>
         <!-- Preloader -->
-        <div class="row center" v-if="!broodergrowerloaded">
+        <div class="row center" v-if="broodergrowerloaded==false">
             <div class="col s12 m12 l12">
                 <div class="preloader-wrapper big active">
                     <div class="spinner-layer spinner-blue-only">
@@ -29,7 +29,7 @@
         </div>
         <div v-else>
             <!-- Empty Record -->
-            <div class="row center" v-if="broodergrowers.data === undefined">
+            <div class="row center" v-if="Array.isArray(broodergrowers.data) == false">
                 <div class="col s12 m12 l12">
                     <h5>No Brooder & Grower Families</h5>
                 </div>
@@ -53,8 +53,8 @@
                                     </div>
                                 </div>
                                 <div class="card-action right-align">
-                                    <a href="#broodergrowermodal" @click="selected_broodergrower=broodergrower.id" class="tooltipped black-text modal-trigger" data-position="top" data-delay="50" data-tooltip="Add feeding records"><i class="fas fa-plus-circle"></i></a>
-                                    <a href="javascript:void(0)" @click="selected_broodergrower=broodergrower.id; fetchFeedingRecords();" class="tooltipped black-text" data-position="top" data-delay="50" data-tooltip="Show feeding records"><i class="fas fa-info-circle"></i></a>
+                                    <a href="#broodergrowermodal" @click="selected_broodergrower=broodergrower.id" class="tooltipped black-text modal-trigger" data-position="top" data-delay="50" data-tooltip="Add growth records"><i class="fas fa-plus-circle"></i></a>
+                                    <a href="javascript:void(0)" @click="selected_broodergrower=broodergrower.id; fetchGrowthRecords();" class="tooltipped black-text" data-position="top" data-delay="50" data-tooltip="Show growth records"><i class="fas fa-info-circle"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <pagination :data="broodergrowers" @pagination-change-page="fetchBrooderFamilies"></pagination>
                         </div>
                     </div>
-                    <div class="row" v-if="feedingdetails">
+                    <div class="row" v-if="growthdetails">
                         <div class="col s12 m12 l12">
                             <div class="card">
                                 <div class="card-content">
@@ -73,12 +73,13 @@
                                             Growth Performance
                                         </div>
                                         <div class="col s2 m2 l2 center-align">
-                                            <a href="javascript:void(0)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close" @click="feedingdetails=false"><i class="fas fa-window-close red-text"></i></a>
+                                            <a href="javascript:void(0)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close" @click="growthdetails=false"><i class="fas fa-window-close red-text"></i></a>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s12 m12 l12">
-                                            <table class="responsive-table highlight bordered">
+                                            <div v-if="Array.isArray(growthrecords.data) == false" class="center"><h5>No data</h5></div>
+                                            <table v-else class="responsive-table highlight bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>Date Collected</th>
@@ -91,23 +92,20 @@
                                                         <th>Total Weight</th>
                                                     </tr>
                                                 </thead>
-
                                                 <tbody>
-                                                    <tr v-if="Array.isArray(feedingrecords.data) == false">
-                                                        <td>-</td>
-                                                        <td>No</td>
-                                                        <td>Data</td>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                    </tr>
-                                                    <tr v-else v-for="feedingrecord in feedingrecords.data" :key="feedingrecord.id">
-                                                        <td>{{feedingrecord.date_added}}</td>
-                                                        <td>{{feedingrecord.amount_offered}}</td>
-                                                        <td>{{feedingrecord.amount_refused}}</td>
-                                                        <td>{{feedingrecord.remarks}}</td>
+                                                    <tr v-for="growthrecord in growthrecords.data" :key="growthrecord.id">
+                                                        <td>{{growthrecord.date_collected}}</td>
+                                                        <td>{{growthrecord.collection_day}}</td>
+                                                        <td v-if="growthrecord.male_quantity==null">N/A</td>
+                                                        <td v-else>{{growthrecord.male_quantity}}</td>
+                                                        <td v-if="growthrecord.male_weight==null">N/A</td>
+                                                        <td v-else>{{growthrecord.male_weight}}</td>
+                                                        <td v-if="growthrecord.female_quantity==null">N/A</td>
+                                                        <td v-else>{{growthrecord.female_quantity}}</td>
+                                                        <td v-if="growthrecord.female_weight==null">N/A</td>
+                                                        <td v-else>{{growthrecord.female_weight}}</td>
+                                                        <td>{{growthrecord.total_quantity}}</td>
+                                                        <td>{{growthrecord.total_weight}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -115,7 +113,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col s12 m12 l12 center">
-                                            <pagination :data="feedingrecords" @pagination-change-page="fetchFeedingRecords"></pagination>
+                                            <pagination :data="growthrecords" @pagination-change-page="fetchGrowthRecords"></pagination>
                                         </div>
                                     </div>
                                 </div>
@@ -125,8 +123,8 @@
                 </div>
             </div>
         </div>
-        
-        
+
+
         <!-- Modals -->
         <div id="broodergrowermodal" class="modal modal-fixed-footer">
             <form v-on:submit.prevent="addGrowthRecords" method="post">
@@ -245,9 +243,9 @@
                 search : '',
                 broodergrowerloaded : false,
                 broodergrowers : {},
-                feedingdetails : false,
-                feedingdetailsloaded : false,
-                feedingrecords : {},
+                growthdetails : false,
+                growthdetailsloaded : false,
+                growthrecords : {},
                 selected_broodergrower : '',
                 date_added : '',
                 collection_day : '',
@@ -277,21 +275,21 @@
                 });
                 this.broodergrowerloaded = true;
             },
-            fetchFeedingRecords : function (page = 1) {
-                this.feedingdetails = false;
-                this.feedingdetailsloaded = false;
-                axios.get('broodergrower_feeding_records/'+this.selected_broodergrower+'?page='+page)
-                .then(response => this.feedingrecords = response.data)
+            fetchGrowthRecords : function (page = 1) {
+                this.growthdetails = false;
+                this.growthdetailsloaded = false;
+                axios.get('broodergrower_growth_records/'+this.selected_broodergrower+'?page='+page)
+                .then(response => this.growthrecords = response.data)
                 .catch(function (error) {
                     console.log(error);
                 });
-                this.feedingdetailsloaded = true;
-                this.feedingdetails = true;
+                this.growthdetails = true;
+                this.growthdetailsloaded = true;
             },
             addGrowthRecords : function () {
                 axios.post('add_broodergrower_growth', {
                     broodergrower_id : this.selected_broodergrower,
-                    date_added : this.date_added,
+                    date_added : this.customFormatter(this.date_added),
                     collection_day : this.collection_day,
                     male_number : this.male_number,
                     female_number : this.female_number,
@@ -307,6 +305,7 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+                this.fetchGrowthRecords();
             },
         },
         mounted() {

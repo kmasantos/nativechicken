@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                                 <div class="card-action right-align">
-                                    <a href="#broodergrowermodal" class="tooltipped black-text modal-trigger" data-position="top" data-delay="50" data-tooltip="Add feeding records"><i class="fas fa-plus-circle"></i></a>
+                                    <a href="#broodergrowermodal" @click="selected_broodergrower=broodergrower.id" class="tooltipped black-text modal-trigger" data-position="top" data-delay="50" data-tooltip="Add feeding records"><i class="fas fa-plus-circle"></i></a>
                                     <a href="javascript:void(0)" @click="selected_broodergrower=broodergrower.id;fetchFeedingRecords();" class="tooltipped black-text" data-position="top" data-delay="50" data-tooltip="Show feeding records"><i class="fas fa-info-circle"></i></a>
                                 </div>
                             </div>
@@ -96,10 +96,11 @@
                                                         <td>-</td>
                                                     </tr>
                                                     <tr v-else v-for="feedingrecord in feedingrecords.data" :key="feedingrecord.id">
-                                                        <td>{{feedingrecord.date_added}}</td>
+                                                        <td>{{feedingrecord.date_collected}}</td>
                                                         <td>{{feedingrecord.amount_offered}}</td>
                                                         <td>{{feedingrecord.amount_refused}}</td>
-                                                        <td>{{feedingrecord.remarks}}</td>
+                                                        <td v-if="feedingrecord.remarks==null">None</td>
+                                                        <td v-else>{{feedingrecord.remarks}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -117,11 +118,10 @@
                 </div>
             </div>
         </div>
-        
-        
+
         <!-- Modals -->
         <div id="broodergrowermodal" class="modal modal-fixed-footer">
-            <form method="post">
+            <form v-on:submit.prevent="addFeedingRecords" method="post">
                 <div class="modal-content">
                     <div class="row">
                         <div class="col s12 m12 l12">
@@ -130,25 +130,25 @@
                     </div>
                     <div class="row">
                         <div class="col s12 m6 l6">
-                            <label for="date_added">Date Added</label>
-                            <datepicker id="date_added" :format="customFormatter" v-model="date_added"></datepicker>
+                            <label for="date_added">Date Collected</label>
+                            <datepicker id="date_added" :format="customFormatter" v-model="date_collected"></datepicker>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s12 s6 m6 input-field">
-                            <input class="validate" placeholder="Amount of Feed Offered (g)" id="feed_offered" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$" validate>
+                            <input v-model.number="offered" class="validate" placeholder="Amount of Feed Offered (g)" id="feed_offered" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$" validate>
                             <label for="feed_offered">Feed Offered</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s12 s6 m6 input-field">
-                            <input class="validate" placeholder="Amount of Feed Refused (g)" id="feed_refused" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                            <input v-model.number="refused" class="validate" placeholder="Amount of Feed Refused (g)" id="feed_refused" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$">
                             <label for="feed_refused">Feed Refused</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s12 s6 m6 input-field">
-                            <input placeholder="Add remarks" id="remarks" type="text">
+                            <input v-model="remarks" placeholder="Add remarks" id="remarks" type="text">
                             <label for="remarks">Remarks</label>
                         </div>
                     </div>
@@ -159,6 +159,7 @@
                 </div>
             </form>
         </div>
+
     </div>
 </template>
 
@@ -179,7 +180,10 @@
                 feedingdetailsloaded : false,
                 feedingrecords : {},
                 selected_broodergrower : '',
-                date_added : '',
+                date_collected : '',
+                offered : '',
+                refused : '',
+                remarks : ''
             }
         },
         methods : {
@@ -211,6 +215,26 @@
                 this.feedingdetailsloaded = true;
                 this.feedingdetails = true;
             },
+            addFeedingRecords : function () {
+                axios.post('add_broodergrower_feeding', {
+                    broodergrower_id : parseInt(this.selected_broodergrower),
+                    date_collected : this.customFormatter(this.date_collected),
+                    offered : parseFloat(this.offered),
+                    refused : parseFloat(this.refused),
+                    remarks : this.remarks,
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                this.fetchFeedingRecords();
+            },
+            searchBrooderFamilies : function () {
+
+            },
+
         },
         mounted() {
             console.log('Component mounted.')
