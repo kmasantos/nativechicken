@@ -24,15 +24,21 @@ class BrooderGrowerController extends Controller
         return view('chicken.broodergrower.add_broodergrower');
     }
 
+    // public function getBrooderGrower ()
+    // {
+    //     $broodergrowers = BrooderGrower::join('families', 'families.id', 'brooder_growers.family_id')
+    //             ->join('lines', 'lines.id', 'families.line_id')
+    //             ->join('generations', 'generations.id', 'lines.generation_id')
+    //             ->join('brooder_grower_inventories', 'brooder_grower_inventories.broodergrower_id', 'brooder_growers.id')
+    //             ->select('brooder_growers.*', 'brooder_grower_inventories.*', 'families.number as family_number',
+    //             'lines.number as line_number', 'generations.number as generation_number')
+    //             ->paginate(8);
+    //     return $broodergrowers;
+    // }
+
     public function getBrooderGrower ()
     {
-        $broodergrowers = BrooderGrower::join('families', 'families.id', 'brooder_growers.family_id')
-                ->join('lines', 'lines.id', 'families.line_id')
-                ->join('generations', 'generations.id', 'lines.generation_id')
-                ->join('brooder_grower_inventories', 'brooder_grower_inventories.broodergrower_id', 'brooder_growers.id')
-                ->select('brooder_growers.*', 'brooder_grower_inventories.*', 'families.number as family_number',
-                'lines.number as line_number', 'generations.number as generation_number')
-                ->paginate(8);
+        $broodergrowers = Pen::where('is_active', true)->where('type', 'brooder')->paginate(12);
         return $broodergrowers;
     }
 

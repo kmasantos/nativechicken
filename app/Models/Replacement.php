@@ -29,7 +29,7 @@ class Replacement extends Model
 
     public function replacement_inventories()
     {
-        return $this->hasOne(ReplacementInventory::class);
+        return $this->hasMany(ReplacementInventory::class);
     }
 
     public function replacement_feedings()

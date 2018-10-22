@@ -25,9 +25,9 @@
                     </div>
                 </div>
             </form>
-            <div class="row" v-if="replacements.data === undefined">
+            <div class="row" v-if="Array.isArray(replacements.data) == false">
                 <div class="col s12 m12 l12 center">
-                    <h5>No Replacement Stocks</h5>    
+                    <h5>No Replacement Stocks</h5>
                 </div>
             </div>
             <div class="row" v-else>
@@ -116,7 +116,7 @@
                             <div class="row">
                                 <div class="col s12 m6 l6">
                                     <label>Line</label>
-                                    <select class="browser-default" v-model="selected_line" @click.prevent="fetchLines"> 
+                                    <select class="browser-default" v-model="selected_line" @click.prevent="fetchLines">
                                         <option value="" disabled selected v-if="lines_loaded==false">Loading Options...</option>
                                         <option value="" disabled selected v-else>Select Line</option>
                                         <option v-for="line in lines" :key="line.id" v-bind:value="line.id">{{line.number}}</option>
@@ -168,7 +168,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
@@ -200,7 +200,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>    
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
@@ -226,7 +226,7 @@
                 search : '',
                 replacements : [],
                 families : [],
-                lines : [], 
+                lines : [],
                 generations : [],
                 pens : [],
                 selected_family : '',
@@ -266,7 +266,7 @@
                 .then(response => this.lines = response.data)
                 .catch(error => console.log(error));
                 this.lines_loaded = true;
-            }, 
+            },
             getReplacementList : function (page = 1) {
                 this.replacements_loaded = false;
                 axios.get('replacement_list?page='+page)
@@ -316,7 +316,7 @@
                 })
                 .catch(function (error) {
                     console.log(error);
-                    Materialize.toast('Failed to add replacements', 3000, 'rounded'); 
+                    Materialize.toast('Failed to add replacements', 3000, 'rounded');
                 });
                 this.getReplacementList();
                 this.fetchPens();

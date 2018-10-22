@@ -6,32 +6,37 @@
                 <label for="search">Search Family</label>
             </div>
             <div class="col s12 m4 l4">
-                <a @click.prevent="searchFamily" class="waves-effect waves-light btn blue-gray">Search
+                <a @click.prevent="searchFamily" class="waves-effect waves-light btn blue-grey">Search
                     <i class="material-icons right">search</i>
                 </a>
             </div>
         </div>
-        <div class="row" v-if="families.length > 0">
+        <div class="row" v-if="families_len > 0">
             <div class="col s12 m12 l12">
-                <table class="responsive-table bordered">
+                <table class="responsive-table bordered highlight">
                     <thead>
                         <tr>
                             <th>Family Number</th>
                             <th>Line Number</th>
+                            <th>Generation Number</th>
                             <th>Status</th>
-                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="family in families" :key="family.id">
+                        <tr v-for="family in families.data" :key="family.id">
                             <td>{{family.family_number}}</td>
                             <td>{{family.line_number}}</td>
+                            <td>{{family.generation_number}}</td>
                             <td v-if="family.is_active">Active</td>
                             <td v-else>Inactive</td>
-                            <td><a href="#details_modal" class="modal-trigger"><i class="material-icons">details</i></a></td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="row">
+                    <div class="col s12 m12 l12 center">
+                        <pagination :data="families" @pagination-change-page="fetchFamilies"></pagination>
+                    </div>
+                </div>
                 <!-- <div class="row">
                     <div class="col s12 m12 l12 center">
                         <ul class="pagination">
@@ -97,25 +102,29 @@
         data() {
             return {
                 search : '',
-                families : [],
+                families : {},
                 generations : [],
                 lines : [],
                 family_number : '',
                 selected_generation : '',
-                selected_line : ''
+                selected_line : '',
+                families_len : 0,
             }
         },
         methods : {
-            fetchFamilies : function() {
-                axios.get('fetch_families')
-                .then(response => this.families = response.data)
+            fetchFamilies : function(page = 1) {
+                axios.get('fetch_families?page='+page)
+                .then(response => {
+                    this.families_len = response.data.data.length;
+                    this.families = response.data;
+                })
                 .catch(error => console.log(error));
             },
             fetchGenerations : function() {
-                axios.get('fetch_generation')
+                axios.get('get_generation_list')
                 .then(response => this.generations = response.data)
                 .catch(error => console.log(error));
-                this.fetchLinesInGeneration();    
+                this.fetchLinesInGeneration();
             },
             fetchLinesInGeneration : function() {
                 axios.get('fetch_lines/'+this.selected_generation)
@@ -145,7 +154,7 @@
         },
         mounted() {
 
-        }, 
+        },
         created() {
             this.fetchFamilies();
         }

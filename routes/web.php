@@ -31,8 +31,7 @@ Route::group(['middleware' => ['web']], function ()
         // General Routes
         Route::get('/', ['as' => 'farm.index', 'uses' => 'FarmController@index']);
         Route::get('pens',['as' => 'farm.pens', 'uses' => 'FarmController@getPensPage']);
-        Route::post('pens_add',['as' => 'farm.pens_add', 'uses' => 'FarmController@addPen']);
-        Route::post('pens_search',['as' => 'farm.pens_search', 'uses' => 'FarmController@searchPen']);
+
         Route::get('generation_lines_page', ['as' => 'farms.generation_lines_page', 'uses' => 'FarmController@getGenerationLinesPage']);
 
         Route::get('family_records', ['as' => 'farm.family_records', 'uses' => 'FarmController@getFamilyRecordsPage']);
@@ -71,11 +70,15 @@ Route::group(['middleware' => ['web']], function ()
         ***AXIOS ROUTES***
         *****************/
         // General Axios Routes
-        Route::get('fetch_generation', 'FarmController@fetchGenerations');
+        Route::get('fetch_pens', 'FarmController@fetchPens');
+        Route::post('add_pens', 'FarmController@addPen');
+        Route::get('search_pens/{search_array}', 'FarmController@searchPen');
+        Route::get('fetch_generation', 'FarmController@getGenerations');
         Route::post('add_generation', 'FarmController@addGeneration');
         Route::get('search_generation/{search}', 'FarmController@searchGeneration');
         Route::post('add_line', 'FarmController@addLineToGeneration');
         Route::get('get_details/{generation}', 'FarmController@showGenerationDetails');
+        Route::get('get_generation_list', 'FarmController@fetchGenerations');
         Route::get('fetch_lines/{generation}', 'FarmController@fetchLinesInGeneration');
         Route::get('fetch_families', 'FarmController@fetchFamilies');
         Route::post('add_family', 'FarmController@addFamilyRecord');

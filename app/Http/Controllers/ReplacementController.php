@@ -9,6 +9,9 @@ use App\Models\Line;
 use App\Models\Family;
 use App\Models\Pen;
 use App\Models\ReplacementInventory;
+use App\Models\AnimalMovement;
+use App\Models\BrooderGrower;
+use App\Models\BrooderGrowerInventory;
 
 class ReplacementController extends Controller
 {
@@ -18,7 +21,7 @@ class ReplacementController extends Controller
     }
 
     public function getAddReplacement()
-    {   
+    {
         return view('chicken.replacement.add_replacement');
     }
 
@@ -32,7 +35,7 @@ class ReplacementController extends Controller
                         ->paginate(8);
         return $replacements;
     }
-    
+
     public function addReplacements(Request $request)
     {
         $request->validate([
@@ -49,16 +52,7 @@ class ReplacementController extends Controller
             $new->family_id = $request->family_id;
             $new->date_added = $request->date_added;
             $new->pen_id = $request->pen_id;
-            $new->save();
 
-            $inventory = new ReplacementInventory;
-            $inventory->replacement_id = $new->id;
-            $inventory->number_male = $request->number_male;
-            $inventory->number_female = $request->number_female;
-            $inventory->total = $inventory->number_male + $inventory->number_female;
-            $inventory->last_update = $request->date_added;
-            $inventory->save();
-            
             $movement = new AnimalMovement;
             $movement->date = $request->date_added;
             $movement->family_id = $request->family_id;
@@ -70,23 +64,15 @@ class ReplacementController extends Controller
             $movement->number_female = $request->number_female;
             $movement->number_total = $movement->number_male + $movement->number_female;
             $movement->remarks = null;
-            $movement->save();
-            
+
+
             $family = Family::where('id', $request->family_id)->first();
             $family->replacement = true;
-            $family->save();
-            
+
+
             $pen = Pen::where('id', $request->pen_id)->first();
-            $pen->current_capacity = $pen->current_capacity + $inventory->total;
-            $pen->save();
-            
-            return response()->json(['status' => 'success', 'message' => 'Replacement added']);
-        }else{
-            $new = new Replacement;
-            $new->batching_date = null;
-            $new->family_id = $request->family_id;
-            $new->date_added = $request->date_added;
-            $new->pen_id = $request->pen_id;
+            $pen->current_capacity = $pen->current_capacity + ($request->number_male + $request->number_female);
+
             $new->save();
 
             $inventory = new ReplacementInventory;
@@ -95,7 +81,19 @@ class ReplacementController extends Controller
             $inventory->number_female = $request->number_female;
             $inventory->total = $inventory->number_male + $inventory->number_female;
             $inventory->last_update = $request->date_added;
+
             $inventory->save();
+            $movement->save();
+            $family->save();
+            $pen->save();
+
+            return response()->json(['status' => 'success', 'message' => 'Replacement added']);
+        }else{
+            $new = new Replacement;
+            $new->batching_date = null;
+            $new->family_id = $request->family_id;
+            $new->date_added = $request->date_added;
+            $new->pen_id = $request->pen_id;
 
             $movement = new AnimalMovement;
             $movement->date = $request->date_added;
@@ -108,15 +106,12 @@ class ReplacementController extends Controller
             $movement->number_female = $request->number_female;
             $movement->number_total = $movement->number_male + $movement->number_female;
             $movement->remarks = null;
-            $movement->save();
-            
+
             $family = Family::where('id', $request->family_id)->firstOrFail();
             $family->replacement = true;
-            $family->save();
-            
+
             $pen = Pen::where('id', $request->pen_id)->firstOrFail();
-            $pen->current_capacity = $pen->current_capacity + $inventory->total;
-            $pen->save();
+            $pen->current_capacity = $pen->current_capacity + ($request->number_male + $request->number_female);
 
             // update affected brooder
             $brooderGrower = BrooderGrower::where('family_id', $request->family_id)->firstOrFail();
@@ -125,12 +120,10 @@ class ReplacementController extends Controller
             $brooderGrowerInventory->number_female = $brooderGrowerInventory->number_female - $request->number_female;
             $brooderGrowerInventory->total = $brooderGrowerInventory->number_male + $brooderGrowerInventory->number_female;
             $brooderGrowerInventory->last_update = $request->date_added;
-            $brooderGrowerInventory->save();
 
             // update pen of brooder
             $brooderPen = Pen::where('id', $brooderGrower->pen_id)->firstOrFail();
-            $brooderPen->capacity = $brooderPen->capacity + ($request->number_male + $request->number_female);
-            $brooderPen->save();
+            $brooderPen->current_capacity = $brooderPen->current_capacity + ($request->number_male + $request->number_female);
 
             // record the animal movement
             $brooderMovement = new AnimalMovement;
@@ -144,11 +137,27 @@ class ReplacementController extends Controller
             $brooderMovement->number_female = $request->number_female;
             $brooderMovement->number_total = $request->number_male + $request->number_female;
             $brooderMovement->remarks = null;
+
+            $new->save();
+
+            $inventory = new ReplacementInventory;
+            $inventory->replacement_id = $new->id;
+            $inventory->number_male = $request->number_male;
+            $inventory->number_female = $request->number_female;
+            $inventory->total = $inventory->number_male + $inventory->number_female;
+            $inventory->last_update = $request->date_added;
+
+            $inventory->save();
+            $movement->save();
+            $family->save();
+            $pen->save();
+            $brooderGrowerInventory->save();
+            $brooderPen->save();
             $brooderMovement->save();
         }
-    
+
     }
-    
+
     public function searchReplacements($search)
     {
         $replacements = Replacement::join('families', 'families.id', 'replacements.family_id')
@@ -171,7 +180,7 @@ class ReplacementController extends Controller
         return view('chicken.replacement.feeding_record');
     }
 
-    public function addPhenoMorphoPage($family_id) 
+    public function addPhenoMorphoPage($family_id)
     {
         $family = Family::where('id', $family_id)->select('replacement')->first();
         if($family->replacement == false){
@@ -179,7 +188,7 @@ class ReplacementController extends Controller
         }else{
             return view('chicken.replacement.phenomorpho_record');
         }
-        
+
     }
 
     /*
@@ -201,7 +210,7 @@ class ReplacementController extends Controller
         return $families;
     }
 
-    public function fetchPens () 
+    public function fetchPens ()
     {
         $pens = Pen::where('is_active', true)
                     ->where('type', 'grower')

@@ -6,7 +6,6 @@
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
 
 /**
@@ -15,9 +14,13 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 // General Vue Components
-Vue.component('generation-line', require('./components/GenerationLine.vue'));
-Vue.component('family-record', require('./components/FamilyRecord.vue'));
+Vue.component('dashboard-component', require('./components/general_Dashboard.vue'));
+Vue.component('pen-component', require('./components/general_Pen.vue'));
+Vue.component('generation-line', require('./components/general_GenerationLine.vue'));
+Vue.component('family-record', require('./components/general_FamilyRecord.vue'));
 
 // Breeder Vue Components
 Vue.component('add-family-record', require('./components/AddFamilyRecord.vue'));
@@ -28,6 +31,7 @@ Vue.component('hatchery-record', require('./components/AddHatcheryRecord.vue'));
 
 // Replacement Vue Components
 Vue.component('add-replacement', require('./components/AddReplacement.vue'));
+Vue.component('phenomorpho-replacement', require('./components/ReplacementPhenoMorpho.vue'));
 
 // Brooder & Grower Vue Components
 Vue.component('add-broodergrower', require('./components/AddBrooderGrower.vue'));

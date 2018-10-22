@@ -23,9 +23,10 @@ class FarmController extends Controller
      */
     public function index()
     {
+
         return view('general.dashboard');
     }
-    
+
     /**
      *  Test Page for Semantic UI
      *
@@ -35,24 +36,47 @@ class FarmController extends Controller
     {
         return view('general.test');
     }
-    
+
+    /*
+    * *Helper Methods
+    */
+    public function fetchPens()
+    {
+        $pens = Pen::where('farm_id', Auth::user()->farm_id)->where('is_active', true)
+        ->orderBy('type', 'asc')
+        ->orderBy('number', 'asc')
+        ->paginate(10);
+        return $pens;
+    }
+
+    public function fetchGenerations()
+    {
+        $generations = Generation::where('farm_id', Auth::user()->farm_id)->where('is_active', true)->orderBy('numerical_generation', 'asc')->get();
+        return $generations;
+    }
+
+    public function fetchLines()
+    {
+        $lines = Line::where('generation_id', $generation)->where('is_active', true)->get();
+        return $lines;
+    }
+
     /**
      * Show the pens list page
      * @param none
      * @return view
      * @return collection
-     */    
+     */
     public function getPensPage()
     {
-        $pens = Pen::where('is_active', true)->orderBy('type', 'asc')->paginate(15);
-        return view('general.pens', compact('pens'));
+        return view('general.pens');
     }
-    
+
     /**
      * Post created pen to database
      * @param request
      * @return redirect
-     */    
+     */
     public function addPen(Request $request)
     {
         $request->validate([
@@ -61,6 +85,7 @@ class FarmController extends Controller
             'pen_capacity' => 'required',
         ]);
         $new = new Pen;
+        $new->farm_id = Auth::user()->farm_id;
         if($request->type === "brooder"){
             $new->number = "B".str_pad($request->pen_number, 2, '0', STR_PAD_LEFT);
         }elseif($request->type === "grower"){
@@ -72,8 +97,8 @@ class FarmController extends Controller
         $new->total_capacity = $request->pen_capacity;
         $new->current_capacity = 0;
         $new->save();
-        $request->session()->flash('pen-create', 'Pen successfully created');
-        return redirect()->route('farm.pens');
+
+        return response()->json(['status' => 'success', 'message' => $new->number]);
     }
 
     /**
@@ -82,22 +107,30 @@ class FarmController extends Controller
      * @return view
      * @return collection
      */
-    public function searchPen(Request $request)
+    public function searchPen($search_array)
     {
-        if($request->search == null && $request->search_checkbox == null){
-            return redirect()->route('farm.pens');
+        $number = json_decode($search_array)[0];
+        $type = json_decode($search_array)[1];
+        if($number == null && $type == null){
+            return;
         }else{
-            if($request->search_checkbox == null){
-                $pens = Pen::where('is_active', true)
-                ->where('number', 'like', '%'.$request->search.'%')
-                ->paginate(15);
-                return view('general.pens', compact('pens'));
+            if($type == null){
+                $pens = Pen::where('farm_id', Auth::user()->farm_id)
+                ->where('is_active', true)
+                ->where('number', 'like', '%'.$number.'%')
+                ->orderBy('type', 'asc')
+                ->orderBy('number', 'asc')
+                ->paginate(10);
+                return $pens;
             }else{
-                $pens = Pen::where('is_active', true)
-                ->where('number', 'like', '%'.$request->search.'%')
-                ->whereIn('type', $request->search_checkbox)
-                ->paginate(15);
-                return view('general.pens', compact('pens'));
+                $pens = Pen::where('farm_id', Auth::user()->farm_id)
+                ->where('is_active', true)
+                ->where('number', 'like', '%'.$number.'%')
+                ->whereIn('type', $type)
+                ->orderBy('type', 'asc')
+                ->orderBy('number', 'asc')
+                ->paginate(10);
+                return $pens;
             }
         }
     }
@@ -138,10 +171,10 @@ class FarmController extends Controller
                 $farm->batching_week = $request->farm_batching_week;
             }
             $farm->save();
-            return redirect()->back()->with('success', ['Farm settings edit successful']);   
+            return redirect()->back()->with('success', ['Farm settings edit successful']);
         }
         else{
-            return redirect()->back()->with('fail', ['Farm settings edit failed']); 
+            return redirect()->back()->with('fail', ['Farm settings edit failed']);
         }
     }
 
@@ -149,7 +182,7 @@ class FarmController extends Controller
      * Get Generations
      * @param request
      * @return view
-     */    
+     */
 
     public function getGenerationLinesPage()
     {
@@ -167,6 +200,7 @@ class FarmController extends Controller
             'generation_number' => 'required',
         ]);
         $generation = new Generation;
+        $generation->farm_id = Auth::user()->farm_id;
         $generation->number = str_pad($request->generation_number, 4, '0', STR_PAD_LEFT);
         $generation->numerical_generation = $request->generation_number;
         $generation->is_active = true;
@@ -200,15 +234,19 @@ class FarmController extends Controller
      * @param request
      * @return data
      */
-    public function fetchGenerations()
+    public function getGenerations()
     {
-        $generations = Generation::where('is_active', true)->get();
+        $generations = Generation::where('farm_id', Auth::user()->farm_id)
+        ->where('is_active', true)
+        ->orderBy('numerical_generation', 'desc')
+        ->paginate(10);
+
         return $generations;
     }
 
     public function fetchLinesInGeneration($generation)
     {
-        $lines = Line::where('generation_id', $generation)->where('is_active', true)->get();        
+        $lines = Line::where('generation_id', $generation)->where('is_active', true)->get();
         return $lines;
     }
 
@@ -219,7 +257,7 @@ class FarmController extends Controller
      */
     public function showGenerationDetails($generation)
     {
-        $lines = Line::where('generation_id', $generation)->where('is_active', true)->get();        
+        $lines = Line::where('generation_id', $generation)->where('is_active', true)->orderBy('number', 'asc')->get();
         return $lines;
     }
 
@@ -230,7 +268,7 @@ class FarmController extends Controller
      */
     public function searchGeneration($search)
     {
-        $generations = Generation::where('number', 'like', '%'.$search.'%')->where('is_active', true)->get();        
+        $generations = Generation::where('number', 'like', '%'.$search.'%')->where('is_active', true)->paginate(10);
         return $generations;
     }
 
@@ -243,9 +281,13 @@ class FarmController extends Controller
     {
         $families = Family::
         join('lines', 'families.line_id', '=', 'lines.id')
+        ->join('generations', 'lines.generation_id', '=', 'generations.id')
         ->where('families.is_active', true)
-        ->select('lines.number AS line_number', 'families.number AS family_number', 'families.is_active as is_active')
-        ->get();
+        ->where('generations.farm_id', Auth::user()->farm_id)
+        ->select('lines.number AS line_number', 'families.number AS family_number',
+        'families.is_active as is_active', 'generations.number AS generation_number')
+        ->orderBy('generations.number', 'desc')
+        ->paginate(10);
         return $families;
     }
 
@@ -273,5 +315,4 @@ class FarmController extends Controller
         ->get();
         return $families;
     }
-
 }

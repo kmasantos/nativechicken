@@ -49,7 +49,7 @@ class LoginController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
     /**
@@ -59,7 +59,7 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('google')->user();
+        $user = Socialite::driver('google')->stateless()->user();
         $findUser = User::where('email', $user->email)->first();
         Auth::login($findUser, true);
         $user->remember_token = $user->token;

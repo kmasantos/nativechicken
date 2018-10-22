@@ -16,14 +16,12 @@ class CreateReplacementsTable extends Migration
         Schema::create('replacements', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('family_id');
-            $table->unsignedInteger('pen_id');
             $table->date('batching_date')->nullable();
             $table->date('date_added');
         });
 
         Schema::table('replacements', function($table) {
             $table->foreign('family_id')->references('id')->on('families');
-            $table->foreign('pen_id')->references('id')->on('pens');
         });
     }
 

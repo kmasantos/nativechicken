@@ -1,0 +1,208 @@
+<template>
+    <div>
+        <!-- MAIN DIV -->
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <h5>Pens</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <ul class="breadcrumb">
+                            <li><a href="./">Home</a></li>
+                            <li>Pens</li>
+                        </ul>
+                    </div>
+                </div>
+                <form v-on:submit.prevent="searchPen" action="GET">
+                    <div class="row valign-wrapper">
+                        <div class="col s12 m12 l12 valign">
+                            <label for="search">Search</label>
+                            <input v-model="search_number" placeholder="Type pen number" id="search" type="text">
+                        </div>
+                        <div class="col s12 m4 l4">
+                            <input v-model="search_type" type="checkbox" class="filled-in" id="brooder_search" value="brooder"/>
+                            <label for="brooder_search">Brooder</label>
+                        </div>
+                        <div class="col s12 m4 l4">
+                            <input v-model="search_type" type="checkbox" class="filled-in" id="grower_search" value="grower"/>
+                            <label for="grower_search">Grower</label>
+                        </div>
+                        <div class="col s12 m4 l4">
+                            <input v-model="search_type" type="checkbox" class="filled-in" id="layer_search" value="layer"/>
+                            <label for="layer_search">Layer</label>
+                        </div>
+                    </div>
+                    <div class="row center">
+                        <div class="col s12 m12 l12">
+                            <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action">Search<i class="material-icons right">search</i></button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row center" v-if="pens_loaded==false">
+                    <div class="col s12 m12 112">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m12 l12">Loading...</div>
+                </div>
+                <div class="row" v-else>
+                    <div class="col s12 m12 112 center-align" v-if="pens_not_empty==false">
+                        <h5>No Pens</h5>
+                    </div>
+                    <div class="col s12 m12 112" v-else>
+                        <div class="col s12 m12 l12">
+                            <table class="responsive-table bordered highlight">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Number</th>
+                                    <th>Content</th>
+                                    <th>Capacity</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="pen in pens.data" :key="pen.id">
+                                        <td>{{capitalize(pen.type)}}</td>
+                                        <td>{{pen.number}}</td>
+                                        <td>{{pen.current_capacity}}</td>
+                                        <td>{{pen.total_capacity}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m12 l12 center">
+                                <pagination :data="pens" @pagination-change-page="loadPen"></pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FAB -->
+        <div class="fixed-action-btn horizontal click-to-toggle">
+            <a class="btn-floating btn-large blue-grey darken-1 modal-trigger" href="#pen_modal">
+                <i class="material-icons">add</i>
+            </a>
+        </div>
+        <!-- MODALS -->
+        <div id="pen_modal" class="modal modal-fixed-footer">
+            <form v-on:submit.prevent="addPen" action="POST">
+                <div class="modal-content">
+                    <h4>Add Pen</h4>
+                    <div class="divider"></div>
+                    <div class="row valign-wrapper">
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="input-field col s12 m12 l12">
+                                    <input v-model="pen_number" placeholder="Input Pen Number" id="pen_number" type="text" name="pen_number">
+                                    <label for="pen_number">Pen Number</label>
+                                </div>
+                            </div>
+                            <label for="pen_type">Pen Type</label>
+                            <div id="pen_type" class="row">
+                                <div class="col s12 m4 l4">
+                                    <input v-model="pen_type" class="with-gap" type="radio" id="brooder" value="brooder"/>
+                                    <label for="brooder">Brooder</label>
+                                </div>
+                                <div class="col s12 m4 l4">
+                                    <input v-model="pen_type" class="with-gap" type="radio" id="grower" value="grower"/>
+                                    <label for="grower">Grower</label>
+                                </div>
+                                <div class="col s12 m4 l4">
+                                    <input v-model="pen_type" class="with-gap" type="radio" id="layer" value="layer"/>
+                                    <label for="layer">Layer</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m12 l12">
+                                    <input v-model.number="pen_capacity" placeholder="Total Pen Capacity" id="pen_capacity" type="number" min=0 name="pen_capacity">
+                                    <label for="pen_capacity">Pen Capacity</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:void(0)" class="modal-close waves-effect waves-grey btn-flat">Close</a>
+                    <button class="modal-close waves-effect waves-grey btn-flat" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                pens_loaded : false,
+                pens_not_empty : false,
+                search_number : '',
+                search_type : [],
+                pens : {},
+                pen_number : '',
+                pen_type : '',
+                pen_capacity : '',
+            }
+        },
+        methods : {
+            initialize : function () {
+                this.loadPen();
+            },
+            loadPen : function (page = 1) {
+                this.pens_loaded = false;
+                this.pens_not_empty = false;
+                axios.get('fetch_pens?page='+page)
+                .then(response => this.pens = response.data)
+                .catch(function (error) {
+                    console.log(error);
+                });
+                this.pens_loaded = true;
+                this.pens_not_empty = true;
+            },
+            searchPen : function () {
+                var search_array = new Array(this.search_number, this.search_type);
+                axios.get('search_pens/'+ JSON.stringify(search_array))
+                .then(response => this.pens = response.data)
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            addPen : function () {
+                axios.post('add_pens', {
+                    pen_number: this.pen_number,
+                    type: this.pen_type,
+                    pen_capacity : this.pen_capacity
+                })
+                .then(function (response) {
+                    Materialize.toast('Successfully added ' + response.data.message, 3000, 'green rounded');
+                })
+                .catch(function (error) {
+                    Materialize.toast('Failed to add pen', 3000, 'red rounded');
+                });
+                this.initialize();
+            },
+            capitalize : function (string) {
+                var lower = string;
+                var upper = lower.charAt(0).toUpperCase() + lower.substr(1);
+                return upper;
+            }
+        },
+        created() {
+            this.initialize();
+        }
+    }
+</script>

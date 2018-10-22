@@ -16,12 +16,18 @@ class CreatePensTable extends Migration
     {
         Schema::create('pens', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('farm_id');
             $table->string('number');
             $table->string('type');
             $table->integer('total_capacity');
             $table->integer('current_capacity')->default(0);
             $table->boolean('is_active')->default(true);
         });
+
+        Schema::table('pens', function($table) {
+            $table->foreign('farm_id')->references('id')->on('farms');
+        });
+
     }
 
     /**

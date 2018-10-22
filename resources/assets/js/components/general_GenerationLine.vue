@@ -6,43 +6,56 @@
                 <label for="search">Search Generation</label>
             </div>
             <div class="col s12 m4 l4">
-                <button @click="searchGeneration" class="btn waves-effect waves-light blue-gray" type="submit" name="action">Search
+                <button @click="searchGeneration" class="btn waves-effect waves-light blue-grey" type="submit" name="action">Search
                     <i class="material-icons right">send</i>
                 </button>
             </div>
         </div>
-        <div class="row" v-if="generations.length > 0">
-            <div class="col s12 m12 l12">
-                <table class="responsive-table bordered">
-                    <thead>
-                        <tr>
-                            <th>Number</th>
-                            <th>Status</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="generation in generations" :key="generation.id">
-                            <td>{{generation.number}}</td>
-                            <td v-if="generation.is_active">Active</td>
-                            <td v-else>Inactive</td>
-                            <td><a href="#details_modal" @click.prevent="viewDetails(generation.id)" class="modal-trigger"><i class="material-icons">details</i></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- <div class="row">
-                    <div class="col s12 m12 l12 center">
-                        <ul class="pagination">
-                            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                        </ul>
+        <div class="row" v-if="generation_loaded=false">
+            <div class="col s12 m12 l12 center">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
                     </div>
-                </div> -->
+                    </div>
+                </div>
+                <div>Loading...</div>
             </div>
         </div>
-        <div class="row center" v-else>
-            <div class="col s12 m12 l12">
-                <h5>No Generations</h5>
+        <div v-else>
+            <div class="row" v-if="gen_len > 0">
+                <div class="col s12 m12 l12">
+                    <table class="responsive-table bordered">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="generation in generations.data" :key="generation.id">
+                                <td>{{generation.number}}</td>
+                                <td v-if="generation.is_active">Active</td>
+                                <td v-else>Inactive</td>
+                                <td><a href="#details_modal" @click.prevent="viewDetails(generation.id)" class="modal-trigger"><i class="material-icons">details</i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col s12 m12 l12">
+                        <pagination :data="generations" @pagination-change-page="getGenerations"></pagination>
+                    </div>
+                </div>
+            </div>
+            <div class="row center" v-else>
+                <div class="col s12 m12 l12">
+                    <h5>No Generations</h5>
+                </div>
             </div>
         </div>
         <div class="fixed-action-btn vertical click-to-toggle">
@@ -84,7 +97,8 @@
                         <label>Generation</label>
                         <select v-model="selected_generation" class="browser-default">
                             <option value="" disabled selected>Choose generation</option>
-                            <option v-for="generation in generations" :key="generation.id" v-bind:value="generation.id">{{generation.number}}</option>
+                            <option value="" v-if="gen_list_len === 0" disabled>No generation</option>
+                            <option v-else v-for="gen in generation_list" :key="gen.id" v-bind:value="gen.id">{{gen.number}}</option>
                         </select>
                     </div>
                 </div>
@@ -99,12 +113,12 @@
                 <a @click="addLine" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
             </div>
         </div>
-        
+
         <div id="details_modal" class="modal">
             <div class="modal-content">
                 <ul class="collection with-header">
-                    <li class="collection-header"><h4>Lines</h4></li>
-                    <li v-if="line_list.length == 0" class="collection-item"><div>No Lines in this Generation</div></li>
+                    <li class="collection-header"><h5>Lines</h5></li>
+                    <li v-if="line_len == 0" class="collection-item"><div>No Lines in this Generation</div></li>
                     <li v-for="line in line_list" :key="line.id" class="collection-item"><div>{{line.number}}</div></li>
                 </ul>
             </div>
@@ -119,40 +133,55 @@
     export default {
         data () {
             return {
-                generations : [],
-                lines : [],
+                generations : {},
+                line_list : [],
+                generation_list : [],
+
                 search : '',
                 selected_generation : '',
                 add_generation : '',
                 line_number : '',
                 generation_details : '',
-                line_list : [],
+
+                gen_len : 0,
+                line_len : 0,
+                gen_list_len : 0,
+                generation_loaded : false,
+                generation_list_loaded : false,
+                line_list_loaded : false
             }
         },
         methods : {
+            initialize : function () {
+                this.getGenerations();
+                this.fetchGenerationList();
+            },
             searchGeneration : function(event){
                 axios.get('search_generation/'+this.search)
                 .then(response => this.generations = response.data)
                 .catch(error => console.log(error));
             },
-            fetchGenerations : function(){
-                axios.get('fetch_generation')
-                .then(response => this.generations = response.data)
+            getGenerations : function(page = 1){
+                this.generation_loaded = false;
+                axios.get('fetch_generation?page='+page)
+                .then(response => {
+                    this.gen_len = response.data.data.length;
+                    this.generations = response.data;
+                })
                 .catch(error => console.log(error));
+                this.generation_loaded = true;
             },
             addGeneration : function(event){
                 axios.post('add_generation', {
                     generation_number: this.add_generation,
                 })
                 .then(function (response) {
-                    console.log(response);
                     Materialize.toast('Generation added', 3000, 'rounded');
                 })
                 .catch(function (error) {
-                    console.log(error);
                     Materialize.toast('Add generation failed', 3000, 'rounded');
                 });
-                this.fetchGenerations();
+                this.getGenerations();
             },
             addLine : function(event){
                 axios.post('add_line', {
@@ -167,27 +196,31 @@
                     console.log(error);
                     Materialize.toast('Adding line to generation failed', 3000, 'rounded');
                 });
-                this.fetchGenerations();
             },
-            
             viewDetails : function(generation){
+                this.line_list_loaded = false;
                 this.generation_details = generation;
                 axios.get('get_details/'+this.generation_details)
-                .then(response => this.line_list = response.data)
+                .then(response => {
+                    this.line_len = response.data.length;
+                    this.line_list = response.data;
+                })
                 .catch(error => console.log(error));
+                this.line_list_loaded = true;
             },
+            fetchGenerationList : function (){
+                this.generation_list_loaded = false;
+                axios.get('get_generation_list')
+                .then(response => {
+                    this.gen_list_len = response.data.length;
+                    this.generation_list = response.data;
+                })
+                .catch(error => console.log(error));
+                this.generation_list_loaded = true;
+            }
         },
         created () {
-            this.fetchGenerations();
-        },
-        mounted() {
-            
-        },
-        updated() {
-            
-        },
-        destroyed() {
-
+            this.initialize();
         }
     }
 </script>

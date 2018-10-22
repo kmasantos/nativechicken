@@ -29,7 +29,7 @@ class BrooderGrower extends Model
 
     public function brooder_grower_inventories()
     {
-        return $this->hasOne(BrooderGrowerInventory::class);
+        return $this->hasMany(BrooderGrowerInventory::class);
     }
 
     public function brooder_grower_feedings()

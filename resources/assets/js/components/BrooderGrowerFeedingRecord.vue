@@ -29,7 +29,7 @@
         </div>
         <div v-else>
             <!-- Empty Record -->
-            <div class="row center" v-if="broodergrowers.data === undefined">
+            <div class="row center" v-if="Array.isArray(broodergrowers.data) == false">
                 <div class="col s12 m12 l12">
                     <h5>No Brooder & Grower Families</h5>
                 </div>

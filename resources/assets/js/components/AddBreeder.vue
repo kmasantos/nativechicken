@@ -11,7 +11,7 @@
                 </a>
             </div>
         </div>
-        <div class="row center" v-if="breeders.data==undefined">
+        <div class="row center" v-if="Array.isArray(breeders.data)==false">
             <div class="col s12 m12 l12">
                 <h5>No Breeder Families</h5>
             </div>
@@ -28,7 +28,7 @@
                                     <div class="col s12 m12 l12">Line <strong>{{breeder.line_number}}</strong></div>
                                     <div class="col s12 m12 l12">Generation <strong>{{breeder.generation_number}}</strong></div>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="card-action right-align">
                                 <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Daily Records"><i class="fas fa-calendar-alt"></i></a>
                                 <a href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Hatchery Record"><i class="fas fa-ellipsis-v"></i></a>
@@ -47,11 +47,11 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="fixed-action-btn horizontal tooltipped" data-position="left" data-delay="50" data-tooltip="Add Breeder">
             <a href="#add_breeder_modal" class="btn-floating btn-large blue-grey darken-1 modal-trigger"><i class="fas fa-plus"></i></a>
         </div>
-        
+
         <!-- FOR NEW ADDING OF BREEDERS -->
         <div id="add_breeder_modal" class="modal modal-fixed-footer">
             <form v-on:submit.prevent="addBreeder" method="post">
@@ -82,7 +82,7 @@
                                     <select class="browser-default" v-model="selected_generation" @change="selectGeneration" >
                                         <option value="" disabled selected>Choose Generation</option>
                                         <option value="" v-if="!generations_loaded" disabled>Loading Generations...</option>
-                                        <option value="" v-else-if="generations.length==0" disabled>No available generations</option>    
+                                        <option value="" v-else-if="generations.length==0" disabled>No available generations</option>
                                         <option v-for="generation in generations" :key="generation.id" v-bind:value="generation.id">{{generation.number}}</option>
                                     </select>
                                 </div>
@@ -220,7 +220,7 @@
                 date_added : '',
                 males : '',
                 females : '',
-                
+
                 external : false,
                 generations_loaded : false,
                 lines_loaded : false,
@@ -324,7 +324,7 @@
                     })
                     .catch(function (error) {
                         console.log(error);
-                        Materialize.toast('Failed to add breeders', 3000, 'rounded'); 
+                        Materialize.toast('Failed to add breeders', 3000, 'rounded');
                     });
                     this.initialize();
                 }else{
@@ -341,21 +341,21 @@
                     })
                     .catch(function (error) {
                         console.log(error);
-                        Materialize.toast('Failed to add breeders', 3000, 'rounded'); 
+                        Materialize.toast('Failed to add breeders', 3000, 'rounded');
                     });
                     this.initialize();
                 }
-                
+
             },
             searchBreeder : function () {
-                
+
             },
             customFormatter : function (date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
             }
         },
         mounted() {
-            
+
         },
         created() {
             this.initialize();

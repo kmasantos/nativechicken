@@ -56,13 +56,13 @@
                 line_selected : ''
             }
         },
-        
+
         created(){
             axios.get('generation_list')
             .then(response => this.generations = response.data)
             .catch(error => console.log(error));
         },
-        
+
         methods : {
             getGeneration : function(event)
             {
@@ -76,7 +76,7 @@
                 axios.post('family_record_add', {
                     family_id : this.family_id,
                     generation_id : this.generation_selected,
-                    line_id : this.line_selected 
+                    line_id : this.line_selected
                 })
                 .then(function (response){
                     console.log(response);

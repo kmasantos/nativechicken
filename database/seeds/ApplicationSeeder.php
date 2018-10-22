@@ -67,6 +67,14 @@ class ApplicationSeeder extends Seeder
         $farmSample->breedable_id = $camarines->id;
         $farmSample->batching_week = 2;
         $farmSample->save();
+
+        $farmSample2 = new Farm;
+        $farmSample2->name = "Farm Sample";
+        $farmSample2->code = "ZAMPEN";
+        $farmSample2->address = "Bohol";
+        $farmSample2->breedable_id = $zampen->id;
+        $farmSample2->batching_week = 2;
+        $farmSample2->save();
         $this->command->info('Farms Seeded');
 
         $now = Carbon::now()->toDateString();
@@ -77,7 +85,17 @@ class ApplicationSeeder extends Seeder
         $user->farm_id = $farmSample->id;
         $user->role_id = $farmRole->id;
         $user->save();
+
+        $now = Carbon::now()->toDateString();
+        $user2 = new User;
+        $user2->name = "FarmSampleUser2";
+        $user2->email = "snretuerma@gmail.com";
+        $user2->last_active = $now;
+        $user2->farm_id = $farmSample2->id;
+        $user2->role_id = $farmRole->id;
+        $user2->save();
         // TODO: pivot table for roles and users
+
         $this->command->info('Users Seeded');
     }
 }

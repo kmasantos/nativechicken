@@ -21,7 +21,7 @@
         <li>
             <div class="user-view">
                 <div class="background blue-grey">
-                    
+
                 </div>
                 <img class="circle" src="/images/farmer.png">
                 <span class="white-text name">{{Auth::user()->name}}</span>

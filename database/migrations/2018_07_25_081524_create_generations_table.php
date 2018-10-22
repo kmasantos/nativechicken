@@ -15,9 +15,14 @@ class CreateGenerationsTable extends Migration
     {
         Schema::create('generations', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('farm_id');
             $table->string('number');
             $table->integer('numerical_generation');
             $table->boolean('is_active')->default(true);
+        });
+
+        Schema::table('generations', function($table) {
+            $table->foreign('farm_id')->references('id')->on('farms');
         });
     }
 

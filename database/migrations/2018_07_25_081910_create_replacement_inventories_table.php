@@ -16,6 +16,7 @@ class CreateReplacementInventoriesTable extends Migration
         Schema::create('replacement_inventories', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('replacement_id');
+            $table->unsignedInteger('pen_id');
             $table->integer('number_male')->default(0);
             $table->integer('number_female')->default(0);
             $table->integer('total')->default(0);
@@ -24,6 +25,7 @@ class CreateReplacementInventoriesTable extends Migration
 
         Schema::table('replacement_inventories', function($table) {
             $table->foreign('replacement_id')->references('id')->on('replacements');
+            $table->foreign('pen_id')->references('id')->on('pens');
         });
     }
 

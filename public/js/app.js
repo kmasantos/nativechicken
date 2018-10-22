@@ -4999,28 +4999,1299 @@ module.exports = function normalizeComponent (
 /* 3 */
 /***/ (function(module, exports) {
 
-var g;
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "fb15");
+/******/ })
+/************************************************************************/
+/******/ ({
 
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
+/***/ "0d58":
+/***/ (function(module, exports, __webpack_require__) {
 
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__("ce10");
+var enumBugKeys = __webpack_require__("e11e");
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
+/***/ "11e9":
+/***/ (function(module, exports, __webpack_require__) {
+
+var pIE = __webpack_require__("52a7");
+var createDesc = __webpack_require__("4630");
+var toIObject = __webpack_require__("6821");
+var toPrimitive = __webpack_require__("6a99");
+var has = __webpack_require__("69a8");
+var IE8_DOM_DEFINE = __webpack_require__("c69a");
+var gOPD = Object.getOwnPropertyDescriptor;
+
+exports.f = __webpack_require__("9e1e") ? gOPD : function getOwnPropertyDescriptor(O, P) {
+  O = toIObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return gOPD(O, P);
+  } catch (e) { /* empty */ }
+  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
+};
+
+
+/***/ }),
+
+/***/ "1495":
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__("86cc");
+var anObject = __webpack_require__("cb7c");
+var getKeys = __webpack_require__("0d58");
+
+module.exports = __webpack_require__("9e1e") ? Object.defineProperties : function defineProperties(O, Properties) {
+  anObject(O);
+  var keys = getKeys(Properties);
+  var length = keys.length;
+  var i = 0;
+  var P;
+  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+
+
+/***/ }),
+
+/***/ "1eb2":
+/***/ (function(module, exports, __webpack_require__) {
+
+// This file is imported into lib/wc client bundles.
+
+if (typeof window !== 'undefined') {
+  var i
+  if ((i = window.document.currentScript) && (i = i.src.match(/(.+\/)[^/]+\.js$/))) {
+    __webpack_require__.p = i[1] // eslint-disable-line
+  }
 }
 
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
 
-module.exports = g;
+/***/ }),
 
+/***/ "230e":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("d3f4");
+var document = __webpack_require__("7726").document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
+  return is ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+
+/***/ "2aba":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("7726");
+var hide = __webpack_require__("32e9");
+var has = __webpack_require__("69a8");
+var SRC = __webpack_require__("ca5a")('src');
+var TO_STRING = 'toString';
+var $toString = Function[TO_STRING];
+var TPL = ('' + $toString).split(TO_STRING);
+
+__webpack_require__("8378").inspectSource = function (it) {
+  return $toString.call(it);
+};
+
+(module.exports = function (O, key, val, safe) {
+  var isFunction = typeof val == 'function';
+  if (isFunction) has(val, 'name') || hide(val, 'name', key);
+  if (O[key] === val) return;
+  if (isFunction) has(val, SRC) || hide(val, SRC, O[key] ? '' + O[key] : TPL.join(String(key)));
+  if (O === global) {
+    O[key] = val;
+  } else if (!safe) {
+    delete O[key];
+    hide(O, key, val);
+  } else if (O[key]) {
+    O[key] = val;
+  } else {
+    hide(O, key, val);
+  }
+// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+})(Function.prototype, TO_STRING, function toString() {
+  return typeof this == 'function' && this[SRC] || $toString.call(this);
+});
+
+
+/***/ }),
+
+/***/ "2aeb":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var anObject = __webpack_require__("cb7c");
+var dPs = __webpack_require__("1495");
+var enumBugKeys = __webpack_require__("e11e");
+var IE_PROTO = __webpack_require__("613b")('IE_PROTO');
+var Empty = function () { /* empty */ };
+var PROTOTYPE = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function () {
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = __webpack_require__("230e")('iframe');
+  var i = enumBugKeys.length;
+  var lt = '<';
+  var gt = '>';
+  var iframeDocument;
+  iframe.style.display = 'none';
+  __webpack_require__("fab2").appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while (i--) delete createDict[PROTOTYPE][enumBugKeys[i]];
+  return createDict();
+};
+
+module.exports = Object.create || function create(O, Properties) {
+  var result;
+  if (O !== null) {
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty();
+    Empty[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : dPs(result, Properties);
+};
+
+
+/***/ }),
+
+/***/ "2d00":
+/***/ (function(module, exports) {
+
+module.exports = false;
+
+
+/***/ }),
+
+/***/ "2d95":
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function (it) {
+  return toString.call(it).slice(8, -1);
+};
+
+
+/***/ }),
+
+/***/ "32e9":
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__("86cc");
+var createDesc = __webpack_require__("4630");
+module.exports = __webpack_require__("9e1e") ? function (object, key, value) {
+  return dP.f(object, key, createDesc(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+
+/***/ "4588":
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil = Math.ceil;
+var floor = Math.floor;
+module.exports = function (it) {
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+
+/***/ }),
+
+/***/ "4630":
+/***/ (function(module, exports) {
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
+};
+
+
+/***/ }),
+
+/***/ "52a7":
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
+
+
+/***/ }),
+
+/***/ "5537":
+/***/ (function(module, exports, __webpack_require__) {
+
+var core = __webpack_require__("8378");
+var global = __webpack_require__("7726");
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || (global[SHARED] = {});
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: core.version,
+  mode: __webpack_require__("2d00") ? 'pure' : 'global',
+  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+});
+
+
+/***/ }),
+
+/***/ "5ca1":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("7726");
+var core = __webpack_require__("8378");
+var hide = __webpack_require__("32e9");
+var redefine = __webpack_require__("2aba");
+var ctx = __webpack_require__("9b43");
+var PROTOTYPE = 'prototype';
+
+var $export = function (type, name, source) {
+  var IS_FORCED = type & $export.F;
+  var IS_GLOBAL = type & $export.G;
+  var IS_STATIC = type & $export.S;
+  var IS_PROTO = type & $export.P;
+  var IS_BIND = type & $export.B;
+  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {}) : (global[name] || {})[PROTOTYPE];
+  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+  var expProto = exports[PROTOTYPE] || (exports[PROTOTYPE] = {});
+  var key, own, out, exp;
+  if (IS_GLOBAL) source = name;
+  for (key in source) {
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    // export native or passed
+    out = (own ? target : source)[key];
+    // bind timers to global for call from export context
+    exp = IS_BIND && own ? ctx(out, global) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // extend global
+    if (target) redefine(target, key, out, type & $export.U);
+    // export
+    if (exports[key] != out) hide(exports, key, exp);
+    if (IS_PROTO && expProto[key] != out) expProto[key] = out;
+  }
+};
+global.core = core;
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library`
+module.exports = $export;
+
+
+/***/ }),
+
+/***/ "5dbc":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("d3f4");
+var setPrototypeOf = __webpack_require__("8b97").set;
+module.exports = function (that, target, C) {
+  var S = target.constructor;
+  var P;
+  if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && isObject(P) && setPrototypeOf) {
+    setPrototypeOf(that, P);
+  } return that;
+};
+
+
+/***/ }),
+
+/***/ "613b":
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__("5537")('keys');
+var uid = __webpack_require__("ca5a");
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
+};
+
+
+/***/ }),
+
+/***/ "626a":
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__("2d95");
+// eslint-disable-next-line no-prototype-builtins
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+
+/***/ }),
+
+/***/ "6821":
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__("626a");
+var defined = __webpack_require__("be13");
+module.exports = function (it) {
+  return IObject(defined(it));
+};
+
+
+/***/ }),
+
+/***/ "69a8":
+/***/ (function(module, exports) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
+};
+
+
+/***/ }),
+
+/***/ "6a99":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__("d3f4");
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+
+/***/ "7726":
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "77f1":
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__("4588");
+var max = Math.max;
+var min = Math.min;
+module.exports = function (index, length) {
+  index = toInteger(index);
+  return index < 0 ? max(index + length, 0) : min(index, length);
+};
+
+
+/***/ }),
+
+/***/ "79e5":
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (e) {
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ "8378":
+/***/ (function(module, exports) {
+
+var core = module.exports = { version: '2.5.7' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "86cc":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("cb7c");
+var IE8_DOM_DEFINE = __webpack_require__("c69a");
+var toPrimitive = __webpack_require__("6a99");
+var dP = Object.defineProperty;
+
+exports.f = __webpack_require__("9e1e") ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+
+/***/ "8b97":
+/***/ (function(module, exports, __webpack_require__) {
+
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+var isObject = __webpack_require__("d3f4");
+var anObject = __webpack_require__("cb7c");
+var check = function (O, proto) {
+  anObject(O);
+  if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+};
+module.exports = {
+  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+    function (test, buggy, set) {
+      try {
+        set = __webpack_require__("9b43")(Function.call, __webpack_require__("11e9").f(Object.prototype, '__proto__').set, 2);
+        set(test, []);
+        buggy = !(test instanceof Array);
+      } catch (e) { buggy = true; }
+      return function setPrototypeOf(O, proto) {
+        check(O, proto);
+        if (buggy) O.__proto__ = proto;
+        else set(O, proto);
+        return O;
+      };
+    }({}, false) : undefined),
+  check: check
+};
+
+
+/***/ }),
+
+/***/ "9093":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys = __webpack_require__("ce10");
+var hiddenKeys = __webpack_require__("e11e").concat('length', 'prototype');
+
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return $keys(O, hiddenKeys);
+};
+
+
+/***/ }),
+
+/***/ "9b43":
+/***/ (function(module, exports, __webpack_require__) {
+
+// optional / simple context binding
+var aFunction = __webpack_require__("d8e8");
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
+
+
+/***/ }),
+
+/***/ "9def":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.15 ToLength
+var toInteger = __webpack_require__("4588");
+var min = Math.min;
+module.exports = function (it) {
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+
+
+/***/ }),
+
+/***/ "9e1e":
+/***/ (function(module, exports, __webpack_require__) {
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__("79e5")(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ "aa77":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__("5ca1");
+var defined = __webpack_require__("be13");
+var fails = __webpack_require__("79e5");
+var spaces = __webpack_require__("fdef");
+var space = '[' + spaces + ']';
+var non = '\u200b\u0085';
+var ltrim = RegExp('^' + space + space + '*');
+var rtrim = RegExp(space + space + '*$');
+
+var exporter = function (KEY, exec, ALIAS) {
+  var exp = {};
+  var FORCE = fails(function () {
+    return !!spaces[KEY]() || non[KEY]() != non;
+  });
+  var fn = exp[KEY] = FORCE ? exec(trim) : spaces[KEY];
+  if (ALIAS) exp[ALIAS] = fn;
+  $export($export.P + $export.F * FORCE, 'String', exp);
+};
+
+// 1 -> String#trimLeft
+// 2 -> String#trimRight
+// 3 -> String#trim
+var trim = exporter.trim = function (string, TYPE) {
+  string = String(defined(string));
+  if (TYPE & 1) string = string.replace(ltrim, '');
+  if (TYPE & 2) string = string.replace(rtrim, '');
+  return string;
+};
+
+module.exports = exporter;
+
+
+/***/ }),
+
+/***/ "be13":
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "c366":
+/***/ (function(module, exports, __webpack_require__) {
+
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject = __webpack_require__("6821");
+var toLength = __webpack_require__("9def");
+var toAbsoluteIndex = __webpack_require__("77f1");
+module.exports = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+      if (O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+
+/***/ }),
+
+/***/ "c5f6":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var global = __webpack_require__("7726");
+var has = __webpack_require__("69a8");
+var cof = __webpack_require__("2d95");
+var inheritIfRequired = __webpack_require__("5dbc");
+var toPrimitive = __webpack_require__("6a99");
+var fails = __webpack_require__("79e5");
+var gOPN = __webpack_require__("9093").f;
+var gOPD = __webpack_require__("11e9").f;
+var dP = __webpack_require__("86cc").f;
+var $trim = __webpack_require__("aa77").trim;
+var NUMBER = 'Number';
+var $Number = global[NUMBER];
+var Base = $Number;
+var proto = $Number.prototype;
+// Opera ~12 has broken Object#toString
+var BROKEN_COF = cof(__webpack_require__("2aeb")(proto)) == NUMBER;
+var TRIM = 'trim' in String.prototype;
+
+// 7.1.3 ToNumber(argument)
+var toNumber = function (argument) {
+  var it = toPrimitive(argument, false);
+  if (typeof it == 'string' && it.length > 2) {
+    it = TRIM ? it.trim() : $trim(it, 3);
+    var first = it.charCodeAt(0);
+    var third, radix, maxCode;
+    if (first === 43 || first === 45) {
+      third = it.charCodeAt(2);
+      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+    } else if (first === 48) {
+      switch (it.charCodeAt(1)) {
+        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
+        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
+        default: return +it;
+      }
+      for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
+        code = digits.charCodeAt(i);
+        // parseInt parses a string to a first unavailable symbol
+        // but ToNumber should return NaN if a string contains unavailable symbols
+        if (code < 48 || code > maxCode) return NaN;
+      } return parseInt(digits, radix);
+    }
+  } return +it;
+};
+
+if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
+  $Number = function Number(value) {
+    var it = arguments.length < 1 ? 0 : value;
+    var that = this;
+    return that instanceof $Number
+      // check on 1..constructor(foo) case
+      && (BROKEN_COF ? fails(function () { proto.valueOf.call(that); }) : cof(that) != NUMBER)
+        ? inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
+  };
+  for (var keys = __webpack_require__("9e1e") ? gOPN(Base) : (
+    // ES3:
+    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+    // ES6 (in case, if modules with ES6 Number statics required before):
+    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+  ).split(','), j = 0, key; keys.length > j; j++) {
+    if (has(Base, key = keys[j]) && !has($Number, key)) {
+      dP($Number, key, gOPD(Base, key));
+    }
+  }
+  $Number.prototype = proto;
+  proto.constructor = $Number;
+  __webpack_require__("2aba")(global, NUMBER, $Number);
+}
+
+
+/***/ }),
+
+/***/ "c69a":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__("9e1e") && !__webpack_require__("79e5")(function () {
+  return Object.defineProperty(__webpack_require__("230e")('div'), 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ "ca5a":
+/***/ (function(module, exports) {
+
+var id = 0;
+var px = Math.random();
+module.exports = function (key) {
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+
+/***/ }),
+
+/***/ "cb7c":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("d3f4");
+module.exports = function (it) {
+  if (!isObject(it)) throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "ce10":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("69a8");
+var toIObject = __webpack_require__("6821");
+var arrayIndexOf = __webpack_require__("c366")(false);
+var IE_PROTO = __webpack_require__("613b")('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "d3f4":
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+
+/***/ }),
+
+/***/ "d8e8":
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "e11e":
+/***/ (function(module, exports) {
+
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+
+/***/ }),
+
+/***/ "fab2":
+/***/ (function(module, exports, __webpack_require__) {
+
+var document = __webpack_require__("7726").document;
+module.exports = document && document.documentElement;
+
+
+/***/ }),
+
+/***/ "fb15":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
+var setPublicPath = __webpack_require__("1eb2");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0595ba96-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/LaravelVuePagination.vue?vue&type=template&id=411fa826&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('renderless-laravel-vue-pagination',{attrs:{"data":_vm.data,"limit":_vm.limit},on:{"pagination-change-page":_vm.onPaginationChangePage},scopedSlots:_vm._u([{key:"default",fn:function(ref){
+var data = ref.data;
+var limit = ref.limit;
+var computed = ref.computed;
+var prevButtonEvents = ref.prevButtonEvents;
+var nextButtonEvents = ref.nextButtonEvents;
+var pageButtonEvents = ref.pageButtonEvents;
+return (computed.total > computed.perPage)?_c('ul',{staticClass:"pagination"},[(computed.prevPageUrl)?_c('li',{staticClass:"page-item pagination-prev-nav"},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#","aria-label":"Previous"}},prevButtonEvents),[_vm._t("prev-nav",[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("«")]),_c('span',{staticClass:"sr-only"},[_vm._v("Previous")])])],2)]):_vm._e(),_vm._l((computed.pageRange),function(page,key){return _c('li',{key:key,staticClass:"page-item pagination-page-nav",class:{ 'active': page == computed.currentPage }},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#"}},pageButtonEvents(page)),[_vm._v(_vm._s(page))])])}),(computed.nextPageUrl)?_c('li',{staticClass:"page-item pagination-next-nav"},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#","aria-label":"Next"}},nextButtonEvents),[_vm._t("next-nav",[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("»")]),_c('span',{staticClass:"sr-only"},[_vm._v("Next")])])],2)]):_vm._e()],2):_vm._e()}}])})}
+var staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/LaravelVuePagination.vue?vue&type=template&id=411fa826&
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
+var es6_number_constructor = __webpack_require__("c5f6");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/RenderlessLaravelVuePagination.vue?vue&type=script&lang=js&
+
+/* harmony default export */ var RenderlessLaravelVuePaginationvue_type_script_lang_js_ = ({
+  props: {
+    data: {
+      type: Object,
+      default: function _default() {}
+    },
+    limit: {
+      type: Number,
+      default: 0
+    }
+  },
+  computed: {
+    isApiResource: function isApiResource() {
+      return !!this.data.meta;
+    },
+    currentPage: function currentPage() {
+      return this.isApiResource ? this.data.meta.current_page : this.data.current_page;
+    },
+    firstPageUrl: function firstPageUrl() {
+      return this.isApiResource ? this.data.links.first : null;
+    },
+    from: function from() {
+      return this.isApiResource ? this.data.meta.from : this.data.from;
+    },
+    lastPage: function lastPage() {
+      return this.isApiResource ? this.data.meta.last_page : this.data.last_page;
+    },
+    lastPageUrl: function lastPageUrl() {
+      return this.isApiResource ? this.data.links.last : null;
+    },
+    nextPageUrl: function nextPageUrl() {
+      return this.isApiResource ? this.data.links.next : this.data.next_page_url;
+    },
+    perPage: function perPage() {
+      return this.isApiResource ? this.data.meta.per_page : this.data.per_page;
+    },
+    prevPageUrl: function prevPageUrl() {
+      return this.isApiResource ? this.data.links.prev : this.data.prev_page_url;
+    },
+    to: function to() {
+      return this.isApiResource ? this.data.meta.to : this.data.to;
+    },
+    total: function total() {
+      return this.isApiResource ? this.data.meta.total : this.data.total;
+    },
+    pageRange: function pageRange() {
+      if (this.limit === -1) {
+        return 0;
+      }
+
+      if (this.limit === 0) {
+        return this.lastPage;
+      }
+
+      var current = this.currentPage;
+      var last = this.lastPage;
+      var delta = this.limit;
+      var left = current - delta;
+      var right = current + delta + 1;
+      var range = [];
+      var pages = [];
+      var l;
+
+      for (var i = 1; i <= last; i++) {
+        if (i === 1 || i === last || i >= left && i < right) {
+          range.push(i);
+        }
+      }
+
+      range.forEach(function (i) {
+        if (l) {
+          if (i - l === 2) {
+            pages.push(l + 1);
+          } else if (i - l !== 1) {
+            pages.push('...');
+          }
+        }
+
+        pages.push(i);
+        l = i;
+      });
+      return pages;
+    }
+  },
+  methods: {
+    previousPage: function previousPage() {
+      this.selectPage(this.currentPage - 1);
+    },
+    nextPage: function nextPage() {
+      this.selectPage(this.currentPage + 1);
+    },
+    selectPage: function selectPage(page) {
+      if (page === '...') {
+        return;
+      }
+
+      this.$emit('pagination-change-page', page);
+    }
+  },
+  render: function render() {
+    var _this = this;
+
+    return this.$scopedSlots.default({
+      data: this.data,
+      limit: this.limit,
+      computed: {
+        isApiResource: this.isApiResource,
+        currentPage: this.currentPage,
+        firstPageUrl: this.firstPageUrl,
+        from: this.from,
+        lastPage: this.lastPage,
+        lastPageUrl: this.lastPageUrl,
+        nextPageUrl: this.nextPageUrl,
+        perPage: this.perPage,
+        prevPageUrl: this.prevPageUrl,
+        to: this.to,
+        total: this.total,
+        pageRange: this.pageRange
+      },
+      prevButtonEvents: {
+        click: function click(e) {
+          e.preventDefault();
+
+          _this.previousPage();
+        }
+      },
+      nextButtonEvents: {
+        click: function click(e) {
+          e.preventDefault();
+
+          _this.nextPage();
+        }
+      },
+      pageButtonEvents: function pageButtonEvents(page) {
+        return {
+          click: function click(e) {
+            e.preventDefault();
+
+            _this.selectPage(page);
+          }
+        };
+      }
+    });
+  }
+});
+// CONCATENATED MODULE: ./src/RenderlessLaravelVuePagination.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_RenderlessLaravelVuePaginationvue_type_script_lang_js_ = (RenderlessLaravelVuePaginationvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+// CONCATENATED MODULE: ./src/RenderlessLaravelVuePagination.vue
+var RenderlessLaravelVuePagination_render, RenderlessLaravelVuePagination_staticRenderFns
+
+
+
+
+/* normalize component */
+
+var component = normalizeComponent(
+  src_RenderlessLaravelVuePaginationvue_type_script_lang_js_,
+  RenderlessLaravelVuePagination_render,
+  RenderlessLaravelVuePagination_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "RenderlessLaravelVuePagination.vue"
+/* harmony default export */ var RenderlessLaravelVuePagination = (component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/LaravelVuePagination.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var LaravelVuePaginationvue_type_script_lang_js_ = ({
+  props: {
+    data: {
+      type: Object,
+      default: function _default() {}
+    },
+    limit: {
+      type: Number,
+      default: 0
+    }
+  },
+  methods: {
+    onPaginationChangePage: function onPaginationChangePage(page) {
+      this.$emit('pagination-change-page', page);
+    }
+  },
+  components: {
+    RenderlessLaravelVuePagination: RenderlessLaravelVuePagination
+  }
+});
+// CONCATENATED MODULE: ./src/LaravelVuePagination.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_LaravelVuePaginationvue_type_script_lang_js_ = (LaravelVuePaginationvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/LaravelVuePagination.vue
+
+
+
+
+
+/* normalize component */
+
+var LaravelVuePagination_component = normalizeComponent(
+  src_LaravelVuePaginationvue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+LaravelVuePagination_component.options.__file = "LaravelVuePagination.vue"
+/* harmony default export */ var LaravelVuePagination = (LaravelVuePagination_component.exports);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
+
+
+/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (LaravelVuePagination);
+
+
+
+/***/ }),
+
+/***/ "fdef":
+/***/ (function(module, exports) {
+
+module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+
+/***/ })
+
+/******/ })["default"];
+//# sourceMappingURL=laravel-vue-pagination.common.js.map
 
 /***/ }),
 /* 4 */
@@ -6510,1299 +7781,28 @@ var Datepicker = {render: function(){var _vm=this;var _h=_vm.$createElement;var 
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fb15");
-/******/ })
-/************************************************************************/
-/******/ ({
+var g;
 
-/***/ "0d58":
-/***/ (function(module, exports, __webpack_require__) {
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
 
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__("ce10");
-var enumBugKeys = __webpack_require__("e11e");
-
-module.exports = Object.keys || function keys(O) {
-  return $keys(O, enumBugKeys);
-};
-
-
-/***/ }),
-
-/***/ "11e9":
-/***/ (function(module, exports, __webpack_require__) {
-
-var pIE = __webpack_require__("52a7");
-var createDesc = __webpack_require__("4630");
-var toIObject = __webpack_require__("6821");
-var toPrimitive = __webpack_require__("6a99");
-var has = __webpack_require__("69a8");
-var IE8_DOM_DEFINE = __webpack_require__("c69a");
-var gOPD = Object.getOwnPropertyDescriptor;
-
-exports.f = __webpack_require__("9e1e") ? gOPD : function getOwnPropertyDescriptor(O, P) {
-  O = toIObject(O);
-  P = toPrimitive(P, true);
-  if (IE8_DOM_DEFINE) try {
-    return gOPD(O, P);
-  } catch (e) { /* empty */ }
-  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
-};
-
-
-/***/ }),
-
-/***/ "1495":
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__("86cc");
-var anObject = __webpack_require__("cb7c");
-var getKeys = __webpack_require__("0d58");
-
-module.exports = __webpack_require__("9e1e") ? Object.defineProperties : function defineProperties(O, Properties) {
-  anObject(O);
-  var keys = getKeys(Properties);
-  var length = keys.length;
-  var i = 0;
-  var P;
-  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
-  return O;
-};
-
-
-/***/ }),
-
-/***/ "1eb2":
-/***/ (function(module, exports, __webpack_require__) {
-
-// This file is imported into lib/wc client bundles.
-
-if (typeof window !== 'undefined') {
-  var i
-  if ((i = window.document.currentScript) && (i = i.src.match(/(.+\/)[^/]+\.js$/))) {
-    __webpack_require__.p = i[1] // eslint-disable-line
-  }
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
 }
 
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
 
-/***/ }),
+module.exports = g;
 
-/***/ "230e":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("d3f4");
-var document = __webpack_require__("7726").document;
-// typeof document.createElement is 'object' in old IE
-var is = isObject(document) && isObject(document.createElement);
-module.exports = function (it) {
-  return is ? document.createElement(it) : {};
-};
-
-
-/***/ }),
-
-/***/ "2aba":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("7726");
-var hide = __webpack_require__("32e9");
-var has = __webpack_require__("69a8");
-var SRC = __webpack_require__("ca5a")('src');
-var TO_STRING = 'toString';
-var $toString = Function[TO_STRING];
-var TPL = ('' + $toString).split(TO_STRING);
-
-__webpack_require__("8378").inspectSource = function (it) {
-  return $toString.call(it);
-};
-
-(module.exports = function (O, key, val, safe) {
-  var isFunction = typeof val == 'function';
-  if (isFunction) has(val, 'name') || hide(val, 'name', key);
-  if (O[key] === val) return;
-  if (isFunction) has(val, SRC) || hide(val, SRC, O[key] ? '' + O[key] : TPL.join(String(key)));
-  if (O === global) {
-    O[key] = val;
-  } else if (!safe) {
-    delete O[key];
-    hide(O, key, val);
-  } else if (O[key]) {
-    O[key] = val;
-  } else {
-    hide(O, key, val);
-  }
-// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
-})(Function.prototype, TO_STRING, function toString() {
-  return typeof this == 'function' && this[SRC] || $toString.call(this);
-});
-
-
-/***/ }),
-
-/***/ "2aeb":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject = __webpack_require__("cb7c");
-var dPs = __webpack_require__("1495");
-var enumBugKeys = __webpack_require__("e11e");
-var IE_PROTO = __webpack_require__("613b")('IE_PROTO');
-var Empty = function () { /* empty */ };
-var PROTOTYPE = 'prototype';
-
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-var createDict = function () {
-  // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__("230e")('iframe');
-  var i = enumBugKeys.length;
-  var lt = '<';
-  var gt = '>';
-  var iframeDocument;
-  iframe.style.display = 'none';
-  __webpack_require__("fab2").appendChild(iframe);
-  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
-  // createDict = iframe.contentWindow.Object;
-  // html.removeChild(iframe);
-  iframeDocument = iframe.contentWindow.document;
-  iframeDocument.open();
-  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
-  iframeDocument.close();
-  createDict = iframeDocument.F;
-  while (i--) delete createDict[PROTOTYPE][enumBugKeys[i]];
-  return createDict();
-};
-
-module.exports = Object.create || function create(O, Properties) {
-  var result;
-  if (O !== null) {
-    Empty[PROTOTYPE] = anObject(O);
-    result = new Empty();
-    Empty[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO] = O;
-  } else result = createDict();
-  return Properties === undefined ? result : dPs(result, Properties);
-};
-
-
-/***/ }),
-
-/***/ "2d00":
-/***/ (function(module, exports) {
-
-module.exports = false;
-
-
-/***/ }),
-
-/***/ "2d95":
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = function (it) {
-  return toString.call(it).slice(8, -1);
-};
-
-
-/***/ }),
-
-/***/ "32e9":
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__("86cc");
-var createDesc = __webpack_require__("4630");
-module.exports = __webpack_require__("9e1e") ? function (object, key, value) {
-  return dP.f(object, key, createDesc(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
-};
-
-
-/***/ }),
-
-/***/ "4588":
-/***/ (function(module, exports) {
-
-// 7.1.4 ToInteger
-var ceil = Math.ceil;
-var floor = Math.floor;
-module.exports = function (it) {
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-
-/***/ }),
-
-/***/ "4630":
-/***/ (function(module, exports) {
-
-module.exports = function (bitmap, value) {
-  return {
-    enumerable: !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable: !(bitmap & 4),
-    value: value
-  };
-};
-
-
-/***/ }),
-
-/***/ "52a7":
-/***/ (function(module, exports) {
-
-exports.f = {}.propertyIsEnumerable;
-
-
-/***/ }),
-
-/***/ "5537":
-/***/ (function(module, exports, __webpack_require__) {
-
-var core = __webpack_require__("8378");
-var global = __webpack_require__("7726");
-var SHARED = '__core-js_shared__';
-var store = global[SHARED] || (global[SHARED] = {});
-
-(module.exports = function (key, value) {
-  return store[key] || (store[key] = value !== undefined ? value : {});
-})('versions', []).push({
-  version: core.version,
-  mode: __webpack_require__("2d00") ? 'pure' : 'global',
-  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
-});
-
-
-/***/ }),
-
-/***/ "5ca1":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("7726");
-var core = __webpack_require__("8378");
-var hide = __webpack_require__("32e9");
-var redefine = __webpack_require__("2aba");
-var ctx = __webpack_require__("9b43");
-var PROTOTYPE = 'prototype';
-
-var $export = function (type, name, source) {
-  var IS_FORCED = type & $export.F;
-  var IS_GLOBAL = type & $export.G;
-  var IS_STATIC = type & $export.S;
-  var IS_PROTO = type & $export.P;
-  var IS_BIND = type & $export.B;
-  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {}) : (global[name] || {})[PROTOTYPE];
-  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
-  var expProto = exports[PROTOTYPE] || (exports[PROTOTYPE] = {});
-  var key, own, out, exp;
-  if (IS_GLOBAL) source = name;
-  for (key in source) {
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    // export native or passed
-    out = (own ? target : source)[key];
-    // bind timers to global for call from export context
-    exp = IS_BIND && own ? ctx(out, global) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // extend global
-    if (target) redefine(target, key, out, type & $export.U);
-    // export
-    if (exports[key] != out) hide(exports, key, exp);
-    if (IS_PROTO && expProto[key] != out) expProto[key] = out;
-  }
-};
-global.core = core;
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library`
-module.exports = $export;
-
-
-/***/ }),
-
-/***/ "5dbc":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("d3f4");
-var setPrototypeOf = __webpack_require__("8b97").set;
-module.exports = function (that, target, C) {
-  var S = target.constructor;
-  var P;
-  if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && isObject(P) && setPrototypeOf) {
-    setPrototypeOf(that, P);
-  } return that;
-};
-
-
-/***/ }),
-
-/***/ "613b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__("5537")('keys');
-var uid = __webpack_require__("ca5a");
-module.exports = function (key) {
-  return shared[key] || (shared[key] = uid(key));
-};
-
-
-/***/ }),
-
-/***/ "626a":
-/***/ (function(module, exports, __webpack_require__) {
-
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__("2d95");
-// eslint-disable-next-line no-prototype-builtins
-module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
-  return cof(it) == 'String' ? it.split('') : Object(it);
-};
-
-
-/***/ }),
-
-/***/ "6821":
-/***/ (function(module, exports, __webpack_require__) {
-
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__("626a");
-var defined = __webpack_require__("be13");
-module.exports = function (it) {
-  return IObject(defined(it));
-};
-
-
-/***/ }),
-
-/***/ "69a8":
-/***/ (function(module, exports) {
-
-var hasOwnProperty = {}.hasOwnProperty;
-module.exports = function (it, key) {
-  return hasOwnProperty.call(it, key);
-};
-
-
-/***/ }),
-
-/***/ "6a99":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__("d3f4");
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (it, S) {
-  if (!isObject(it)) return it;
-  var fn, val;
-  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-
-/***/ }),
-
-/***/ "7726":
-/***/ (function(module, exports) {
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self
-  // eslint-disable-next-line no-new-func
-  : Function('return this')();
-if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
-
-
-/***/ }),
-
-/***/ "77f1":
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__("4588");
-var max = Math.max;
-var min = Math.min;
-module.exports = function (index, length) {
-  index = toInteger(index);
-  return index < 0 ? max(index + length, 0) : min(index, length);
-};
-
-
-/***/ }),
-
-/***/ "79e5":
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return !!exec();
-  } catch (e) {
-    return true;
-  }
-};
-
-
-/***/ }),
-
-/***/ "8378":
-/***/ (function(module, exports) {
-
-var core = module.exports = { version: '2.5.7' };
-if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
-
-
-/***/ }),
-
-/***/ "86cc":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("cb7c");
-var IE8_DOM_DEFINE = __webpack_require__("c69a");
-var toPrimitive = __webpack_require__("6a99");
-var dP = Object.defineProperty;
-
-exports.f = __webpack_require__("9e1e") ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
-
-/***/ }),
-
-/***/ "8b97":
-/***/ (function(module, exports, __webpack_require__) {
-
-// Works with __proto__ only. Old v8 can't work with null proto objects.
-/* eslint-disable no-proto */
-var isObject = __webpack_require__("d3f4");
-var anObject = __webpack_require__("cb7c");
-var check = function (O, proto) {
-  anObject(O);
-  if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
-};
-module.exports = {
-  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-    function (test, buggy, set) {
-      try {
-        set = __webpack_require__("9b43")(Function.call, __webpack_require__("11e9").f(Object.prototype, '__proto__').set, 2);
-        set(test, []);
-        buggy = !(test instanceof Array);
-      } catch (e) { buggy = true; }
-      return function setPrototypeOf(O, proto) {
-        check(O, proto);
-        if (buggy) O.__proto__ = proto;
-        else set(O, proto);
-        return O;
-      };
-    }({}, false) : undefined),
-  check: check
-};
-
-
-/***/ }),
-
-/***/ "9093":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__("ce10");
-var hiddenKeys = __webpack_require__("e11e").concat('length', 'prototype');
-
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-  return $keys(O, hiddenKeys);
-};
-
-
-/***/ }),
-
-/***/ "9b43":
-/***/ (function(module, exports, __webpack_require__) {
-
-// optional / simple context binding
-var aFunction = __webpack_require__("d8e8");
-module.exports = function (fn, that, length) {
-  aFunction(fn);
-  if (that === undefined) return fn;
-  switch (length) {
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function (/* ...args */) {
-    return fn.apply(that, arguments);
-  };
-};
-
-
-/***/ }),
-
-/***/ "9def":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.15 ToLength
-var toInteger = __webpack_require__("4588");
-var min = Math.min;
-module.exports = function (it) {
-  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
-};
-
-
-/***/ }),
-
-/***/ "9e1e":
-/***/ (function(module, exports, __webpack_require__) {
-
-// Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__("79e5")(function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
-
-/***/ "aa77":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__("5ca1");
-var defined = __webpack_require__("be13");
-var fails = __webpack_require__("79e5");
-var spaces = __webpack_require__("fdef");
-var space = '[' + spaces + ']';
-var non = '\u200b\u0085';
-var ltrim = RegExp('^' + space + space + '*');
-var rtrim = RegExp(space + space + '*$');
-
-var exporter = function (KEY, exec, ALIAS) {
-  var exp = {};
-  var FORCE = fails(function () {
-    return !!spaces[KEY]() || non[KEY]() != non;
-  });
-  var fn = exp[KEY] = FORCE ? exec(trim) : spaces[KEY];
-  if (ALIAS) exp[ALIAS] = fn;
-  $export($export.P + $export.F * FORCE, 'String', exp);
-};
-
-// 1 -> String#trimLeft
-// 2 -> String#trimRight
-// 3 -> String#trim
-var trim = exporter.trim = function (string, TYPE) {
-  string = String(defined(string));
-  if (TYPE & 1) string = string.replace(ltrim, '');
-  if (TYPE & 2) string = string.replace(rtrim, '');
-  return string;
-};
-
-module.exports = exporter;
-
-
-/***/ }),
-
-/***/ "be13":
-/***/ (function(module, exports) {
-
-// 7.2.1 RequireObjectCoercible(argument)
-module.exports = function (it) {
-  if (it == undefined) throw TypeError("Can't call method on  " + it);
-  return it;
-};
-
-
-/***/ }),
-
-/***/ "c366":
-/***/ (function(module, exports, __webpack_require__) {
-
-// false -> Array#indexOf
-// true  -> Array#includes
-var toIObject = __webpack_require__("6821");
-var toLength = __webpack_require__("9def");
-var toAbsoluteIndex = __webpack_require__("77f1");
-module.exports = function (IS_INCLUDES) {
-  return function ($this, el, fromIndex) {
-    var O = toIObject($this);
-    var length = toLength(O.length);
-    var index = toAbsoluteIndex(fromIndex, length);
-    var value;
-    // Array#includes uses SameValueZero equality algorithm
-    // eslint-disable-next-line no-self-compare
-    if (IS_INCLUDES && el != el) while (length > index) {
-      value = O[index++];
-      // eslint-disable-next-line no-self-compare
-      if (value != value) return true;
-    // Array#indexOf ignores holes, Array#includes - not
-    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
-      if (O[index] === el) return IS_INCLUDES || index || 0;
-    } return !IS_INCLUDES && -1;
-  };
-};
-
-
-/***/ }),
-
-/***/ "c5f6":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var global = __webpack_require__("7726");
-var has = __webpack_require__("69a8");
-var cof = __webpack_require__("2d95");
-var inheritIfRequired = __webpack_require__("5dbc");
-var toPrimitive = __webpack_require__("6a99");
-var fails = __webpack_require__("79e5");
-var gOPN = __webpack_require__("9093").f;
-var gOPD = __webpack_require__("11e9").f;
-var dP = __webpack_require__("86cc").f;
-var $trim = __webpack_require__("aa77").trim;
-var NUMBER = 'Number';
-var $Number = global[NUMBER];
-var Base = $Number;
-var proto = $Number.prototype;
-// Opera ~12 has broken Object#toString
-var BROKEN_COF = cof(__webpack_require__("2aeb")(proto)) == NUMBER;
-var TRIM = 'trim' in String.prototype;
-
-// 7.1.3 ToNumber(argument)
-var toNumber = function (argument) {
-  var it = toPrimitive(argument, false);
-  if (typeof it == 'string' && it.length > 2) {
-    it = TRIM ? it.trim() : $trim(it, 3);
-    var first = it.charCodeAt(0);
-    var third, radix, maxCode;
-    if (first === 43 || first === 45) {
-      third = it.charCodeAt(2);
-      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
-    } else if (first === 48) {
-      switch (it.charCodeAt(1)) {
-        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
-        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
-        default: return +it;
-      }
-      for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
-        code = digits.charCodeAt(i);
-        // parseInt parses a string to a first unavailable symbol
-        // but ToNumber should return NaN if a string contains unavailable symbols
-        if (code < 48 || code > maxCode) return NaN;
-      } return parseInt(digits, radix);
-    }
-  } return +it;
-};
-
-if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
-  $Number = function Number(value) {
-    var it = arguments.length < 1 ? 0 : value;
-    var that = this;
-    return that instanceof $Number
-      // check on 1..constructor(foo) case
-      && (BROKEN_COF ? fails(function () { proto.valueOf.call(that); }) : cof(that) != NUMBER)
-        ? inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
-  };
-  for (var keys = __webpack_require__("9e1e") ? gOPN(Base) : (
-    // ES3:
-    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
-    // ES6 (in case, if modules with ES6 Number statics required before):
-    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
-    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
-  ).split(','), j = 0, key; keys.length > j; j++) {
-    if (has(Base, key = keys[j]) && !has($Number, key)) {
-      dP($Number, key, gOPD(Base, key));
-    }
-  }
-  $Number.prototype = proto;
-  proto.constructor = $Number;
-  __webpack_require__("2aba")(global, NUMBER, $Number);
-}
-
-
-/***/ }),
-
-/***/ "c69a":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = !__webpack_require__("9e1e") && !__webpack_require__("79e5")(function () {
-  return Object.defineProperty(__webpack_require__("230e")('div'), 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
-
-/***/ "ca5a":
-/***/ (function(module, exports) {
-
-var id = 0;
-var px = Math.random();
-module.exports = function (key) {
-  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
-};
-
-
-/***/ }),
-
-/***/ "cb7c":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("d3f4");
-module.exports = function (it) {
-  if (!isObject(it)) throw TypeError(it + ' is not an object!');
-  return it;
-};
-
-
-/***/ }),
-
-/***/ "ce10":
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__("69a8");
-var toIObject = __webpack_require__("6821");
-var arrayIndexOf = __webpack_require__("c366")(false);
-var IE_PROTO = __webpack_require__("613b")('IE_PROTO');
-
-module.exports = function (object, names) {
-  var O = toIObject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (has(O, key = names[i++])) {
-    ~arrayIndexOf(result, key) || result.push(key);
-  }
-  return result;
-};
-
-
-/***/ }),
-
-/***/ "d3f4":
-/***/ (function(module, exports) {
-
-module.exports = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
-};
-
-
-/***/ }),
-
-/***/ "d8e8":
-/***/ (function(module, exports) {
-
-module.exports = function (it) {
-  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
-  return it;
-};
-
-
-/***/ }),
-
-/***/ "e11e":
-/***/ (function(module, exports) {
-
-// IE 8- don't enum bug keys
-module.exports = (
-  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
-).split(',');
-
-
-/***/ }),
-
-/***/ "fab2":
-/***/ (function(module, exports, __webpack_require__) {
-
-var document = __webpack_require__("7726").document;
-module.exports = document && document.documentElement;
-
-
-/***/ }),
-
-/***/ "fb15":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-var setPublicPath = __webpack_require__("1eb2");
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0595ba96-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/LaravelVuePagination.vue?vue&type=template&id=411fa826&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('renderless-laravel-vue-pagination',{attrs:{"data":_vm.data,"limit":_vm.limit},on:{"pagination-change-page":_vm.onPaginationChangePage},scopedSlots:_vm._u([{key:"default",fn:function(ref){
-var data = ref.data;
-var limit = ref.limit;
-var computed = ref.computed;
-var prevButtonEvents = ref.prevButtonEvents;
-var nextButtonEvents = ref.nextButtonEvents;
-var pageButtonEvents = ref.pageButtonEvents;
-return (computed.total > computed.perPage)?_c('ul',{staticClass:"pagination"},[(computed.prevPageUrl)?_c('li',{staticClass:"page-item pagination-prev-nav"},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#","aria-label":"Previous"}},prevButtonEvents),[_vm._t("prev-nav",[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("«")]),_c('span',{staticClass:"sr-only"},[_vm._v("Previous")])])],2)]):_vm._e(),_vm._l((computed.pageRange),function(page,key){return _c('li',{key:key,staticClass:"page-item pagination-page-nav",class:{ 'active': page == computed.currentPage }},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#"}},pageButtonEvents(page)),[_vm._v(_vm._s(page))])])}),(computed.nextPageUrl)?_c('li',{staticClass:"page-item pagination-next-nav"},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#","aria-label":"Next"}},nextButtonEvents),[_vm._t("next-nav",[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("»")]),_c('span',{staticClass:"sr-only"},[_vm._v("Next")])])],2)]):_vm._e()],2):_vm._e()}}])})}
-var staticRenderFns = []
-
-
-// CONCATENATED MODULE: ./src/LaravelVuePagination.vue?vue&type=template&id=411fa826&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
-var es6_number_constructor = __webpack_require__("c5f6");
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/RenderlessLaravelVuePagination.vue?vue&type=script&lang=js&
-
-/* harmony default export */ var RenderlessLaravelVuePaginationvue_type_script_lang_js_ = ({
-  props: {
-    data: {
-      type: Object,
-      default: function _default() {}
-    },
-    limit: {
-      type: Number,
-      default: 0
-    }
-  },
-  computed: {
-    isApiResource: function isApiResource() {
-      return !!this.data.meta;
-    },
-    currentPage: function currentPage() {
-      return this.isApiResource ? this.data.meta.current_page : this.data.current_page;
-    },
-    firstPageUrl: function firstPageUrl() {
-      return this.isApiResource ? this.data.links.first : null;
-    },
-    from: function from() {
-      return this.isApiResource ? this.data.meta.from : this.data.from;
-    },
-    lastPage: function lastPage() {
-      return this.isApiResource ? this.data.meta.last_page : this.data.last_page;
-    },
-    lastPageUrl: function lastPageUrl() {
-      return this.isApiResource ? this.data.links.last : null;
-    },
-    nextPageUrl: function nextPageUrl() {
-      return this.isApiResource ? this.data.links.next : this.data.next_page_url;
-    },
-    perPage: function perPage() {
-      return this.isApiResource ? this.data.meta.per_page : this.data.per_page;
-    },
-    prevPageUrl: function prevPageUrl() {
-      return this.isApiResource ? this.data.links.prev : this.data.prev_page_url;
-    },
-    to: function to() {
-      return this.isApiResource ? this.data.meta.to : this.data.to;
-    },
-    total: function total() {
-      return this.isApiResource ? this.data.meta.total : this.data.total;
-    },
-    pageRange: function pageRange() {
-      if (this.limit === -1) {
-        return 0;
-      }
-
-      if (this.limit === 0) {
-        return this.lastPage;
-      }
-
-      var current = this.currentPage;
-      var last = this.lastPage;
-      var delta = this.limit;
-      var left = current - delta;
-      var right = current + delta + 1;
-      var range = [];
-      var pages = [];
-      var l;
-
-      for (var i = 1; i <= last; i++) {
-        if (i === 1 || i === last || i >= left && i < right) {
-          range.push(i);
-        }
-      }
-
-      range.forEach(function (i) {
-        if (l) {
-          if (i - l === 2) {
-            pages.push(l + 1);
-          } else if (i - l !== 1) {
-            pages.push('...');
-          }
-        }
-
-        pages.push(i);
-        l = i;
-      });
-      return pages;
-    }
-  },
-  methods: {
-    previousPage: function previousPage() {
-      this.selectPage(this.currentPage - 1);
-    },
-    nextPage: function nextPage() {
-      this.selectPage(this.currentPage + 1);
-    },
-    selectPage: function selectPage(page) {
-      if (page === '...') {
-        return;
-      }
-
-      this.$emit('pagination-change-page', page);
-    }
-  },
-  render: function render() {
-    var _this = this;
-
-    return this.$scopedSlots.default({
-      data: this.data,
-      limit: this.limit,
-      computed: {
-        isApiResource: this.isApiResource,
-        currentPage: this.currentPage,
-        firstPageUrl: this.firstPageUrl,
-        from: this.from,
-        lastPage: this.lastPage,
-        lastPageUrl: this.lastPageUrl,
-        nextPageUrl: this.nextPageUrl,
-        perPage: this.perPage,
-        prevPageUrl: this.prevPageUrl,
-        to: this.to,
-        total: this.total,
-        pageRange: this.pageRange
-      },
-      prevButtonEvents: {
-        click: function click(e) {
-          e.preventDefault();
-
-          _this.previousPage();
-        }
-      },
-      nextButtonEvents: {
-        click: function click(e) {
-          e.preventDefault();
-
-          _this.nextPage();
-        }
-      },
-      pageButtonEvents: function pageButtonEvents(page) {
-        return {
-          click: function click(e) {
-            e.preventDefault();
-
-            _this.selectPage(page);
-          }
-        };
-      }
-    });
-  }
-});
-// CONCATENATED MODULE: ./src/RenderlessLaravelVuePagination.vue?vue&type=script&lang=js&
- /* harmony default export */ var src_RenderlessLaravelVuePaginationvue_type_script_lang_js_ = (RenderlessLaravelVuePaginationvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode /* vue-cli only */
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-// CONCATENATED MODULE: ./src/RenderlessLaravelVuePagination.vue
-var RenderlessLaravelVuePagination_render, RenderlessLaravelVuePagination_staticRenderFns
-
-
-
-
-/* normalize component */
-
-var component = normalizeComponent(
-  src_RenderlessLaravelVuePaginationvue_type_script_lang_js_,
-  RenderlessLaravelVuePagination_render,
-  RenderlessLaravelVuePagination_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-component.options.__file = "RenderlessLaravelVuePagination.vue"
-/* harmony default export */ var RenderlessLaravelVuePagination = (component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/LaravelVuePagination.vue?vue&type=script&lang=js&
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ var LaravelVuePaginationvue_type_script_lang_js_ = ({
-  props: {
-    data: {
-      type: Object,
-      default: function _default() {}
-    },
-    limit: {
-      type: Number,
-      default: 0
-    }
-  },
-  methods: {
-    onPaginationChangePage: function onPaginationChangePage(page) {
-      this.$emit('pagination-change-page', page);
-    }
-  },
-  components: {
-    RenderlessLaravelVuePagination: RenderlessLaravelVuePagination
-  }
-});
-// CONCATENATED MODULE: ./src/LaravelVuePagination.vue?vue&type=script&lang=js&
- /* harmony default export */ var src_LaravelVuePaginationvue_type_script_lang_js_ = (LaravelVuePaginationvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./src/LaravelVuePagination.vue
-
-
-
-
-
-/* normalize component */
-
-var LaravelVuePagination_component = normalizeComponent(
-  src_LaravelVuePaginationvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-LaravelVuePagination_component.options.__file = "LaravelVuePagination.vue"
-/* harmony default export */ var LaravelVuePagination = (LaravelVuePagination_component.exports);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
-
-
-/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (LaravelVuePagination);
-
-
-
-/***/ }),
-
-/***/ "fdef":
-/***/ (function(module, exports) {
-
-module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
-  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-
-/***/ })
-
-/******/ })["default"];
-//# sourceMappingURL=laravel-vue-pagination.common.js.map
 
 /***/ }),
 /* 6 */
@@ -10475,7 +10475,7 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(5)))
 
 /***/ }),
 /* 9 */
@@ -33156,7 +33156,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(140);
-module.exports = __webpack_require__(201);
+module.exports = __webpack_require__(204);
 
 
 /***/ }),
@@ -33171,7 +33171,6 @@ module.exports = __webpack_require__(201);
  */
 
 __webpack_require__(141);
-
 window.Vue = __webpack_require__(164);
 
 /**
@@ -33180,12 +33179,16 @@ window.Vue = __webpack_require__(164);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('pagination', __webpack_require__(3));
+
 // General Vue Components
-Vue.component('generation-line', __webpack_require__(167));
-Vue.component('family-record', __webpack_require__(170));
+Vue.component('dashboard-component', __webpack_require__(167));
+Vue.component('pen-component', __webpack_require__(170));
+Vue.component('generation-line', __webpack_require__(173));
+Vue.component('family-record', __webpack_require__(209));
 
 // Breeder Vue Components
-Vue.component('add-family-record', __webpack_require__(173));
+Vue.component('add-family-record', __webpack_require__(215));
 Vue.component('line-list', __webpack_require__(176));
 Vue.component('add-breeder', __webpack_require__(179));
 Vue.component('add-daily', __webpack_require__(183));
@@ -33193,11 +33196,12 @@ Vue.component('hatchery-record', __webpack_require__(186));
 
 // Replacement Vue Components
 Vue.component('add-replacement', __webpack_require__(189));
+Vue.component('phenomorpho-replacement', __webpack_require__(192));
 
 // Brooder & Grower Vue Components
-Vue.component('add-broodergrower', __webpack_require__(192));
-Vue.component('feedingrecord-broodergrower', __webpack_require__(195));
-Vue.component('growthrecord-broodergrower', __webpack_require__(198));
+Vue.component('add-broodergrower', __webpack_require__(195));
+Vue.component('feedingrecord-broodergrower', __webpack_require__(198));
+Vue.component('growthrecord-broodergrower', __webpack_require__(201));
 
 var app = new Vue({
   el: '#app'
@@ -50378,14 +50382,14 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(7)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(7)(module)))
 
 /***/ }),
 /* 143 */
 /***/ (function(module, exports) {
 
 /*!
- * Font Awesome Free 5.4.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.4.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 (function () {
@@ -51077,7 +51081,7 @@ function makeLayersCounterAbstract(params) {
 
 var noop$2 = function noop() {};
 var p = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORMANCE.measure ? PERFORMANCE : { mark: noop$2, measure: noop$2 };
-var preamble = 'FA "5.4.0"';
+var preamble = 'FA "5.4.1"';
 
 var begin = function begin(name) {
   p.mark(preamble + ' ' + name + ' begins');
@@ -68169,7 +68173,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(165).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(165).setImmediate))
 
 /***/ }),
 /* 165 */
@@ -68239,7 +68243,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 166 */
@@ -68432,7 +68436,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(11)))
 
 /***/ }),
 /* 167 */
@@ -68460,7 +68464,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/GenerationLine.vue"
+Component.options.__file = "resources/assets/js/components/general_Dashboard.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -68469,9 +68473,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4b34d123", Component.options)
+    hotAPI.createRecord("data-v-a5d11754", Component.options)
   } else {
-    hotAPI.reload("data-v-4b34d123", Component.options)
+    hotAPI.reload("data-v-a5d11754", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -68604,83 +68608,263 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            generations: [],
-            lines: [],
-            search: '',
-            selected_generation: '',
-            add_generation: '',
-            line_number: '',
-            generation_details: '',
-            line_list: []
+            loaded: false
         };
     },
 
     methods: {
-        searchGeneration: function searchGeneration(event) {
-            var _this = this;
-
-            axios.get('search_generation/' + this.search).then(function (response) {
-                return _this.generations = response.data;
-            }).catch(function (error) {
-                return console.log(error);
-            });
-        },
-        fetchGenerations: function fetchGenerations() {
-            var _this2 = this;
-
-            axios.get('fetch_generation').then(function (response) {
-                return _this2.generations = response.data;
-            }).catch(function (error) {
-                return console.log(error);
-            });
-        },
-        addGeneration: function addGeneration(event) {
-            axios.post('add_generation', {
-                generation_number: this.add_generation
-            }).then(function (response) {
-                console.log(response);
-                Materialize.toast('Generation added', 3000, 'rounded');
-            }).catch(function (error) {
-                console.log(error);
-                Materialize.toast('Add generation failed', 3000, 'rounded');
-            });
-            this.fetchGenerations();
-        },
-        addLine: function addLine(event) {
-            axios.post('add_line', {
-                generation_number: this.selected_generation,
-                line_number: this.line_number
-            }).then(function (response) {
-                console.log(response);
-                Materialize.toast('Line added', 3000, 'rounded');
-            }).catch(function (error) {
-                console.log(error);
-                Materialize.toast('Adding line to generation failed', 3000, 'rounded');
-            });
-            this.fetchGenerations();
-        },
-
-        viewDetails: function viewDetails(generation) {
-            var _this3 = this;
-
-            this.generation_details = generation;
-            axios.get('get_details/' + this.generation_details).then(function (response) {
-                return _this3.line_list = response.data;
-            }).catch(function (error) {
-                return console.log(error);
-            });
+        initialize: function initialize() {
+            this.loaded = true;
         }
     },
-    created: function created() {
-        this.fetchGenerations();
+    mounted: function mounted() {
+        console.log('Component mounted.');
     },
-    mounted: function mounted() {},
-    updated: function updated() {},
-    destroyed: function destroyed() {}
+    created: function created() {
+        this.initialize();
+    }
 });
 
 /***/ }),
@@ -68692,289 +68876,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "row valign-wrapper" }, [
-      _c("div", { staticClass: "col s12 m8 l8 input-field" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.search,
-              expression: "search"
-            }
-          ],
-          attrs: { id: "search", type: "text" },
-          domProps: { value: _vm.search },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.search = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "search" } }, [_vm._v("Search Generation")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col s12 m4 l4" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn waves-effect waves-light blue-gray",
-            attrs: { type: "submit", name: "action" },
-            on: { click: _vm.searchGeneration }
-          },
-          [
-            _vm._v("Search\n                "),
-            _c("i", { staticClass: "material-icons right" }, [_vm._v("send")])
-          ]
+    _vm.loaded == false
+      ? _c(
+          "div",
+          { staticClass: "row", attrs: { id: "preloader-whole-page" } },
+          [_vm._m(0), _vm._v(" "), _vm._m(1)]
         )
-      ])
-    ]),
-    _vm._v(" "),
-    _vm.generations.length > 0
-      ? _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col s12 m12 l12" }, [
-            _c("table", { staticClass: "responsive-table bordered" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.generations, function(generation) {
-                  return _c("tr", { key: generation.id }, [
-                    _c("td", [_vm._v(_vm._s(generation.number))]),
-                    _vm._v(" "),
-                    generation.is_active
-                      ? _c("td", [_vm._v("Active")])
-                      : _c("td", [_vm._v("Inactive")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "modal-trigger",
-                          attrs: { href: "#details_modal" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.viewDetails(generation.id)
-                            }
-                          }
-                        },
-                        [
-                          _c("i", { staticClass: "material-icons" }, [
-                            _vm._v("details")
-                          ])
-                        ]
-                      )
-                    ])
-                  ])
-                })
-              )
-            ])
-          ])
-        ])
-      : _c("div", { staticClass: "row center" }, [_vm._m(1)]),
-    _vm._v(" "),
-    _vm._m(2),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal modal-fixed-footer",
-        attrs: { id: "add_generation" }
-      },
-      [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(3),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "input-field col s12 m6 l6" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.add_generation,
-                    expression: "add_generation"
-                  }
-                ],
-                attrs: {
-                  id: "generation_number",
-                  type: "number",
-                  min: "0",
-                  placeholder: "Type generation number",
-                  required: ""
-                },
-                domProps: { value: _vm.add_generation },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.add_generation = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "generation_number" } }, [
-                _vm._v("Generation Number")
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-footer" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "modal-action modal-close waves-effect waves-green btn-flat ",
-              attrs: { href: "javascript:void(0);" },
-              on: { click: _vm.addGeneration }
-            },
-            [_vm._v("Submit")]
-          )
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "modal modal-fixed-footer", attrs: { id: "add_line" } },
-      [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(4),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col s12 m6 l6" }, [
-              _c("label", [_vm._v("Generation")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selected_generation,
-                      expression: "selected_generation"
-                    }
-                  ],
-                  staticClass: "browser-default",
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.selected_generation = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "option",
-                    { attrs: { value: "", disabled: "", selected: "" } },
-                    [_vm._v("Choose generation")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.generations, function(generation) {
-                    return _c(
-                      "option",
-                      {
-                        key: generation.id,
-                        domProps: { value: generation.id }
-                      },
-                      [_vm._v(_vm._s(generation.number))]
-                    )
-                  })
-                ],
-                2
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col s12 m6 l6" }, [
-              _c("label", { attrs: { for: "line_input" } }, [
-                _vm._v("Line Number")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.line_number,
-                    expression: "line_number"
-                  }
-                ],
-                attrs: { id: "line_input", placeholder: "Type line number" },
-                domProps: { value: _vm.line_number },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.line_number = $event.target.value
-                  }
-                }
-              })
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-footer" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "modal-action modal-close waves-effect waves-green btn-flat ",
-              on: { click: _vm.addLine }
-            },
-            [_vm._v("Submit")]
-          )
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "modal", attrs: { id: "details_modal" } }, [
-      _c("div", { staticClass: "modal-content" }, [
-        _c(
-          "ul",
-          { staticClass: "collection with-header" },
-          [
-            _vm._m(5),
-            _vm._v(" "),
-            _vm.line_list.length == 0
-              ? _c("li", { staticClass: "collection-item" }, [
-                  _c("div", [_vm._v("No Lines in this Generation")])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._l(_vm.line_list, function(line) {
-              return _c(
-                "li",
-                { key: line.id, staticClass: "collection-item" },
-                [_c("div", [_vm._v(_vm._s(line.number))])]
-              )
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _vm._m(6)
-    ])
+      : _c("div", { staticClass: "row" }, [_vm._m(2)])
   ])
 }
 var staticRenderFns = [
@@ -68982,13 +68890,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Number")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Status")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Details")])
+    return _c("div", { staticClass: "col s12 m12 l12 center" }, [
+      _c("div", { staticClass: "preloader-wrapper big active" }, [
+        _c("div", { staticClass: "spinner-layer spinner-blue-only" }, [
+          _c("div", { staticClass: "circle-clipper left" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "gap-patch" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "circle-clipper right" }, [
+            _c("div", { staticClass: "circle" })
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12 center-align valign" }, [
+        _vm._v("Loading...")
       ])
     ])
   },
@@ -68997,99 +68921,434 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col s12 m12 l12" }, [
-      _c("h5", [_vm._v("No Generations")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "fixed-action-btn vertical click-to-toggle" },
-      [
-        _c("a", { staticClass: "btn-floating btn-large blue-grey darken-1" }, [
-          _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col s12 m6 l6" }, [
+          _c("div", { staticClass: "card-panel hoverable" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("h5", [_vm._v("General Inventory Status")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "divider" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [
+                      _vm._v("Male "),
+                      _c("i", { staticClass: "fas fa-mars" })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("10")])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [
+                      _vm._v("Female "),
+                      _c("i", { staticClass: "fas fa-venus" })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("10")])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [
+                      _vm._v("Total "),
+                      _c("i", { staticClass: "fas fa-venus-mars" })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("20")])
+                  ])
+                ])
+              ])
+            ])
+          ])
         ]),
         _vm._v(" "),
-        _c("ul", [
-          _c("li", [
-            _c(
-              "a",
-              {
-                staticClass: "btn-floating blue-grey tooltipped modal-trigger",
-                attrs: {
-                  href: "#add_generation",
-                  "data-position": "left",
-                  "data-delay": "50",
-                  "data-tooltip": "Add Generation"
-                }
-              },
-              [_c("i", { staticClass: "fas fa-genderless" })]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c(
-              "a",
-              {
-                staticClass: "btn-floating blue-grey tooltipped modal-trigger",
-                attrs: {
-                  href: "#add_line",
-                  "data-position": "left",
-                  "data-delay": "50",
-                  "data-tooltip": "Add Line"
-                }
-              },
-              [_c("i", { staticClass: "fas fa-code-branch" })]
-            )
+        _c("div", { staticClass: "col s12 m6 l6" }, [
+          _c("div", { staticClass: "card-panel hoverable" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("h5", [_vm._v("Monthly Feeding Status")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "divider" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Breeder")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("10 kg")])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Replacement")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("50 kg")])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Brooders & Growers")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("40 kg")])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col s12 m6 l6" }, [
+          _c("div", { staticClass: "card-panel hoverable" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("h5", [_vm._v("Monthly Egg Production")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "divider" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Percent Fertility")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("100%")])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Percent Hatchability")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("100%")])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Percent Hen Day")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("100%")])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col s12 m6 l6" }, [
+          _c("div", { staticClass: "card-panel hoverable" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("h5", [_vm._v("Monthly Hatchery Status")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "divider" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Total Eggs Collected")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("160")])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Total Ave Weight")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("100")])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Total Ave Rejected")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col svalign-wrapper2 m12 l12" }, [
+                    _c("h5", [_vm._v("20")])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col s12 m12 l12" }, [
+          _c("div", { staticClass: "card-panel hoverable" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("h5", [_vm._v("Mortality, Sales  & Culling")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "divider" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Breeder")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Mortality")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Sales")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Culling")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Replacement")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Mortality")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Sales")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Culling")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h5", [_vm._v("Brooders & Growers")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m3 l3" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Mortality")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col s12 m3 l3" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Sales")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col s12 m3 l3" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Culling")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col s12 m3 l3" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("Egg Sales")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col s12 m12 l12" }, [
+                        _vm._v("0")
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
           ])
         ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("h4", [_vm._v("Add Generation")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("h4", [_vm._v("Add Line")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "collection-header" }, [
-      _c("h4", [_vm._v("Lines")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "a",
-        {
-          staticClass:
-            "modal-action modal-close waves-effect waves-green btn-flat",
-          attrs: { href: "#!" }
-        },
-        [_vm._v("Close")]
-      )
     ])
   }
 ]
@@ -69098,7 +69357,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4b34d123", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-a5d11754", module.exports)
   }
 }
 
@@ -69128,7 +69387,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/FamilyRecord.vue"
+Component.options.__file = "resources/assets/js/components/general_Pen.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -69137,9 +69396,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-330a380c", Component.options)
+    hotAPI.createRecord("data-v-7a8fd04a", Component.options)
   } else {
-    hotAPI.reload("data-v-330a380c", Component.options)
+    hotAPI.reload("data-v-7a8fd04a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -69249,75 +69508,122 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            search: '',
-            families: [],
-            generations: [],
-            lines: [],
-            family_number: '',
-            selected_generation: '',
-            selected_line: ''
+            pens_loaded: false,
+            pens_not_empty: false,
+            search_number: '',
+            search_type: [],
+            pens: {},
+            pen_number: '',
+            pen_type: '',
+            pen_capacity: ''
         };
     },
 
     methods: {
-        fetchFamilies: function fetchFamilies() {
+        initialize: function initialize() {
+            this.loadPen();
+        },
+        loadPen: function loadPen() {
             var _this = this;
 
-            axios.get('fetch_families').then(function (response) {
-                return _this.families = response.data;
-            }).catch(function (error) {
-                return console.log(error);
-            });
-        },
-        fetchGenerations: function fetchGenerations() {
-            var _this2 = this;
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('fetch_generation').then(function (response) {
-                return _this2.generations = response.data;
-            }).catch(function (error) {
-                return console.log(error);
-            });
-            this.fetchLinesInGeneration();
-        },
-        fetchLinesInGeneration: function fetchLinesInGeneration() {
-            var _this3 = this;
-
-            axios.get('fetch_lines/' + this.selected_generation).then(function (response) {
-                return _this3.lines = response.data;
-            }).catch(function (error) {
-                return console.log(error);
-            });
-        },
-        addFamily: function addFamily() {
-            axios.post('add_family', {
-                line_id: this.selected_line,
-                family_number: this.family_number
-            }).then(function (response) {
-                console.log(response);
-                Materialize.toast('Family added', 3000, 'rounded');
+            this.pens_loaded = false;
+            this.pens_not_empty = false;
+            axios.get('fetch_pens?page=' + page).then(function (response) {
+                return _this.pens = response.data;
             }).catch(function (error) {
                 console.log(error);
-                Materialize.toast('Add family failed', 3000, 'rounded');
             });
-            this.fetchFamilies();
+            this.pens_loaded = true;
+            this.pens_not_empty = true;
         },
-        searchFamily: function searchFamily() {
-            var _this4 = this;
+        searchPen: function searchPen() {
+            var _this2 = this;
 
-            axios.get('search_family/' + this.search).then(function (response) {
-                return _this4.families = response.data;
+            var search_array = new Array(this.search_number, this.search_type);
+            axios.get('search_pens/' + JSON.stringify(search_array)).then(function (response) {
+                return _this2.pens = response.data;
             }).catch(function (error) {
-                return console.log(error);
+                console.log(error);
             });
+        },
+        addPen: function addPen() {
+            axios.post('add_pens', {
+                pen_number: this.pen_number,
+                type: this.pen_type,
+                pen_capacity: this.pen_capacity
+            }).then(function (response) {
+                Materialize.toast('Successfully added ' + response.data.message, 3000, 'green rounded');
+            }).catch(function (error) {
+                Materialize.toast('Failed to add pen', 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        capitalize: function capitalize(string) {
+            var lower = string;
+            var upper = lower.charAt(0).toUpperCase() + lower.substr(1);
+            return upper;
         }
     },
-    mounted: function mounted() {},
     created: function created() {
-        this.fetchFamilies();
+        this.initialize();
     }
 });
 
@@ -69330,245 +69636,456 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "row valign-wrapper" }, [
-      _c("div", { staticClass: "col s12 m8 l8 input-field" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.search,
-              expression: "search"
-            }
-          ],
-          attrs: { id: "search", type: "text" },
-          domProps: { value: _vm.search },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.search = $event.target.value
-            }
-          }
-        }),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _vm._m(0),
         _vm._v(" "),
-        _c("label", { attrs: { for: "search" } }, [_vm._v("Search Family")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col s12 m4 l4" }, [
+        _vm._m(1),
+        _vm._v(" "),
         _c(
-          "a",
+          "form",
           {
-            staticClass: "waves-effect waves-light btn blue-gray",
+            attrs: { action: "GET" },
             on: {
-              click: function($event) {
+              submit: function($event) {
                 $event.preventDefault()
-                return _vm.searchFamily($event)
+                return _vm.searchPen($event)
               }
             }
           },
           [
-            _vm._v("Search\n                "),
-            _c("i", { staticClass: "material-icons right" }, [_vm._v("search")])
+            _c("div", { staticClass: "row valign-wrapper" }, [
+              _c("div", { staticClass: "col s12 m12 l12 valign" }, [
+                _c("label", { attrs: { for: "search" } }, [_vm._v("Search")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search_number,
+                      expression: "search_number"
+                    }
+                  ],
+                  attrs: {
+                    placeholder: "Type pen number",
+                    id: "search",
+                    type: "text"
+                  },
+                  domProps: { value: _vm.search_number },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search_number = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m4 l4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search_type,
+                      expression: "search_type"
+                    }
+                  ],
+                  staticClass: "filled-in",
+                  attrs: {
+                    type: "checkbox",
+                    id: "brooder_search",
+                    value: "brooder"
+                  },
+                  domProps: {
+                    checked: Array.isArray(_vm.search_type)
+                      ? _vm._i(_vm.search_type, "brooder") > -1
+                      : _vm.search_type
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.search_type,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = "brooder",
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.search_type = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.search_type = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.search_type = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "brooder_search" } }, [
+                  _vm._v("Brooder")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m4 l4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search_type,
+                      expression: "search_type"
+                    }
+                  ],
+                  staticClass: "filled-in",
+                  attrs: {
+                    type: "checkbox",
+                    id: "grower_search",
+                    value: "grower"
+                  },
+                  domProps: {
+                    checked: Array.isArray(_vm.search_type)
+                      ? _vm._i(_vm.search_type, "grower") > -1
+                      : _vm.search_type
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.search_type,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = "grower",
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.search_type = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.search_type = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.search_type = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "grower_search" } }, [
+                  _vm._v("Grower")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m4 l4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search_type,
+                      expression: "search_type"
+                    }
+                  ],
+                  staticClass: "filled-in",
+                  attrs: {
+                    type: "checkbox",
+                    id: "layer_search",
+                    value: "layer"
+                  },
+                  domProps: {
+                    checked: Array.isArray(_vm.search_type)
+                      ? _vm._i(_vm.search_type, "layer") > -1
+                      : _vm.search_type
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.search_type,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = "layer",
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.search_type = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.search_type = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.search_type = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "layer_search" } }, [
+                  _vm._v("Layer")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(2)
           ]
-        )
+        ),
+        _vm._v(" "),
+        _vm.pens_loaded == false
+          ? _c("div", { staticClass: "row center" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _vm._v("Loading...")
+              ])
+            ])
+          : _c("div", { staticClass: "row" }, [
+              _vm.pens_not_empty == false
+                ? _c("div", { staticClass: "col s12 m12 112 center-align" }, [
+                    _c("h5", [_vm._v("No Pens")])
+                  ])
+                : _c("div", { staticClass: "col s12 m12 112" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c(
+                        "table",
+                        { staticClass: "responsive-table bordered highlight" },
+                        [
+                          _vm._m(4),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.pens.data, function(pen) {
+                              return _c("tr", { key: pen.id }, [
+                                _c("td", [
+                                  _vm._v(_vm._s(_vm.capitalize(pen.type)))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(pen.number))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(pen.current_capacity))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(pen.total_capacity))])
+                              ])
+                            })
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col s12 m12 l12 center" },
+                        [
+                          _c("pagination", {
+                            attrs: { data: _vm.pens },
+                            on: { "pagination-change-page": _vm.loadPen }
+                          })
+                        ],
+                        1
+                      )
+                    ])
+                  ])
+            ])
       ])
     ]),
     _vm._v(" "),
-    _vm.families.length > 0
-      ? _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col s12 m12 l12" }, [
-            _c("table", { staticClass: "responsive-table bordered" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.families, function(family) {
-                  return _c("tr", { key: family.id }, [
-                    _c("td", [_vm._v(_vm._s(family.family_number))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(family.line_number))]),
-                    _vm._v(" "),
-                    family.is_active
-                      ? _c("td", [_vm._v("Active")])
-                      : _c("td", [_vm._v("Inactive")]),
-                    _vm._v(" "),
-                    _vm._m(1, true)
-                  ])
-                })
-              )
-            ])
-          ])
-        ])
-      : _c("div", { staticClass: "row center" }, [_vm._m(2)]),
-    _vm._v(" "),
-    _vm._m(3),
+    _vm._m(5),
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "modal modal-fixed-footer", attrs: { id: "add_family" } },
+      { staticClass: "modal modal-fixed-footer", attrs: { id: "pen_modal" } },
       [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(4),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col s12 m6 l6" }, [
-              _c("label", [_vm._v("Generation")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selected_generation,
-                      expression: "selected_generation"
-                    }
-                  ],
-                  staticClass: "browser-default",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.fetchGenerations($event)
-                    },
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.selected_generation = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "option",
-                    { attrs: { value: "", disabled: "", selected: "" } },
-                    [_vm._v("Choose generation")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.generations, function(generation) {
-                    return _c(
-                      "option",
-                      {
-                        key: generation.id,
-                        domProps: { value: generation.id }
-                      },
-                      [_vm._v(_vm._s(generation.number))]
-                    )
-                  })
-                ],
-                2
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col s12 m6 l6" }, [
-              _c("label", [_vm._v("Line")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selected_line,
-                      expression: "selected_line"
-                    }
-                  ],
-                  staticClass: "browser-default",
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.selected_line = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "option",
-                    { attrs: { value: "", disabled: "", selected: "" } },
-                    [_vm._v("Choose line")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.lines, function(line) {
-                    return _c(
-                      "option",
-                      { key: line.id, domProps: { value: line.id } },
-                      [_vm._v(_vm._s(line.number))]
-                    )
-                  })
-                ],
-                2
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col s12 m6 l6" }, [
-              _c("label", { attrs: { for: "add_family" } }, [
-                _vm._v("Family Number")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.family_number,
-                    expression: "family_number"
-                  }
-                ],
-                attrs: { id: "add_family", placeholder: "Type family number" },
-                domProps: { value: _vm.family_number },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.family_number = $event.target.value
-                  }
-                }
-              })
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-footer" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "modal-action modal-close waves-effect waves-green btn-flat ",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.addFamily($event)
-                }
+        _c(
+          "form",
+          {
+            attrs: { action: "POST" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.addPen($event)
               }
-            },
-            [_vm._v("Submit")]
-          )
-        ])
+            }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("h4", [_vm._v("Add Pen")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "divider" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row valign-wrapper" }, [
+                _c("div", { staticClass: "col s12 m12 l12" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "input-field col s12 m12 l12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.pen_number,
+                            expression: "pen_number"
+                          }
+                        ],
+                        attrs: {
+                          placeholder: "Input Pen Number",
+                          id: "pen_number",
+                          type: "text",
+                          name: "pen_number"
+                        },
+                        domProps: { value: _vm.pen_number },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.pen_number = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "pen_number" } }, [
+                        _vm._v("Pen Number")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "pen_type" } }, [
+                    _vm._v("Pen Type")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row", attrs: { id: "pen_type" } }, [
+                    _c("div", { staticClass: "col s12 m4 l4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.pen_type,
+                            expression: "pen_type"
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: {
+                          type: "radio",
+                          id: "brooder",
+                          value: "brooder"
+                        },
+                        domProps: { checked: _vm._q(_vm.pen_type, "brooder") },
+                        on: {
+                          change: function($event) {
+                            _vm.pen_type = "brooder"
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "brooder" } }, [
+                        _vm._v("Brooder")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m4 l4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.pen_type,
+                            expression: "pen_type"
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: { type: "radio", id: "grower", value: "grower" },
+                        domProps: { checked: _vm._q(_vm.pen_type, "grower") },
+                        on: {
+                          change: function($event) {
+                            _vm.pen_type = "grower"
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "grower" } }, [
+                        _vm._v("Grower")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m4 l4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.pen_type,
+                            expression: "pen_type"
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: { type: "radio", id: "layer", value: "layer" },
+                        domProps: { checked: _vm._q(_vm.pen_type, "layer") },
+                        on: {
+                          change: function($event) {
+                            _vm.pen_type = "layer"
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "layer" } }, [
+                        _vm._v("Layer")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "input-field col s12 m12 l12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.pen_capacity,
+                            expression: "pen_capacity",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        attrs: {
+                          placeholder: "Total Pen Capacity",
+                          id: "pen_capacity",
+                          type: "number",
+                          min: "0",
+                          name: "pen_capacity"
+                        },
+                        domProps: { value: _vm.pen_capacity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.pen_capacity = _vm._n($event.target.value)
+                          },
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "pen_capacity" } }, [
+                        _vm._v("Pen Capacity")
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(6)
+          ]
+        )
       ]
     )
   ])
@@ -69578,52 +70095,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Family Number")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Line Number")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Status")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Details")])
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Pens")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c(
-        "a",
-        { staticClass: "modal-trigger", attrs: { href: "#details_modal" } },
-        [_c("i", { staticClass: "material-icons" }, [_vm._v("details")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s12 m12 l12" }, [
-      _c("h5", [_vm._v("No Family")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "fixed-action-btn vertical" }, [
-      _c(
-        "a",
-        {
-          staticClass:
-            "btn-floating btn-large blue-grey darken-1 modal-trigger",
-          attrs: { href: "#add_family" }
-        },
-        [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
-      )
     ])
   },
   function() {
@@ -69632,8 +70107,112 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("h4", [_vm._v("Add Family")])
+        _c("ul", { staticClass: "breadcrumb" }, [
+          _c("li", [_c("a", { attrs: { href: "./" } }, [_vm._v("Home")])]),
+          _vm._v(" "),
+          _c("li", [_vm._v("Pens")])
+        ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row center" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light blue-grey darken-1",
+            attrs: { type: "submit", name: "action" }
+          },
+          [
+            _vm._v("Search"),
+            _c("i", { staticClass: "material-icons right" }, [_vm._v("search")])
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12 m12 112" }, [
+      _c("div", { staticClass: "preloader-wrapper big active" }, [
+        _c("div", { staticClass: "spinner-layer spinner-blue-only" }, [
+          _c("div", { staticClass: "circle-clipper left" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "gap-patch" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "circle-clipper right" }, [
+            _c("div", { staticClass: "circle" })
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Content")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Capacity")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "fixed-action-btn horizontal click-to-toggle" },
+      [
+        _c(
+          "a",
+          {
+            staticClass:
+              "btn-floating btn-large blue-grey darken-1 modal-trigger",
+            attrs: { href: "#pen_modal" }
+          },
+          [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass: "modal-close waves-effect waves-grey btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "modal-close waves-effect waves-grey btn-flat",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Add")]
+      )
     ])
   }
 ]
@@ -69642,7 +70221,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-330a380c", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-7a8fd04a", module.exports)
   }
 }
 
@@ -69672,7 +70251,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/AddFamilyRecord.vue"
+Component.options.__file = "resources/assets/js/components/general_GenerationLine.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -69681,9 +70260,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-13e8e7a2", Component.options)
+    hotAPI.createRecord("data-v-1183a6da", Component.options)
   } else {
-    hotAPI.reload("data-v-13e8e7a2", Component.options)
+    hotAPI.reload("data-v-1183a6da", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -69746,50 +70325,191 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            family_id: '',
-            generations: [],
-            generation_selected: '',
-            lines: [],
-            line_selected: ''
+            generations: {},
+            line_list: [],
+            generation_list: [],
+
+            search: '',
+            selected_generation: '',
+            add_generation: '',
+            line_number: '',
+            generation_details: '',
+
+            gen_len: 0,
+            line_len: 0,
+            gen_list_len: 0,
+            generation_loaded: false,
+            generation_list_loaded: false,
+            line_list_loaded: false
         };
     },
-    created: function created() {
-        var _this = this;
-
-        axios.get('generation_list').then(function (response) {
-            return _this.generations = response.data;
-        }).catch(function (error) {
-            return console.log(error);
-        });
-    },
-
 
     methods: {
-        getGeneration: function getGeneration(event) {
-            var _this2 = this;
+        initialize: function initialize() {
+            this.getGenerations();
+            this.fetchGenerationList();
+        },
+        searchGeneration: function searchGeneration(event) {
+            var _this = this;
 
-            axios.get('line_list/' + this.generation_selected).then(function (response) {
-                return _this2.lines = response.data;
+            axios.get('search_generation/' + this.search).then(function (response) {
+                return _this.generations = response.data;
             }).catch(function (error) {
                 return console.log(error);
             });
         },
+        getGenerations: function getGenerations() {
+            var _this2 = this;
 
-        submitFamilyRecordForm: function submitFamilyRecordForm(event) {
-            axios.post('family_record_add', {
-                family_id: this.family_id,
-                generation_id: this.generation_selected,
-                line_id: this.line_selected
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            this.generation_loaded = false;
+            axios.get('fetch_generation?page=' + page).then(function (response) {
+                _this2.gen_len = response.data.data.length;
+                _this2.generations = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+            this.generation_loaded = true;
+        },
+        addGeneration: function addGeneration(event) {
+            axios.post('add_generation', {
+                generation_number: this.add_generation
+            }).then(function (response) {
+                Materialize.toast('Generation added', 3000, 'rounded');
+            }).catch(function (error) {
+                Materialize.toast('Add generation failed', 3000, 'rounded');
+            });
+            this.getGenerations();
+        },
+        addLine: function addLine(event) {
+            axios.post('add_line', {
+                generation_number: this.selected_generation,
+                line_number: this.line_number
             }).then(function (response) {
                 console.log(response);
+                Materialize.toast('Line added', 3000, 'rounded');
             }).catch(function (error) {
                 console.log(error);
+                Materialize.toast('Adding line to generation failed', 3000, 'rounded');
             });
+        },
+        viewDetails: function viewDetails(generation) {
+            var _this3 = this;
+
+            this.line_list_loaded = false;
+            this.generation_details = generation;
+            axios.get('get_details/' + this.generation_details).then(function (response) {
+                _this3.line_len = response.data.length;
+                _this3.line_list = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+            this.line_list_loaded = true;
+        },
+        fetchGenerationList: function fetchGenerationList() {
+            var _this4 = this;
+
+            this.generation_list_loaded = false;
+            axios.get('get_generation_list').then(function (response) {
+                _this4.gen_list_len = response.data.length;
+                _this4.generation_list = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+            this.generation_list_loaded = true;
         }
+    },
+    created: function created() {
+        this.initialize();
     }
 });
 
@@ -69801,52 +70521,180 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "modal modal-fixed-footer", attrs: { id: "add_modal" } },
-    [
-      _c("div", { staticClass: "modal-content" }, [
-        _vm._m(0),
+  return _c("div", [
+    _c("div", { staticClass: "row valign-wrapper" }, [
+      _c("div", { staticClass: "col s12 m8 l8 input-field" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
+            }
+          ],
+          attrs: { id: "search", type: "text" },
+          domProps: { value: _vm.search },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
+          }
+        }),
         _vm._v(" "),
-        _c("div", { staticClass: "divider" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("label", { attrs: { for: "search" } }, [_vm._v("Search Generation")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col s12 m4 l4" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light blue-grey",
+            attrs: { type: "submit", name: "action" },
+            on: { click: _vm.searchGeneration }
+          },
+          [
+            _vm._v("Search\n                "),
+            _c("i", { staticClass: "material-icons right" }, [_vm._v("send")])
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    (_vm.generation_loaded = false)
+      ? _c("div", { staticClass: "row" }, [_vm._m(0)])
+      : _c("div", [
+          _vm.gen_len > 0
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col s12 m12 l12" }, [
+                  _c("table", { staticClass: "responsive-table bordered" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.generations.data, function(generation) {
+                        return _c("tr", { key: generation.id }, [
+                          _c("td", [_vm._v(_vm._s(generation.number))]),
+                          _vm._v(" "),
+                          generation.is_active
+                            ? _c("td", [_vm._v("Active")])
+                            : _c("td", [_vm._v("Inactive")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "modal-trigger",
+                                attrs: { href: "#details_modal" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.viewDetails(generation.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "material-icons" }, [
+                                  _vm._v("details")
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      })
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col s12 m12 l12" },
+                    [
+                      _c("pagination", {
+                        attrs: { data: _vm.generations },
+                        on: { "pagination-change-page": _vm.getGenerations }
+                      })
+                    ],
+                    1
+                  )
+                ])
+              ])
+            : _c("div", { staticClass: "row center" }, [_vm._m(2)])
+        ]),
+    _vm._v(" "),
+    _vm._m(3),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal modal-fixed-footer",
+        attrs: { id: "add_generation" }
+      },
+      [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(4),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "input-field col s12 m6 l6" }, [
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.family_id,
-                    expression: "family_id"
+                    value: _vm.add_generation,
+                    expression: "add_generation"
                   }
                 ],
                 attrs: {
-                  placeholder: "Enter Family ID",
-                  id: "family_id",
-                  type: "text"
+                  id: "generation_number",
+                  type: "number",
+                  min: "0",
+                  placeholder: "Type generation number",
+                  required: ""
                 },
-                domProps: { value: _vm.family_id },
+                domProps: { value: _vm.add_generation },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.family_id = $event.target.value
+                    _vm.add_generation = $event.target.value
                   }
                 }
               }),
               _vm._v(" "),
-              _c("label", { attrs: { for: "family_id" } }, [
-                _vm._v("Family ID")
+              _c("label", { attrs: { for: "generation_number" } }, [
+                _vm._v("Generation Number")
               ])
             ])
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("div", { staticClass: "modal-footer" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "modal-action modal-close waves-effect waves-green btn-flat ",
+              attrs: { href: "javascript:void(0);" },
+              on: { click: _vm.addGeneration }
+            },
+            [_vm._v("Submit")]
+          )
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal modal-fixed-footer", attrs: { id: "add_line" } },
+      [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(5),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col s12 m6 l6" }, [
               _c("label", [_vm._v("Generation")]),
               _vm._v(" "),
@@ -69857,73 +70705,11 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.generation_selected,
-                      expression: "generation_selected"
+                      value: _vm.selected_generation,
+                      expression: "selected_generation"
                     }
                   ],
                   staticClass: "browser-default",
-                  attrs: { id: "generation_choice" },
-                  on: {
-                    change: [
-                      function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.generation_selected = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      },
-                      _vm.getGeneration
-                    ]
-                  }
-                },
-                [
-                  _c(
-                    "option",
-                    { attrs: { value: "", disabled: "", selected: "" } },
-                    [_vm._v("Choose generation")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.generations, function(generation) {
-                    return _c(
-                      "option",
-                      {
-                        key: generation.id,
-                        domProps: { value: generation.id }
-                      },
-                      [_vm._v(_vm._s(generation.number))]
-                    )
-                  })
-                ],
-                2
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col s12 m12 l12" }, [
-            _c("div", { staticClass: "col s12 m6 l6" }, [
-              _c("label", [_vm._v("Line")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.line_selected,
-                      expression: "line_selected"
-                    }
-                  ],
-                  staticClass: "browser-default",
-                  attrs: { id: "line_choice" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -69934,7 +70720,7 @@ var render = function() {
                           var val = "_value" in o ? o._value : o.value
                           return val
                         })
-                      _vm.line_selected = $event.target.multiple
+                      _vm.selected_generation = $event.target.multiple
                         ? $$selectedVal
                         : $$selectedVal[0]
                     }
@@ -69944,58 +70730,235 @@ var render = function() {
                   _c(
                     "option",
                     { attrs: { value: "", disabled: "", selected: "" } },
-                    [_vm._v("Choose line")]
+                    [_vm._v("Choose generation")]
                   ),
                   _vm._v(" "),
-                  _vm._l(_vm.lines, function(line) {
-                    return _c(
-                      "option",
-                      { key: line.id, domProps: { value: line.id } },
-                      [_vm._v(_vm._s(line.number))]
-                    )
-                  })
+                  _vm.gen_list_len === 0
+                    ? _c("option", { attrs: { value: "", disabled: "" } }, [
+                        _vm._v("No generation")
+                      ])
+                    : _vm._l(_vm.generation_list, function(gen) {
+                        return _c(
+                          "option",
+                          { key: gen.id, domProps: { value: gen.id } },
+                          [_vm._v(_vm._s(gen.number))]
+                        )
+                      })
                 ],
                 2
               )
             ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col s12 m6 l6" }, [
+              _c("label", { attrs: { for: "line_input" } }, [
+                _vm._v("Line Number")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.line_number,
+                    expression: "line_number"
+                  }
+                ],
+                attrs: { id: "line_input", placeholder: "Type line number" },
+                domProps: { value: _vm.line_number },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.line_number = $event.target.value
+                  }
+                }
+              })
+            ])
           ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-footer" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "modal-action modal-close waves-effect waves-green btn-flat ",
+              on: { click: _vm.addLine }
+            },
+            [_vm._v("Submit")]
+          )
         ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal", attrs: { id: "details_modal" } }, [
+      _c("div", { staticClass: "modal-content" }, [
+        _c(
+          "ul",
+          { staticClass: "collection with-header" },
+          [
+            _vm._m(6),
+            _vm._v(" "),
+            _vm.line_len == 0
+              ? _c("li", { staticClass: "collection-item" }, [
+                  _c("div", [_vm._v("No Lines in this Generation")])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.line_list, function(line) {
+              return _c(
+                "li",
+                { key: line.id, staticClass: "collection-item" },
+                [_c("div", [_vm._v(_vm._s(line.number))])]
+              )
+            })
+          ],
+          2
+        )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "modal-footer" }, [
-        _c(
-          "a",
-          {
-            staticClass:
-              "modal-action modal-close waves-effect waves-green btn-flat",
-            attrs: { href: "#!" }
-          },
-          [_vm._v("Close")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass:
-              "modal-action modal-close waves-effect waves-green btn-flat",
-            attrs: { type: "submit" },
-            on: { click: _vm.submitFamilyRecordForm }
-          },
-          [_vm._v("Submit")]
-        )
-      ])
-    ]
-  )
+      _vm._m(7)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12 m12 l12 center" }, [
+      _c("div", { staticClass: "preloader-wrapper big active" }, [
+        _c("div", { staticClass: "spinner-layer spinner-blue-only" }, [
+          _c("div", { staticClass: "circle-clipper left" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "gap-patch" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "circle-clipper right" }, [
+            _c("div", { staticClass: "circle" })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", [_vm._v("Loading...")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Details")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("h5", [_vm._v("No Generations")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "fixed-action-btn vertical click-to-toggle" },
+      [
+        _c("a", { staticClass: "btn-floating btn-large blue-grey darken-1" }, [
+          _c("i", { staticClass: "material-icons" }, [_vm._v("add")])
+        ]),
+        _vm._v(" "),
+        _c("ul", [
+          _c("li", [
+            _c(
+              "a",
+              {
+                staticClass: "btn-floating blue-grey tooltipped modal-trigger",
+                attrs: {
+                  href: "#add_generation",
+                  "data-position": "left",
+                  "data-delay": "50",
+                  "data-tooltip": "Add Generation"
+                }
+              },
+              [_c("i", { staticClass: "fas fa-genderless" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              {
+                staticClass: "btn-floating blue-grey tooltipped modal-trigger",
+                attrs: {
+                  href: "#add_line",
+                  "data-position": "left",
+                  "data-delay": "50",
+                  "data-tooltip": "Add Line"
+                }
+              },
+              [_c("i", { staticClass: "fas fa-code-branch" })]
+            )
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("h4", [_vm._v("Add Family Record")])
+        _c("h4", [_vm._v("Add Generation")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Add Line")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "collection-header" }, [
+      _c("h5", [_vm._v("Lines")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "#!" }
+        },
+        [_vm._v("Close")]
+      )
     ])
   }
 ]
@@ -70004,7 +70967,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-13e8e7a2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1183a6da", module.exports)
   }
 }
 
@@ -70371,7 +71334,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-Vue.component('pagination', __webpack_require__(5));
+Vue.component('pagination', __webpack_require__(3));
 var moment = __webpack_require__(0);
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
@@ -70859,7 +71822,7 @@ var render = function() {
       _vm._m(0)
     ]),
     _vm._v(" "),
-    _vm.breeders.data == undefined
+    Array.isArray(_vm.breeders.data) == false
       ? _c("div", { staticClass: "row center" }, [_vm._m(1)])
       : _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col s12 m12 l12" }, [
@@ -72465,7 +73428,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-Vue.component('pagination', __webpack_require__(5));
+Vue.component('pagination', __webpack_require__(3));
 var moment = __webpack_require__(0);
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
@@ -72671,7 +73634,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _vm.replacements.data === undefined
+      Array.isArray(_vm.replacements.data) == false
         ? _c("div", { staticClass: "row" }, [_vm._m(3)])
         : _c("div", { staticClass: "row" }, [
             _vm.replacements_loaded
@@ -73534,6 +74497,294 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+Component.options.__file = "resources/assets/js/components/ReplacementPhenoMorpho.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-163ffc0c", Component.options)
+  } else {
+    hotAPI.reload("data-v-163ffc0c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 193 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(4);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+Vue.component('pagination', __webpack_require__(3));
+var moment = __webpack_require__(0);
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
+    data: function data() {
+        return {
+            phenomorphorecordsloaded: false,
+            phenomorphorecords: {}
+        };
+    },
+
+    methods: {
+        initialize: function initialize() {}
+    },
+    created: function created() {},
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    }
+});
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            attrs: { method: "GET" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.searchReplacements($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "row valign-wrapper" }, [
+              _c("div", { staticClass: "col s12 m9 l9 valign" }, [
+                _c("label", { attrs: { for: "search" } }, [_vm._v("Search")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search,
+                      expression: "search"
+                    }
+                  ],
+                  attrs: {
+                    placeholder: "Type family number",
+                    id: "search",
+                    type: "text"
+                  },
+                  domProps: { value: _vm.search },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(2)
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm.phenomorphorecordsloaded == false
+          ? _c("div", { staticClass: "row center" }, [_vm._m(3)])
+          : _c("div", [
+              Array.isArray(_vm.phenomorphorecords.data) == false
+                ? _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12 center-align" }, [
+                      _vm._v(
+                        "\n                        No Records\n                    "
+                      )
+                    ])
+                  ])
+                : _vm._e()
+            ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Replacement Phenotypic and Morphometric Values")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("ul", { staticClass: "breadcrumb" }, [
+          _c("li", [
+            _c(
+              "a",
+              { attrs: { href: "javascript:javascript:history.go(-2)" } },
+              [_vm._v("Home")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [_vm._v("Replacements")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12 m3 l3 valign" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn waves-effect waves-light blue-grey darken-1",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Search"), _c("i", { staticClass: "fas fa-search right" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("div", { staticClass: "preloader-wrapper big active" }, [
+        _c("div", { staticClass: "spinner-layer spinner-blue-only" }, [
+          _c("div", { staticClass: "circle-clipper left" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "gap-patch" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "circle-clipper right" }, [
+            _c("div", { staticClass: "circle" })
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-163ffc0c", module.exports)
+  }
+}
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(196)
+/* template */
+var __vue_template__ = __webpack_require__(197)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
 Component.options.__file = "resources/assets/js/components/AddBrooderGrower.vue"
 
 /* hot reload */
@@ -73556,7 +74807,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 193 */
+/* 196 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73754,7 +75005,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-Vue.component('pagination', __webpack_require__(5));
 var moment = __webpack_require__(0);
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
@@ -73902,7 +75152,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 194 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73944,7 +75194,7 @@ var render = function() {
     !_vm.broodergrowerloaded
       ? _c("div", { staticClass: "row center" }, [_vm._m(1)])
       : _c("div", [
-          _vm.broodergrowers.data === undefined
+          Array.isArray(_vm.broodergrowers.data) == false
             ? _c("div", { staticClass: "row center" }, [_vm._m(2)])
             : _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col s12 m12 l12" }, [
@@ -74841,15 +76091,15 @@ if (false) {
 }
 
 /***/ }),
-/* 195 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(196)
+var __vue_script__ = __webpack_require__(199)
 /* template */
-var __vue_template__ = __webpack_require__(197)
+var __vue_template__ = __webpack_require__(200)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -74888,7 +76138,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 196 */
+/* 199 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75061,7 +76311,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-Vue.component('pagination', __webpack_require__(5));
+Vue.component('pagination', __webpack_require__(3));
 var moment = __webpack_require__(0);
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
@@ -75146,7 +76396,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -75188,7 +76438,7 @@ var render = function() {
     !_vm.broodergrowerloaded
       ? _c("div", { staticClass: "row center" }, [_vm._m(1)])
       : _c("div", [
-          _vm.broodergrowers.data === undefined
+          Array.isArray(_vm.broodergrowers.data) == false
             ? _c("div", { staticClass: "row center" }, [_vm._m(2)])
             : _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col s12 m12 l12" }, [
@@ -75818,15 +77068,15 @@ if (false) {
 }
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(199)
+var __vue_script__ = __webpack_require__(202)
 /* template */
-var __vue_template__ = __webpack_require__(200)
+var __vue_template__ = __webpack_require__(203)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75865,7 +77115,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76105,7 +77355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-Vue.component('pagination', __webpack_require__(5));
+Vue.component('pagination', __webpack_require__(3));
 var moment = __webpack_require__(0);
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
@@ -76197,7 +77447,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77334,10 +78584,938 @@ if (false) {
 }
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(210)
+/* template */
+var __vue_template__ = __webpack_require__(211)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/general_FamilyRecord.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f09de0fa", Component.options)
+  } else {
+    hotAPI.reload("data-v-f09de0fa", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 210 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            search: '',
+            families: {},
+            generations: [],
+            lines: [],
+            family_number: '',
+            selected_generation: '',
+            selected_line: '',
+            families_len: 0
+        };
+    },
+
+    methods: {
+        fetchFamilies: function fetchFamilies() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('fetch_families?page=' + page).then(function (response) {
+                _this.families_len = response.data.data.length;
+                _this.families = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        fetchGenerations: function fetchGenerations() {
+            var _this2 = this;
+
+            axios.get('get_generation_list').then(function (response) {
+                return _this2.generations = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+            this.fetchLinesInGeneration();
+        },
+        fetchLinesInGeneration: function fetchLinesInGeneration() {
+            var _this3 = this;
+
+            axios.get('fetch_lines/' + this.selected_generation).then(function (response) {
+                return _this3.lines = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        addFamily: function addFamily() {
+            axios.post('add_family', {
+                line_id: this.selected_line,
+                family_number: this.family_number
+            }).then(function (response) {
+                console.log(response);
+                Materialize.toast('Family added', 3000, 'rounded');
+            }).catch(function (error) {
+                console.log(error);
+                Materialize.toast('Add family failed', 3000, 'rounded');
+            });
+            this.fetchFamilies();
+        },
+        searchFamily: function searchFamily() {
+            var _this4 = this;
+
+            axios.get('search_family/' + this.search).then(function (response) {
+                return _this4.families = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        }
+    },
+    mounted: function mounted() {},
+    created: function created() {
+        this.fetchFamilies();
+    }
+});
+
+/***/ }),
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row valign-wrapper" }, [
+      _c("div", { staticClass: "col s12 m8 l8 input-field" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
+            }
+          ],
+          attrs: { id: "search", type: "text" },
+          domProps: { value: _vm.search },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "search" } }, [_vm._v("Search Family")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col s12 m4 l4" }, [
+        _c(
+          "a",
+          {
+            staticClass: "waves-effect waves-light btn blue-grey",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.searchFamily($event)
+              }
+            }
+          },
+          [
+            _vm._v("Search\n                "),
+            _c("i", { staticClass: "material-icons right" }, [_vm._v("search")])
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.families_len > 0
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c(
+              "table",
+              { staticClass: "responsive-table bordered highlight" },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.families.data, function(family) {
+                    return _c("tr", { key: family.id }, [
+                      _c("td", [_vm._v(_vm._s(family.family_number))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(family.line_number))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(family.generation_number))]),
+                      _vm._v(" "),
+                      family.is_active
+                        ? _c("td", [_vm._v("Active")])
+                        : _c("td", [_vm._v("Inactive")])
+                    ])
+                  })
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col s12 m12 l12 center" },
+                [
+                  _c("pagination", {
+                    attrs: { data: _vm.families },
+                    on: { "pagination-change-page": _vm.fetchFamilies }
+                  })
+                ],
+                1
+              )
+            ])
+          ])
+        ])
+      : _c("div", { staticClass: "row center" }, [_vm._m(1)]),
+    _vm._v(" "),
+    _vm._m(2),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal modal-fixed-footer", attrs: { id: "add_family" } },
+      [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(3),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col s12 m6 l6" }, [
+              _c("label", [_vm._v("Generation")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selected_generation,
+                      expression: "selected_generation"
+                    }
+                  ],
+                  staticClass: "browser-default",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.fetchGenerations($event)
+                    },
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selected_generation = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { value: "", disabled: "", selected: "" } },
+                    [_vm._v("Choose generation")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.generations, function(generation) {
+                    return _c(
+                      "option",
+                      {
+                        key: generation.id,
+                        domProps: { value: generation.id }
+                      },
+                      [_vm._v(_vm._s(generation.number))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col s12 m6 l6" }, [
+              _c("label", [_vm._v("Line")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selected_line,
+                      expression: "selected_line"
+                    }
+                  ],
+                  staticClass: "browser-default",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selected_line = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { value: "", disabled: "", selected: "" } },
+                    [_vm._v("Choose line")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.lines, function(line) {
+                    return _c(
+                      "option",
+                      { key: line.id, domProps: { value: line.id } },
+                      [_vm._v(_vm._s(line.number))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col s12 m6 l6" }, [
+              _c("label", { attrs: { for: "add_family" } }, [
+                _vm._v("Family Number")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.family_number,
+                    expression: "family_number"
+                  }
+                ],
+                attrs: { id: "add_family", placeholder: "Type family number" },
+                domProps: { value: _vm.family_number },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.family_number = $event.target.value
+                  }
+                }
+              })
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-footer" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "modal-action modal-close waves-effect waves-green btn-flat ",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.addFamily($event)
+                }
+              }
+            },
+            [_vm._v("Submit")]
+          )
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Family Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Line Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Generation Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("h5", [_vm._v("No Family")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "fixed-action-btn vertical" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "btn-floating btn-large blue-grey darken-1 modal-trigger",
+          attrs: { href: "#add_family" }
+        },
+        [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Add Family")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f09de0fa", module.exports)
+  }
+}
+
+/***/ }),
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(216)
+/* template */
+var __vue_template__ = __webpack_require__(217)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AddFamilyRecord.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-13e8e7a2", Component.options)
+  } else {
+    hotAPI.reload("data-v-13e8e7a2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 216 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            family_id: '',
+            generations: [],
+            generation_selected: '',
+            lines: [],
+            line_selected: ''
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('generation_list').then(function (response) {
+            return _this.generations = response.data;
+        }).catch(function (error) {
+            return console.log(error);
+        });
+    },
+
+
+    methods: {
+        getGeneration: function getGeneration(event) {
+            var _this2 = this;
+
+            axios.get('line_list/' + this.generation_selected).then(function (response) {
+                return _this2.lines = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+
+        submitFamilyRecordForm: function submitFamilyRecordForm(event) {
+            axios.post('family_record_add', {
+                family_id: this.family_id,
+                generation_id: this.generation_selected,
+                line_id: this.line_selected
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 217 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "modal modal-fixed-footer", attrs: { id: "add_modal" } },
+    [
+      _c("div", { staticClass: "modal-content" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "divider" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c("div", { staticClass: "input-field col s12 m6 l6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.family_id,
+                    expression: "family_id"
+                  }
+                ],
+                attrs: {
+                  placeholder: "Enter Family ID",
+                  id: "family_id",
+                  type: "text"
+                },
+                domProps: { value: _vm.family_id },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.family_id = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "family_id" } }, [
+                _vm._v("Family ID")
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c("div", { staticClass: "col s12 m6 l6" }, [
+              _c("label", [_vm._v("Generation")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.generation_selected,
+                      expression: "generation_selected"
+                    }
+                  ],
+                  staticClass: "browser-default",
+                  attrs: { id: "generation_choice" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.generation_selected = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      _vm.getGeneration
+                    ]
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { value: "", disabled: "", selected: "" } },
+                    [_vm._v("Choose generation")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.generations, function(generation) {
+                    return _c(
+                      "option",
+                      {
+                        key: generation.id,
+                        domProps: { value: generation.id }
+                      },
+                      [_vm._v(_vm._s(generation.number))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c("div", { staticClass: "col s12 m6 l6" }, [
+              _c("label", [_vm._v("Line")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.line_selected,
+                      expression: "line_selected"
+                    }
+                  ],
+                  staticClass: "browser-default",
+                  attrs: { id: "line_choice" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.line_selected = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { value: "", disabled: "", selected: "" } },
+                    [_vm._v("Choose line")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.lines, function(line) {
+                    return _c(
+                      "option",
+                      { key: line.id, domProps: { value: line.id } },
+                      [_vm._v(_vm._s(line.number))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-footer" }, [
+        _c(
+          "a",
+          {
+            staticClass:
+              "modal-action modal-close waves-effect waves-green btn-flat",
+            attrs: { href: "#!" }
+          },
+          [_vm._v("Close")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "modal-action modal-close waves-effect waves-green btn-flat",
+            attrs: { type: "submit" },
+            on: { click: _vm.submitFamilyRecordForm }
+          },
+          [_vm._v("Submit")]
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Add Family Record")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-13e8e7a2", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

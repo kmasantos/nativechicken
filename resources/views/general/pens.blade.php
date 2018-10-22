@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    {{-- <div class="row">
         <div class="col s12 m12 l12">
             <div class="row">
                 <div class="col s12 m12 l12">
@@ -57,7 +57,7 @@
                                     <th>Capacity</th>
                                 </tr>
                             </thead>
-    
+
                             <tbody>
                                 @forelse ($pens as $pen)
                                     <tr>
@@ -73,7 +73,7 @@
                                         <td>Pens</td>
                                         <td></td>
                                     </tr>
-                                @endforelse 
+                                @endforelse
                             </tbody>
                         </table>
                         {{ $pens->links() }}
@@ -81,7 +81,7 @@
                     <div class="row">
                         <div class="col s12 m12 l12 center">
                                 <h5>No Pens Available</h5>
-                        </div>    
+                        </div>
                     </div>
                     @endif
                 </div>
@@ -92,9 +92,9 @@
         <a class="btn-floating btn-large blue-grey darken-1 modal-trigger" href="#pen_modal">
             <i class="material-icons">add</i>
         </a>
-    </div>
+    </div> --}}
     <!-- Modal Structure -->
-    <div id="pen_modal" class="modal modal-fixed-footer">
+    {{-- <div id="pen_modal" class="modal modal-fixed-footer">
         {!! Form::open([ 'route' => 'farm.pens_add', 'method' => 'post']) !!}
             @csrf
             <div class="modal-content">
@@ -110,7 +110,7 @@
                         </div>
                         <label for="pen_type">Pen Type</label>
                         <div id="pen_type" class="row">
-                            
+
                             <div class="col s12 m4 l4">
                                 <input class="with-gap" name="type" type="radio" id="brooder" value="brooder"/>
                                 <label for="brooder">Brooder</label>
@@ -138,12 +138,12 @@
                 <button class="modal-close waves-effect waves-grey btn-flat" type="submit">Add</button>
             </div>
         {!! Form::close() !!}
-    </div>
-    
+    </div> --}}
+    <pen-component></pen-component>
 @endsection
 
 @section('customscripts')
-    @if(Session::has('pen-create'))
+    {{-- @if(Session::has('pen-create'))
         <script>
             Materialize.toast('Pen successfully created', 3000, 'rounded')
         </script>
@@ -151,5 +151,5 @@
         <script type="text/javascript">
             Materialize.toast('Pen creation failed', 3000, 'rounded');
         </script>
-    @endif
+    @endif --}}
 @endsection
