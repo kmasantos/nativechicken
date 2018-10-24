@@ -77,14 +77,14 @@
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
                 <li>
-                <a class="collapsible-header">Replacement<i class="material-icons">autorenew</i></a>
-                <div class="collapsible-body">
+                <a href="{{route('farm.chicken.replacemnt.replacement_add')}}" class="collapsible-header">Replacement<i class="material-icons">autorenew</i></a>
+                {{-- <div class="collapsible-body">
                     <ul>
                         <li><a href="{{route('farm.chicken.replacemnt.replacement_add')}}">Add Replacements</a></li>
                         <li><a href="{{route('farm.chicken.replacemnt.phenomorpho_record')}}">Phenotypic and Morphometric</a></li>
                         <li><a href="{{route('farm.chicken.replacemnt.feeding_record')}}">Feeding Records</a></li>
                     </ul>
-                </div>
+                </div> --}}
                 </li>
             </ul>
         </li>

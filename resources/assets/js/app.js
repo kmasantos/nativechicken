@@ -30,8 +30,8 @@ Vue.component('add-daily', require('./components/AddDailyRecord.vue'));
 Vue.component('hatchery-record', require('./components/AddHatcheryRecord.vue'));
 
 // Replacement Vue Components
-Vue.component('add-replacement', require('./components/AddReplacement.vue'));
-Vue.component('phenomorpho-replacement', require('./components/ReplacementPhenoMorpho.vue'));
+Vue.component('add-replacement', require('./components/replacement_Replacement.vue'));
+Vue.component('phenomorpho-replacement', require('./components/replacement_PhenoMorpho.vue'));
 
 // Brooder & Grower Vue Components
 Vue.component('add-broodergrower', require('./components/AddBrooderGrower.vue'));

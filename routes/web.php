@@ -91,26 +91,44 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_fetch_families/{line_id}', 'BreederController@fetchFamilies');
         Route::get('breeder_fetch_female_families/{line_number}/{male_family}', 'BreederController@fetchFemaleFamilies');
         Route::get('breeder_fetch_pens', 'BreederController@fetchBreederPens');
-        // Replacement Axios Routes
-        Route::get('replacement_list', 'ReplacementController@getReplacementList');
+
+        /**
+         * *New Axios Routes for Replacement
+         */
+        Route::get('replacement_pens', 'ReplacementController@getReplacementPens');
+        Route::get('search_replacement_pens/{search}', 'ReplacementController@searchReplacementPens');
         Route::get('replacement_fetch_generations', 'ReplacementController@fetchGenerations');
         Route::get('replacement_fetch_lines/{generation_id}', 'ReplacementController@fetchLines');
         Route::get('replacement_fetch_families/{line_id}', 'ReplacementController@fetchFamilies');
-        Route::get('replacement_fetch_pens', 'ReplacementController@fetchPens');
         Route::post('add_replacements', 'ReplacementController@addReplacements');
-        Route::get('search_replacements/{search}', 'ReplacementController@searchReplacements');
-        // BrooderGrowers Axios Routes
+        Route::get('replacement_pen_info/{pen_id}','ReplacementController@fetchPenInfo');
+        Route::get('replacement_pheno_morpho/{replacement_id}', 'ReplacementController@phenoMorphoPage');
+        Route::post('add_phenomorpho', 'ReplacementController@addPhenoMorpho');
+        Route::post('add_penfeeding', 'ReplacementController@addPenFeedingRecord');
+
+        /**
+         * !Old Routes, delete when replaced
+         */
         Route::get('broodergrower_list','BrooderGrowerController@getBrooderGrower');
+
+        Route::get('broodergrower_fetch_pens','BrooderGrowerController@fetchPens');
+        Route::patch('update_broodergrower', 'BrooderGrowerController@updateBrooderGrower');
+        Route::get('broodergrower_feeding_records/{broodergrower_id}', 'BrooderGrowerController@fetchFeedingRecords');
+
+        Route::get('broodergrower_growth_records/{broodergrower_id}', 'BrooderGrowerController@fetchGrowthRecords');
+        Route::post('add_broodergrower_growth', 'BrooderGrowerController@addGrowthRecord');
+
+        /**
+         * *New Axios Routes for Brooders and Growers
+         */
         Route::get('broodergrower_fetch_generation','BrooderGrowerController@fetchGenerations');
         Route::get('broodergrower_fetch_lines/{generation_id}','BrooderGrowerController@fetchLines');
         Route::get('broodergrower_fetch_families/{line_id}','BrooderGrowerController@fetchFamilies');
-        Route::get('broodergrower_fetch_pens','BrooderGrowerController@fetchPens');
+        Route::get('broodergrower_pens','BrooderGrowerController@getBrooderGrowerPens');
         Route::post('add_broodergrower', 'BrooderGrowerController@addBrooderGrower');
-        Route::patch('update_broodergrower', 'BrooderGrowerController@updateBrooderGrower');
-        Route::get('broodergrower_feeding_records/{broodergrower_id}', 'BrooderGrowerController@fetchFeedingRecords');
         Route::post('add_broodergrower_feeding', 'BrooderGrowerController@addFeedingRecord');
-        Route::get('broodergrower_growth_records/{broodergrower_id}', 'BrooderGrowerController@fetchGrowthRecords');
-        Route::post('add_broodergrower_growth', 'BrooderGrowerController@addGrowthRecord');
+        Route::get('broodergrower_pen_info/{pen_id}','BrooderGrowerController@fetchPenInfo');
+
     });
     // Admin Routes
     Route::group(['prefix' => 'admin'], function()

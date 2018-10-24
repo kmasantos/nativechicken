@@ -16,14 +16,16 @@ class CreateReplacementFeedingsTable extends Migration
         Schema::create('replacement_feedings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('replacement_id');
+            $table->unsignedInteger('pen_id');
             $table->date('date_collected');
             $table->double('amount_offered');
             $table->double('amount_refused');
             $table->text('remarks')->nullable();
         });
-        
+
         Schema::table('replacement_feedings', function($table) {
             $table->foreign('replacement_id')->references('id')->on('replacements');
+            $table->foreign('pen_id')->references('id')->on('pens');
         });
     }
 

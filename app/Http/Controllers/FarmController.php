@@ -268,7 +268,11 @@ class FarmController extends Controller
      */
     public function searchGeneration($search)
     {
-        $generations = Generation::where('number', 'like', '%'.$search.'%')->where('is_active', true)->paginate(10);
+        $generations = Generation::where('farm_id', Auth::user()->farm_id)
+        ->where('number', 'like', '%'.$search.'%')
+        ->where('is_active', true)
+        ->orderBy('numerical_generation', 'desc')
+        ->paginate(10);
         return $generations;
     }
 
@@ -309,10 +313,14 @@ class FarmController extends Controller
     public function searchFamily($search)
     {
         $families = Family::join('lines', 'families.line_id', '=', 'lines.id')
+        ->join('generations', 'lines.generation_id', '=', 'generations.id')
+        ->where('generations.farm_id', Auth::user()->farm_id)
         ->where('families.is_active', true)
         ->where('families.number', 'like', '%'.$search.'%')
-        ->select('lines.number AS line_number', 'families.number AS family_number', 'families.is_active as is_active')
-        ->get();
+        ->select('lines.number AS line_number', 'families.number AS family_number',
+        'families.is_active as is_active', 'generations.number AS generation_number')
+        ->orderBy('generations.number', 'desc')
+        ->paginate(10);
         return $families;
     }
 }

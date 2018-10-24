@@ -82,6 +82,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-close waves-effect waves-grey btn-flat">Close</a>
                 <a @click="addGeneration" href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
             </div>
         </div>
@@ -110,6 +111,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-close waves-effect waves-grey btn-flat">Close</a>
                 <a @click="addLine" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
             </div>
         </div>
@@ -123,7 +125,7 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="javascript:void(0)" class="modal-close waves-effect waves-grey btn-flat">Close</a>
             </div>
         </div>
     </div>
@@ -181,7 +183,7 @@
                 .catch(function (error) {
                     Materialize.toast('Add generation failed', 3000, 'rounded');
                 });
-                this.getGenerations();
+                this.initialize();
             },
             addLine : function(event){
                 axios.post('add_line', {

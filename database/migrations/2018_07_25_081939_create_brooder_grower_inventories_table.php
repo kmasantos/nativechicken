@@ -18,7 +18,7 @@ class CreateBrooderGrowerInventoriesTable extends Migration
             $table->unsignedInteger('broodergrower_id');
             $table->unsignedInteger('pen_id');
             $table->date('batching_date')->nullable();
-            $table->unsignedInteger('data_completion');
+            // $table->unsignedInteger('data_completion');
             $table->integer('number_male')->nullable();
             $table->integer('number_female')->nullable();
             $table->integer('total')->default(0);

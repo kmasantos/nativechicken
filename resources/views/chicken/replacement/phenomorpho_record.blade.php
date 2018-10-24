@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <phenomorpho-replacement></phenomorpho-replacement>
+    <phenomorpho-replacement v-bind:replacement-id={{$replacement_id}}></phenomorpho-replacement>
 @endsection
 
 @section('customscripts')

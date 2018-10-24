@@ -2,7 +2,7 @@ $( document ).ready(function() {
     $('.dropdown-button').dropdown({
         inDuration: 300,
         outDuration: 225,
-        constrainWidth: false, 
+        constrainWidth: false,
         hover: false,
         gutter: 0,
         belowOrigin: true,
@@ -24,4 +24,13 @@ $( document ).ready(function() {
         container: undefined, // ex. 'body' will append picker to body
         format: 'yyyy-mm-dd',
     });
+
+    $('#pheno_morpho').modal({
+        dismissible: false
+    });
+
+    $('#feeding').modal({
+        dismissible: false
+    });
+
 });

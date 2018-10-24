@@ -146,9 +146,12 @@
                 });
                 this.fetchFamilies();
             },
-            searchFamily : function() {
-                axios.get('search_family/' + this.search)
-                .then(response => this.families = response.data)
+            searchFamily : function(page = 1) {
+                axios.get('search_family/'+this.search+'?page='+page)
+                .then(response => {
+                    this.families_len = response.data.data.length;
+                    this.families = response.data
+                })
                 .catch(error => console.log(error));
             }
         },
