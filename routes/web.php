@@ -93,6 +93,13 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_fetch_pens', 'BreederController@fetchBreederPens');
 
         /**
+         * *New Axios Routes for Breeders
+         */
+        Route::get('breeder_feeding/{breeder_id}', 'BreederController@fetchFeedingRecords');
+        Route::post('add_feeding', 'BreederController@addFeedingRecords');
+        Route::get('egg_prod/{breeder_id}', 'BreederController@fetchEggProduction');
+        Route::post('add_egg_prod', 'BreederController@addEggProduction');
+        /**
          * *New Axios Routes for Replacement
          */
         Route::get('replacement_pens', 'ReplacementController@getReplacementPens');
@@ -112,7 +119,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('broodergrower_list','BrooderGrowerController@getBrooderGrower');
 
         Route::get('broodergrower_fetch_pens','BrooderGrowerController@fetchPens');
-        Route::patch('update_broodergrower', 'BrooderGrowerController@updateBrooderGrower');
+
         Route::get('broodergrower_feeding_records/{broodergrower_id}', 'BrooderGrowerController@fetchFeedingRecords');
 
         Route::get('broodergrower_growth_records/{broodergrower_id}', 'BrooderGrowerController@fetchGrowthRecords');
@@ -128,6 +135,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_broodergrower', 'BrooderGrowerController@addBrooderGrower');
         Route::post('add_broodergrower_feeding', 'BrooderGrowerController@addFeedingRecord');
         Route::get('broodergrower_pen_info/{pen_id}','BrooderGrowerController@fetchPenInfo');
+        Route::patch('update_broodergrower', 'BrooderGrowerController@updateBrooderGrower');
 
     });
     // Admin Routes

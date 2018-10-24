@@ -13,6 +13,8 @@ use App\Models\Pen;
 use App\Models\AnimalMovement;
 use App\Models\Replacement;
 use App\Models\ReplacementInventory;
+use App\Models\BreederFeeding;
+use App\Models\EggProduction;
 
 class BreederController extends Controller
 {
@@ -55,14 +57,14 @@ class BreederController extends Controller
         $request->session()->flash('generation-add', 'Generation successfully created');
         return redirect()->route('farm.chicken.breeder.generation');
     }
-    
+
     public function cullGeneration(Request $request)
     {
-        
+
     }
 
     public function searchGeneration(Request $request)
-    {   
+    {
         $generations = Generation::where('is_active', true)
                 ->where('number', 'like', '%'.$request->search.'%')
                 ->paginate(15);
@@ -117,7 +119,7 @@ class BreederController extends Controller
         $new->is_active = true;
         $new->line_id = $request->line_id;
         $new->save();
-        
+
         return redirect()->route('farm.chicken.breeder.family_record');
     }
 
@@ -178,7 +180,7 @@ class BreederController extends Controller
             $inventory->total = $inventory->number_male + $inventory->number_female;
             $inventory->last_update = $request->date_added;
             $inventory->save();
-            
+
             // @TODO check
             // create log in animal movement for the new breeder
             $newAnimalMovement = new AnimalMovement;
@@ -193,7 +195,7 @@ class BreederController extends Controller
             $newAnimalMovement->number_total = $request->number_male + $request->number_female;
             $newAnimalMovement->remarks = null;
             $newAnimalMovement->save();
-            
+
             // @TODO change model of all inventories to one to one relationship
             // @TODO update the animal movements table to track all movements
             // @TODO NOTE DO THIS FOR ALL ADD AND UPDATES IN BREEDERS, REPLACEMENTS, BROODERS&GROWERS
@@ -205,7 +207,7 @@ class BreederController extends Controller
             $replacementInventoryMale->total = $replacementInventoryMale->total - $request->number_male;
             $replacementInventoryMale->last_update = $request->date_added;
             $replacementInventoryMale->save();
-            
+
             // @TODO check
             // create record in animal movement for the replacement male
             $newAnimalMovementReplacementMale = new AnimalMovement;
@@ -227,7 +229,7 @@ class BreederController extends Controller
             $replacementInventoryFemale->total = $replacementInventoryFemale->total - $request->number_female;
             $replacementInventoryFemale->last_update = $request->date_added;
             $replacementInventoryFemale->save();
-            
+
             // @TODO check
             // create record in animal movement for the replacement female
             $newAnimalMovementReplacementFemale = new AnimalMovement;
@@ -310,9 +312,90 @@ class BreederController extends Controller
             $movement->save();
             return response()->json(['status' => 'success', 'message' => 'Breeders added']);
         }
-        
+
         // return response()->json(['status' => 'success', 'message' => 'Breeders added']);
     }
+
+    public function fetchFeedingRecords ($breeder_id)
+    {
+        $records = BreederFeeding::where('breeder_id', $breeder_id)->orderBy('date_collected', 'desc')->paginate(15);
+        return $records;
+    }
+
+    public function addFeedingRecords (Request $request)
+    {
+        $request->validate([
+            'breeder_id' => 'required',
+            'date_added' => 'required',
+            'offered' => 'required',
+            'refused' => 'required',
+        ]);
+        $record = new BreederFeeding;
+        $record->breeder_id = $request->breeder_id;
+        $record->date_collected = $request->date_added;
+        $record->amount_offered = $request->offered;
+        $record->amount_refused = $request->refused;
+        $record->remarks = $request->remarks;
+        $record->save();
+        return response()->json(['status' => 'success', 'message' => 'Feeding record added']);
+    }
+
+    public function fetchEggProduction ($breeder_id)
+    {
+        $eggprod = EggProduction::where('breeder_id', $breeder_id)->orderBy('date_collected', 'desc')->paginate(15);
+        return $eggprod;
+    }
+
+    public function addEggProduction(Request $request)
+    {
+        $request->validate([
+            'breeder_id' => 'required',
+            'date_added' => 'required',
+            'total_eggs_intact' => 'required',
+            'total_egg_weight' => 'required',
+            'total_broken' => 'required',
+            'total_rejects' => 'required',
+        ]);
+        $eggprod = new EggProduction;
+        $eggprod->breeder_id = $request->breeder_id;
+        $eggprod->date_collected = $request->date_added;
+        $eggprod->total_eggs_intact = $request->total_eggs_intact;
+        $eggprod->total_egg_weight = $request->total_egg_weight;
+        $eggprod->total_broken = $request->total_broken;
+        $eggprod->total_rejects = $request->total_rejects;
+        $eggprod->remarks = $request->remarks;
+        $eggprod->save();
+        return response()->json(['status' => 'success', 'message' => 'Egg production added']);
+    }
+
+    /**
+     * TODO Modify Hatchery Parameter for later user
+     */
+    public function addHatcheryParameter(Request $request)
+    {
+        $request->validate([
+            'breeder_id' => 'required',
+            'date_eggs_set' => 'required',
+            'batching_date' => 'required',
+            'number_eggs_set' => 'required',
+            'week_of_lay' => 'required',
+            'number_fertile' => 'required',
+            'number_hatched' => 'required',
+            'date_hatched' => 'required'
+        ]);
+
+        $hatchery = new HatcheryRecord;
+        $hatchery->breeder_id = $request->breeder_id;
+        $hatchery->date_eggs_set = $request->date_eggs_set;
+        $hatchery->batching_date = $request->date_eggs_set;
+        $hatchery->number_eggs_set = $request->date_eggs_set;
+        $hatchery->week_of_lay = $request->date_eggs_set;
+        $hatchery->number_fertile = $request->date_eggs_set;
+        $hatchery->number_hatched = $request->date_eggs_set;
+        $hatchery->date_hatched = $request->date_eggs_set;
+        $hatchery->save();
+    }
+
 
     public function dailyRecordPage()
     {
@@ -336,13 +419,13 @@ class BreederController extends Controller
 
     /*
     ** Helper methods for this controller
-    */ 
-    public function fetchGenerations() 
+    */
+    public function fetchGenerations()
     {
-        $generations = Generation::where('is_active', true)->get();
+        $generations = Generation::where('farm_id', Auth::user()->farm_id)->where('is_active', true)->get();
         return $generations;
     }
-    public function fetchLines($generation_id) 
+    public function fetchLines($generation_id)
     {
         if($generation_id == ""){
             $lines = Line::where('is_active', true)->get();
@@ -351,14 +434,14 @@ class BreederController extends Controller
             $lines = Line::where('is_active', true)->where('generation_id', $generation_id)->get();
             return $lines;
         }
-        
+
     }
     public function fetchFamilies ($line_id)
     {
-        $families = Family::where('is_active', true)->where('line_id', $line_id)->where('breeder', false)->get();
+        $families = Family::where('is_active', true)->where('line_id', $line_id)->get();
         return $families;
     }
-    public function fetchFemaleFamilies($line_id, $male_family) 
+    public function fetchFemaleFamilies($line_id, $male_family)
     {
         if($line_id == "" && $male_family == ""){
             return null;
@@ -372,10 +455,7 @@ class BreederController extends Controller
     }
     public function fetchBreederPens()
     {
-        $pens = Pen::where('is_active', true)
-                    ->where('type', 'layer')
-                    ->where('current_capacity', '==', 0)
-                    ->get();
+        $pens = Pen::where('farm_id', Auth::user()->farm_id)->where('is_active', true)->where('type', 'layer')->get();
         return $pens;
     }
 }

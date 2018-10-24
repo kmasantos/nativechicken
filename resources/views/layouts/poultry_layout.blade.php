@@ -63,7 +63,6 @@
                 <a class="collapsible-header">Breeder<i class="material-icons">stars</i></a>
                 <div class="collapsible-body">
                     <ul>
-                        {{-- <li><a href="{{route('farm.chicken.breeder.family_record')}}">Family Records</a></li> --}}
                         <li><a href="{{route('farm.chicken.breeder.add_breeder')}}">Add Breeders</a></li>
                         <li><a href="{{route('farm.chicken.breeder.daily_record')}}">Daily Records</a></li>
                         <li><a href="{{route('farm.chicken.breeder.hatchery_record')}}">Hatchery Records</a></li>
@@ -91,14 +90,14 @@
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
                 <li>
-                <a class="collapsible-header">Brooders & Growers<i class="material-icons">group_work</i></a>
-                <div class="collapsible-body">
+                <a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}" class="collapsible-header">Brooders & Growers<i class="material-icons">group_work</i></a>
+                {{-- <div class="collapsible-body">
                     <ul>
                         <li><a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}">Add Brooders & Growers</a></li>
                         <li><a href="{{route('farm.chicken.broodergrower.broodergrower_feedingrecord')}}">Feeding Records</a></li>
                         <li><a href="{{route('farm.chicken.broodergrower.broodergrower_growthrecord')}}">Growth Performance</a></li>
                     </ul>
-                </div>
+                </div> --}}
                 </li>
             </ul>
         </li>
