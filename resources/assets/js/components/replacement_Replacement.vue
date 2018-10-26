@@ -565,7 +565,7 @@
                                                     <div class="row">
                                                         <div class="col s12 m4 l4">
                                                             <input @change="earlobe_color_others=true" class="with-gap" v-model="earlobe_color" type="radio" id="earlobe_color_others_rad" value="Others" />
-                                                            <label for="earlobe_color_rad">Others</label>
+                                                            <label for="earlobe_color_others_rad">Others</label>
                                                         </div>
                                                     </div>
                                                 </div>

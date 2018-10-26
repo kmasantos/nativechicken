@@ -286,8 +286,8 @@ class FarmController extends Controller
         $families = Family::
         join('lines', 'families.line_id', '=', 'lines.id')
         ->join('generations', 'lines.generation_id', '=', 'generations.id')
-        ->where('families.is_active', true)
         ->where('generations.farm_id', Auth::user()->farm_id)
+        ->where('families.is_active', true)
         ->select('lines.number AS line_number', 'families.number AS family_number',
         'families.is_active as is_active', 'generations.number AS generation_number')
         ->orderBy('generations.number', 'desc')

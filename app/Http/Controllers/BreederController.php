@@ -146,8 +146,9 @@ class BreederController extends Controller
         $breeders = Breeder::join('families', 'families.id', 'breeders.family_id')
                     ->join('lines', 'lines.id', 'families.line_id')
                     ->join('generations', 'generations.id', 'lines.generation_id')
-                    ->select('breeders.*', 'families.number as family_number',
+                    ->select('breeders.*', 'generations.*','families.number as family_number',
                     'lines.number as line_number', 'generations.number as generation_number')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
                     ->paginate(8);
         return $breeders;
     }
@@ -176,7 +177,7 @@ class BreederController extends Controller
             $inventory->breeder_id = $new->id;
             $inventory->date_removed = $request->selected_female_family;
             $inventory->number_male = $request->number_male;
-            $inventory->number_female = $request->number->female;
+            $inventory->number_female = $request->number_female;
             $inventory->total = $inventory->number_male + $inventory->number_female;
             $inventory->last_update = $request->date_added;
             $inventory->save();
@@ -441,6 +442,7 @@ class BreederController extends Controller
         $families = Family::where('is_active', true)->where('line_id', $line_id)->get();
         return $families;
     }
+
     public function fetchFemaleFamilies($line_id, $male_family)
     {
         if($line_id == "" && $male_family == ""){

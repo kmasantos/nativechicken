@@ -79357,7 +79357,9 @@ var render = function() {
                                 _vm._v(" "),
                                 _c(
                                   "label",
-                                  { attrs: { for: "earlobe_color_rad" } },
+                                  {
+                                    attrs: { for: "earlobe_color_others_rad" }
+                                  },
                                   [_vm._v("Others")]
                                 )
                               ])

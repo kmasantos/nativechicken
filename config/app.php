@@ -161,7 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
-        * Added Service Providers 
+        * Added Service Providers
         */
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
