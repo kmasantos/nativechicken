@@ -15,7 +15,7 @@ class CreateBreederFeedingsTable extends Migration
     {
         Schema::create('breeder_feedings', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('breeder_id');
+            $table->unsignedInteger('breeder_inventory_id');
             $table->date('date_collected');
             $table->double('amount_offered');
             $table->double('amount_refused');
@@ -23,7 +23,7 @@ class CreateBreederFeedingsTable extends Migration
         });
 
         Schema::table('breeder_feedings', function($table) {
-            $table->foreign('breeder_id')->references('id')->on('breeders');
+            $table->foreign('breeder_inventory_id')->references('id')->on('breeder_inventories');
         });
     }
 

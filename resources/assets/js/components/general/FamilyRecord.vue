@@ -13,7 +13,7 @@
         </div>
         <div class="row" v-if="families_len > 0">
             <div class="col s12 m12 l12">
-                <table class="responsive-table bordered highlight">
+                <table class="responsive-table bordered highlight centered">
                     <thead>
                         <tr>
                             <th>Family Number</th>
@@ -37,14 +37,6 @@
                         <pagination :data="families" @pagination-change-page="fetchFamilies"></pagination>
                     </div>
                 </div>
-                <!-- <div class="row">
-                    <div class="col s12 m12 l12 center">
-                        <ul class="pagination">
-                            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                        </ul>
-                    </div>
-                </div> -->
             </div>
         </div>
         <div class="row center" v-else>
@@ -52,9 +44,9 @@
                 <h5>No Family</h5>
             </div>
         </div>
-        <div class="fixed-action-btn vertical">
+        <div class="fixed-action-btn vertical tooltipped" data-position="left" data-delay="50" data-tooltip="Add family">
             <a class="btn-floating btn-large blue-grey darken-1 modal-trigger" href="#add_family">
-                <i class="material-icons">add</i>
+                <i class="fas fa-plus"></i>
             </a>
         </div>
 
@@ -77,7 +69,8 @@
                 <div class="row">
                     <div class="col s12 m6 l6">
                         <label>Line</label>
-                        <select v-model="selected_line" class="browser-default">
+                        <select v-if="selected_generation==''" class="browser-default" disabled></select>
+                        <select v-else v-model="selected_line" class="browser-default">
                             <option value="" disabled selected>Choose line</option>
                             <option v-for="line in lines" :key="line.id" v-bind:value="line.id">{{line.number}}</option>
                         </select>
@@ -91,6 +84,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
                 <a @click.prevent="addFamily" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
             </div>
         </div>
@@ -136,12 +130,17 @@
                     line_id: this.selected_line,
                     family_number: this.family_number,
                 })
-                .then(function (response) {
-                    console.log(response);
-                    Materialize.toast('Family added', 3000, 'rounded');
+                .then(response => {
+                    if(response.data.error == undefined){
+                        this.family_number = '';
+                        this.selected_generation = '';
+                        this.selected_line = '';
+                        Materialize.toast('Family added', 3000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                    }
                 })
-                .catch(function (error) {
-                    console.log(error);
+                .catch(error => {
                     Materialize.toast('Add family failed', 3000, 'rounded');
                 });
                 this.fetchFamilies();

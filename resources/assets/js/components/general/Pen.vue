@@ -63,7 +63,7 @@
                     </div>
                     <div class="col s12 m12 112" v-else>
                         <div class="col s12 m12 l12">
-                            <table class="responsive-table bordered highlight">
+                            <table class="responsive-table bordered highlight centered">
                                 <thead>
                                 <tr>
                                     <th>Type</th>
@@ -73,7 +73,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="pen in pens.data" :key="pen.id">
+                                    <tr v-if="pens_length == 0">
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr v-else v-for="pen in pens.data" :key="pen.id">
                                         <td>{{capitalize(pen.type)}}</td>
                                         <td>{{pen.number}}</td>
                                         <td>{{pen.current_capacity}}</td>
@@ -92,9 +98,9 @@
             </div>
         </div>
         <!-- FAB -->
-        <div class="fixed-action-btn horizontal click-to-toggle">
+        <div class="fixed-action-btn horizontal click-to-toggle tooltipped" data-position="left" data-delay="50" data-tooltip="Add pen">
             <a class="btn-floating btn-large blue-grey darken-1 modal-trigger" href="#pen_modal">
-                <i class="material-icons">add</i>
+                <i class="fas fa-plus"></i>
             </a>
         </div>
         <!-- MODALS -->
@@ -106,7 +112,7 @@
                     <div class="row valign-wrapper">
                         <div class="col s12 m12 l12">
                             <div class="row">
-                                <div class="input-field col s12 m12 l12">
+                                <div class="input-field col s12 m6 l6">
                                     <input v-model="pen_number" placeholder="Input Pen Number" id="pen_number" type="text" name="pen_number">
                                     <label for="pen_number">Pen Number</label>
                                 </div>
@@ -127,7 +133,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="input-field col s12 m12 l12">
+                                <div class="input-field col s12 m6 l6">
                                     <input v-model.number="pen_capacity" placeholder="Total Pen Capacity" id="pen_capacity" type="number" min=0 name="pen_capacity">
                                     <label for="pen_capacity">Pen Capacity</label>
                                 </div>
@@ -153,6 +159,7 @@
                 search_number : '',
                 search_type : [],
                 pens : {},
+                pens_length : 0,
                 pen_number : '',
                 pen_type : '',
                 pen_capacity : '',
@@ -166,17 +173,23 @@
                 this.pens_loaded = false;
                 this.pens_not_empty = false;
                 axios.get('fetch_pens?page='+page)
-                .then(response => this.pens = response.data)
+                .then(response => {
+                    this.pens = response.data;
+                    this.pens_length = this.pens.data.length;
+                })
                 .catch(function (error) {
                     console.log(error);
                 });
                 this.pens_loaded = true;
                 this.pens_not_empty = true;
             },
-            searchPen : function () {
+            searchPen : function (page = 1) {
                 var search_array = new Array(this.search_number, this.search_type);
-                axios.get('search_pens/'+ JSON.stringify(search_array))
-                .then(response => this.pens = response.data)
+                axios.get('search_pens/'+ JSON.stringify(search_array)+'?page='+page)
+                .then(response => {
+                    this.pens = response.data
+                    this.pens_length = this.pens.data.length;
+                })
                 .catch(function (error) {
                     console.log(error);
                 });
@@ -186,12 +199,19 @@
                     pen_number: this.pen_number,
                     type: this.pen_type,
                     pen_capacity : this.pen_capacity
+                }).then(response => {
+                    if(response.data.error == undefined){
+                        this.pen_number = '';
+                        this.pen_type = false;
+                        this.pen_capacity = '';
+                        Materialize.toast('Successfully added ' + response.data.message, 3000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                    }
+
                 })
-                .then(function (response) {
-                    Materialize.toast('Successfully added ' + response.data.message, 3000, 'green rounded');
-                })
-                .catch(function (error) {
-                    Materialize.toast('Failed to add pen', 3000, 'red rounded');
+                .catch(error => {
+                    Materialize.toast('Failed to add pen with error : ' + error.message, 3000, 'red rounded');
                 });
                 this.initialize();
             },
@@ -199,7 +219,7 @@
                 var lower = string;
                 var upper = lower.charAt(0).toUpperCase() + lower.substr(1);
                 return upper;
-            }
+            },
         },
         created() {
             this.initialize();

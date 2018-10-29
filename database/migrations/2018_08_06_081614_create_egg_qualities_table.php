@@ -15,7 +15,7 @@ class CreateEggQualitiesTable extends Migration
     {
         Schema::create('egg_qualities', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('breeder_id');
+            $table->unsignedInteger('breeder_inventory_id');
             $table->date('date_collected');
             $table->integer('egg_quality_at');
             $table->double('weight')->default(0);
@@ -34,7 +34,7 @@ class CreateEggQualitiesTable extends Migration
         });
 
         Schema::table('egg_qualities', function($table) {
-            $table->foreign('breeder_id')->references('id')->on('breeders');
+            $table->foreign('breeder_inventory_id')->references('id')->on('breeder_inventories');
         });
     }
 

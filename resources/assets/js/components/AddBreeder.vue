@@ -32,7 +32,7 @@
                             <div class="card-action right-align">
                                 <a @click="selected_breeder=breeder.id; fetchFeedingRecords();" href="#feeding" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Feeding Record"><i class="fas fa-utensils"></i></a>
                                 <a @click="selected_breeder=breeder.id; fetchEggProduction()" href="#egg_prod" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Egg Production"><i class="fas fa-chart-line"></i></a>
-                                <a @click="selected_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Hatchery Record"><i class="fas fa-ellipsis-v"></i></a>
+                                <a @click="hatchery_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Hatchery Record"><i class="fas fa-ellipsis-v"></i></a>
                                 <a @click="selected_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Egg Quality"><i class="fas fa-th-list"></i></a>
                                 <a @click="selected_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Inventory"><i class="fas fa-home"></i></a>
                                 <a @click="selected_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Update"><i class="far fa-edit"></i></a>
@@ -378,7 +378,7 @@
                 <a @click="addEggProduction()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
             </div>
         </div>
-
+        <hatchery-record v-if="hatchery_breeder!=null" :breeder="hatchery_breeder" v-on:close_record="hatchery_breeder=null"></hatchery-record>
     </div>
 </template>
 
@@ -389,11 +389,6 @@
     export default {
         components : {
             Datepicker
-        },
-        computed : {
-            checkBreederAttached : function () {
-
-            }
         },
         data() {
             return {
@@ -424,7 +419,8 @@
                 female_families_loaded : false,
                 pens_loaded : false,
                 breeders_len : 0,
-                selected_breeder : '',
+                selected_breeder : null,
+                hatchery_breeder : null,
 
                 feeding_records : {},
                 feeding_records_len : 0,
@@ -626,6 +622,12 @@
                 $(modal_name).modal('close');
             },
         },
+        events: {
+            closeHatcheryRecord: function (argument) {
+                // logic
+            },
+        },
+
         mounted() {
 
         },

@@ -16,7 +16,7 @@ class CreateBreederInventoriesTable extends Migration
         Schema::create('breeder_inventories', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('breeder_id');
-            $table->date('date_removed')->nullable();
+            $table->date('batching_date')->nullable();
             $table->integer('number_male')->nullable();
             $table->integer('number_female')->nullable();
             $table->integer('total')->nullable();

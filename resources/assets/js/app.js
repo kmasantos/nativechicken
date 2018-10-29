@@ -18,16 +18,16 @@ Vue.component('pagination', require('laravel-vue-pagination'));
 
 // General Vue Components
 Vue.component('dashboard-component', require('./components/general_Dashboard.vue'));
-Vue.component('pen-component', require('./components/general_Pen.vue'));
-Vue.component('generation-line', require('./components/general_GenerationLine.vue'));
-Vue.component('family-record', require('./components/general_FamilyRecord.vue'));
+Vue.component('pen-component', require('./components/general/Pen.vue'));
+Vue.component('generation-line', require('./components/general/GenerationLine.vue'));
+Vue.component('family-record', require('./components/general/FamilyRecord.vue'));
 
 // Breeder Vue Components
 Vue.component('add-family-record', require('./components/AddFamilyRecord.vue'));
 Vue.component('line-list', require('./components/LineList.vue'));
 Vue.component('add-breeder', require('./components/AddBreeder.vue'));
 Vue.component('add-daily', require('./components/AddDailyRecord.vue'));
-Vue.component('hatchery-record', require('./components/AddHatcheryRecord.vue'));
+Vue.component('hatchery-record', require('./components/breeders/HatcheryRecordList.vue'));
 
 // Replacement Vue Components
 Vue.component('add-replacement', require('./components/replacement_Replacement.vue'));

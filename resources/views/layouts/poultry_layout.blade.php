@@ -7,7 +7,6 @@
     <link type="text/css" rel="stylesheet" href="/thirdparty/fontawesome-free-5.0.4/web-fonts-with-css/css/fontawesome-all.min.css">
     <link type="text/css" rel="stylesheet" href="/thirdparty/materialize/css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/application_materialize.css"  media="screen,projection"/>
-    {{-- <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css"> --}}
     @yield('customcss')
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -36,98 +35,91 @@
                 </li>
             </ul>
         </li>
+        @if (Auth::user()->getFarm()->batching_week != null)
         <li class="no-padding">
-            <ul class="collapsible">
-                <li>
-                    <a href="{{route('farm.pens')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">view_column</i>Pens</a>
-                </li>
-            </ul>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible">
-                <li>
-                    <a href="{{route('farms.generation_lines_page')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">linear_scale</i>Generations & Lines</a>
-                </li>
-            </ul>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible">
-                <li>
-                    <a href="{{route('farm.family_records')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">queue</i>Families</a>
-                </li>
-            </ul>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
-                <li>
-                <a class="collapsible-header">Breeder<i class="material-icons">stars</i></a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="{{route('farm.chicken.breeder.add_breeder')}}">Add Breeders</a></li>
-                        <li><a href="{{route('farm.chicken.breeder.daily_record')}}">Daily Records</a></li>
-                        <li><a href="{{route('farm.chicken.breeder.hatchery_record')}}">Hatchery Records</a></li>
-                        <li><a href="{{route('farm.chicken.breeder.egg_quality')}}">Egg Quality Records</a></li>
-                        <li><a href="{{route('farm.chicken.breeder.breeder_inventory')}}">Breeder Inventory</a></li>
-                    </ul>
-                </div>
-                </li>
-            </ul>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
-                <li>
-                <a href="{{route('farm.chicken.replacemnt.replacement_add')}}" class="collapsible-header">Replacement<i class="material-icons">autorenew</i></a>
-                {{-- <div class="collapsible-body">
-                    <ul>
-                        <li><a href="{{route('farm.chicken.replacemnt.replacement_add')}}">Add Replacements</a></li>
-                        <li><a href="{{route('farm.chicken.replacemnt.phenomorpho_record')}}">Phenotypic and Morphometric</a></li>
-                        <li><a href="{{route('farm.chicken.replacemnt.feeding_record')}}">Feeding Records</a></li>
-                    </ul>
-                </div> --}}
-                </li>
-            </ul>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
-                <li>
-                <a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}" class="collapsible-header">Brooders & Growers<i class="material-icons">group_work</i></a>
-                {{-- <div class="collapsible-body">
-                    <ul>
-                        <li><a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}">Add Brooders & Growers</a></li>
-                        <li><a href="{{route('farm.chicken.broodergrower.broodergrower_feedingrecord')}}">Feeding Records</a></li>
-                        <li><a href="{{route('farm.chicken.broodergrower.broodergrower_growthrecord')}}">Growth Performance</a></li>
-                    </ul>
-                </div> --}}
-                </li>
-            </ul>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible">
-                <li>
-                    <a href="#!" class="collapsible-header" class="waves-effect"><i class="material-icons">monetization_on</i>Mortality & Sales</a>
-                </li>
-            </ul>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
-                <li>
-                    <a class="collapsible-header" class="waves-effect"><i class="material-icons">assessment</i>Farm Records</a>
-                    <div class="collapsible-body">
+                <ul class="collapsible">
+                    <li>
+                        <a href="{{route('farm.pens')}}" class="collapsible-header"><i class="material-icons">view_column</i>Pens</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible">
+                    <li>
+                        <a href="{{route('farms.generation_lines_page')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">linear_scale</i>Generations & Lines</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible">
+                    <li>
+                        <a href="{{route('farm.family_records')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">queue</i>Families</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a href="{{route('farm.chicken.breeder.add_breeder')}}" class="collapsible-header">Breeder<i class="material-icons">stars</i></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                    <a href="{{route('farm.chicken.replacemnt.replacement_add')}}" class="collapsible-header">Replacement<i class="material-icons">autorenew</i></a>
+                    {{-- <div class="collapsible-body">
                         <ul>
-                            <li><a href="#!">Generation</a></li>
-                            <li><a href="#!">Family</a></li>
+                            <li><a href="{{route('farm.chicken.replacemnt.replacement_add')}}">Add Replacements</a></li>
+                            <li><a href="{{route('farm.chicken.replacemnt.phenomorpho_record')}}">Phenotypic and Morphometric</a></li>
+                            <li><a href="{{route('farm.chicken.replacemnt.feeding_record')}}">Feeding Records</a></li>
                         </ul>
-                    </div>
-                </li>
-            </ul>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible">
-                <li>
-                    <a href="{{route('farm.farm_settings')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">settings_applications</i>Farm Settings</a>
-                </li>
-            </ul>
-        </li>
+                    </div> --}}
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                    <a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}" class="collapsible-header">Brooders & Growers<i class="material-icons">group_work</i></a>
+                    {{-- <div class="collapsible-body">
+                        <ul>
+                            <li><a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}">Add Brooders & Growers</a></li>
+                            <li><a href="{{route('farm.chicken.broodergrower.broodergrower_feedingrecord')}}">Feeding Records</a></li>
+                            <li><a href="{{route('farm.chicken.broodergrower.broodergrower_growthrecord')}}">Growth Performance</a></li>
+                        </ul>
+                    </div> --}}
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible">
+                    <li>
+                        <a href="#!" class="collapsible-header" class="waves-effect"><i class="material-icons">monetization_on</i>Mortality & Sales</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header" class="waves-effect"><i class="material-icons">assessment</i>Farm Records</a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#!">Generation</a></li>
+                                <li><a href="#!">Family</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible">
+                    <li>
+                        <a href="{{route('farm.farm_settings')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">settings_applications</i>Farm Settings</a>
+                    </li>
+                </ul>
+            </li>
+        @endif
     </ul>
     {{-- Top navigation --}}
     <nav class="blue-grey">
@@ -155,7 +147,6 @@
             @yield('content')
         </div>
     </main>
-    {{-- <script src="semantic/dist/semantic.min.js"></script> --}}
     <script type="text/javascript" src="/js/app.js"></script>
     <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>

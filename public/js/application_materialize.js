@@ -33,4 +33,21 @@ $( document ).ready(function() {
         dismissible: false
     });
 
+    $('#pen_modal').modal({
+        dismissible: false
+    });
+
+    $('#add_generation').modal({
+        dismissible : false,
+    });
+
+    $('#add_line').modal({
+        dismissible : false,
+    });
+
+    $('#add_family').modal({
+        dismissible : false,
+    });
+
+
 });

@@ -17,10 +17,11 @@ class CreateAnimalMovementsTable extends Migration
             $table->increments('id');
             $table->date('date');
             $table->unsignedInteger('family_id');
-            $table->unsignedInteger('pen_id')->nullable();
-            $table->enum('type', ['breeder', 'replacement', 'broodersgrowers', 'egg']);
+            $table->unsignedInteger('previous_pen_id')->nullable();
+            $table->unsignedInteger('current_pen_id')->nullable();
+            $table->enum('previous_type', ['breeder', 'replacement', 'broodersgrowers', 'egg']);
+            $table->enum('current_type', ['breeder', 'replacement', 'broodersgrowers', 'egg']);
             $table->string('activity');
-            $table->double('price')->nullable();
             $table->integer('number_male')->nullable();
             $table->integer('number_female')->nullable();
             $table->integer('number_total');
@@ -29,7 +30,8 @@ class CreateAnimalMovementsTable extends Migration
 
         Schema::table('animal_movements', function($table) {
             $table->foreign('family_id')->references('id')->on('families');
-            $table->foreign('pen_id')->references('id')->on('pens');
+            $table->foreign('previous_pen_id')->references('id')->on('pens');
+            $table->foreign('current_pen_id')->references('id')->on('pens');
         });
     }
 

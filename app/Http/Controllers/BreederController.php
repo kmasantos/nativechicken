@@ -15,6 +15,7 @@ use App\Models\Replacement;
 use App\Models\ReplacementInventory;
 use App\Models\BreederFeeding;
 use App\Models\EggProduction;
+use App\Models\HatcheryRecord;
 
 class BreederController extends Controller
 {
@@ -372,29 +373,36 @@ class BreederController extends Controller
     /**
      * TODO Modify Hatchery Parameter for later user
      */
+
+    public function getHatcheryParameter($breeder_id)
+    {
+        $hatchery_records = HatcheryRecord::where('breeder_id', $breeder_id)->paginate(10);
+        return $hatchery_records;
+    }
+
     public function addHatcheryParameter(Request $request)
     {
         $request->validate([
             'breeder_id' => 'required',
             'date_eggs_set' => 'required',
-            'batching_date' => 'required',
             'number_eggs_set' => 'required',
-            'week_of_lay' => 'required',
             'number_fertile' => 'required',
             'number_hatched' => 'required',
             'date_hatched' => 'required'
         ]);
 
-        $hatchery = new HatcheryRecord;
-        $hatchery->breeder_id = $request->breeder_id;
-        $hatchery->date_eggs_set = $request->date_eggs_set;
-        $hatchery->batching_date = $request->date_eggs_set;
-        $hatchery->number_eggs_set = $request->date_eggs_set;
-        $hatchery->week_of_lay = $request->date_eggs_set;
-        $hatchery->number_fertile = $request->date_eggs_set;
-        $hatchery->number_hatched = $request->date_eggs_set;
-        $hatchery->date_hatched = $request->date_eggs_set;
-        $hatchery->save();
+        // $hatchery = new HatcheryRecord;
+        // $hatchery->breeder_id = $request->breeder_id;
+        // $hatchery->date_eggs_set = $request->date_eggs_set;
+        // $hatchery->number_eggs_set = $request->number_eggs_set;
+        // $hatchery->week_of_lay = Carbon::createFromFormat('Y-m-d', $request->date_eggs_set)->subDays(21)->toDateString();
+        // $hatchery->number_fertile = $request->number_fertile;
+        // $hatchery->number_hatched = $request->number_hatched;
+        // $hatchery->date_hatched = $request->date_hatched;
+        // $hatchery->batching_date = Carbon::createFromFormat('Y-m-d', $request->date_hatched)->subDays(21)->toDateString();
+        // $breeder = Breeder::where('id', $request->breeder_id)->firstOrFail();
+        // $brooder_record = Brooder::where('family_id', $breeder->family_id)
+        // $hatchery->save();
     }
 
 

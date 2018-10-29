@@ -69,7 +69,7 @@ class ApplicationSeeder extends Seeder
         $farm1->code = "WMSU";
         $farm1->address = "Normal Rd, Zamboanga, 7000 Zamboanga del Sur";
         $farm1->breedable_id = $zampen->id;
-        $farm1->batching_week = 2;
+        $farm1->batching_week = null;
         $farm1->save();
 
         $farm2 = new Farm;
@@ -77,7 +77,7 @@ class ApplicationSeeder extends Seeder
         $farm2->code = "WVSU";
         $farm2->address = "Luna St, La Paz, Iloilo City, 5000 Iloilo";
         $farm2->breedable_id = $darag->id;
-        $farm2->batching_week = 2;
+        $farm2->batching_week = null;
         $farm2->save();
 
         $farm3 = new Farm;
@@ -85,7 +85,7 @@ class ApplicationSeeder extends Seeder
         $farm3->code = "USF";
         $farm3->address = "Ubay, Bohol";
         $farm3->breedable_id = $boholano->id;
-        $farm3->batching_week = 2;
+        $farm3->batching_week = null;
         $farm3->save();
 
         $farm4 = new Farm;
@@ -93,7 +93,7 @@ class ApplicationSeeder extends Seeder
         $farm4->code = "BU";
         $farm4->address = "Legazpi City, Albay, Philippines 4500";
         $farm4->breedable_id = $camarines->id;
-        $farm4->batching_week = 2;
+        $farm4->batching_week = null;
         $farm4->save();
 
         $farm5 = new Farm;
@@ -101,7 +101,7 @@ class ApplicationSeeder extends Seeder
         $farm5->code = "NSPRDC";
         $farm5->address = "KM 101 Maharlika Highway Brgy. Lagalag Tiaong, Quezon";
         $farm5->breedable_id = $ipItim->id;
-        $farm5->batching_week = 2;
+        $farm5->batching_week = null;
         $farm5->save();
 
         $farm6 = new Farm;
@@ -109,22 +109,22 @@ class ApplicationSeeder extends Seeder
         $farm6->code = "NSPRDC";
         $farm6->address = "KM 101 Maharlika Highway Brgy. Lagalag Tiaong, Quezon";
         $farm6->breedable_id = $IPKhaki->id;
-        $farm6->batching_week = 2;
+        $farm6->batching_week = null;
         $farm6->save();
 
         $farmSample = new Farm;
-        $farmSample->name = "Farm Name Sample";
-        $farmSample->code = "BUCAF";
+        $farmSample->name = "Farmers Farm";
+        $farmSample->code = "FAM";
         $farmSample->address = "Bicol";
         $farmSample->breedable_id = $camarines->id;
-        $farmSample->batching_week = 2;
+        $farmSample->batching_week = null;
         $farmSample->save();
 
         $this->command->info('Farms Seeded');
 
         $now = Carbon::now()->toDateString();
         $user = new User;
-        $user->name = "FarmSampleUser";
+        $user->name = "Admin Farm";
         $user->email = "sfretuerma@gmail.com";
         $user->last_active = $now;
         $user->farm_id = $farmSample->id;

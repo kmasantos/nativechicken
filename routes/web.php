@@ -31,6 +31,7 @@ Route::group(['middleware' => ['web']], function ()
         // General Routes
         Route::get('/', ['as' => 'farm.index', 'uses' => 'FarmController@index']);
         Route::get('pens',['as' => 'farm.pens', 'uses' => 'FarmController@getPensPage']);
+        Route::patch('set_batching', ['as' => 'farm.set_batching', 'uses' => 'FarmController@setBatching']);
 
         Route::get('generation_lines_page', ['as' => 'farms.generation_lines_page', 'uses' => 'FarmController@getGenerationLinesPage']);
 
@@ -100,6 +101,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_feeding', 'BreederController@addFeedingRecords');
         Route::get('egg_prod/{breeder_id}', 'BreederController@fetchEggProduction');
         Route::post('add_egg_prod', 'BreederController@addEggProduction');
+        Route::get('breeder_hatchery/{breeder_id}', 'BreederController@getHatcheryParameter');
+        Route::post('breeder_add_hatchery', 'BreederController@addHatcheryParameter');
         /**
          * *New Axios Routes for Replacement
          */

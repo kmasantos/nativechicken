@@ -30,7 +30,7 @@
         <div v-else>
             <div class="row" v-if="gen_len > 0">
                 <div class="col s12 m12 l12">
-                    <table class="responsive-table bordered">
+                    <table class="responsive-table bordered centered highlight">
                         <thead>
                             <tr>
                                 <th>Number</th>
@@ -43,7 +43,7 @@
                                 <td>{{generation.number}}</td>
                                 <td v-if="generation.is_active">Active</td>
                                 <td v-else>Inactive</td>
-                                <td><a href="#details_modal" @click.prevent="viewDetails(generation.id)" class="modal-trigger"><i class="material-icons">details</i></a></td>
+                                <td><a href="#details_modal" @click.prevent="viewDetails(generation.id);selected_generation_number=generation.number" class="modal-trigger"><i class="material-icons">details</i></a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -60,7 +60,7 @@
         </div>
         <div class="fixed-action-btn vertical click-to-toggle">
             <a class="btn-floating btn-large blue-grey darken-1">
-                <i class="material-icons">add</i>
+                <i class="fas fa-plus"></i>
             </a>
             <ul>
                 <li><a href="#add_generation" class="btn-floating blue-grey tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Add Generation"><i class="fas fa-genderless"></i></a></li>
@@ -119,9 +119,9 @@
         <div id="details_modal" class="modal">
             <div class="modal-content">
                 <ul class="collection with-header">
-                    <li class="collection-header"><h5>Lines</h5></li>
+                    <li class="collection-header"><h5>Generation {{selected_generation_number}} Lines</h5></li>
                     <li v-if="line_len == 0" class="collection-item"><div>No Lines in this Generation</div></li>
-                    <li v-for="line in line_list" :key="line.id" class="collection-item"><div>{{line.number}}</div></li>
+                    <li v-for="line in line_list" :key="line.id" class="collection-item"><div>Line {{line.number}}</div></li>
                 </ul>
             </div>
             <div class="modal-footer">
@@ -141,6 +141,7 @@
 
                 search : '',
                 selected_generation : '',
+                selected_generation_number : '',
                 add_generation : '',
                 line_number : '',
                 generation_details : '',
@@ -158,8 +159,8 @@
                 this.getGenerations();
                 this.fetchGenerationList();
             },
-            searchGeneration : function(event){
-                axios.get('search_generation/'+this.search)
+            searchGeneration : function(page = 1){
+                axios.get('search_generation/'+this.search+'?page='+page)
                 .then(response => this.generations = response.data)
                 .catch(error => console.log(error));
             },
@@ -177,11 +178,16 @@
                 axios.post('add_generation', {
                     generation_number: this.add_generation,
                 })
-                .then(function (response) {
-                    Materialize.toast('Generation added', 3000, 'rounded');
+                .then(response => {
+                    if(response.data.error == undefined){
+                        this.add_generation = '';
+                        Materialize.toast('Generation added', 3000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                    }
                 })
                 .catch(function (error) {
-                    Materialize.toast('Add generation failed', 3000, 'rounded');
+                    Materialize.toast('Add generation failed', 3000, 'red rounded');
                 });
                 this.initialize();
             },
@@ -190,13 +196,18 @@
                     generation_number: this.selected_generation,
                     line_number: this.line_number,
                 })
-                .then(function (response) {
-                    console.log(response);
-                    Materialize.toast('Line added', 3000, 'rounded');
+                .then(response => {
+                    if(response.data.error == undefined){
+                        this.selected_generation = '';
+                        this.line_number = '';
+                        Materialize.toast('Line added', 3000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);
-                    Materialize.toast('Adding line to generation failed', 3000, 'rounded');
+                    Materialize.toast('Adding line to generation failed', 3000, 'red rounded');
                 });
             },
             viewDetails : function(generation){

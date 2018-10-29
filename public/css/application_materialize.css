@@ -4,7 +4,7 @@ nav, main, footer {
 
 @media only screen and (max-width : 600px) {
     nav, main, footer {
-        padding-left: 0;    
+        padding-left: 0;
     }
 }
 
@@ -48,4 +48,12 @@ ul.breadcrumb li a {
 ul.breadcrumb li a:hover {
     color: #78909c;
     text-decoration: underline;
+}
+
+#add_generation{
+    height: 300px;
+}
+
+#add_line {
+    height: 350px;
 }

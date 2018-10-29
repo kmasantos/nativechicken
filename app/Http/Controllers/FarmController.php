@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use App\Models\Farm;
 use App\Models\Pen;
 use App\Models\Generation;
 use App\Models\Line;
@@ -23,18 +24,33 @@ class FarmController extends Controller
      */
     public function index()
     {
-
+        $farm = Farm::where('id', Auth::user()->farm_id)->firstOrFail();
+        if($farm->batching_week == null){
+            return view('general.set_batching');
+        }
         return view('general.dashboard');
     }
 
     /**
-     *  Test Page for Semantic UI
+     *  Test Page for Element UI
      *
      * @return \Illuminate\Http\Response
      */
     public function testPage()
     {
         return view('general.test');
+    }
+
+    public function setBatching(Request $request)
+    {
+        $request->validate([
+            'batching_week' => 'required'
+        ]);
+
+        $farm = Farm::where('id', Auth::user()->farm_id)->firstOrFail();
+        $farm->batching_week = $request->batching_week;
+        $farm->save();
+        return view('general.dashboard');
     }
 
     /*
@@ -84,14 +100,20 @@ class FarmController extends Controller
             'type' => 'required',
             'pen_capacity' => 'required',
         ]);
+        $request->pen_number = str_pad($request->pen_number, 2, '0', STR_PAD_LEFT);
+        $exists = Pen::where('number', 'like', '%'.$request->pen_number)->where('type', $request->type)->first();
+        if($exists != null){
+            return response()->json( ['error'=>'Pen number already exist'] );
+        }
+
         $new = new Pen;
         $new->farm_id = Auth::user()->farm_id;
         if($request->type === "brooder"){
-            $new->number = "B".str_pad($request->pen_number, 2, '0', STR_PAD_LEFT);
+            $new->number = "B".$request->pen_number;
         }elseif($request->type === "grower"){
-            $new->number = "G".str_pad($request->pen_number, 2, '0', STR_PAD_LEFT);
+            $new->number = "G".$request->pen_number;
         }elseif($request->type === "layer"){
-            $new->number = "L".str_pad($request->pen_number, 2, '0', STR_PAD_LEFT);
+            $new->number = "L".$request->pen_number;
         }
         $new->type = $request->type;
         $new->total_capacity = $request->pen_capacity;
@@ -199,9 +221,14 @@ class FarmController extends Controller
         $request->validate([
             'generation_number' => 'required',
         ]);
+        $request->generation_number = str_pad($request->generation_number, 4, '0', STR_PAD_LEFT);
+        $exists = Generation::where('number', 'like', $request->generation_number)->first();
+        if($exists!=null){
+            return response()->json( ['error'=>'Generation number already exist'] );
+        }
         $generation = new Generation;
         $generation->farm_id = Auth::user()->farm_id;
-        $generation->number = str_pad($request->generation_number, 4, '0', STR_PAD_LEFT);
+        $generation->number = $request->generation_number;
         $generation->numerical_generation = $request->generation_number;
         $generation->is_active = true;
         $generation->save();
@@ -220,6 +247,11 @@ class FarmController extends Controller
             'line_number' => 'required',
             'generation_number' => 'required',
         ]);
+        $request->line_number = str_pad($request->line_number, 4, '0', STR_PAD_LEFT);
+        $exists = Line::where('generation_id', $request->generation_number)->where('number', 'like', $request->line_number)->first();
+        if($exists!=null){
+            return response()->json( ['error'=>'Line number already exist'] );
+        }
         $new = new Line;
         $new->number = str_pad($request->line_number, 4, '0', STR_PAD_LEFT);
         $new->generation_id = $request->generation_number;
@@ -301,9 +333,13 @@ class FarmController extends Controller
             'family_number' => 'required',
             'line_id' => 'required',
         ]);
-
+        $request->family_number = str_pad($request->family_number, 4, '0', STR_PAD_LEFT);
+        $exists = Family::where('line_id', $request->line_id)->where('number', 'like', $request->family_number)->first();
+        if($exists!=null){
+            return response()->json( ['error'=>'Family number already exist'] );
+        }
         $new = new Family;
-        $new->number = str_pad($request->family_number, 4, '0', STR_PAD_LEFT);
+        $new->number = $request->family_number;
         $new->line_id = $request->line_id;
         $new->is_active = true;
         $new->save();

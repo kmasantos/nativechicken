@@ -15,7 +15,7 @@ class CreateReplacementFeedingsTable extends Migration
     {
         Schema::create('replacement_feedings', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('replacement_id');
+            $table->unsignedInteger('replacement_inventory_id');
             $table->unsignedInteger('pen_id');
             $table->date('date_collected');
             $table->double('amount_offered');
@@ -24,7 +24,7 @@ class CreateReplacementFeedingsTable extends Migration
         });
 
         Schema::table('replacement_feedings', function($table) {
-            $table->foreign('replacement_id')->references('id')->on('replacements');
+            $table->foreign('replacement_inventory_id')->references('id')->on('replacement_inventories');
             $table->foreign('pen_id')->references('id')->on('pens');
         });
     }

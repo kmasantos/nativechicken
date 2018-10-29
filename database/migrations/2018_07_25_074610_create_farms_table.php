@@ -18,7 +18,7 @@ class CreateFarmsTable extends Migration
             $table->string('name');
             $table->string('code');
             $table->string('address');
-            $table->integer('batching_week')->nullable();
+            $table->integer('batching_week')->nullable()->default(null);
             $table->integer('breedable_id')->unsigned();
         });
 

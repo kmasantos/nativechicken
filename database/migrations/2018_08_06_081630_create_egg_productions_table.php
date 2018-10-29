@@ -15,7 +15,7 @@ class CreateEggProductionsTable extends Migration
     {
         Schema::create('egg_productions', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('breeder_id');
+            $table->unsignedInteger('breeder_inventory_id');
             $table->date('date_collected');
             $table->integer('total_eggs_intact')->default(0);
             $table->double('total_egg_weight')->default(0);
@@ -25,7 +25,7 @@ class CreateEggProductionsTable extends Migration
         });
 
         Schema::table('egg_productions', function($table) {
-            $table->foreign('breeder_id')->references('id')->on('breeders');
+            $table->foreign('breeder_inventory_id')->references('id')->on('breeder_inventories');
         });
     }
 

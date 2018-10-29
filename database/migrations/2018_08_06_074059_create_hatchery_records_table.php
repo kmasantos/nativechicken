@@ -15,7 +15,7 @@ class CreateHatcheryRecordsTable extends Migration
     {
         Schema::create('hatchery_records', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('breeder_id');
+            $table->unsignedInteger('breeder_inventory_id');
             $table->date('date_eggs_set')->nullable();
             $table->date('batching_date')->nullable();
             $table->integer('number_eggs_set')->nullable();
@@ -26,7 +26,7 @@ class CreateHatcheryRecordsTable extends Migration
         });
 
         Schema::table('hatchery_records', function($table) {
-            $table->foreign('breeder_id')->references('id')->on('breeders');
+            $table->foreign('breeder_inventory_id')->references('id')->on('breeder_inventories');
         });
     }
 
