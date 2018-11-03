@@ -11,6 +11,7 @@
                 </a>
             </div>
         </div>
+
         <div class="row center" v-if="breeders_len == 0">
             <div class="col s12 m12 l12">
                 <h5>No Breeder Families</h5>
@@ -31,7 +32,7 @@
                             </div>
                             <div class="card-action right-align">
                                 <a @click="selected_breeder=breeder.id; fetchFeedingRecords();" href="#feeding" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Feeding Record"><i class="fas fa-utensils"></i></a>
-                                <a @click="selected_breeder=breeder.id; fetchEggProduction()" href="#egg_prod" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Egg Production"><i class="fas fa-chart-line"></i></a>
+                                <a @click="eggprod_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Egg Production"><i class="fas fa-chart-line"></i></a>
                                 <a @click="hatchery_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Hatchery Record"><i class="fas fa-ellipsis-v"></i></a>
                                 <a @click="selected_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Egg Quality"><i class="fas fa-th-list"></i></a>
                                 <a @click="selected_breeder=breeder.id" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Inventory"><i class="fas fa-home"></i></a>
@@ -274,111 +275,8 @@
             </div>
         </div>
 
-        <div id="egg_prod" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <div class="row valign-wrapper">
-                    <div class="col s12 m6 l6">
-                        <h4>Egg Production</h4>
-                    </div>
-                    <div class="col s12 m6 l6 right-align">
-                        <a href="#egg_prod_form" @click="closeModal('#egg_prod')" class="btn-floating btn-large waves-effect waves-light blue-grey tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add Record"><i class="material-icons">add</i></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <span v-if="egg_prod_len == 0">No Records</span>
-                        <div v-else>
-                            <table >
-                                <thead class="bordered responsive-table highlight">
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Total Intact</th>
-                                    <th>Total Weight</th>
-                                    <th>Broken</th>
-                                    <th>Rejected</th>
-                                    <th>Remarks</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr v-for="prod in egg_prod.data" :key="prod.id">
-                                        <td>{{prod.date_collected}}</td>
-                                        <td>{{prod.total_eggs_intact}}</td>
-                                        <td>{{prod.total_egg_weight}}</td>
-                                        <td>{{prod.total_broken}}</td>
-                                        <td>{{prod.total_rejects}}</td>
-                                        <td>{{prod.remarks}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="row">
-                                <div class="col s12 m12 l12 center">
-                                    <pagination :data="egg_prod" @pagination-change-page="fetchEggProduction"></pagination>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-            </div>
-        </div>
-
-        <div id="egg_prod_form" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <h4>Egg Production</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <div class="row">
-                            <div class="col s12 m6 l6">
-                                <label for="date_added">Date Collected</label>
-                                <datepicker id="date_added" :format="customFormatter" v-model="date_eggprod_collected"></datepicker>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 s6 m6 input-field">
-                                <input v-model.number="total_eggs_intact" class="validate" placeholder="Total Eggs that passes as good" id="intact" type="number" min="0" validate>
-                                <label for="intact">Total Eggs Intact</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 s6 m6 input-field">
-                                <input v-model.number="total_egg_weight" class="validate" placeholder="Totall egg weight of all intact eggs" id="total_weight" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                <label for="total_weight">Total Egg Weight</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 s6 m6 input-field">
-                                <input v-model.number="total_broken" class="validate" placeholder="Total Eggs that were broken" id="total_broken" type="number" min="0" validate>
-                                <label for="total_broken">Total Eggs Broken</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 s6 m6 input-field">
-                                <input v-model.number="total_rejects" class="validate" placeholder="Total Eggs that doesn't pass as good condition" id="total_rejects" type="number" min="0" validate>
-                                <label for="total_rejects">Total Eggs Rejected</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 s6 m6 input-field">
-                                <input v-model="egg_prod_remarks" placeholder="Add remarks" id="egg_prod_remarks" type="text">
-                                <label for="egg_prod_remarks">Remarks</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                <a @click="addEggProduction()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
-            </div>
-        </div>
         <hatchery-record v-if="hatchery_breeder!=null" :breeder="hatchery_breeder" v-on:close_record="hatchery_breeder=null"></hatchery-record>
+        <egg-production v-if="eggprod_breeder!=null" :breeder="eggprod_breeder" v-on:close_record="eggprod_breeder=null"></egg-production>
     </div>
 </template>
 
@@ -420,7 +318,12 @@
                 pens_loaded : false,
                 breeders_len : 0,
                 selected_breeder : null,
+
+                // for child props
                 hatchery_breeder : null,
+                eggprod_breeder : null,
+                eggqual_breeder : null,
+                feeding_breeder : null,
 
                 feeding_records : {},
                 feeding_records_len : 0,
@@ -428,15 +331,6 @@
                 offered : '',
                 refused : '',
                 remarks : '',
-
-                egg_prod : {},
-                egg_prod_len : 0,
-                date_eggprod_collected : '',
-                total_eggs_intact : '',
-                total_egg_weight : '',
-                total_broken : '',
-                total_rejects : '',
-                egg_prod_remarks : '',
 
             }
         },
@@ -585,33 +479,7 @@
                     Materialize.toast('Failed to add feeding record', 3000, 'rounded');
                 });
             },
-            fetchEggProduction : function (page = 1) {
-                axios.get('egg_prod/'+this.selected_breeder+"?page="+page)
-                .then(response => {
-                    this.egg_prod = response.data;
-                    this.egg_prod_len = this.egg_prod.data.length;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            addEggProduction : function () {
-                axios.post('add_egg_prod', {
-                    breeder_id: this.selected_breeder,
-                    date_added : this.customFormatter(this.date_eggprod_collected),
-                    total_eggs_intact : this.total_eggs_intact,
-                    total_egg_weight : this.total_egg_weight,
-                    total_broken : this.total_broken,
-                    total_rejects : this.total_rejects,
-                    remarks : this.egg_prod_remarks,
-                })
-                .then(function (response) {
-                    Materialize.toast('Successfully added egg production record', 3000, 'rounded');
-                })
-                .catch(function (error) {
-                    Materialize.toast('Failed to add egg production record', 3000, 'rounded');
-                });
-            },
+
             searchBreeder : function () {
 
             },

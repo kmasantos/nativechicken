@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReplacementPhenoMorphosTable extends Migration
+class CreatePhenoMorphosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreateReplacementPhenoMorphosTable extends Migration
      */
     public function up()
     {
-        Schema::create('replacement_pheno_morphos', function (Blueprint $table) {
+        Schema::create('pheno_morphos', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('replacement_inventory_id');
+            $table->unsignedInteger('replacement_inventory_id')->nullable();
+            $table->unsignedInteger('breeder_inventory_id')->nullable();
             $table->unsignedInteger('values_id');
         });
 
-        Schema::table('replacement_pheno_morphos', function($table) {
+        Schema::table('pheno_morphos', function($table) {
             $table->foreign('replacement_inventory_id')->references('id')->on('replacement_inventories');
-            $table->foreign('values_id')->references('id')->on('replacement_pheno_morpho_values');
+            $table->foreign('breeder_inventory_id')->references('id')->on('breeder_inventories');
+            $table->foreign('values_id')->references('id')->on('pheno_morpho_values');
         });
     }
 
@@ -32,6 +34,6 @@ class CreateReplacementPhenoMorphosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('replacement_pheno_morphos');
+        Schema::dropIfExists('pheno_morphos');
     }
 }

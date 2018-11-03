@@ -93,6 +93,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_fetch_families/{line_id}', 'BreederController@fetchFamilies');
         Route::get('breeder_fetch_female_families/{line_number}/{male_family}', 'BreederController@fetchFemaleFamilies');
         Route::get('breeder_fetch_pens', 'BreederController@fetchBreederPens');
+        Route::get('breeder_fetch_inventories/{family_id}', 'BreederController@fetchReplacementInventories');
 
         /**
          * *New Axios Routes for Breeders

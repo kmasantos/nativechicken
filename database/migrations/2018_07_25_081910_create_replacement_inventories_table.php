@@ -17,6 +17,7 @@ class CreateReplacementInventoriesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('replacement_id');
             $table->unsignedInteger('pen_id');
+            $table->string('replacement_tag');
             $table->date('batching_date')->nullable();
             $table->integer('number_male')->default(0);
             $table->integer('number_female')->default(0);

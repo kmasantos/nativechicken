@@ -5,7 +5,7 @@
                 <!-- Hatchery List -->
                 <div class="row valign-wrapper" v-show="hide_record==false">
                     <div class="col s6 m6 l6">
-                        <h5>Hatchery Record | Family</h5>
+                        <h5>Hatchery Record | </h5>
                     </div>
                     <div class="col s3 m3 l3 right-align">
                         <a @click="add_record=true; hide_record=true" class="waves-effect waves-green btn-flat green-text"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -14,38 +14,40 @@
                         <a v-on:click="closeHatcheryRecords" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
                     </div>
                 </div>
-                <div class="row" v-show="hide_record==false">
-                    <div class="col s12 m12 l12">
-                        <table class="responsive-table bordered highlight centered">
-                            <thead>
-                                <tr>
-                                    <th>Date Set</th>
-                                    <th>Quantity</th>
-                                    <th>Week of Lay</th>
-                                    <th>No. Fertile</th>
-                                    <th>No. Hatched</th>
-                                    <th>Date Hatched</th>
-                                    <th>Update Record</th>
-                                </tr>
-                            </thead>
+                <div v-show="hide_record==false">
+                    <div class="row" >
+                        <div class="col s12 m12 l12">
+                            <table class="responsive-table bordered highlight centered">
+                                <thead>
+                                    <tr>
+                                        <th>Date Set</th>
+                                        <th>Quantity</th>
+                                        <th>Week of Lay</th>
+                                        <th>No. Fertile</th>
+                                        <th>No. Hatched</th>
+                                        <th>Date Hatched</th>
+                                        <th>Update Record</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                <tr v-if="hatchery_records_length === 0">
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                <tbody>
+                                    <tr v-if="hatchery_records_length === 0">
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12 center">
-                        <pagination :data="hatchery_records" @pagination-change-page="fetchHatcheryRecord"></pagination>
+                    <div class="row">
+                        <div class="col s12 m12 l12 center">
+                            <pagination :data="hatchery_records" @pagination-change-page="fetchHatcheryRecord"></pagination>
+                        </div>
                     </div>
                 </div>
 

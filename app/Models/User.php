@@ -12,7 +12,7 @@ class User extends Authenticatable
     use SoftDeletes;
 
     public $timestamps = false;
-    
+
     /**
      * The attributes that are mass assignable.
      *

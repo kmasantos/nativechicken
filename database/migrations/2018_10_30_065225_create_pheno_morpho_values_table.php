@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReplacementPhenoMorphoValuesTable extends Migration
+class CreatePhenoMorphoValuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateReplacementPhenoMorphoValuesTable extends Migration
      */
     public function up()
     {
-        Schema::create('replacement_pheno_morpho_values', function (Blueprint $table) {
+        Schema::create('pheno_morpho_values', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('gender', ['male', 'female']);
             $table->json('phenotypic');
@@ -29,6 +29,6 @@ class CreateReplacementPhenoMorphoValuesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('replacement_pheno_morpho_values');
+        Schema::dropIfExists('pheno_morpho_values');
     }
 }

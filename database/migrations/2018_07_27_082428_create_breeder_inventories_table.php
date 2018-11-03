@@ -16,6 +16,8 @@ class CreateBreederInventoriesTable extends Migration
         Schema::create('breeder_inventories', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('breeder_id');
+            $table->unsignedInteger('pen_id');
+            $table->string('breeder_tag');
             $table->date('batching_date')->nullable();
             $table->integer('number_male')->nullable();
             $table->integer('number_female')->nullable();
@@ -25,6 +27,7 @@ class CreateBreederInventoriesTable extends Migration
 
         Schema::table('breeder_inventories', function($table) {
             $table->foreign('breeder_id')->references('id')->on('breeders');
+            $table->foreign('pen_id')->references('id')->on('pens');
         });
     }
 

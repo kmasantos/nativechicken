@@ -19,7 +19,7 @@ class CreateAnimalMovementsTable extends Migration
             $table->unsignedInteger('family_id');
             $table->unsignedInteger('previous_pen_id')->nullable();
             $table->unsignedInteger('current_pen_id')->nullable();
-            $table->enum('previous_type', ['breeder', 'replacement', 'broodersgrowers', 'egg']);
+            $table->enum('previous_type', ['breeder', 'replacement', 'broodersgrowers', 'egg'])->nullable();
             $table->enum('current_type', ['breeder', 'replacement', 'broodersgrowers', 'egg']);
             $table->string('activity');
             $table->integer('number_male')->nullable();

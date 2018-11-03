@@ -49,5 +49,8 @@ $( document ).ready(function() {
         dismissible : false,
     });
 
+    $('#add_breeder_modal').modal({
+        dismissible : false,
+    });
 
 });

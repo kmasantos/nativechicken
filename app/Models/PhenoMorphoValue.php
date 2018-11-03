@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ReplacementPhenoMorphoValue extends Model
+class PhenoMorphoValue extends Model
 {
     public $timestamps = false;
 	/**
@@ -12,7 +12,7 @@ class ReplacementPhenoMorphoValue extends Model
      *
      * @var string
      */
-    protected $table = 'replacement_pheno_morpho_values';
+    protected $table = 'pheno_morpho_values';
     /**
      * The attributes that are mass assignable.
      *
@@ -22,8 +22,8 @@ class ReplacementPhenoMorphoValue extends Model
         'gender', 'phenotypic', 'morphometric', 'date_collected'
     ];
 
-    public function replacement_pheno_morpho()
+    public function pheno_morpho_values()
     {
-        return $this->hasMany(ReplacementPhenoMorpho::class);
+        return $this->belongsTo(PhenoMorpho::class);
     }
 }

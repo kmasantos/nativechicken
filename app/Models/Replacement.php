@@ -41,4 +41,10 @@ class Replacement extends Model
     {
         return $this->hasMany(ReplacementPhenoMorpho::class);
     }
+
+    public function getInventories()
+    {
+        $inventories = ReplacementInventory::where('replacement_id', $this->id)->get();
+        return $inventories;
+    }
 }
