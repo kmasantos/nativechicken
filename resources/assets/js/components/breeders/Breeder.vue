@@ -6,73 +6,78 @@
                 <h5>No Available Breeders</h5>
             </div>
         </div>
-        <!-- Search Bar -->
-        <div class="row valign-wrapper" v-else-if="breeders_length > 0">
-            <div class="col s12 m8 l8 input-field">
-                <input v-model="search" id="search" type="text">
-                <label for="search">Search Breeder Tag Number</label>
+        <div v-else-if="breeders_length > 0">
+            <!-- Search Bar -->
+            <div class="row valign-wrapper" >
+                <div class="col s12 m8 l8 input-field">
+                    <input v-model="search" id="search" type="text">
+                    <label for="search">Search Breeder Tag Number</label>
+                </div>
+                <div class="col s12 m4 l4">
+                    <a class="waves-effect waves-light btn blue-grey">Search
+                        <i class="material-icons right">search</i>
+                    </a>
+                </div>
             </div>
-            <div class="col s12 m4 l4">
-                <a class="waves-effect waves-light btn blue-grey">Search
-                    <i class="material-icons right">search</i>
-                </a>
-            </div>
-        </div>
-        <!-- Breeder Inventory List -->
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="row">
-                    <div class="col s12 m6 l6">
-                        <div class="card blue-grey lighten-2">
-                            <div class="card-content">
-                                <div class="row valign-wrapper">
-                                    <div class="col s6 m6 l6">
-                                        <span class="card-title white-text">Breeder Tag</span>
+            <!-- Breeder Inventory List -->
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <div class="row">
+                        <div class="col s12 m6 l6" v-for="breeder in breeders.data" :key="breeder.inventory_id">
+                            <div class="card blue-grey lighten-2">
+                                <div class="card-content">
+                                    <div class="row valign-wrapper">
+                                        <div class="col s6 m6 l6">
+                                            <span class="card-title white-text">{{breeder.breeder_tag}}</span>
+                                        </div>
+                                        <div class="col s3 m3 l3 center-align">
+                                            <a class="waves-effect waves-grey btn-flat white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="far fa-edit"></i></a>
+                                        </div>
+                                        <div class="col s3 m3 l3 center-align">
+                                            <a class="waves-effect waves-grey btn-flat red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="far fa-trash-alt"></i></a>
+                                        </div>
                                     </div>
-                                    <div class="col s3 m3 l3 center-align">
-                                        <a class="waves-effect waves-grey btn-flat white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="far fa-edit"></i></a>
-                                    </div>
-                                    <div class="col s3 m3 l3 center-align">
-                                        <a class="waves-effect waves-grey btn-flat red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="far fa-trash-alt"></i></a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col s12 m12 l12">
-                                        <ul class="collection">
-                                            <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Family">F:</li>
-                                            <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Line">L:</li>
-                                            <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Generation">G:</li>
-                                            <li class="collection-item blue-grey lighten-4 center-align">
-                                                <span>
-                                                    <i class="fas fa-mars"></i> Male : 0
-                                                </span> |
-                                                <span>
-                                                    <i class="fas fa-venus"></i> Female : 1000
-                                                </span>
+                                    <div class="row">
+                                        <div class="col s12 m12 l12">
+                                            <ul class="collection">
+                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Family ' + breeder.family_number">F: {{breeder.family_number}}</li>
+                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Line ' + breeder.line_number">L: {{breeder.line_number}}</li>
+                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Generation ' + breeder.generation_number">G: {{breeder.generation_number}}</li>
+                                                <li class="collection-item blue-grey lighten-4 center-align">
+                                                    <span>
+                                                        <i class="fas fa-mars"></i> Male : {{breeder.number_male}}
+                                                    </span> |
+                                                    <span>
+                                                        <i class="fas fa-venus"></i> Female : {{breeder.number_female}}
+                                                    </span>
 
-                                            </li>
-                                        </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-action center-align">
-                                <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-utensils"></i></a>
-                                <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
-                                <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
-                                <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
-                                <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
-                                <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
+                                <div class="card-action center-align">
+                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-utensils"></i></a>
+                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
+                                    <a href="#record" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
+                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
+                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
+                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Pagination -->
-                <div class="row">
-                    <div class="col s12 m12 l12 center">
-                        <!-- <pagination :data="breeders" @pagination-change-page="getBreederFamilies"></pagination> -->
+                    <!-- Pagination -->
+                    <div class="row">
+                        <div class="col s12 m12 l12 center">
+                            <pagination :data="breeders" @pagination-change-page="getBreederList"></pagination>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="record">
+            <hatchery-record v-if="breeder_hatchery!=null" :breeder="breeder_hatchery" :breeder_tag="selected_breeder_tag" v-on:close_record="breeder_hatchery=null"></hatchery-record>
         </div>
         <!-- FAB -->
         <div class="fixed-action-btn">
@@ -115,7 +120,7 @@
                                                 <select @change="selectMaleLine" v-model="selected_male_gen" class="browser-default">
                                                     <option v-if="generations_length === 0" value="" disabled selected>No generation</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="generation in generations" :key="generation.id" :value="generation.id" selected>{{generation.number}}</option>
+                                                    <option v-for="generation in generations" :key="generation.id" :value="generation.id">{{generation.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -125,7 +130,7 @@
                                                 <select @change="selectMaleFamily" v-model="selected_male_line" class="browser-default">
                                                     <option v-if="male_lines_length == 0" value="" disabled selected>No lines</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="line in male_lines" :key="line.id" :value="line.id" selected>{{line.number}}</option>
+                                                    <option v-for="line in male_lines" :key="line.id" :value="line.id">{{line.number}}</option>
                                                 </select>
                                             </div>
                                             <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female lines does not match</div>
@@ -136,7 +141,7 @@
                                                 <select @change="selectMaleInventory" v-model="selected_male_fam" class="browser-default">
                                                     <option v-if="male_families_length == 0" value="" disabled selected>No families</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="family in male_families" :key="family.id" :value="family.id" selected>{{family.number}}</option>
+                                                    <option v-for="family in male_families" :key="family.id" :value="family.id">{{family.number}}</option>
                                                 </select>
                                             </div>
                                             <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
@@ -147,7 +152,7 @@
                                                 <select v-model="selected_male_inv" class="browser-default">
                                                     <option v-if="male_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id" selected>{{inventories.replacement_tag}}</option>
+                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id">{{inventories.replacement_tag}}</option>
                                                 </select>
                                             </div>
                                             <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
@@ -164,7 +169,7 @@
                                                 <select @change="selectFemaleLine" v-model="selected_female_gen" class="browser-default">
                                                     <option v-if="generations_length === 0" value="" disabled selected>No generation</option>
                                                     <option v-else-if="generations_length > 0" value="" disabled selected>Choose your option</option>
-                                                    <option v-for="generation in generations" :key="generation.id" :value="generation.id" selected>{{generation.number}}</option>
+                                                    <option v-for="generation in generations" :key="generation.id" :value="generation.id">{{generation.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -174,7 +179,7 @@
                                                 <select @change="selectFemaleFamily" v-model="selected_female_line" class="browser-default">
                                                     <option v-if="female_lines_length == 0" value="" disabled selected>No lines</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="line in female_lines" :key="line.id" :value="line.id" selected>{{line.number}}</option>
+                                                    <option v-for="line in female_lines" :key="line.id" :value="line.id">{{line.number}}</option>
                                                 </select>
                                             </div>
                                             <div v-if="selected_male_line != selected_female_line" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female lines does not match</div>
@@ -185,7 +190,7 @@
                                                 <select @change="selectFemaleInventory" v-model="selected_female_fam" class="browser-default">
                                                     <option v-if="female_families_length == 0" value="" disabled selected>No families</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="family in female_families" :key="family.id" :value="family.id" selected>{{family.number}}</option>
+                                                    <option v-for="family in female_families" :key="family.id" :value="family.id">{{family.number}}</option>
                                                 </select>
                                             </div>
                                             <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
@@ -196,7 +201,7 @@
                                                 <select v-model="selected_female_inv" class="browser-default">
                                                     <option v-if="female_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in female_inventories" :key="inventories.id" :value="inventories.id" selected>{{inventories.replacement_tag}}</option>
+                                                    <option v-for="inventories in female_inventories" :key="inventories.id" :value="inventories.id">{{inventories.replacement_tag}}</option>
                                                 </select>
                                             </div>
                                             <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
@@ -213,7 +218,7 @@
                                                 <select v-model="selected_pen" class="browser-default">
                                                     <option v-if="pens_length == 0" value="" disabled selected>No breeder pens available</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="pen in pens" :key="pen.id" :value="pen.id" selected>{{pen.number}}</option>
+                                                    <option v-for="pen in pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -247,7 +252,7 @@
                                                 <select @change="selectMaleLine" v-model="selected_male_gen" class="browser-default">
                                                     <option v-if="generations_length == 0" value="" disabled selected>No generation</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="generation in generations" :key="generation.id" :value="generation.id" selected>{{generation.number}}</option>
+                                                    <option v-for="generation in generations" :key="generation.id" :value="generation.id">{{generation.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -257,7 +262,7 @@
                                                 <select @change="selectMaleFamily" v-model="selected_male_line" class="browser-default">
                                                     <option v-if="male_lines_length == 0" value="" disabled selected>No lines</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="line in male_lines" :key="line.id" :value="line.id" selected>{{line.number}}</option>
+                                                    <option v-for="line in male_lines" :key="line.id" :value="line.id">{{line.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -267,7 +272,7 @@
                                                 <select v-model="selected_male_fam" class="browser-default">
                                                     <option v-if="male_families_length == 0" value="" disabled selected>No families</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="family in male_families" :key="family.id" :value="family.id" selected>{{family.number}}</option>
+                                                    <option v-for="family in male_families" :key="family.id" :value="family.id">{{family.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -289,7 +294,7 @@
                                                 <select v-model="selected_pen" class="browser-default">
                                                     <option v-if="pens_length == 0" value="" disabled selected>No breeder pens available</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="pen in pens" :key="pen.id" :value="pen.id" selected>{{pen.number}}</option>
+                                                    <option v-for="pen in pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -365,12 +370,34 @@
                 pens_length : 0,
                 selected_pen : '',
                 date_added : '',
+
+                inventory_list : true,
+                selected_breeder_tag : null,
+                breeder_hatchery : null,
+                breeder_eggprod : null,
+                breeder_eggquality : null,
+                breeder_eggfeeding : null,
+                breeder_eggmortality : null,
+                breeder_phenomorpho : null,
+                breeder_eggdelete : null,
+                breeder_edit : null,
             }
         },
         methods : {
             initialize : function () {
+                this.getBreederList();
                 this.fetchGeneration();
                 this.fetchPens();
+            },
+            getBreederList : function () {
+                axios.get('breeder_list')
+                .then(response => {
+                    this.breeders = response.data;
+                    this.breeders_length = this.breeders.data.length;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             },
             fetchGeneration : function () {
                 axios.get('breeder_fetch_generation')

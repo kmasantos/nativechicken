@@ -70311,6 +70311,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -70354,97 +70359,119 @@ var moment = __webpack_require__(0);
             pens: [],
             pens_length: 0,
             selected_pen: '',
-            date_added: ''
+            date_added: '',
+
+            inventory_list: true,
+            selected_breeder_tag: null,
+            breeder_hatchery: null,
+            breeder_eggprod: null,
+            breeder_eggquality: null,
+            breeder_eggfeeding: null,
+            breeder_eggmortality: null,
+            breeder_phenomorpho: null,
+            breeder_eggdelete: null,
+            breeder_edit: null
         };
     },
 
     methods: {
         initialize: function initialize() {
+            this.getBreederList();
             this.fetchGeneration();
             this.fetchPens();
         },
-        fetchGeneration: function fetchGeneration() {
+        getBreederList: function getBreederList() {
             var _this = this;
 
+            axios.get('breeder_list').then(function (response) {
+                _this.breeders = response.data;
+                _this.breeders_length = _this.breeders.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchGeneration: function fetchGeneration() {
+            var _this2 = this;
+
             axios.get('breeder_fetch_generation').then(function (response) {
-                _this.generations_length = response.data.length;
-                _this.generations = response.data;
+                _this2.generations_length = response.data.length;
+                _this2.generations = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         selectMaleLine: function selectMaleLine() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get('breeder_fetch_line/' + this.selected_male_gen).then(function (response) {
-                _this2.male_lines_length = response.data.length;
-                _this2.male_lines = response.data;
+                _this3.male_lines_length = response.data.length;
+                _this3.male_lines = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         selectFemaleLine: function selectFemaleLine() {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get('breeder_fetch_line/' + this.selected_female_gen).then(function (response) {
-                _this3.female_lines_length = response.data.length;
-                _this3.female_lines = response.data;
+                _this4.female_lines_length = response.data.length;
+                _this4.female_lines = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         selectMaleFamily: function selectMaleFamily() {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.get('breeder_fetch_families/' + this.selected_male_line).then(function (response) {
-                _this4.male_families_length = response.data.length;
-                _this4.male_families = response.data;
+                _this5.male_families_length = response.data.length;
+                _this5.male_families = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         selectFemaleFamily: function selectFemaleFamily() {
-            var _this5 = this;
+            var _this6 = this;
 
             axios.get('breeder_fetch_families/' + this.selected_female_line).then(function (response) {
-                _this5.female_families_length = response.data.length;
-                _this5.female_families = response.data;
+                _this6.female_families_length = response.data.length;
+                _this6.female_families = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         selectMaleInventory: function selectMaleInventory() {
-            var _this6 = this;
+            var _this7 = this;
 
             axios.get('breeder_fetch_inventories/' + this.selected_male_fam).then(function (response) {
-                _this6.male_inventories_length = response.data.length;
-                _this6.male_inventories = response.data;
+                _this7.male_inventories_length = response.data.length;
+                _this7.male_inventories = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         selectFemaleInventory: function selectFemaleInventory() {
-            var _this7 = this;
+            var _this8 = this;
 
             axios.get('breeder_fetch_inventories/' + this.selected_female_fam).then(function (response) {
-                _this7.female_inventories_length = response.data.length;
-                _this7.female_inventories = response.data;
+                _this8.female_inventories_length = response.data.length;
+                _this8.female_inventories = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         fetchPens: function fetchPens() {
-            var _this8 = this;
+            var _this9 = this;
 
             axios.get('breeder_fetch_pens').then(function (response) {
-                _this8.pens_length = response.data.length;
-                _this8.pens = response.data;
+                _this9.pens_length = response.data.length;
+                _this9.pens = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         addBreeder: function addBreeder() {
-            var _this9 = this;
+            var _this10 = this;
 
             var param = {};
             if (within == true) {
@@ -70473,30 +70500,30 @@ var moment = __webpack_require__(0);
             }
             axios.post('add_breeder', param).then(function (response) {
                 if (response.data.error == undefined) {
-                    _this9.selected_male_gen = '';
-                    _this9.selected_female_gen = '';
-                    _this9.male_lines = [];
-                    _this9.male_lines_length = 0;
-                    _this9.selected_male_line = '';
-                    _this9.male_families = [];
-                    _this9.male_families_length = 0;
-                    _this9.selected_male_fam = '';
-                    _this9.male_inventories = [];
-                    _this9.male_inventories_length = 0;
-                    _this9.selected_male_inv = '';
-                    _this9.number_male = 0;
-                    _this9.female_lines = [];
-                    _this9.female_lines_length = 0;
-                    _this9.selected_female_line = '';
-                    _this9.female_families = [];
-                    _this9.female_families_length = 0;
-                    _this9.selected_female_fam = '';
-                    _this9.female_inventories = [];
-                    _this9.female_inventories_length = 0;
-                    _this9.selected_female_inv = '';
-                    _this9.number_female = 0;
-                    _this9.selected_pen = '';
-                    _this9.date_added = '';
+                    _this10.selected_male_gen = '';
+                    _this10.selected_female_gen = '';
+                    _this10.male_lines = [];
+                    _this10.male_lines_length = 0;
+                    _this10.selected_male_line = '';
+                    _this10.male_families = [];
+                    _this10.male_families_length = 0;
+                    _this10.selected_male_fam = '';
+                    _this10.male_inventories = [];
+                    _this10.male_inventories_length = 0;
+                    _this10.selected_male_inv = '';
+                    _this10.number_male = 0;
+                    _this10.female_lines = [];
+                    _this10.female_lines_length = 0;
+                    _this10.selected_female_line = '';
+                    _this10.female_families = [];
+                    _this10.female_families_length = 0;
+                    _this10.selected_female_fam = '';
+                    _this10.female_inventories = [];
+                    _this10.female_inventories_length = 0;
+                    _this10.selected_female_inv = '';
+                    _this10.number_female = 0;
+                    _this10.selected_pen = '';
+                    _this10.date_added = '';
                     Materialize.toast('Successfully added breeders', 3000, 'green rounded');
                 } else {
                     Materialize.toast(response.data.error, 3000, 'red rounded');
@@ -70528,41 +70555,247 @@ var render = function() {
     _vm.breeders_length === 0
       ? _c("div", { staticClass: "row center-align" }, [_vm._m(0)])
       : _vm.breeders_length > 0
-        ? _c("div", { staticClass: "row valign-wrapper" }, [
-            _c("div", { staticClass: "col s12 m8 l8 input-field" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.search,
-                    expression: "search"
-                  }
-                ],
-                attrs: { id: "search", type: "text" },
-                domProps: { value: _vm.search },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+        ? _c("div", [
+            _c("div", { staticClass: "row valign-wrapper" }, [
+              _c("div", { staticClass: "col s12 m8 l8 input-field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search,
+                      expression: "search"
                     }
-                    _vm.search = $event.target.value
+                  ],
+                  attrs: { id: "search", type: "text" },
+                  domProps: { value: _vm.search },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search = $event.target.value
+                    }
                   }
-                }
-              }),
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "search" } }, [
+                  _vm._v("Search Breeder Tag Number")
+                ])
+              ]),
               _vm._v(" "),
-              _c("label", { attrs: { for: "search" } }, [
-                _vm._v("Search Breeder Tag Number")
-              ])
+              _vm._m(1)
             ]),
             _vm._v(" "),
-            _vm._m(1)
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c(
+                  "div",
+                  { staticClass: "row" },
+                  _vm._l(_vm.breeders.data, function(breeder) {
+                    return _c(
+                      "div",
+                      {
+                        key: breeder.inventory_id,
+                        staticClass: "col s12 m6 l6"
+                      },
+                      [
+                        _c("div", { staticClass: "card blue-grey lighten-2" }, [
+                          _c("div", { staticClass: "card-content" }, [
+                            _c("div", { staticClass: "row valign-wrapper" }, [
+                              _c("div", { staticClass: "col s6 m6 l6" }, [
+                                _c(
+                                  "span",
+                                  { staticClass: "card-title white-text" },
+                                  [_vm._v(_vm._s(breeder.breeder_tag))]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(2, true),
+                              _vm._v(" "),
+                              _vm._m(3, true)
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("ul", { staticClass: "collection" }, [
+                                  _c(
+                                    "li",
+                                    {
+                                      staticClass:
+                                        "collection-item blue-grey lighten-4 tooltipped",
+                                      attrs: {
+                                        "data-position": "bottom",
+                                        "data-delay": "50",
+                                        "data-tooltip":
+                                          "Family " + breeder.family_number
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "F: " + _vm._s(breeder.family_number)
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "li",
+                                    {
+                                      staticClass:
+                                        "collection-item blue-grey lighten-4 tooltipped",
+                                      attrs: {
+                                        "data-position": "bottom",
+                                        "data-delay": "50",
+                                        "data-tooltip":
+                                          "Line " + breeder.line_number
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "L: " + _vm._s(breeder.line_number)
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "li",
+                                    {
+                                      staticClass:
+                                        "collection-item blue-grey lighten-4 tooltipped",
+                                      attrs: {
+                                        "data-position": "bottom",
+                                        "data-delay": "50",
+                                        "data-tooltip":
+                                          "Generation " +
+                                          breeder.generation_number
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "G: " +
+                                          _vm._s(breeder.generation_number)
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "li",
+                                    {
+                                      staticClass:
+                                        "collection-item blue-grey lighten-4 center-align"
+                                    },
+                                    [
+                                      _c("span", [
+                                        _c("i", { staticClass: "fas fa-mars" }),
+                                        _vm._v(
+                                          " Male : " +
+                                            _vm._s(breeder.number_male) +
+                                            "\n                                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        " |\n                                                "
+                                      ),
+                                      _c("span", [
+                                        _c("i", {
+                                          staticClass: "fas fa-venus"
+                                        }),
+                                        _vm._v(
+                                          " Female : " +
+                                            _vm._s(breeder.number_female) +
+                                            "\n                                                "
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ])
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "card-action center-align" },
+                            [
+                              _vm._m(4, true),
+                              _vm._v(" "),
+                              _vm._m(5, true),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "white-text tooltipped",
+                                  attrs: {
+                                    href: "#record",
+                                    "data-position": "bottom",
+                                    "data-delay": "50",
+                                    "data-tooltip": "Open Hatchery Records"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.breeder_hatchery =
+                                        breeder.inventory_id
+                                      _vm.selected_breeder_tag =
+                                        breeder.breeder_tag
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-ellipsis-v" })]
+                              ),
+                              _vm._v(" "),
+                              _vm._m(6, true),
+                              _vm._v(" "),
+                              _vm._m(7, true),
+                              _vm._v(" "),
+                              _vm._m(8, true)
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  })
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col s12 m12 l12 center" },
+                    [
+                      _c("pagination", {
+                        attrs: { data: _vm.breeders },
+                        on: { "pagination-change-page": _vm.getBreederList }
+                      })
+                    ],
+                    1
+                  )
+                ])
+              ])
+            ])
           ])
         : _vm._e(),
     _vm._v(" "),
-    _vm._m(2),
+    _c(
+      "div",
+      { attrs: { id: "record" } },
+      [
+        _vm.breeder_hatchery != null
+          ? _c("hatchery-record", {
+              attrs: {
+                breeder: _vm.breeder_hatchery,
+                breeder_tag: _vm.selected_breeder_tag
+              },
+              on: {
+                close_record: function($event) {
+                  _vm.breeder_hatchery = null
+                }
+              }
+            })
+          : _vm._e()
+      ],
+      1
+    ),
     _vm._v(" "),
-    _vm._m(3),
+    _vm._m(9),
     _vm._v(" "),
     _c(
       "div",
@@ -70572,12 +70805,12 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(4),
+          _vm._m(10),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col s12 m12 l12" }, [
               _c("div", { staticClass: "card" }, [
-                _vm._m(5),
+                _vm._m(11),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-tabs" }, [
                   _c("ul", { staticClass: "tabs tabs-fixed-width" }, [
@@ -70739,7 +70972,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: generation.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: generation.id }
                                     },
                                     [_vm._v(_vm._s(generation.number))]
@@ -70820,7 +71052,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: line.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: line.id }
                                     },
                                     [_vm._v(_vm._s(line.number))]
@@ -70916,7 +71147,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: family.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: family.id }
                                     },
                                     [_vm._v(_vm._s(family.number))]
@@ -71011,7 +71241,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: inventories.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: inventories.id }
                                     },
                                     [
@@ -71159,7 +71388,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: generation.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: generation.id }
                                     },
                                     [_vm._v(_vm._s(generation.number))]
@@ -71240,7 +71468,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: line.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: line.id }
                                     },
                                     [_vm._v(_vm._s(line.number))]
@@ -71336,7 +71563,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: family.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: family.id }
                                     },
                                     [_vm._v(_vm._s(family.number))]
@@ -71431,7 +71657,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: inventories.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: inventories.id }
                                     },
                                     [
@@ -71571,7 +71796,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: pen.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: pen.id }
                                     },
                                     [_vm._v(_vm._s(pen.number))]
@@ -71610,7 +71834,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(6)
+                        _vm._m(12)
                       ]
                     )
                   ]),
@@ -71736,7 +71960,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: generation.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: generation.id }
                                     },
                                     [_vm._v(_vm._s(generation.number))]
@@ -71817,7 +72040,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: line.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: line.id }
                                     },
                                     [_vm._v(_vm._s(line.number))]
@@ -71893,7 +72115,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: family.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: family.id }
                                     },
                                     [_vm._v(_vm._s(family.number))]
@@ -72060,7 +72281,6 @@ var render = function() {
                                     "option",
                                     {
                                       key: pen.id,
-                                      attrs: { selected: "" },
                                       domProps: { value: pen.id }
                                     },
                                     [_vm._v(_vm._s(pen.number))]
@@ -72099,7 +72319,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(7)
+                        _vm._m(13)
                       ]
                     )
                   ])
@@ -72109,7 +72329,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(8)
+        _vm._m(14)
       ]
     )
   ])
@@ -72129,7 +72349,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col s12 m4 l4" }, [
       _c("a", { staticClass: "waves-effect waves-light btn blue-grey" }, [
-        _vm._v("Search\n                "),
+        _vm._v("Search\n                    "),
         _c("i", { staticClass: "material-icons right" }, [_vm._v("search")])
       ])
     ])
@@ -72138,220 +72358,129 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col s12 m6 l6" }, [
-            _c("div", { staticClass: "card blue-grey lighten-2" }, [
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "row valign-wrapper" }, [
-                  _c("div", { staticClass: "col s6 m6 l6" }, [
-                    _c("span", { staticClass: "card-title white-text" }, [
-                      _vm._v("Breeder Tag")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "waves-effect waves-grey btn-flat white-text tooltipped",
-                        attrs: {
-                          "data-position": "bottom",
-                          "data-delay": "50",
-                          "data-tooltip": "Edit"
-                        }
-                      },
-                      [_c("i", { staticClass: "far fa-edit" })]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "waves-effect waves-grey btn-flat red-text tooltipped",
-                        attrs: {
-                          "data-position": "bottom",
-                          "data-delay": "50",
-                          "data-tooltip": "Delete"
-                        }
-                      },
-                      [_c("i", { staticClass: "far fa-trash-alt" })]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("ul", { staticClass: "collection" }, [
-                      _c(
-                        "li",
-                        {
-                          staticClass:
-                            "collection-item blue-grey lighten-4 tooltipped",
-                          attrs: {
-                            "data-position": "bottom",
-                            "data-delay": "50",
-                            "data-tooltip": "Family"
-                          }
-                        },
-                        [_vm._v("F:")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "li",
-                        {
-                          staticClass:
-                            "collection-item blue-grey lighten-4 tooltipped",
-                          attrs: {
-                            "data-position": "bottom",
-                            "data-delay": "50",
-                            "data-tooltip": "Line"
-                          }
-                        },
-                        [_vm._v("L:")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "li",
-                        {
-                          staticClass:
-                            "collection-item blue-grey lighten-4 tooltipped",
-                          attrs: {
-                            "data-position": "bottom",
-                            "data-delay": "50",
-                            "data-tooltip": "Generation"
-                          }
-                        },
-                        [_vm._v("G:")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "li",
-                        {
-                          staticClass:
-                            "collection-item blue-grey lighten-4 center-align"
-                        },
-                        [
-                          _c("span", [
-                            _c("i", { staticClass: "fas fa-mars" }),
-                            _vm._v(
-                              " Male : 0\n                                            "
-                            )
-                          ]),
-                          _vm._v(
-                            " |\n                                            "
-                          ),
-                          _c("span", [
-                            _c("i", { staticClass: "fas fa-venus" }),
-                            _vm._v(
-                              " Female : 1000\n                                            "
-                            )
-                          ])
-                        ]
-                      )
-                    ])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-action center-align" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "white-text tooltipped",
-                    attrs: {
-                      href: "#",
-                      "data-position": "bottom",
-                      "data-delay": "50",
-                      "data-tooltip": "Open Feeding Records"
-                    }
-                  },
-                  [_c("i", { staticClass: "fas fa-utensils" })]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "white-text tooltipped",
-                    attrs: {
-                      href: "#",
-                      "data-position": "bottom",
-                      "data-delay": "50",
-                      "data-tooltip": "Open Egg Production Records"
-                    }
-                  },
-                  [_c("i", { staticClass: "fas fa-chart-line" })]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "white-text tooltipped",
-                    attrs: {
-                      href: "#",
-                      "data-position": "bottom",
-                      "data-delay": "50",
-                      "data-tooltip": "Open Hatchery Records"
-                    }
-                  },
-                  [_c("i", { staticClass: "fas fa-ellipsis-v" })]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "white-text tooltipped",
-                    attrs: {
-                      href: "#",
-                      "data-position": "bottom",
-                      "data-delay": "50",
-                      "data-tooltip": "Open Egg Quality Records"
-                    }
-                  },
-                  [_c("i", { staticClass: "fas fa-th-list" })]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "white-text tooltipped",
-                    attrs: {
-                      href: "#",
-                      "data-position": "bottom",
-                      "data-delay": "50",
-                      "data-tooltip": "Open Pheno/Morpho Records"
-                    }
-                  },
-                  [_c("i", { staticClass: "fas fa-eye" })]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "white-text tooltipped",
-                    attrs: {
-                      href: "#",
-                      "data-position": "bottom",
-                      "data-delay": "50",
-                      "data-tooltip": "Open Mortality & Sales"
-                    }
-                  },
-                  [_c("i", { staticClass: "fas fa-dollar-sign" })]
-                )
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col s12 m12 l12 center" })
-        ])
-      ])
+    return _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
+      _c(
+        "a",
+        {
+          staticClass: "waves-effect waves-grey btn-flat white-text tooltipped",
+          attrs: {
+            "data-position": "bottom",
+            "data-delay": "50",
+            "data-tooltip": "Edit"
+          }
+        },
+        [_c("i", { staticClass: "far fa-edit" })]
+      )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
+      _c(
+        "a",
+        {
+          staticClass: "waves-effect waves-grey btn-flat red-text tooltipped",
+          attrs: {
+            "data-position": "bottom",
+            "data-delay": "50",
+            "data-tooltip": "Delete"
+          }
+        },
+        [_c("i", { staticClass: "far fa-trash-alt" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "white-text tooltipped",
+        attrs: {
+          href: "#",
+          "data-position": "bottom",
+          "data-delay": "50",
+          "data-tooltip": "Open Feeding Records"
+        }
+      },
+      [_c("i", { staticClass: "fas fa-utensils" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "white-text tooltipped",
+        attrs: {
+          href: "#",
+          "data-position": "bottom",
+          "data-delay": "50",
+          "data-tooltip": "Open Egg Production Records"
+        }
+      },
+      [_c("i", { staticClass: "fas fa-chart-line" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "white-text tooltipped",
+        attrs: {
+          href: "#",
+          "data-position": "bottom",
+          "data-delay": "50",
+          "data-tooltip": "Open Egg Quality Records"
+        }
+      },
+      [_c("i", { staticClass: "fas fa-th-list" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "white-text tooltipped",
+        attrs: {
+          href: "#",
+          "data-position": "bottom",
+          "data-delay": "50",
+          "data-tooltip": "Open Pheno/Morpho Records"
+        }
+      },
+      [_c("i", { staticClass: "fas fa-eye" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "white-text tooltipped",
+        attrs: {
+          href: "#",
+          "data-position": "bottom",
+          "data-delay": "50",
+          "data-tooltip": "Open Mortality & Sales"
+        }
+      },
+      [_c("i", { staticClass: "fas fa-dollar-sign" })]
+    )
   },
   function() {
     var _vm = this
@@ -72632,6 +72761,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -72640,11 +72796,11 @@ var moment = __webpack_require__(0);
     components: {
         Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
     },
-    props: {
-        breeder: Number
-    },
+    props: ['breeder', 'breeder_tag'],
     data: function data() {
         return {
+            brooder_pens: [],
+            brooder_pens_length: 0,
             hatchery_records: {},
             hatchery_records_length: 0,
             add_record: null,
@@ -72654,13 +72810,16 @@ var moment = __webpack_require__(0);
             number_eggs_set: '',
             number_fertile: '',
             number_hatched: '',
-            date_hatched: ''
+            date_hatched: '',
+            selected_brooder_pen: '',
+            broodergrower_tag: ''
         };
     },
 
     methods: {
         initialize: function initialize() {
             this.fetchHatcheryRecord();
+            this.fetchBrooderPen();
         },
 
         fetchHatcheryRecord: function fetchHatcheryRecord() {
@@ -72669,24 +72828,44 @@ var moment = __webpack_require__(0);
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('breeder_hatchery/' + this.breeder + '?page=' + page).then(function (response) {
-                return _this.hatchery_records = response.data;
+                _this.hatchery_records = response.data;
+                _this.hatchery_records_length = _this.hatchery_records.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchBrooderPen: function fetchBrooderPen() {
+            var _this2 = this;
+
+            axios.get('breeder_fetch_brooder_pens').then(function (response) {
+                _this2.brooder_pens = response.data;
+                _this2.brooder_pens_length = _this2.brooder_pens.length;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         addHatcheryRecord: function addHatcheryRecord() {
+            var _this3 = this;
+
             axios.post('breeder_add_hatchery', {
-                breeder_id: this.breeder,
+                breeder_inventory_id: this.breeder,
                 date_eggs_set: this.customFormatter(this.date_eggs_set),
                 number_eggs_set: this.number_eggs_set,
                 number_fertile: this.number_fertile,
                 number_hatched: this.number_hatched,
-                date_hatched: this.customFormatter(this.date_hatched)
+                date_hatched: this.customFormatter(this.date_hatched),
+                broodergrower_tag: this.broodergrower_tag,
+                broodergrower_pen_id: this.selected_brooder_pen
             }).then(function (response) {
-                Materialize.toast('Successfully added hatchery record', 3000, 'rounded');
+                if (response.data.error == undefined) {
+                    _this3.date_eggs_set = '', _this3.number_eggs_set = '', _this3.number_fertile = '', _this3.number_hatched = '', _this3.date_hatched = '', _this3.selected_brooder_pen = '', _this3.broodergrower_tag = '', Materialize.toast('Successfully added hatchery record', 3000, 'green rounded');
+                } else {
+                    Materialize.toast('response.data.error', 3000, 'red rounded');
+                }
             }).catch(function (error) {
                 Materialize.toast('Failed to add hatchery record', 3000, 'rounded');
             });
+            this.fetchHatcheryRecord();
         },
         customFormatter: function customFormatter(date) {
             return moment(date).format('YYYY-MM-DD');
@@ -72725,7 +72904,9 @@ var render = function() {
             staticClass: "row valign-wrapper"
           },
           [
-            _vm._m(0),
+            _c("div", { staticClass: "col s6 m6 l6" }, [
+              _c("h5", [_vm._v("Hatchery Record | " + _vm._s(_vm.breeder_tag))])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "col s3 m3 l3 right-align" }, [
               _c(
@@ -72783,27 +72964,65 @@ var render = function() {
                     staticClass: "responsive-table bordered highlight centered"
                   },
                   [
-                    _vm._m(1),
+                    _vm._m(0),
                     _vm._v(" "),
-                    _c("tbody", [
-                      _vm.hatchery_records_length === 0
-                        ? _c("tr", [
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")])
-                          ])
-                        : _vm._e()
-                    ])
+                    _c(
+                      "tbody",
+                      [
+                        _vm.hatchery_records_length === 0
+                          ? _c("tr", [
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")])
+                            ])
+                          : _vm._l(_vm.hatchery_records.data, function(
+                              hatchery
+                            ) {
+                              return _c("tr", { key: hatchery.id }, [
+                                _c("td", [
+                                  _vm._v(_vm._s(hatchery.date_eggs_set))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(hatchery.number_eggs_set))
+                                ]),
+                                _vm._v(" "),
+                                hatchery.week_of_lay == null
+                                  ? _c("td", [_vm._v("N/A")])
+                                  : _c("td", [
+                                      _vm._v(_vm._s(hatchery.week_of_lay))
+                                    ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(hatchery.number_fertile))
+                                ]),
+                                _vm._v(" "),
+                                hatchery.date_hatched == null
+                                  ? _c("td", [_vm._v("N/A")])
+                                  : _c("td", [
+                                      _vm._v(_vm._s(hatchery.date_hatched))
+                                    ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(hatchery.number_hatched))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v("-")])
+                              ])
+                            })
+                      ],
+                      2
+                    )
                   ]
                 )
               ])
@@ -72841,7 +73060,11 @@ var render = function() {
           [
             _c("div", { staticClass: "col s12 m12 l12" }, [
               _c("div", { staticClass: "row valign-wrapper" }, [
-                _vm._m(2),
+                _c("div", { staticClass: "col s9 m19 l9" }, [
+                  _c("h5", [
+                    _vm._v("Add Hatchery Record | " + _vm._s(_vm.breeder_tag))
+                  ])
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
                   _c(
@@ -72863,173 +73086,303 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("form", { attrs: { action: "" } }, [
-                _c("div", { staticClass: "row" }, [
-                  _c(
-                    "div",
-                    { staticClass: "col s6 m6 l6" },
-                    [
-                      _c("label", { attrs: { for: "date_set" } }, [
-                        _vm._v("Date Eggs Set")
+              _c(
+                "form",
+                {
+                  attrs: { action: "" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.addHatcheryRecord($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col s6 m6 l6" },
+                      [
+                        _c("label", { attrs: { for: "date_set" } }, [
+                          _vm._v("Date Eggs Set")
+                        ]),
+                        _vm._v(" "),
+                        _c("datepicker", {
+                          attrs: {
+                            placeholder: "Date when eggs are set",
+                            id: "date_set",
+                            format: _vm.customFormatter
+                          },
+                          model: {
+                            value: _vm.date_eggs_set,
+                            callback: function($$v) {
+                              _vm.date_eggs_set = $$v
+                            },
+                            expression: "date_eggs_set"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s6 m6 l6" }, [
+                      _c("label", { attrs: { for: "eggs_set" } }, [
+                        _vm._v("Number of Eggs Set")
                       ]),
                       _vm._v(" "),
-                      _c("datepicker", {
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.number_eggs_set,
+                            expression: "number_eggs_set",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "validate",
                         attrs: {
-                          placeholder: "Date when eggs are set",
-                          id: "date_set",
-                          format: _vm.customFormatter
+                          placeholder: "Number of eggs set",
+                          id: "eggs_set",
+                          type: "number",
+                          min: "0",
+                          oninput: "this.value = Math.abs(this.value)"
                         },
-                        model: {
-                          value: _vm.date_eggs_set,
-                          callback: function($$v) {
-                            _vm.date_eggs_set = $$v
+                        domProps: { value: _vm.number_eggs_set },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.number_eggs_set = _vm._n($event.target.value)
                           },
-                          expression: "date_eggs_set"
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
                         }
                       })
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s6 m6 l6" }, [
-                    _c("label", { attrs: { for: "eggs_set" } }, [
-                      _vm._v("Number of Eggs Set")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.number_eggs_set,
-                          expression: "number_eggs_set"
-                        }
-                      ],
-                      staticClass: "validate",
-                      attrs: {
-                        placeholder: "Number of eggs set",
-                        id: "eggs_set",
-                        type: "number",
-                        min: "0",
-                        oninput: "this.value = Math.abs(this.value)"
-                      },
-                      domProps: { value: _vm.number_eggs_set },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.number_eggs_set = $event.target.value
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s6 m6 l6" }, [
-                    _c("label", { attrs: { for: "number_fertile" } }, [
-                      _vm._v("Number of Eggs Fertile")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.number_fertile,
-                          expression: "number_fertile"
-                        }
-                      ],
-                      staticClass: "validate",
-                      attrs: {
-                        placeholder: "Number of eggs that are fertile",
-                        id: "number_fertile",
-                        type: "number",
-                        min: "0",
-                        oninput: "this.value = Math.abs(this.value)"
-                      },
-                      domProps: { value: _vm.number_fertile },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.number_fertile = $event.target.value
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s6 m6 l6" }, [
-                    _c("label", { attrs: { for: "number_hatched" } }, [
-                      _vm._v("Number of Eggs Hatched")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.number_hatched,
-                          expression: "number_hatched"
-                        }
-                      ],
-                      staticClass: "validate",
-                      attrs: {
-                        placeholder: "Number of eggs that hatched",
-                        id: "number_hatched",
-                        type: "number",
-                        min: "0",
-                        oninput: "this.value = Math.abs(this.value)"
-                      },
-                      domProps: { value: _vm.number_hatched },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.number_hatched = $event.target.value
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c(
-                    "div",
-                    { staticClass: "col s6 m6 l6" },
-                    [
-                      _c("label", { attrs: { for: "date_hatched " } }, [
-                        _vm._v("Date Eggs Hatched")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s6 m6 l6" }, [
+                      _c("label", { attrs: { for: "number_fertile" } }, [
+                        _vm._v("Number of Eggs Fertile")
                       ]),
                       _vm._v(" "),
-                      _c("datepicker", {
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.number_fertile,
+                            expression: "number_fertile",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "validate",
                         attrs: {
-                          placeholder: "Date when eggs hatched",
-                          id: "date_hatched",
-                          format: _vm.customFormatter(_vm.date_hatched)
+                          placeholder: "Number of eggs that are fertile",
+                          id: "number_fertile",
+                          type: "number",
+                          min: "0",
+                          oninput: "this.value = Math.abs(this.value)"
                         },
-                        model: {
-                          value: _vm.date_hatched,
-                          callback: function($$v) {
-                            _vm.date_hatched = $$v
+                        domProps: { value: _vm.number_fertile },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.number_fertile = _vm._n($event.target.value)
                           },
-                          expression: "date_hatched "
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
                         }
                       })
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _vm._m(3)
-              ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s6 m6 l6" }, [
+                      _c("label", { attrs: { for: "number_hatched" } }, [
+                        _vm._v("Number of Eggs Hatched")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.number_hatched,
+                            expression: "number_hatched",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "validate",
+                        attrs: {
+                          placeholder: "Number of eggs that hatched",
+                          id: "number_hatched",
+                          type: "number",
+                          min: "0",
+                          oninput: "this.value = Math.abs(this.value)"
+                        },
+                        domProps: { value: _vm.number_hatched },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.number_hatched = _vm._n($event.target.value)
+                          },
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col s6 m6 l6" },
+                      [
+                        _c("label", { attrs: { for: "date_hatched " } }, [
+                          _vm._v("Date Eggs Hatched")
+                        ]),
+                        _vm._v(" "),
+                        _c("datepicker", {
+                          attrs: {
+                            placeholder: "Date when eggs hatched",
+                            id: "date_hatched",
+                            format: _vm.customFormatter(_vm.date_hatched)
+                          },
+                          model: {
+                            value: _vm.date_hatched,
+                            callback: function($$v) {
+                              _vm.date_hatched = $$v
+                            },
+                            expression: "date_hatched "
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s6 m6 l6" }, [
+                      _c("label", { attrs: { for: "brooder_tag" } }, [
+                        _vm._v("Brooder & Grower Tag")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.broodergrower_tag,
+                            expression: "broodergrower_tag"
+                          }
+                        ],
+                        staticClass: "validate",
+                        attrs: {
+                          placeholder:
+                            "Brooder & Grower tag for identification",
+                          id: "brooder_tag",
+                          type: "text",
+                          min: "0"
+                        },
+                        domProps: { value: _vm.broodergrower_tag },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.broodergrower_tag = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m6 l6" }, [
+                      _c("label", [_vm._v("Place to brooder pen")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.selected_brooder_pen,
+                              expression: "selected_brooder_pen"
+                            }
+                          ],
+                          staticClass: "browser-default",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selected_brooder_pen = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _vm.brooder_pens_length == 0
+                            ? _c(
+                                "option",
+                                {
+                                  attrs: {
+                                    value: "",
+                                    disabled: "",
+                                    selected: ""
+                                  }
+                                },
+                                [_vm._v("No brooder pens available")]
+                              )
+                            : _c(
+                                "option",
+                                {
+                                  attrs: {
+                                    value: "",
+                                    disabled: "",
+                                    selected: ""
+                                  }
+                                },
+                                [_vm._v("Choose your option")]
+                              ),
+                          _vm._v(" "),
+                          _vm._l(_vm.brooder_pens, function(pen) {
+                            return _c(
+                              "option",
+                              { key: pen.id, domProps: { value: pen.id } },
+                              [_vm._v(_vm._s(pen.number))]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1)
+                ]
+              )
             ])
           ]
         )
@@ -73038,14 +73391,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s6 m6 l6" }, [
-      _c("h5", [_vm._v("Hatchery Record | ")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -73060,20 +73405,12 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("No. Fertile")]),
         _vm._v(" "),
-        _c("th", [_vm._v("No. Hatched")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Date Hatched")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("No. Hatched")]),
         _vm._v(" "),
         _c("th", [_vm._v("Update Record")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s9 m19 l9" }, [
-      _c("h5", [_vm._v("Add Hatchery Record | Family")])
     ])
   },
   function() {

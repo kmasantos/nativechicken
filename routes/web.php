@@ -93,6 +93,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_fetch_families/{line_id}', 'BreederController@fetchFamilies');
         Route::get('breeder_fetch_female_families/{line_number}/{male_family}', 'BreederController@fetchFemaleFamilies');
         Route::get('breeder_fetch_pens', 'BreederController@fetchBreederPens');
+        Route::get('breeder_fetch_brooder_pens', 'BreederController@fetchBrooderPens');
         Route::get('breeder_fetch_inventories/{family_id}', 'BreederController@fetchReplacementInventories');
 
         /**
@@ -102,7 +103,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_feeding', 'BreederController@addFeedingRecords');
         Route::get('egg_prod/{breeder_id}', 'BreederController@fetchEggProduction');
         Route::post('add_egg_prod', 'BreederController@addEggProduction');
-        Route::get('breeder_hatchery/{breeder_id}', 'BreederController@getHatcheryParameter');
+        Route::get('breeder_hatchery/{breeder_inventory}', 'BreederController@getHatcheryParameter');
         Route::post('breeder_add_hatchery', 'BreederController@addHatcheryParameter');
         /**
          * *New Axios Routes for Replacement

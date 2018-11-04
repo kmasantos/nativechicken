@@ -31,4 +31,10 @@ class BreederInventory extends Model
     {
         return $this->belongsTo(Pen ::class);
     }
+
+    // Model Functions
+    public function getBreederData()
+    {
+        return Breeder::where('id', $this->breeder_id)->first();
+    }
 }

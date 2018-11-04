@@ -45,24 +45,38 @@ class Family extends Model
     public function animal_movements()
     {
         return $this->hasMany(AnimalMovement::class);
-    }    
+    }
 
     /*
     ** Model Functions
     */
-    public function hasBreeders()
-    {
-        $breeder = Breeder::where('family_id', $this->id)->first();
-        if($breeder != null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     public function getBreeder()
     {
         $breeder = Breeder::where('family_id', $this->id)->first();
         return $breeder;
+    }
+
+    public function getReplacement()
+    {
+        $replacement = Replacment::where('family_id', $this->id)->first();
+        return $replacement;
+    }
+
+    public function getBrooderGrower()
+    {
+        $broodergrower = BrooderGrower::where('family_id', $this->id)->first();
+        return $broodergrower;
+    }
+
+    public function getLine()
+    {
+        $line = Line::where('id', $this->line_id)->first();
+        return $line;
+    }
+
+    public function getGeneration()
+    {
+        $generation = Generation::where('id', $this->getLine()->generation_id)->first();
+        return $generation;
     }
 }

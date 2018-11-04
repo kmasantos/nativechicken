@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Generation;
 use App\Models\Line;
@@ -16,6 +17,8 @@ use App\Models\ReplacementInventory;
 use App\Models\BreederFeeding;
 use App\Models\EggProduction;
 use App\Models\HatcheryRecord;
+use App\Models\BrooderGrower;
+use App\Models\BrooderGrowerInventory;
 
 class BreederController extends Controller
 {
@@ -31,14 +34,18 @@ class BreederController extends Controller
 
     public function getBreederList()
     {
-        $breeders = Breeder::join('families', 'families.id', 'breeders.family_id')
-                    ->join('lines', 'lines.id', 'families.line_id')
-                    ->join('generations', 'generations.id', 'lines.generation_id')
-                    ->select('breeders.*', 'generations.*','families.number as family_number',
-                    'lines.number as line_number', 'generations.number as generation_number')
-                    ->where('generations.farm_id', Auth::user()->farm_id)
-                    ->paginate(8);
-        return $breeders;
+        $inventories = BreederInventory::
+        leftJoin('breeders', 'breeder_inventories.breeder_id', 'breeders.id')
+        ->leftJoin('families', 'breeders.family_id', 'families.id')
+        ->leftJoin('lines', 'families.line_id', 'lines.id')
+        ->leftJoin('generations', 'lines.generation_id', 'generations.id')
+        ->where('total', '>', 0)
+        ->select('breeder_inventories.*', 'breeders.*','families.*',
+        'breeder_inventories.id as inventory_id','breeders.id as breeder_id','families.id as family_id','families.number as family_number',
+        'lines.number as line_number', 'generations.number as generation_number')
+        ->paginate(8);
+
+        return $inventories;
     }
 
     public function addBreeder(Request $request)
@@ -265,35 +272,98 @@ class BreederController extends Controller
      * TODO Modify Hatchery Parameter for later user
      */
 
-    public function getHatcheryParameter($breeder_id)
+    public function getHatcheryParameter($breeder_inventoy)
     {
-        $hatchery_records = HatcheryRecord::where('breeder_id', $breeder_id)->paginate(10);
+        $hatchery_records = HatcheryRecord::where('breeder_inventory_id', $breeder_inventoy)->paginate(10);
         return $hatchery_records;
     }
 
     public function addHatcheryParameter(Request $request)
     {
         $request->validate([
-            'breeder_id' => 'required',
+            'breeder_inventory_id' => 'required',
             'date_eggs_set' => 'required',
             'number_eggs_set' => 'required',
             'number_fertile' => 'required',
             'number_hatched' => 'required',
-            'date_hatched' => 'required'
         ]);
 
-        // $hatchery = new HatcheryRecord;
-        // $hatchery->breeder_id = $request->breeder_id;
-        // $hatchery->date_eggs_set = $request->date_eggs_set;
-        // $hatchery->number_eggs_set = $request->number_eggs_set;
-        // $hatchery->week_of_lay = Carbon::createFromFormat('Y-m-d', $request->date_eggs_set)->subDays(21)->toDateString();
-        // $hatchery->number_fertile = $request->number_fertile;
-        // $hatchery->number_hatched = $request->number_hatched;
-        // $hatchery->date_hatched = $request->date_hatched;
-        // $hatchery->batching_date = Carbon::createFromFormat('Y-m-d', $request->date_hatched)->subDays(21)->toDateString();
-        // $breeder = Breeder::where('id', $request->breeder_id)->firstOrFail();
-        // $brooder_record = Brooder::where('family_id', $breeder->family_id)
-        // $hatchery->save();
+        $inventory = BreederInventory::where('id', $request->breeder_inventory_id)->firstOrFail();
+        $hatchery = new HatcheryRecord;
+        $hatchery->breeder_inventory_id = $request->breeder_inventory_id;
+        $hatchery->date_eggs_set = $request->date_eggs_set;
+        $hatchery->number_eggs_set = $request->number_eggs_set;
+        if($inventory->batching_date != null){
+            $hatchery->week_of_lay = Carbon::parse($inventory->batching_date)->diffInWeeks(Carbon::parse($request->date_eggs_set));
+        }else{
+            $hatchery->week_of_lay = null;
+        }
+        $hatchery->number_fertile = $request->number_fertile;
+        $hatchery->number_hatched = $request->number_hatched;
+
+
+        if($request->number_hatched == 0){
+            $hatchery->date_hatched = null;
+            $hatchery->batching_date = null;
+            $hatchery->save();
+            return response()->json(['status' => 'success', 'message' => 'Hatchery record added']);
+        }
+        $hatchery->date_hatched = $request->date_hatched;
+        $hatchery->batching_date = Carbon::createFromFormat('Y-m-d', $request->date_hatched)->subWeeks(Auth::user()->getFarm()->batching_week)->toDateString();
+
+        $brooder_pen = Pen::where('id', $request->broodergrower_pen_id)->firstOrFail();
+        if($brooder_pen->total_capacity < ($brooder_pen->current_capacity + $request->number_hatched)){
+            return response()->json( ['error'=>'Brooder pen does not have enough space for the chicks'] );
+        }
+        $breeder = Breeder::where('id', $inventory->breeder_id)->firstOrFail();
+        $brooder_record = BrooderGrower::where('family_id', $breeder->family_id)->first();
+        if($brooder_record==null){
+            $new_brooder = new BrooderGrower;
+            $new_brooder->family_id = $breeder->family_id;
+            $new_brooder->date_added = $request->date_hatched;
+            $new_brooder->save();
+
+            $new_brooder_inventory = new BrooderGrowerInventory;
+            $new_brooder_inventory->broodergrower_id = $new_brooder->id;
+            $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
+            $new_brooder_inventory->broodergrower_tag = $request->broodergrower_tag;
+            $new_brooder_inventory->batching_date = $hatchery->batching_date;
+            $new_brooder_inventory->number_male = null;
+            $new_brooder_inventory->number_female = null;
+            $new_brooder_inventory->total = $hatchery->number_hatched;
+            $new_brooder_inventory->last_update = $hatchery->date_hatched;
+            $new_brooder_inventory->save();
+        }else{
+            $new_brooder_inventory = new BrooderGrowerInventory;
+            $new_brooder_inventory->broodergrower_id = $brooder_record->id;
+            $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
+            $new_brooder_inventory->broodergrower_tag = $request->broodergrower_tag;
+            $new_brooder_inventory->batching_date = $hatchery->batching_date;
+            $new_brooder_inventory->number_male = null;
+            $new_brooder_inventory->number_female = null;
+            $new_brooder_inventory->total = $hatchery->number_hatched;
+            $new_brooder_inventory->last_update = $hatchery->date_hatched;
+            $new_brooder_inventory->save();
+        }
+        $brooder_pen->current_capacity = $brooder_pen->current_capacity + $request->number_hatched;
+
+        $brooder_movement = new AnimalMovement;
+        $brooder_movement->date = $hatchery->date_hatched;
+        $brooder_movement->family_id = $breeder->family_id;
+        $brooder_movement->previous_pen_id = null;
+        $brooder_movement->current_pen_id = $brooder_pen->id;
+        $brooder_movement->previous_type = 'egg';
+        $brooder_movement->current_type = 'broodersgrowers';
+        $brooder_movement->activity = 'transfer';
+        $brooder_movement->number_male = null;
+        $brooder_movement->number_female = null;
+        $brooder_movement->number_total = $request->number_hatched;
+        $brooder_movement->remarks = 'within system';
+        $brooder_movement->save();
+
+        $brooder_pen->save();
+        $hatchery->save();
+        return response()->json(['status' => 'success', 'message' => 'Hatchery record added']);
     }
 
 
@@ -355,6 +425,15 @@ class BreederController extends Controller
         ->where('is_active', true)
         ->where('current_capacity', 0)
         ->where('type', 'layer')
+        ->get();
+        return $pens;
+    }
+
+    public function fetchBrooderPens()
+    {
+        $pens = Pen::where('farm_id', Auth::user()->farm_id)
+        ->where('is_active', true)
+        ->where('type', 'brooder')
         ->get();
         return $pens;
     }

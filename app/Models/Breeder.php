@@ -21,12 +21,12 @@ class Breeder extends Model
     protected $fillable = [
         'date_added'
     ];
-    
+
     public function families()
     {
         return $this->belongsTo(Family::class);
     }
-    
+
     public function breeder_inventories()
     {
         return $this->hasOne(BreederInventory::class);
@@ -51,5 +51,11 @@ class Breeder extends Model
     {
         return $this->hasMany(HatcheryRecord::class);
     }
-    
+
+    public function getFamily()
+    {
+        $family = Family::where('id', $this->family_id)->first();
+        return $family;
+    }
+
 }
