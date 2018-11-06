@@ -107,7 +107,7 @@
                             <div class="row">
                                 <div class="col s6 m6 l6">
                                     <label for="brooder_tag">Brooder & Grower Tag</label>
-                                    <input placeholder="Brooder & Grower tag for identification" id="brooder_tag" type="text" min=0 class="validate" v-model="broodergrower_tag">
+                                    <input placeholder="Brooder & Grower tag for identification" id="brooder_tag" type="text" class="validate" v-model="broodergrower_tag">
                                 </div>
                             </div>
                             <div class="row">
@@ -209,7 +209,7 @@
                         this.broodergrower_tag = '',
                         Materialize.toast('Successfully added hatchery record', 3000, 'green rounded');
                     }else{
-                        Materialize.toast('response.data.error', 3000, 'red rounded');
+                        Materialize.toast(response.data.error, 3000, 'red rounded');
                     }
                 })
                 .catch(error => {

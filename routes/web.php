@@ -126,9 +126,9 @@ Route::group(['middleware' => ['web']], function ()
 
         Route::get('broodergrower_fetch_pens','BrooderGrowerController@fetchPens');
 
-        Route::get('broodergrower_feeding_records/{broodergrower_id}', 'BrooderGrowerController@fetchFeedingRecords');
+        Route::get('broodergrower_feeding_records/{pen_id}', 'BrooderGrowerController@fetchFeedingRecords');
 
-        Route::get('broodergrower_growth_records/{broodergrower_id}', 'BrooderGrowerController@fetchGrowthRecords');
+        Route::get('broodergrower_growth_records/{pen_id}', 'BrooderGrowerController@fetchGrowthRecords');
         Route::post('add_broodergrower_growth', 'BrooderGrowerController@addGrowthRecord');
 
         /**

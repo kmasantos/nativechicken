@@ -8,14 +8,11 @@
 require('./bootstrap');
 window.Vue = require('vue');
 window.moment = require('moment');
-// import Datepicker from 'vuejs-datepicker';
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-Vue.component('pagination', require('laravel-vue-pagination'));
 
 // General Vue Components
 Vue.component('dashboard-component', require('./components/general_Dashboard.vue'));
@@ -34,7 +31,8 @@ Vue.component('add-replacement', require('./components/replacement_Replacement.v
 Vue.component('phenomorpho-replacement', require('./components/replacement_PhenoMorpho.vue'));
 
 // Brooder & Grower Vue Components
-Vue.component('add-broodergrower', require('./components/AddBrooderGrower.vue'));
+Vue.component('add-broodergrower', require('./components/broodersgrowers/BrooderGrower.vue'));
+Vue.component('inventory-broodergrower', require('./components/broodersgrowers/Inventory.vue'));
 Vue.component('feedingrecord-broodergrower', require('./components/broodersgrowers/FeedingRecord.vue'));
 Vue.component('growthrecord-broodergrower', require('./components/broodersgrowers/GrowthRecord.vue'));
 

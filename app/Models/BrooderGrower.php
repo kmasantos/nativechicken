@@ -41,4 +41,10 @@ class BrooderGrower extends Model
     {
         return $this->hasMany(BrooderGrowerGrowth::class);
     }
+
+    public function getFamily()
+    {
+        $family = Family::where('id', $this->family_id)->firstOrFail();
+        return $family;
+    }
 }
