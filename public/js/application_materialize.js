@@ -53,4 +53,8 @@ $( document ).ready(function() {
         dismissible : false,
     });
 
+    $('#add_modal').modal({
+        dismissible : false,
+    });
+
 });

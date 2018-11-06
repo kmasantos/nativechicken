@@ -27,7 +27,7 @@ Vue.component('egg-production', require('./components/breeders/EggProduction.vue
 
 
 // Replacement Vue Components
-Vue.component('add-replacement', require('./components/replacement_Replacement.vue'));
+Vue.component('add-replacement', require('./components/replacements/Replacement.vue'));
 Vue.component('phenomorpho-replacement', require('./components/replacement_PhenoMorpho.vue'));
 
 // Brooder & Grower Vue Components

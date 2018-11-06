@@ -37,7 +37,7 @@
             </div>
             <!-- Record not Empty -->
             <div class="row" v-else>
-                <div class="col s12 m12 l12" v-if="inventory_pen==null&&feeding_pen==null">
+                <div class="col s12 m12 l12" v-if="inventory_pen==null&&feeding_pen==null&&growth_pen==null">
                     <div class="row">
                         <div class="col s12 m6 l6" v-for="pen in broodergrower_pens.data" :key="pen.id">
                             <div class="card blue-grey lighten-2">
@@ -169,7 +169,6 @@
                 lines : [],
                 families : [],
                 pens : [],
-                pen_info : [],
 
                 selectedgeneration : '',
                 selectedline : '',
@@ -186,33 +185,6 @@
                 familiesloaded : false,
                 pensloaded : false,
                 info_loaded : false,
-
-                clicked_family : '',
-                update_brooder : '',
-
-                male : 0,
-                female : 0,
-                date_updated : '',
-                data_collected : '',
-                selected_broodergrower : '',
-                selected_broodergrower_total : '',
-
-                feed_record_collected : '',
-                offered : '',
-                refused : '',
-                remarks : '',
-
-                date_added : '',
-                collection_day : '',
-                male_weight : '',
-                female_weight : '',
-                total_weight: '',
-
-                sexing : false,
-                others : false,
-
-                male : '',
-                female : '',
 
                 // child component data
                 inventory_pen : null,
@@ -305,53 +277,6 @@
                 .catch(function(error){
 
                 });
-            },
-            submitPenFeedingRecord : function () {
-                axios.post('add_broodergrower_feeding', {
-                    pen_id : this.selectedpen,
-                    date_collected : this.customFormatter(this.feed_record_collected),
-                    offered : this.offered,
-                    refused : this.refused,
-                    remark : this.remarks
-                })
-                .then(function (response) {
-                    Materialize.toast('Successfully added feeding record', 3000, 'rounded');
-                })
-                .catch(function (error) {
-                    Materialize.toast('Failed to add feeding record', 3000, 'rounded');
-                });
-            },
-            fetchPenInfo : function (){
-                this.info_loaded = false;
-                axios.get('broodergrower_pen_info/'+this.selectedpen)
-                .then(response => {
-                    this.pen_info = response.data;
-                    this.info_loaded = true;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            closeInfoModal : function (){
-                $('#info').modal('close');
-            },
-            updateBrooderGrower : function () {
-                if(this.selected_broodergrower_total != (this.male + this.female)){
-                    Materialize.toast('Sum of male and female does not match to the total', 3000, 'rounded');
-                }else{
-                    axios.patch('update_broodergrower', {
-                        broodergrower_id : this.update_brooder,
-                        male : this.male,
-                        female : this.female,
-                    })
-                    .then(function (response) {
-                        Materialize.toast('Data updated', 3000, 'rounded');
-                    })
-                    .catch(function (error) {
-                        Materialize.toast('Data failed to update', 3000, 'rounded');
-                    });
-                    this.initialize();
-                }
             },
         },
         created() {
