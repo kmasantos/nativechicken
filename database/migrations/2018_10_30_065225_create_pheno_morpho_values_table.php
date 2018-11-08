@@ -16,6 +16,7 @@ class CreatePhenoMorphoValuesTable extends Migration
         Schema::create('pheno_morpho_values', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('gender', ['male', 'female']);
+            $table->string('tag')->nullabe();
             $table->json('phenotypic');
             $table->json('morphometric');
             $table->date('date_collected');

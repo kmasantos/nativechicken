@@ -23,6 +23,7 @@ class CreateBreederInventoriesTable extends Migration
             $table->integer('number_female')->nullable();
             $table->integer('total')->nullable();
             $table->date('last_update');
+            $table->softDeletes();
         });
 
         Schema::table('breeder_inventories', function($table) {

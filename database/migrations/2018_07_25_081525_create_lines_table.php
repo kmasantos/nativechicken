@@ -18,6 +18,7 @@ class CreateLinesTable extends Migration
             $table->string('number');
             $table->boolean('is_active')->default(true);
             $table->unsignedInteger('generation_id');
+            $table->softDeletes();
         });
 
         Schema::table('lines', function($table) {

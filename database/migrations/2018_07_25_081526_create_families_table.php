@@ -17,10 +17,8 @@ class CreateFamiliesTable extends Migration
             $table->increments('id');
             $table->string('number');
             $table->boolean('is_active')->default(true);
-            // $table->boolean('breeder')->default(false);
-            // $table->boolean('replacement')->default(false);
-            // $table->boolean('broodergrower')->default(false);
             $table->unsignedInteger('line_id');
+            $table->softDeletes();
         });
 
         Schema::table('families', function($table) {

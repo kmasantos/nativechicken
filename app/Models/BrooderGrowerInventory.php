@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BrooderGrowerInventory extends Model
 {
+    use SoftDeletes;
     public $timestamps = false;
+    protected $dates = ['deleted_at'];
 	/**
      * The database table used by the model.
      *
@@ -25,7 +28,7 @@ class BrooderGrowerInventory extends Model
     public function brooder_growers()
     {
         return $this->belongsTo(BrooderGrower::class);
-    }   
+    }
 
     public function pens()
     {

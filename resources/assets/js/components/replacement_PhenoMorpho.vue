@@ -15,8 +15,7 @@
                             <li>Phenotypic and Morphometric Records</li>
                         </ul>
                     </div>
-                    <form v-on:submit.prevent="submitPhenoMorpho" action="post">
-                    <div class="col s12 m12 l12">
+                    <form action="post">
                         <div class="row">
                             <div class="col s12 m12 l12">
                             <ul class="tabs">
@@ -577,7 +576,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </form>
                 </div>
             </div>

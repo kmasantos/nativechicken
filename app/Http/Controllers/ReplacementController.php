@@ -14,8 +14,8 @@ use App\Models\ReplacementInventory;
 use App\Models\AnimalMovement;
 use App\Models\BrooderGrower;
 use App\Models\BrooderGrowerInventory;
-use App\Models\ReplacementPhenoMorpho;
-use App\Models\ReplacementPhenoMorphoValue;
+use App\Models\PhenoMorpho;
+use App\Models\PhenoMorphoValue;
 use App\Models\ReplacementFeeding;
 
 class ReplacementController extends Controller
@@ -67,238 +67,104 @@ class ReplacementController extends Controller
 
     public function addReplacements(Request $request)
     {
-        $date = Carbon::now();
         $request->validate([
-            'family_id' => 'required',
-            'date_added' => 'required',
-            'batching_date' => 'required',
-            'males' => 'required',
-            'females' => 'required',
-            'pen_id' => 'required',
-            'external' => 'required'
+            "family_id" => "required",
+            "pen_id" => "required",
+            "males" => "required",
+            "females" => "required",
+            "date_added" => "required",
+            "external" => "required",
+            "replacement_tag" => "required"
         ]);
-        $pen = Pen::where('id', $request->pen_id)->first();
-        // check pen storage
-        if($pen->total_capacity < ($pen->current_capacity+($request->males+$request->females))){
-            return response()->json(['status' => 'error', 'message' => 'Storage insufficient']);
+        $replacement_pen = Pen::where('id', $request->pen_id)->firstOrFail();
+        $replacement = Replacement::where('family_id', $request->family_id)->first();
+        if($replacement_pen->total_capacity < ($replacement_pen->current_capacity+($request->males + $request->females))){
+            return response()->json( ['error'=>'Replacement pen capacity is too small for total male and female'] );
+        }
+        if($replacement == null){
+            $replacement = new Replacement;
+            $replacement->family_id = $request->family_id;
+            $replacement->date_added = $request->date_added;
+            $replacement->save();
         }
 
         if($request->external){
-            $replacement = Replacement::where('family_id', $request->family_id)->first();
-            /**
-             * * Replacement not yet in record
-             */
-            if($replacement == null){
-                // new replacement instance
-                $new = new Replacement;
-                $new->family_id = $request->family_id;
-                $new->batching_date = $request->batching_date;
-                $new->date_added = $request->date_added;
-                $new->save();
-                // new inventory instance
-                $inventory = new ReplacementInventory;
-                $inventory->replacement_id = $new->id;
-                $inventory->pen_id = $request->pen_id;
-                $inventory->number_male = $request->males;
-                $inventory->number_female = $request->females;
-                $inventory->total = $request->males + $request->females;
-                $inventory->last_update = $date->toDateString();
-                $inventory->save();
-                // update pen
-                $pen->current_capacity = $pen->current_capacity+($request->males + $request->females);
-                $pen->save();
-                // update animal movements table
-                $movement = new AnimalMovement;
-                $movement->date = $request->date_added;
-                $movement->family_id = $request->family_id;
-                $movement->pen_id = $request->pen_id;
-                $movement->type = "replacement";
-                $movement->activity = "add replacement external";
-                $movement->price = null;
-                $movement->number_male = $request->males;
-                $movement->number_female = $request->females;
-                $movement->number_total = $request->males + $request->females;
-                $movement->remarks = null;
-                $movement->save();
-                return response()->json(['status' => 'success', 'message' => 'Replacements added']);
-            }else{
-                // 2 cases, update existing and new inventory instance
-                $inventory = ReplacementInventory::where('replacement_id', $replacement->id)->where('pen_id', $request->pen_id)->first();
-                if($inventory == null){
-                    $inventory = new ReplacementInventory;
-                    $inventory->replacement_id = $replacement->id;
-                    $inventory->pen_id = $request->pen_id;
-                    $inventory->number_male = $request->males;
-                    $inventory->number_female = $request->females;
-                    $inventory->total = $request->males + $request->females;
-                    $inventory->last_update = $date->toDateString();
-                    $inventory->save();
-                    // update pen
-                    $pen->current_capacity = $pen->current_capacity+($request->males + $request->females);
-                    $pen->save();
-                    $movement = new AnimalMovement;
-                    $movement->date = $request->date_added;
-                    $movement->family_id = $request->family_id;
-                    $movement->pen_id = $request->pen_id;
-                    $movement->type = "replacement";
-                    $movement->activity = "add replacement external";
-                    $movement->price = null;
-                    $movement->number_male = $request->males;
-                    $movement->number_female = $request->females;
-                    $movement->number_total = $request->males + $request->females;
-                    $movement->remarks = null;
-                    $movement->save();
-                    return response()->json(['status' => 'success', 'message' => 'Replacements added']);
-                }else{
-                    $inventory->number_male = $inventory->number_male + $request->males;
-                    $inventory->number_female = $inventory->number_female + $request->females;
-                    $inventory->total = $inventory->total + ($request->males + $request->females);
-                    $inventory->last_update = $date->toDateString();
-                    $inventory->save();
-                    $pen->current_capacity = $pen->current_capacity+($request->males + $request->females);
-                    $pen->save();
-                    $movement = new AnimalMovement;
-                    $movement->date = $request->date_added;
-                    $movement->family_id = $request->family_id;
-                    $movement->pen_id = $request->pen_id;
-                    $movement->type = "replacement";
-                    $movement->activity = "add replacement external";
-                    $movement->price = null;
-                    $movement->number_male = $request->males;
-                    $movement->number_female = $request->females;
-                    $movement->number_total = $request->males + $request->females;
-                    $movement->remarks = null;
-                    $movement->save();
-                    return response()->json(['status' => 'success', 'message' => 'Replacements added']);
-                }
-            }
+            $replacement_pen->current_capacity = $replacement_pen->current_capacity + ($request->males + $request->females);
+            $replacement_pen->save();
+
+            $movement = new AnimalMovement;
+            $movement->date = $request->date_added;
+            $movement->family_id = $request->family_id;
+            $movement->previous_pen_id = null;
+            $movement->current_pen_id = $replacement_pen->id;
+            $movement->previous_type = null;
+            $movement->current_type = "replacement";
+            $movement->activity = "transfer";
+            $movement->number_male = $request->males;
+            $movement->number_female = $request->females;
+            $movement->number_total = $request->males + $request->females;
+            $movement->remarks = "outside system";
+            $movement->save();
+
+            $inventory = new ReplacementInventory;
+            $inventory->replacement_id = $replacement->id;
+            $inventory->pen_id = $replacement_pen->id;
+            $inventory->replacement_tag = $request->replacement_tag;
+            $inventory->batching_date = null;
+            $inventory->number_male = $request->males;
+            $inventory->number_female = $request->females;
+            $inventory->total = $request->males + $request->females;
+            $inventory->last_update = $request->date_added;
+            $inventory->save();
+            return response()->json(['status' => 'success', 'message' => 'Replacement added']);
         }else{
-            // check brooder and grower for batching dates and correct number of input quantity
-            $broodergrower = BrooderGrower::
-            join('brooder_grower_inventories', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
-            ->select('brooder_growers.*', 'brooder_grower_inventories.*','brooder_grower_inventories.id as inventory_id')
-            ->where('family_id', $request->family_id)
-            ->whereDate('brooder_grower_inventories.batching_date','=', $request->batching_date)
-            ->first();
-
-            if($broodergrower==null){
-                return response()->json(['status' => 'error', 'message' => 'No brooders and growers available']);
-            }else{
-                if($broodergrower->number_male < $request->males || $broodergrower->number_female < $request->females){
-                    return response()->json(['status' => 'error', 'message' => 'Quantity does not match']);
-                }
+            $brooder_inventory = BrooderGrowerInventory::where('id', $request->brooder_inventory)->first();
+            if(($brooder_inventory->number_male==null || $brooder_inventory->number_female==null)||$brooder_inventory->total < ($request->male+$request->females)){
+                return response()->json( ['error'=>'There is a problem in your brooder inventory data or the input quantity does is too large'] );
             }
-
-            // update brooder and grower records
-            $brooder_pen = Pen::where('id', $broodergrower->pen_id)->first();
-
-            $brooder_inventory = BrooderGrowerInventory::where('id', $broodergrower->inventory_id)->first();
-            $brooder_inventory->number_male = $brooder_inventory->number_male - $request->males;
-            $brooder_inventory->number_female = $brooder_inventory->number_female - $request->females;
-            $brooder_inventory->total = $brooder_inventory->total - ($request->males + $request->females);
-            $brooder_inventory->last_update = $date->toDateString();
-            $brooder_inventory->save();
-
-            $brooder_pen->current_inventory = $brooder_pen->current_inventory + ($request->males + $request->females);
-            $brooder_pen->save();
 
             $brooder_movement = new AnimalMovement;
             $brooder_movement->date = $request->date_added;
-            $brooder_movement->family_id = $brooder_inventory->family_id;
-            $brooder_movement->pen_id = $brooder_inventory->pen_id;
-            $brooder_movement->type = "broodergrower";
-            $brooder_movement->activity = "move broodergrower internal";
-            $brooder_movement->price = null;
+            $brooder_movement->family_id = $request->family_id;
+            $brooder_movement->previous_pen_id = $brooder_inventory->pen_id;
+            $brooder_movement->current_pen_id = $replacement_pen->id;
+            $brooder_movement->previous_type = "broodersgrowers";
+            $brooder_movement->current_type = "replacement";
+            $brooder_movement->activity = "transfer";
             $brooder_movement->number_male = $request->males;
             $brooder_movement->number_female = $request->females;
             $brooder_movement->number_total = $request->males + $request->females;
-            $brooder_movement->remarks = null;
+            $brooder_movement->remarks = "within system";
             $brooder_movement->save();
 
-            $replacement = Replacement::where('family_id', $request->family_id)->first();
-            if($replacement==null){
-                $new = new Replacement;
-                $new->family_id = $request->family_id;
-                $new->batching_date = $request->batching_date;
-                $new->date_added = $request->date_added;
-                $new->save();
-                // new inventory instance
-                $inventory = new ReplacementInventory;
-                $inventory->replacement_id = $new->id;
-                $inventory->pen_id = $request->pen_id;
-                $inventory->number_male = $request->males;
-                $inventory->number_female = $request->females;
-                $inventory->total = $request->males + $request->females;
-                $inventory->last_update = $date->toDateString();
-                $inventory->save();
-                // update pen
-                $pen->current_capacity = $pen->current_capacity+($request->males + $request->females);
-                $pen->save();
-                // update animal movements table
-                $movement = new AnimalMovement;
-                $movement->date = $request->date_added;
-                $movement->family_id = $request->family_id;
-                $movement->pen_id = $request->pen_id;
-                $movement->type = "replacement";
-                $movement->activity = "add replacement internal";
-                $movement->price = null;
-                $movement->number_male = $request->males;
-                $movement->number_female = $request->females;
-                $movement->number_total = $request->males + $request->females;
-                $movement->remarks = null;
-                $movement->save();
-                return response()->json(['status' => 'success', 'message' => 'Replacements added']);
+            $brooder_pen = Pen::where('id', $brooder_inventory->pen_id)->firstOrFail();
+            $brooder_pen->current_capacity = $brooder_pen->current_capacity - ($request->males + $request->females);
+            $brooder_pen->save();
+
+            $replacement_pen->current_capacity = $replacement_pen->current_capacity + ($request->males + $request->females);
+            $replacement_pen->save();
+
+            $inventory = new ReplacementInventory;
+            $inventory->replacement_id = $replacement->id;
+            $inventory->pen_id = $replacement_pen->id;
+            $inventory->replacement_tag = $request->replacement_tag;
+            $inventory->batching_date = $brooder_inventory->batching_date;
+            $inventory->number_male = $request->males;
+            $inventory->number_female = $request->females;
+            $inventory->total = $request->males + $request->females;
+            $inventory->last_update = $request->date_added;
+            $inventory->save();
+
+            if($brooder_inventory->total - ($request->males + $request->females) == 0){
+                $brooder_inventory->delete();
             }else{
-                // 2 cases, update existing and new inventory instance
-                $inventory = ReplacementInventory::where('replacement_id', $replacement->id)->where('pen_id', $request->pen_id)->first();
-                if($inventory == null){
-                    $inventory = new ReplacementInventory;
-                    $inventory->replacement_id = $replacement->id;
-                    $inventory->pen_id = $request->pen_id;
-                    $inventory->number_male = $request->males;
-                    $inventory->number_female = $request->females;
-                    $inventory->total = $request->males + $request->females;
-                    $inventory->last_update = $date->toDateString();
-                    $inventory->save();
-                    // update pen
-                    $pen->current_capacity = $pen->current_capacity+($request->males + $request->females);
-                    $pen->save();
-                    $movement = new AnimalMovement;
-                    $movement->date = $request->date_added;
-                    $movement->family_id = $request->family_id;
-                    $movement->pen_id = $request->pen_id;
-                    $movement->type = "replacement";
-                    $movement->activity = "add replacement internal";
-                    $movement->price = null;
-                    $movement->number_male = $request->males;
-                    $movement->number_female = $request->females;
-                    $movement->number_total = $request->males + $request->females;
-                    $movement->remarks = null;
-                    $movement->save();
-                    return response()->json(['status' => 'success', 'message' => 'Replacements added']);
-                }else{
-                    $inventory->number_male = $inventory->number_male + $request->males;
-                    $inventory->number_female = $inventory->number_female + $request->females;
-                    $inventory->total = $inventory->total + ($request->males + $request->females);
-                    $inventory->last_update = $date->toDateString();
-                    $inventory->save();
-                    $pen->current_capacity = $pen->current_capacity+($request->males + $request->females);
-                    $pen->save();
-                    $movement = new AnimalMovement;
-                    $movement->date = $request->date_added;
-                    $movement->family_id = $request->family_id;
-                    $movement->pen_id = $request->pen_id;
-                    $movement->type = "replacement";
-                    $movement->activity = "add replacement internal";
-                    $movement->price = null;
-                    $movement->number_male = $request->males;
-                    $movement->number_female = $request->females;
-                    $movement->number_total = $request->males + $request->females;
-                    $movement->remarks = null;
-                    $movement->save();
-                    return response()->json(['status' => 'success', 'message' => 'Replacements added']);
-                }
+                $brooder_inventory->number_male = $brooder_inventory->number_male - $request->males;
+                $brooder_inventory->number_female = $brooder_inventory->number_female - $request->females;
+                $brooder_inventory->total = $brooder_inventory->total - ($request->males + $request->females);
+                $brooder_inventory->save();
             }
+
+            return response()->json(['status' => 'success', 'message' => 'Replacement added']);
         }
     }
 
@@ -316,27 +182,29 @@ class ReplacementController extends Controller
 
     public function fetchPenInfo ($pen_id)
     {
+
         $replacements = ReplacementInventory::where('pen_id', $pen_id)
-        ->join('replacements', 'replacement_inventories.replacement_id', 'replacements.id')
-        ->join('families', 'replacements.family_id', 'families.id')
-        ->join('lines', 'families.line_id', 'lines.id')
+        ->leftJoin('replacements', 'replacement_inventories.replacement_id', 'replacements.id')
+        ->leftJoin('families', 'replacements.family_id', 'families.id')
+        ->leftJoin('lines', 'families.line_id', 'lines.id')
+        ->leftJoin('generations', 'generations.id', 'lines.generation_id')
         ->select('replacement_inventories.*', 'replacements.*', 'families.number as fam_number', 'lines.number as line_number',
-        'families.id as fam_id', 'replacements.id as rep_id', 'replacement_inventories.id as inv_id')
-        ->get();
+        'families.id as fam_id', 'replacements.id as rep_id', 'replacement_inventories.id as inv_id', 'generations.number as gen_number')
+        ->orderBy('replacement_inventories.last_update', 'asc')
+        ->paginate(10);
 
         return $replacements;
     }
 
-    public function phenoMorphoPage($replacement_id)
-    {
-        return view('chicken.replacement.phenomorpho_record', compact('replacement_id'));
-    }
-
+    /**
+     * TODO Check if all male and all have pheno and morpho data
+     */
     public function addPhenoMorpho(Request $request)
     {
-        $date = Carbon::now();
         $request->validate([
-            'replacement_id' => 'required',
+            'replacement_inventory_id' => 'required',
+            'tag' => 'required',
+            'date_collected' => 'required',
             'gender' => 'required',
             'plummage_color' => 'required',
             'plummage_pattern' => 'required',
@@ -355,7 +223,7 @@ class ReplacementController extends Controller
             'body_length' => 'required',
             'chest_circumference' => 'required',
             'wing_span' => 'required',
-            'shank_length' => 'required',
+            'shank_length' => 'required'
         ]);
 
         $pheno = collect([
@@ -382,17 +250,19 @@ class ReplacementController extends Controller
             $request->shank_length
         ]);
 
-        $phenomorphovalues = new ReplacementPhenoMorphoValue;
+        $phenomorphovalues = new PhenoMorphoValue;
+        $phenomorphovalues->tag = $request->tag;
         $phenomorphovalues->gender = $request->gender;
         $phenomorphovalues->phenotypic = $pheno;
         $phenomorphovalues->morphometric = $morpho;
-        $phenomorphovalues->date_collected = $date->toDateString();
+        $phenomorphovalues->date_collected = $request->date_collected;
         $phenomorphovalues->save();
 
-        $phenomorpho = new ReplacementPhenoMorpho;
-        $phenomorpho->replacement_id = $request->replacement_id;
+        $phenomorpho = new PhenoMorpho;
+        $phenomorpho->replacement_inventory_id = $request->replacement_inventory_id;
         $phenomorpho->values_id = $phenomorphovalues->id;
         $phenomorpho->save();
+
         return response()->json(['status' => 'success', 'message' => 'Phenotypic and Morphometric values saved']);
     }
 
@@ -411,8 +281,7 @@ class ReplacementController extends Controller
         $inventories = ReplacementInventory::where('pen_id', $request->pen_id)->get();
         foreach ($inventories as $inventory) {
             $feeding = new ReplacementFeeding;
-            $feeding->replacement_id = $inventory->replacement_id;
-            $feeding->pen_id = $inventory->pen_id;
+            $feeding->replacement_inventory_id  = $inventory->id;
             $feeding->date_collected = $request->date_collected;
             $feeding->amount_offered = round($inventory->total*$feed_offered_per_head, 3);
             $feeding->amount_refused = round($inventory->total*$feed_refused_per_head, 3);
@@ -422,9 +291,38 @@ class ReplacementController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Feeding record saved']);
     }
 
-    public function feedingRecordPage()
+    public function fetchFeedingRecords($pen_id)
     {
-        return view('chicken.replacement.feeding_record');
+        $feedingrecords = ReplacementFeeding::
+        leftJoin('replacement_inventories', 'replacement_feedings.replacement_inventory_id', 'replacement_inventories.id')
+        ->select('replacement_feedings.*', 'replacement_inventories.*', 'replacement_inventories.id as inventory_id', 'replacement_feedings.id as feeding_id')
+        ->where('replacement_inventories.pen_id', $pen_id)
+        ->orderBy('replacement_feedings.date_collected', 'desc')
+        ->paginate(10);
+        return $feedingrecords;
+    }
+
+    public function getPhenoMorphoInventory($pen_id)
+    {
+        $replacements = ReplacementInventory::where('pen_id', $pen_id)
+        ->leftJoin('replacements', 'replacement_inventories.replacement_id', 'replacements.id')
+        ->leftJoin('families', 'replacements.family_id', 'families.id')
+        ->leftJoin('pheno_morphos', 'replacement_inventories.id', 'pheno_morphos.replacement_inventory_id')
+        ->select('replacement_inventories.*', 'replacements.*', 'families.number as fam_number',
+        'families.id as fam_id', 'replacements.id as rep_id', 'replacement_inventories.id as inv_id')
+        ->orderBy('replacement_inventories.last_update', 'asc')
+        ->paginate(10);
+        return $replacements;
+    }
+
+    public function getPhenoMorphoList($inventory_id)
+    {
+        $list = PhenoMorpho::
+        leftjoin('pheno_morpho_values', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+        ->select('pheno_morphos.*', 'pheno_morpho_values.*', 'pheno_morpho_values.id as values_id')
+        ->where('pheno_morphos.replacement_inventory_id', $inventory_id)
+        ->paginate(10);
+        return $list;
     }
 
     /*
@@ -446,4 +344,15 @@ class ReplacementController extends Controller
         return $families;
     }
 
+    public function getBrooderInventories ($family_id)
+    {
+        $brooders = BrooderGrowerInventory::
+        leftJoin('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+        ->leftJoin('pens', 'pens.id','brooder_grower_inventories.pen_id')
+        ->select('brooder_grower_inventories.*', 'brooder_growers.*', 'pens.*',
+        'brooder_grower_inventories.id as inv_id', 'brooder_growers.id as bg_id', 'pens.id as pen_id')
+        ->where('brooder_growers.family_id', $family_id)
+        ->get();
+        return $brooders;
+    }
 }

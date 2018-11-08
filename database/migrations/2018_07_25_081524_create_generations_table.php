@@ -19,6 +19,7 @@ class CreateGenerationsTable extends Migration
             $table->string('number');
             $table->integer('numerical_generation');
             $table->boolean('is_active')->default(true);
+            $table->softDeletes();
         });
 
         Schema::table('generations', function($table) {

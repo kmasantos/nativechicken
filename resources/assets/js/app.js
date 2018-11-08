@@ -24,11 +24,15 @@ Vue.component('family-record', require('./components/general/FamilyRecord.vue'))
 Vue.component('add-breeder', require('./components/breeders/Breeder.vue'));
 Vue.component('hatchery-record', require('./components/breeders/HatcheryRecordList.vue'));
 Vue.component('egg-production', require('./components/breeders/EggProduction.vue'));
-
+Vue.component('feedingrecord-breeder', require('./components/breeders/FeedingRecord.vue'));
+Vue.component('eggquality-breeder', require('./components/breeders/EggQuality.vue'));
 
 // Replacement Vue Components
 Vue.component('add-replacement', require('./components/replacements/Replacement.vue'));
-Vue.component('phenomorpho-replacement', require('./components/replacement_PhenoMorpho.vue'));
+Vue.component('inventory-replacement', require('./components/replacements/Inventory.vue'));
+Vue.component('feeding-replacement', require('./components/replacements/FeedingRecord.vue'));
+Vue.component('phenomorpho-replacement', require('./components/replacements/PhenoMorpho.vue'));
+
 
 // Brooder & Grower Vue Components
 Vue.component('add-broodergrower', require('./components/broodersgrowers/BrooderGrower.vue'));

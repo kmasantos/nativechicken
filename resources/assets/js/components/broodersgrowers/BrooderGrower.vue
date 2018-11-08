@@ -146,7 +146,6 @@
                 </div>
                 <div class="modal-footer">
                     <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Close</a>
-                    <button class="modal-action modal-close waves-effect waves-grey btn-flat">Submit</button>
                 </div>
             </form>
         </div>

@@ -17,6 +17,7 @@ use App\Models\ReplacementInventory;
 use App\Models\BreederFeeding;
 use App\Models\EggProduction;
 use App\Models\HatcheryRecord;
+use App\Models\EggQuality;
 use App\Models\BrooderGrower;
 use App\Models\BrooderGrowerInventory;
 
@@ -67,7 +68,7 @@ class BreederController extends Controller
                 return response()->json( ['error'=>'Breeder tag id already exist'] );
             }
             $breeder_pen = Pen::where('id', $request->pen_id)->firstOrFail();
-            if($breeder_pen->total_capacity < ($request->number_male + $request->number_female)){
+            if($breeder_pen->total_capacity < ($breeder_pen->current_capacity + ($request->number_male + $request->number_female))){
                 return response()->json( ['error'=>'Breeder pen capacity is too small for total male and female'] );
             }
             $breeder_pen->current_capacity = $request->number_male + $request->number_female;
@@ -171,7 +172,7 @@ class BreederController extends Controller
                 return response()->json( ['error'=>'Breeder tag id already exist'] );
             }
             $breeder_pen = Pen::where('id', $request->pen_id)->firstOrFail();
-            if($breeder_pen->total_capacity < ($request->number_male + $request->number_female)){
+            if($breeder_pen->total_capacity < ($breeder_pen->current_capacity + ($request->number_male + $request->number_female))){
                 return response()->json( ['error'=>'Breeder pen capacity is too small for total male and female'] );
             }
             $breeder_pen->current_capacity = $request->number_male + $request->number_female;
@@ -218,7 +219,9 @@ class BreederController extends Controller
 
     public function fetchFeedingRecords ($breeder_id)
     {
-        $records = BreederFeeding::where('breeder_id', $breeder_id)->orderBy('date_collected', 'desc')->paginate(15);
+        $records = BreederFeeding::
+        leftjoin('breeder_inventories', 'breeder_inventories.id', 'breeder_feedings.breeder_inventory_id')
+        ->where('breeder_feedings.breeder_inventory_id', $breeder_id)->orderBy('date_collected', 'desc')->paginate(10);
         return $records;
     }
 
@@ -226,13 +229,13 @@ class BreederController extends Controller
     {
         $request->validate([
             'breeder_id' => 'required',
-            'date_added' => 'required',
+            'date_collected' => 'required',
             'offered' => 'required',
             'refused' => 'required',
         ]);
         $record = new BreederFeeding;
-        $record->breeder_id = $request->breeder_id;
-        $record->date_collected = $request->date_added;
+        $record->breeder_inventory_id = $request->breeder_id;
+        $record->date_collected = $request->date_collected;
         $record->amount_offered = $request->offered;
         $record->amount_refused = $request->refused;
         $record->remarks = $request->remarks;
@@ -242,7 +245,10 @@ class BreederController extends Controller
 
     public function fetchEggProduction ($breeder_id)
     {
-        $eggprod = EggProduction::where('breeder_id', $breeder_id)->orderBy('date_collected', 'desc')->paginate(15);
+        $eggprod = EggProduction::
+        leftjoin('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
+        ->where('egg_productions.breeder_inventory_id', $breeder_id)
+        ->orderBy('date_collected', 'desc')->paginate(10);
         return $eggprod;
     }
 
@@ -257,7 +263,7 @@ class BreederController extends Controller
             'total_rejects' => 'required',
         ]);
         $eggprod = new EggProduction;
-        $eggprod->breeder_id = $request->breeder_id;
+        $eggprod->breeder_inventory_id = $request->breeder_id;
         $eggprod->date_collected = $request->date_added;
         $eggprod->total_eggs_intact = $request->total_eggs_intact;
         $eggprod->total_egg_weight = $request->total_egg_weight;
@@ -377,9 +383,54 @@ class BreederController extends Controller
         return view('chicken.breeder.hatchery_record');
     }
 
-    public function eggQualityPage()
+    public function fetchEggQuality($breeder_inventory)
     {
-        return view('chicken.breeder.egg_quality');
+        $qualities = EggQuality::
+        leftjoin('breeder_inventories', 'breeder_inventories.id', 'egg_qualities.breeder_inventory_id')
+        ->where('egg_qualities.breeder_inventory_id', $breeder_inventory)
+        ->orderBy('egg_qualities.date_collected', 'desc')->paginate(10);
+        return $qualities;
+    }
+
+    public function addEggQuality(Request $request)
+    {
+        $request->validate([
+            'breeder_id' => 'required',
+            'date_collected' => 'required',
+            'egg_quality_at' => 'required',
+            'egg_weight' => 'required',
+            'egg_color' => 'required',
+            'egg_shape' => 'required',
+            'egg_length' => 'required',
+            'egg_width' => 'required',
+            'albumen_height' => 'required',
+            'albumen_weight' => 'required',
+            'yolk_weight' => 'required',
+            'yolk_color' => 'required',
+            'shell_weight' => 'required',
+            'thickness_top' => 'required',
+            'thickness_mid' => 'required',
+            'thickness_bot' => 'required'
+        ]);
+        $eggqual = new EggQuality;
+        $eggqual->breeder_inventory_id = $request->breeder_id;
+        $eggqual->date_collected = $request->date_collected;
+        $eggqual->egg_quality_at = $request->egg_quality_at;
+        $eggqual->weight = $request->egg_weight;
+        $eggqual->color = $request->egg_color;
+        $eggqual->shape = $request->egg_shape;
+        $eggqual->length = $request->egg_length;
+        $eggqual->width = $request->egg_width;
+        $eggqual->albumen_height = $request->albumen_height;
+        $eggqual->albumen_weight = $request->albumen_weight;
+        $eggqual->yolk_weight = $request->yolk_weight;
+        $eggqual->yolk_color = $request->yolk_color;
+        $eggqual->shell_weight = $request->shell_weight;
+        $eggqual->thickness_top = $request->thickness_top;
+        $eggqual->thickness_mid = $request->thickness_mid;
+        $eggqual->thickness_bot = $request->thickness_bot;
+        $eggqual->save();
+        return response()->json(['status' => 'success', 'message' => 'Egg quality added']);
     }
 
     public function breederInventoryPage()
@@ -440,7 +491,7 @@ class BreederController extends Controller
 
     public function fetchReplacementInventories ($family_id)
     {
-        $replacment = Replacement::where('family_id', $family_id)->first();
+        $replacement = Replacement::where('family_id', $family_id)->first();
         return $replacement->getInventories();
     }
 }

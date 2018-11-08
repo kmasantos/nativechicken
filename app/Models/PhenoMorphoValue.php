@@ -19,7 +19,7 @@ class PhenoMorphoValue extends Model
      * @var array
      */
     protected $fillable = [
-        'gender', 'phenotypic', 'morphometric', 'date_collected'
+        'gender', 'tag', 'phenotypic', 'morphometric', 'date_collected'
     ];
 
     public function pheno_morpho_values()

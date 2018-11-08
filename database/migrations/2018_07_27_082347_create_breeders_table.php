@@ -18,6 +18,7 @@ class CreateBreedersTable extends Migration
             $table->unsignedInteger('family_id');
             $table->unsignedInteger('female_family_id')->nullable();
             $table->date('date_added');
+            $table->softDeletes();
         });
 
         Schema::table('breeders', function($table) {

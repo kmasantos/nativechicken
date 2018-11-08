@@ -100,11 +100,13 @@ Route::group(['middleware' => ['web']], function ()
          * *New Axios Routes for Breeders
          */
         Route::get('breeder_feeding/{breeder_id}', 'BreederController@fetchFeedingRecords');
-        Route::post('add_feeding', 'BreederController@addFeedingRecords');
-        Route::get('egg_prod/{breeder_id}', 'BreederController@fetchEggProduction');
-        Route::post('add_egg_prod', 'BreederController@addEggProduction');
+        Route::post('breeder_feeding', 'BreederController@addFeedingRecords');
+        Route::get('breeder_eggprod/{breeder_id}', 'BreederController@fetchEggProduction');
+        Route::post('breeder_add_eggprod', 'BreederController@addEggProduction');
         Route::get('breeder_hatchery/{breeder_inventory}', 'BreederController@getHatcheryParameter');
         Route::post('breeder_add_hatchery', 'BreederController@addHatcheryParameter');
+        Route::get('breeder_eggquality/{breeder_inventory}', 'BreederController@fetchEggQuality');
+        Route::post('breeder_add_eggquality', 'BreederController@addEggQuality');
         /**
          * *New Axios Routes for Replacement
          */
@@ -115,9 +117,13 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('replacement_fetch_families/{line_id}', 'ReplacementController@fetchFamilies');
         Route::post('add_replacements', 'ReplacementController@addReplacements');
         Route::get('replacement_pen_info/{pen_id}','ReplacementController@fetchPenInfo');
-        Route::get('replacement_pheno_morpho/{replacement_id}', 'ReplacementController@phenoMorphoPage');
-        Route::post('add_phenomorpho', 'ReplacementController@addPhenoMorpho');
-        Route::post('add_penfeeding', 'ReplacementController@addPenFeedingRecord');
+        Route::post('add_replacement_phenomorpho', 'ReplacementController@addPhenoMorpho');
+        Route::post('add_replacement_feeding', 'ReplacementController@addPenFeedingRecord');
+        Route::get('replacement_feeding_records/{pen_id}', 'ReplacementController@fetchFeedingRecords');
+        Route::get('replacement_fetch_brooderpens/{family_id}','ReplacementController@getBrooderInventories');
+        Route::get('replacement_fetch_phenomorphoinventory/{pen_id}','ReplacementController@getPhenoMorphoInventory');
+        Route::get('replacement_fetch_phenomorpholist/{inventory_id}','ReplacementController@getPhenoMorphoList');
+
 
         /**
          * !Old Routes, delete when replaced

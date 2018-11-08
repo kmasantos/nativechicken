@@ -1,9 +1,330 @@
 <template>
-
+    <div class="row">
+        <div class="col s12 m12 m12">
+            <div class="card-panel">
+                <div class="row">
+                    <div class="col s6 m6 l6">
+                        <h5>{{breeder_tag}} Egg Quality Records</h5>
+                    </div>
+                    <div class="col s3 m3 l3 right-align">
+                        <a href="#eggquality" class="waves-effect waves-green btn-flat green-text modal-trigger"><i class="fas fa-plus-circle left"></i>Add</a>
+                    </div>
+                    <div class="col s3 m3 l3 center-align">
+                        <a v-on:click="closeEggQual" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <table class="responsive-table centered bordered highlight">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Day</th>
+                                    <th>W</th>
+                                    <th>C</th>
+                                    <th>S</th>
+                                    <th>L</th>
+                                    <th>W</th>
+                                    <th>AH</th>
+                                    <th>AW</th>
+                                    <th>YW</th>
+                                    <th>YColor</th>
+                                    <th>SW</th>
+                                    <th>TT</th>
+                                    <th>MT</th>
+                                    <th>BT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-if="eggqualities_length == 0">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr v-else v-for="qualities in eggqualities.data" :key="qualities.id">
+                                    <td>{{qualities.date_collected}}</td>
+                                    <td>{{qualities.egg_quality_at}}</td>
+                                    <td>{{qualities.weight}}</td>
+                                    <td>{{qualities.color}}</td>
+                                    <td>{{qualities.shape}}</td>
+                                    <td>{{qualities.length}}</td>
+                                    <td>{{qualities.width}}</td>
+                                    <td>{{qualities.albumen_height}}</td>
+                                    <td>{{qualities.albumen_weight}}</td>
+                                    <td>{{qualities.yolk_weight}}</td>
+                                    <td>{{qualities.yolk_color}}</td>
+                                    <td>{{qualities.shell_weight}}</td>
+                                    <td>{{qualities.thickness_top}}</td>
+                                    <td>{{qualities.thickness_mid}}</td>
+                                    <td>{{qualities.thickness_bot}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row center">
+                    <div class="col s12 m12 l12">
+                        <pagination :data="eggqualities" @pagination-change-page="fetchEggQualityRecord"></pagination>
+                    </div>
+                </div>
+                <div id="eggquality" class="modal modal-fixed-footer">
+                    <form v-on:submit.prevent="addEggQualityRecord" method="post">
+                        <div class="modal-content">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <h4>{{breeder_tag}} Egg Quality</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <div class="row">
+                                        <div class="col s12 m6 l6">
+                                            <label for="date_added">Date Collected</label>
+                                            <datepicker id="date_added" :format="customFormatter" v-model="date_collected"></datepicker>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="others=false" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_35" value = "35"/>
+                                            <label for="egg_quality_35">35 Days of Age</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="others=false" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_40" value = "40"/>
+                                            <label for="egg_quality_40">40 Days of Age</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="others=false" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_60" value = "60"/>
+                                            <label for="egg_quality_60">60 Days of Age</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="others=true" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_others" value = ""/>
+                                            <label for="egg_quality_others">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="others">
+                                        <div class="col s12 m6 l6">
+                                            <input v-model="egg_quality_at" type="number" min=0 placeholder="Input egg quality day"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="egg_weigth" type="number" min=0 class="validate" v-model="egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="egg_weight">Egg Weight (g)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="egg_color" type="text" class="validate" v-model="egg_color" placeholder="e.g. Brown, Cream">
+                                            <label for="egg_color">Egg Color</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="egg_shape" type="text" class="validate" v-model="egg_shape" placeholder="e.g. Ovoid">
+                                            <label for="egg_shape">Egg Shape</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="length" type="number" min=0 class="validate" v-model="egg_length" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="length">Length (mm)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="width" type="number" min=0 class="validate" v-model="egg_width" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="width">Width (mm)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="abumen_height" type="number" min=0 class="validate" v-model="albumen_height" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="albumen_height">Albument Height (mm)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="albumen_weight" type="number" class="validate" v-model="albumen_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="albumen_weight">Albumen Weight (mm)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="yolk_weight" type="number" class="validate" v-model="yolk_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="yolk_weight">Yolk Weight (g)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="yolk_color" type="text" class="validate" v-model="yolk_color">
+                                            <label for="yolk_color">Yolk Color</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="shell_weight" type="number" class="validate" v-model="shell_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="shell_weight">Shell Weight (g)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="top" type="number" min=0 class="validate" v-model="thickness_top" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="top">Shell Thickness Top</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="middle" type="number" min=0 class="validate" v-model="thickness_mid" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="middle">Shell Thickness Middle</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="bottom" type="number" min=0 class="validate" v-model="thickness_bot" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label for="bottom">Shell Thickness Bottom</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                            <button class="modal-action modal-close waves-effect waves-green btn-flat" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
+    import Datepicker from 'vuejs-datepicker';
+    Vue.component('pagination', require('laravel-vue-pagination'));
+    var moment = require('moment');
     export default {
+        components : {
+            Datepicker
+        },
+        props: [
+            'breeder', 'breeder_tag'
+        ],
+        data()  {
+            return {
+                eggqualities : {},
+                eggqualities_length : 0,
 
+                others : false,
+                date_collected : '',
+                egg_quality_at : '',
+                egg_weight : '',
+                egg_color : '',
+                egg_shape : '',
+                egg_length : '',
+                egg_width : '',
+                albumen_height : '',
+                albumen_weight : '',
+                yolk_weight : '',
+                yolk_color : '',
+                shell_weight : '',
+                thickness_top : '',
+                thickness_mid : '',
+                thickness_bot : '',
+            }
+        },
+        methods : {
+            initialize : function () {
+                this.fetchEggQualityRecord();
+            },
+            fetchEggQualityRecord : function (page = 1) {
+                axios.get('breeder_eggquality/'+this.breeder+'?page='+page)
+                .then(response => {
+                    this.eggqualities = response.data;
+                    this.eggqualities_length = this.eggqualities.data.length;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            addEggQualityRecord : function () {
+                axios.post('breeder_add_eggquality', {
+                    breeder_id : this.breeder,
+                    date_collected : this.customFormatter(this.date_collected),
+                    egg_quality_at : this.egg_quality_at,
+                    egg_weight : this.egg_weight,
+                    egg_color : this.egg_color,
+                    egg_shape : this.egg_shape,
+                    egg_length : this.egg_length,
+                    egg_width : this.egg_width,
+                    albumen_height : this.albumen_height,
+                    albumen_weight : this.albumen_weight,
+                    yolk_weight : this.yolk_weight,
+                    yolk_color : this.yolk_color,
+                    shell_weight : this.shell_weight,
+                    thickness_top : this.thickness_top,
+                    thickness_mid : this.thickness_mid,
+                    thickness_bot : this.thickness_bot,
+                })
+                .then(response => {
+                    if(response.data.error == undefined){
+                        this.others = false,
+                        this.date_collected = '';
+                        this.egg_quality_at = '';
+                        this.egg_weight = '';
+                        this.egg_color = '';
+                        this.egg_shape = '';
+                        this.egg_length = '';
+                        this.egg_width = '';
+                        this.albumen_height = '';
+                        this.albumen_weight = '';
+                        this.yolk_weight = '';
+                        this.yolk_color = '';
+                        this.shell_weight = '';
+                        this.thickness_top = '';
+                        this.thickness_mid = '';
+                        this.thickness_bot = '';
+                        Materialize.toast('Successfully added egg quality record', 3000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                    }
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to add egg quality record', 3000, 'red rounded');
+                });
+                this.initialize();
+            },
+            customFormatter : function (date_added) {
+                return moment(date_added).format('YYYY-MM-DD');
+            },
+            closeEggQual : function () {
+                this.$emit('close_eggqual', null)
+            }
+        },
+        beforeCreate() {
+            $('.tooltipped').tooltip('remove');
+        },
+        mounted() {
+            $('#eggquality').modal({
+                dismissible : false,
+            });
+        },
+        created() {
+            this.initialize();
+        },
+        destroyed () {
+            $('.tooltipped').tooltip({delay: 50});
+        },
     }
 </script>

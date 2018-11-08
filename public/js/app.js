@@ -33156,7 +33156,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(140);
-module.exports = __webpack_require__(211);
+module.exports = __webpack_require__(217);
 
 
 /***/ }),
@@ -33189,16 +33189,20 @@ Vue.component('family-record', __webpack_require__(176));
 Vue.component('add-breeder', __webpack_require__(179));
 Vue.component('hatchery-record', __webpack_require__(182));
 Vue.component('egg-production', __webpack_require__(185));
+Vue.component('feedingrecord-breeder', __webpack_require__(221));
+Vue.component('eggquality-breeder', __webpack_require__(224));
 
 // Replacement Vue Components
-Vue.component('add-replacement', __webpack_require__(220));
-Vue.component('phenomorpho-replacement', __webpack_require__(196));
+Vue.component('add-replacement', __webpack_require__(188));
+Vue.component('inventory-replacement', __webpack_require__(196));
+Vue.component('feeding-replacement', __webpack_require__(199));
+Vue.component('phenomorpho-replacement', __webpack_require__(202));
 
 // Brooder & Grower Vue Components
-Vue.component('add-broodergrower', __webpack_require__(199));
-Vue.component('inventory-broodergrower', __webpack_require__(202));
-Vue.component('feedingrecord-broodergrower', __webpack_require__(205));
-Vue.component('growthrecord-broodergrower', __webpack_require__(208));
+Vue.component('add-broodergrower', __webpack_require__(205));
+Vue.component('inventory-broodergrower', __webpack_require__(208));
+Vue.component('feedingrecord-broodergrower', __webpack_require__(211));
+Vue.component('growthrecord-broodergrower', __webpack_require__(214));
 
 /**
  ** Others
@@ -70314,6 +70318,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -70364,10 +70378,10 @@ var moment = __webpack_require__(0);
             breeder_hatchery: null,
             breeder_eggprod: null,
             breeder_eggquality: null,
-            breeder_eggfeeding: null,
-            breeder_eggmortality: null,
+            breeder_feeding: null,
+            breeder_mortality: null,
             breeder_phenomorpho: null,
-            breeder_eggdelete: null,
+            breeder_delete: null,
             breeder_edit: null
         };
     },
@@ -70472,7 +70486,7 @@ var moment = __webpack_require__(0);
             var _this10 = this;
 
             var param = {};
-            if (within == true) {
+            if (within) {
                 param = {
                     within: this.within,
                     breeder_tag: this.breeder_tag,
@@ -70552,232 +70566,274 @@ var render = function() {
   return _c("div", [
     _vm.breeders_length === 0
       ? _c("div", { staticClass: "row center-align" }, [_vm._m(0)])
-      : _vm.breeders_length > 0
-        ? _c("div", [
-            _c("div", { staticClass: "row valign-wrapper" }, [
-              _c("div", { staticClass: "col s12 m8 l8 input-field" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.search,
-                      expression: "search"
-                    }
-                  ],
-                  attrs: { id: "search", type: "text" },
-                  domProps: { value: _vm.search },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.search = $event.target.value
-                    }
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.breeder_hatchery == null &&
+    _vm.breeder_feeding == null &&
+    _vm.breeder_eggprod == null &&
+    _vm.breeder_eggquality == null
+      ? _c("div", [
+          _c("div", { staticClass: "row valign-wrapper" }, [
+            _c("div", { staticClass: "col s12 m8 l8 input-field" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
                   }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "search" } }, [
-                  _vm._v("Search Breeder Tag Number")
-                ])
-              ]),
+                ],
+                attrs: { id: "search", type: "text" },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              }),
               _vm._v(" "),
-              _vm._m(1)
+              _c("label", { attrs: { for: "search" } }, [
+                _vm._v("Search Breeder Tag Number")
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12" }, [
-                _c(
-                  "div",
-                  { staticClass: "row" },
-                  _vm._l(_vm.breeders.data, function(breeder) {
-                    return _c(
-                      "div",
-                      {
-                        key: breeder.inventory_id,
-                        staticClass: "col s12 m6 l6"
-                      },
-                      [
-                        _c("div", { staticClass: "card blue-grey lighten-2" }, [
-                          _c("div", { staticClass: "card-content" }, [
-                            _c("div", { staticClass: "row valign-wrapper" }, [
-                              _c("div", { staticClass: "col s6 m6 l6" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "card-title white-text" },
-                                  [_vm._v(_vm._s(breeder.breeder_tag))]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _vm._m(2, true),
-                              _vm._v(" "),
-                              _vm._m(3, true)
+            _vm._m(1)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col s12 m12 l12" }, [
+              _c(
+                "div",
+                { staticClass: "row" },
+                _vm._l(_vm.breeders.data, function(breeder) {
+                  return _c(
+                    "div",
+                    { key: breeder.inventory_id, staticClass: "col s12 m6 l6" },
+                    [
+                      _c("div", { staticClass: "card blue-grey lighten-2" }, [
+                        _c("div", { staticClass: "card-content" }, [
+                          _c("div", { staticClass: "row valign-wrapper" }, [
+                            _c("div", { staticClass: "col s6 m6 l6" }, [
+                              _c(
+                                "span",
+                                { staticClass: "card-title white-text" },
+                                [_vm._v(_vm._s(breeder.breeder_tag))]
+                              )
                             ]),
                             _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("ul", { staticClass: "collection" }, [
-                                  _c(
-                                    "li",
-                                    {
-                                      staticClass:
-                                        "collection-item blue-grey lighten-4 tooltipped",
-                                      attrs: {
-                                        "data-position": "bottom",
-                                        "data-delay": "50",
-                                        "data-tooltip":
-                                          "Family " + breeder.family_number
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "F: " + _vm._s(breeder.family_number)
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "li",
-                                    {
-                                      staticClass:
-                                        "collection-item blue-grey lighten-4 tooltipped",
-                                      attrs: {
-                                        "data-position": "bottom",
-                                        "data-delay": "50",
-                                        "data-tooltip":
-                                          "Line " + breeder.line_number
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "L: " + _vm._s(breeder.line_number)
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "li",
-                                    {
-                                      staticClass:
-                                        "collection-item blue-grey lighten-4 tooltipped",
-                                      attrs: {
-                                        "data-position": "bottom",
-                                        "data-delay": "50",
-                                        "data-tooltip":
-                                          "Generation " +
-                                          breeder.generation_number
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "G: " +
-                                          _vm._s(breeder.generation_number)
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "li",
-                                    {
-                                      staticClass:
-                                        "collection-item blue-grey lighten-4 center-align"
-                                    },
-                                    [
-                                      _c("span", [
-                                        _c("i", { staticClass: "fas fa-mars" }),
-                                        _vm._v(
-                                          " Male : " +
-                                            _vm._s(breeder.number_male) +
-                                            "\n                                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        " |\n                                                "
-                                      ),
-                                      _c("span", [
-                                        _c("i", {
-                                          staticClass: "fas fa-venus"
-                                        }),
-                                        _vm._v(
-                                          " Female : " +
-                                            _vm._s(breeder.number_female) +
-                                            "\n                                                "
-                                        )
-                                      ])
-                                    ]
-                                  )
-                                ])
-                              ])
-                            ])
+                            _vm._m(2, true),
+                            _vm._v(" "),
+                            _vm._m(3, true)
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "card-action center-align" },
-                            [
-                              _vm._m(4, true),
-                              _vm._v(" "),
-                              _vm._m(5, true),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "white-text tooltipped",
-                                  attrs: {
-                                    href: "#record",
-                                    "data-position": "bottom",
-                                    "data-delay": "50",
-                                    "data-tooltip": "Open Hatchery Records"
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.breeder_hatchery =
-                                        breeder.inventory_id
-                                      _vm.selected_breeder_tag =
-                                        breeder.breeder_tag
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _c("ul", { staticClass: "collection" }, [
+                                _c(
+                                  "li",
+                                  {
+                                    staticClass:
+                                      "collection-item blue-grey lighten-4 tooltipped",
+                                    attrs: {
+                                      "data-position": "bottom",
+                                      "data-delay": "50",
+                                      "data-tooltip":
+                                        "Family " + breeder.family_number
                                     }
-                                  }
-                                },
-                                [_c("i", { staticClass: "fas fa-ellipsis-v" })]
-                              ),
-                              _vm._v(" "),
-                              _vm._m(6, true),
-                              _vm._v(" "),
-                              _vm._m(7, true),
-                              _vm._v(" "),
-                              _vm._m(8, true)
-                            ]
-                          )
+                                  },
+                                  [
+                                    _vm._v(
+                                      "F: " + _vm._s(breeder.family_number)
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "li",
+                                  {
+                                    staticClass:
+                                      "collection-item blue-grey lighten-4 tooltipped",
+                                    attrs: {
+                                      "data-position": "bottom",
+                                      "data-delay": "50",
+                                      "data-tooltip":
+                                        "Line " + breeder.line_number
+                                    }
+                                  },
+                                  [_vm._v("L: " + _vm._s(breeder.line_number))]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "li",
+                                  {
+                                    staticClass:
+                                      "collection-item blue-grey lighten-4 tooltipped",
+                                    attrs: {
+                                      "data-position": "bottom",
+                                      "data-delay": "50",
+                                      "data-tooltip":
+                                        "Generation " +
+                                        breeder.generation_number
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "G: " + _vm._s(breeder.generation_number)
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "li",
+                                  {
+                                    staticClass:
+                                      "collection-item blue-grey lighten-4 center-align"
+                                  },
+                                  [
+                                    _c("span", [
+                                      _c("i", { staticClass: "fas fa-mars" }),
+                                      _vm._v(
+                                        " Male : " +
+                                          _vm._s(breeder.number_male) +
+                                          "\n                                                "
+                                      )
+                                    ]),
+                                    _vm._v(
+                                      " |\n                                                "
+                                    ),
+                                    _c("span", [
+                                      _c("i", { staticClass: "fas fa-venus" }),
+                                      _vm._v(
+                                        " Female : " +
+                                          _vm._s(breeder.number_female) +
+                                          "\n                                                "
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "card-action center-align" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "white-text tooltipped",
+                              attrs: {
+                                href: "javascript:void(0)",
+                                "data-position": "bottom",
+                                "data-delay": "50",
+                                "data-tooltip": "Open Feeding Records"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.breeder_feeding = breeder.inventory_id
+                                  _vm.selected_breeder_tag = breeder.breeder_tag
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fas fa-utensils" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "white-text tooltipped",
+                              attrs: {
+                                href: "javascript:void(0)",
+                                "data-position": "bottom",
+                                "data-delay": "50",
+                                "data-tooltip": "Open Egg Production Records"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.breeder_eggprod = breeder.inventory_id
+                                  _vm.selected_breeder_tag = breeder.breeder_tag
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fas fa-chart-line" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "white-text tooltipped",
+                              attrs: {
+                                href: "javascript:void(0)",
+                                "data-position": "bottom",
+                                "data-delay": "50",
+                                "data-tooltip": "Open Hatchery Records"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.breeder_hatchery = breeder.inventory_id
+                                  _vm.selected_breeder_tag = breeder.breeder_tag
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fas fa-ellipsis-v" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "white-text tooltipped",
+                              attrs: {
+                                href: "javascript:void(0)",
+                                "data-position": "bottom",
+                                "data-delay": "50",
+                                "data-tooltip": "Open Egg Quality Records"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.breeder_eggquality = breeder.inventory_id
+                                  _vm.selected_breeder_tag = breeder.breeder_tag
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fas fa-th-list" })]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(4, true),
+                          _vm._v(" "),
+                          _vm._m(5, true)
                         ])
-                      ]
-                    )
-                  })
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c(
-                    "div",
-                    { staticClass: "col s12 m12 l12 center" },
-                    [
-                      _c("pagination", {
-                        attrs: { data: _vm.breeders },
-                        on: { "pagination-change-page": _vm.getBreederList }
-                      })
-                    ],
-                    1
+                      ])
+                    ]
                   )
-                ])
+                })
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "div",
+                  { staticClass: "col s12 m12 l12 center" },
+                  [
+                    _c("pagination", {
+                      attrs: { data: _vm.breeders },
+                      on: { "pagination-change-page": _vm.getBreederList }
+                    })
+                  ],
+                  1
+                )
               ])
             ])
           ])
-        : _vm._e(),
+        ])
+      : _vm._e(),
     _vm._v(" "),
-    _c(
-      "div",
-      { attrs: { id: "record" } },
-      [
-        _vm.breeder_hatchery != null
-          ? _c("hatchery-record", {
+    _vm.breeder_hatchery != null
+      ? _c(
+          "div",
+          [
+            _c("hatchery-record", {
               attrs: {
                 breeder: _vm.breeder_hatchery,
                 breeder_tag: _vm.selected_breeder_tag
@@ -70785,15 +70841,79 @@ var render = function() {
               on: {
                 close_record: function($event) {
                   _vm.breeder_hatchery = null
+                  _vm.selected_breeder_tag = null
                 }
               }
             })
-          : _vm._e()
-      ],
-      1
-    ),
+          ],
+          1
+        )
+      : _vm._e(),
     _vm._v(" "),
-    _vm._m(9),
+    _vm.breeder_feeding != null
+      ? _c(
+          "div",
+          [
+            _c("feedingrecord-breeder", {
+              attrs: {
+                breeder: _vm.breeder_feeding,
+                breeder_tag: _vm.selected_breeder_tag
+              },
+              on: {
+                close_feeding: function($event) {
+                  _vm.breeder_feeding = null
+                  _vm.selected_breeder_tag = null
+                }
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.breeder_eggprod != null
+      ? _c(
+          "div",
+          [
+            _c("egg-production", {
+              attrs: {
+                breeder: _vm.breeder_eggprod,
+                breeder_tag: _vm.selected_breeder_tag
+              },
+              on: {
+                close_eggprod: function($event) {
+                  _vm.breeder_eggprod = null
+                  _vm.selected_breeder_tag = null
+                }
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.breeder_eggquality != null
+      ? _c(
+          "div",
+          [
+            _c("eggquality-breeder", {
+              attrs: {
+                breeder: _vm.breeder_eggquality,
+                breeder_tag: _vm.selected_breeder_tag
+              },
+              on: {
+                close_eggqual: function($event) {
+                  _vm.breeder_eggquality = null
+                  _vm.selected_breeder_tag = null
+                }
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm._m(6),
     _vm._v(" "),
     _c(
       "div",
@@ -70803,12 +70923,12 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(10),
+          _vm._m(7),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col s12 m12 l12" }, [
               _c("div", { staticClass: "card" }, [
-                _vm._m(11),
+                _vm._m(8),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-tabs" }, [
                   _c("ul", { staticClass: "tabs tabs-fixed-width" }, [
@@ -71832,7 +71952,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(12)
+                        _vm._m(9)
                       ]
                     )
                   ]),
@@ -72317,7 +72437,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(13)
+                        _vm._m(10)
                       ]
                     )
                   ])
@@ -72327,7 +72447,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(14)
+        _vm._m(11)
       ]
     )
   ])
@@ -72399,61 +72519,7 @@ var staticRenderFns = [
       {
         staticClass: "white-text tooltipped",
         attrs: {
-          href: "#",
-          "data-position": "bottom",
-          "data-delay": "50",
-          "data-tooltip": "Open Feeding Records"
-        }
-      },
-      [_c("i", { staticClass: "fas fa-utensils" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "white-text tooltipped",
-        attrs: {
-          href: "#",
-          "data-position": "bottom",
-          "data-delay": "50",
-          "data-tooltip": "Open Egg Production Records"
-        }
-      },
-      [_c("i", { staticClass: "fas fa-chart-line" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "white-text tooltipped",
-        attrs: {
-          href: "#",
-          "data-position": "bottom",
-          "data-delay": "50",
-          "data-tooltip": "Open Egg Quality Records"
-        }
-      },
-      [_c("i", { staticClass: "fas fa-th-list" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "white-text tooltipped",
-        attrs: {
-          href: "#",
+          href: "javascript:void(0)",
           "data-position": "bottom",
           "data-delay": "50",
           "data-tooltip": "Open Pheno/Morpho Records"
@@ -72471,7 +72537,7 @@ var staticRenderFns = [
       {
         staticClass: "white-text tooltipped",
         attrs: {
-          href: "#",
+          href: "javascript:void(0)",
           "data-position": "bottom",
           "data-delay": "50",
           "data-tooltip": "Open Mortality & Sales"
@@ -72872,8 +72938,15 @@ var moment = __webpack_require__(0);
             this.$emit('close_record', null);
         }
     },
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    mounted: function mounted() {},
     created: function created() {
         this.initialize();
+    },
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
     }
 });
 
@@ -73598,6 +73671,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -73605,7 +73694,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
     },
     props: {
-        breeder: Number
+        breeder: Number,
+        breeder_tag: Number
     },
     data: function data() {
         return {
@@ -73627,42 +73717,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        fetchEggProductionRecord: function fetchEggProductionRecord() {},
-        // fetchEggProduction : function (page = 1) {
-        //     axios.get('egg_prod/'+this.selected_breeder+"?page="+page)
-        //     .then(response => {
-        //         this.egg_prod = response.data;
-        //         this.egg_prod_len = this.egg_prod.data.length;
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
-        // },
-        // addEggProduction : function () {
-        //     axios.post('add_egg_prod', {
-        //         breeder_id: this.selected_breeder,
-        //         date_added : this.customFormatter(this.date_eggprod_collected),
-        //         total_eggs_intact : this.total_eggs_intact,
-        //         total_egg_weight : this.total_egg_weight,
-        //         total_broken : this.total_broken,
-        //         total_rejects : this.total_rejects,
-        //         remarks : this.egg_prod_remarks,
-        //     })
-        //     .then(function (response) {
-        //         Materialize.toast('Successfully added egg production record', 3000, 'rounded');
-        //     })
-        //     .catch(function (error) {
-        //         Materialize.toast('Failed to add egg production record', 3000, 'rounded');
-        //     });
-        // },
+        initialize: function initialize() {
+            this.fetchEggProductionRecord();
+        },
+        fetchEggProductionRecord: function fetchEggProductionRecord() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('breeder_eggprod/' + this.breeder + "?page=" + page).then(function (response) {
+                _this.eggprod = response.data;
+                _this.eggprod_length = _this.eggprod.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        addEggProduction: function addEggProduction() {
+            var _this2 = this;
+
+            axios.post('breeder_add_eggprod', {
+                breeder_id: this.breeder,
+                date_added: this.dateFormatter(this.date_collected),
+                total_eggs_intact: this.total_eggs_intact,
+                total_egg_weight: this.total_egg_weight,
+                total_broken: this.total_broken,
+                total_rejects: this.total_rejects,
+                remarks: this.egg_prod_remarks
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this2.date_collected = '';
+                    _this2.total_eggs_intact = '';
+                    _this2.total_egg_weight = '';
+                    _this2.total_broken = '';
+                    _this2.total_rejects = '';
+                    _this2.remarks = '';
+                    Materialize.toast('Successfully added egg production record', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to add egg production record', 3000, 'red rounded');
+            });
+            this.initialize();
+        },
         dateFormatter: function dateFormatter(date) {
             return moment(date).format('YYYY-MM-DD');
         },
         closeEggProduction: function closeEggProduction() {
-            this.$emit('close_record', null);
+            this.$emit('close_eggprod', null);
         }
     },
-    created: function created() {}
+    created: function created() {
+        this.initialize();
+    },
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
+    }
 });
 
 /***/ }),
@@ -73690,7 +73803,9 @@ var render = function() {
             staticClass: "row"
           },
           [
-            _vm._m(0),
+            _c("div", { staticClass: "col s6 m6 l6" }, [
+              _c("h5", [_vm._v("Egg Production | " + _vm._s(_vm.breeder_tag))])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "col s3 m3 l3 right-align" }, [
               _c(
@@ -73748,33 +73863,71 @@ var render = function() {
                     staticClass: "responsive-table bordered highlight centered"
                   },
                   [
-                    _vm._m(1),
+                    _vm._m(0),
                     _vm._v(" "),
-                    _c("tbody", [
-                      _vm.eggprod_length === 0
-                        ? _c("tr", [
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v("-")])
-                          ])
-                        : _vm._e()
-                    ])
+                    _c(
+                      "tbody",
+                      [
+                        _vm.eggprod_length == 0
+                          ? _c("tr", [
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")])
+                            ])
+                          : _vm._l(_vm.eggprod.data, function(prod) {
+                              return _c("tr", { key: prod.id }, [
+                                _c("td", [_vm._v(_vm._s(prod.date_collected))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(prod.total_eggs_intact))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(prod.total_egg_weight))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(prod.total_broken))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(prod.total_rejects))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(prod.remarks))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v("-")])
+                              ])
+                            })
+                      ],
+                      2
+                    )
                   ]
                 )
               ])
             ]),
             _vm._v(" "),
-            _vm._m(2)
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col s12 m12 l12 center" },
+                [
+                  _c("pagination", {
+                    attrs: { data: _vm.eggprod },
+                    on: {
+                      "pagination-change-page": _vm.fetchEggProductionRecord
+                    }
+                  })
+                ],
+                1
+              )
+            ])
           ]
         ),
         _vm._v(" "),
@@ -73793,247 +73946,295 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "col s12 m12 l12" }, [
-              _c("div", { staticClass: "row valign-wrapper" }, [
-                _vm._m(3),
-                _vm._v(" "),
-                _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "waves-effect waves-red btn-flat red-text",
-                      on: {
-                        click: function($event) {
-                          _vm.add_record = null
-                          _vm.hide_record = false
-                        }
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "far fa-times-circle left" }),
-                      _vm._v("Close")
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c(
-                  "div",
-                  { staticClass: "col s12 m6 l6" },
-                  [
-                    _c("label", { attrs: { for: "date_added" } }, [
-                      _vm._v("Date Collected")
+              _c(
+                "form",
+                {
+                  attrs: { method: "post" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.addEggProduction($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "row valign-wrapper" }, [
+                    _c("div", { staticClass: "col s9 m19 l9" }, [
+                      _c("h5", [
+                        _vm._v(
+                          "Add Egg Production | " + _vm._s(_vm.breeder_tag)
+                        )
+                      ])
                     ]),
                     _vm._v(" "),
-                    _c("datepicker", {
-                      attrs: { id: "date_added", format: _vm.dateFormatter },
-                      model: {
-                        value: _vm.date_collected,
-                        callback: function($$v) {
-                          _vm.date_collected = $$v
+                    _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "waves-effect waves-red btn-flat red-text",
+                          on: {
+                            click: function($event) {
+                              _vm.add_record = null
+                              _vm.hide_record = false
+                            }
+                          }
                         },
-                        expression: "date_collected"
-                      }
-                    })
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model.number",
-                        value: _vm.total_eggs_intact,
-                        expression: "total_eggs_intact",
-                        modifiers: { number: true }
-                      }
-                    ],
-                    staticClass: "validate",
-                    attrs: {
-                      placeholder: "Total Eggs that passes as good",
-                      id: "intact",
-                      type: "number",
-                      min: "0",
-                      validate: ""
-                    },
-                    domProps: { value: _vm.total_eggs_intact },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.total_eggs_intact = _vm._n($event.target.value)
-                      },
-                      blur: function($event) {
-                        _vm.$forceUpdate()
-                      }
-                    }
-                  }),
+                        [
+                          _c("i", { staticClass: "far fa-times-circle left" }),
+                          _vm._v("Close")
+                        ]
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("label", { attrs: { for: "intact" } }, [
-                    _vm._v("Total Eggs Intact")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model.number",
-                        value: _vm.total_egg_weight,
-                        expression: "total_egg_weight",
-                        modifiers: { number: true }
-                      }
-                    ],
-                    staticClass: "validate",
-                    attrs: {
-                      placeholder: "Totall egg weight of all intact eggs",
-                      id: "total_weight",
-                      type: "number",
-                      min: "0",
-                      step: "0.001",
-                      pattern: "^\\d*(\\.\\d{0,3})?$"
-                    },
-                    domProps: { value: _vm.total_egg_weight },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.total_egg_weight = _vm._n($event.target.value)
-                      },
-                      blur: function($event) {
-                        _vm.$forceUpdate()
-                      }
-                    }
-                  }),
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col s12 m6 l6" },
+                      [
+                        _c("label", { attrs: { for: "date_added" } }, [
+                          _vm._v("Date Collected")
+                        ]),
+                        _vm._v(" "),
+                        _c("datepicker", {
+                          attrs: {
+                            id: "date_added",
+                            format: _vm.dateFormatter
+                          },
+                          model: {
+                            value: _vm.date_collected,
+                            callback: function($$v) {
+                              _vm.date_collected = $$v
+                            },
+                            expression: "date_collected"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
                   _vm._v(" "),
-                  _c("label", { attrs: { for: "total_weight" } }, [
-                    _vm._v("Total Egg Weight")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model.number",
-                        value: _vm.total_broken,
-                        expression: "total_broken",
-                        modifiers: { number: true }
-                      }
-                    ],
-                    staticClass: "validate",
-                    attrs: {
-                      placeholder: "Total Eggs that were broken",
-                      id: "total_broken",
-                      type: "number",
-                      min: "0",
-                      validate: ""
-                    },
-                    domProps: { value: _vm.total_broken },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.total_eggs_intact,
+                            expression: "total_eggs_intact",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "validate",
+                        attrs: {
+                          placeholder: "Total Eggs that passes as good",
+                          id: "intact",
+                          type: "number",
+                          min: "0",
+                          validate: ""
+                        },
+                        domProps: { value: _vm.total_eggs_intact },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.total_eggs_intact = _vm._n($event.target.value)
+                          },
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
                         }
-                        _vm.total_broken = _vm._n($event.target.value)
-                      },
-                      blur: function($event) {
-                        _vm.$forceUpdate()
-                      }
-                    }
-                  }),
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        { staticClass: "active", attrs: { for: "intact" } },
+                        [_vm._v("Total Eggs Intact")]
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("label", { attrs: { for: "total_broken" } }, [
-                    _vm._v("Total Eggs Broken")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model.number",
-                        value: _vm.total_rejects,
-                        expression: "total_rejects",
-                        modifiers: { number: true }
-                      }
-                    ],
-                    staticClass: "validate",
-                    attrs: {
-                      placeholder:
-                        "Total Eggs that doesn't pass as good condition",
-                      id: "total_rejects",
-                      type: "number",
-                      min: "0",
-                      validate: ""
-                    },
-                    domProps: { value: _vm.total_rejects },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.total_egg_weight,
+                            expression: "total_egg_weight",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "validate",
+                        attrs: {
+                          placeholder: "Totall egg weight of all intact eggs",
+                          id: "total_weight",
+                          type: "number",
+                          min: "0",
+                          step: "0.001",
+                          pattern: "^\\d*(\\.\\d{0,3})?$"
+                        },
+                        domProps: { value: _vm.total_egg_weight },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.total_egg_weight = _vm._n($event.target.value)
+                          },
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
                         }
-                        _vm.total_rejects = _vm._n($event.target.value)
-                      },
-                      blur: function($event) {
-                        _vm.$forceUpdate()
-                      }
-                    }
-                  }),
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "active",
+                          attrs: { for: "total_weight" }
+                        },
+                        [_vm._v("Total Egg Weight")]
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("label", { attrs: { for: "total_rejects" } }, [
-                    _vm._v("Total Eggs Rejected")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.remarks,
-                        expression: "remarks"
-                      }
-                    ],
-                    attrs: {
-                      placeholder: "Add remarks",
-                      id: "egg_prod_remarks",
-                      type: "text"
-                    },
-                    domProps: { value: _vm.remarks },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.total_broken,
+                            expression: "total_broken",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "validate",
+                        attrs: {
+                          placeholder: "Total Eggs that were broken",
+                          id: "total_broken",
+                          type: "number",
+                          min: "0",
+                          validate: ""
+                        },
+                        domProps: { value: _vm.total_broken },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.total_broken = _vm._n($event.target.value)
+                          },
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
                         }
-                        _vm.remarks = $event.target.value
-                      }
-                    }
-                  }),
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "active",
+                          attrs: { for: "total_broken" }
+                        },
+                        [_vm._v("Total Eggs Broken")]
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("label", { attrs: { for: "egg_prod_remarks" } }, [
-                    _vm._v("Remarks")
-                  ])
-                ])
-              ])
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.total_rejects,
+                            expression: "total_rejects",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "validate",
+                        attrs: {
+                          placeholder:
+                            "Total Eggs that doesn't pass as good condition",
+                          id: "total_rejects",
+                          type: "number",
+                          min: "0",
+                          validate: ""
+                        },
+                        domProps: { value: _vm.total_rejects },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.total_rejects = _vm._n($event.target.value)
+                          },
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "active",
+                          attrs: { for: "total_rejects" }
+                        },
+                        [_vm._v("Total Eggs Rejected")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.remarks,
+                            expression: "remarks"
+                          }
+                        ],
+                        attrs: {
+                          placeholder: "Add remarks",
+                          id: "egg_prod_remarks",
+                          type: "text"
+                        },
+                        domProps: { value: _vm.remarks },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.remarks = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "active",
+                          attrs: { for: "egg_prod_remarks" }
+                        },
+                        [_vm._v("Remarks")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1)
+                ]
+              )
             ])
           ]
         )
@@ -74042,14 +74243,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s6 m6 l6" }, [
-      _c("h5", [_vm._v("Egg Production |")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -74076,16 +74269,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12 center" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s9 m19 l9" }, [
-      _c("h5", [_vm._v("Add Egg Production | ")])
+    return _c("div", { staticClass: "row center" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light blue-grey",
+            attrs: { type: "submit" }
+          },
+          [_vm._v("Submit")]
+        )
+      ])
     ])
   }
 ]
@@ -74099,9 +74293,97 @@ if (false) {
 }
 
 /***/ }),
-/* 188 */,
-/* 189 */,
-/* 190 */,
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(189)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(194)
+/* template */
+var __vue_template__ = __webpack_require__(195)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/replacements/Replacement.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-154c7aca", Component.options)
+  } else {
+    hotAPI.reload("data-v-154c7aca", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(190);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(192)("31a3c631", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-154c7aca\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Replacement.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-154c7aca\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Replacement.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(191)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n    -webkit-transition: opacity .5s;\n    transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to {\n    opacity: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
 /* 191 */
 /***/ (function(module, exports) {
 
@@ -74445,56 +74727,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 194 */,
-/* 195 */,
-/* 196 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(197)
-/* template */
-var __vue_template__ = __webpack_require__(198)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/replacement_PhenoMorpho.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-44605d3e", Component.options)
-  } else {
-    hotAPI.reload("data-v-44605d3e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 197 */
+/* 194 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74716,272 +74949,1675 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+var moment = __webpack_require__(0);
+Vue.component('pagination', __webpack_require__(4));
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
+    data: function data() {
+        return {
+            search: '',
+            replacements_loaded: false,
+            replacement_pens: {},
+            replacement_pens_len: 0,
+            brooders: [],
+            brooders_length: 0,
+            selected_pen: '',
+            selected_pen_number: '',
+            selected_brooder: '',
+
+            // form variables
+            external: false,
+            selected_generation: '',
+            selected_line: '',
+            selected_family: '',
+            date_added: '',
+            males: '',
+            females: '',
+            replacement_tag: '',
+
+            generations: [],
+            lines: [],
+            families: [],
+            generations_loaded: false,
+            lines_loaded: false,
+            families_loaded: false,
+
+            inventory_pen: null,
+            inventory_number: null,
+            feeding_pen: null,
+            feeding_number: null,
+            phenomorpho_pen: null,
+            phenomorpho_number: null
+        };
+    },
+
+    methods: {
+        initialize: function initialize() {
+            this.getReplacementPens();
+            this.fetchGenerations();
+        },
+        getReplacementPens: function getReplacementPens() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            this.replacements_loaded = false;
+            axios.get('replacement_pens?page=' + page).then(function (response) {
+                _this.replacement_pens_len = response.data.data.length;
+                _this.replacement_pens = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+            this.replacements_loaded = true;
+        },
+        getBrooderPens: function getBrooderPens() {
+            var _this2 = this;
+
+            axios.get('replacement_fetch_brooderpens/' + this.selected_family).then(function (response) {
+                _this2.brooders = response.data;
+                _this2.brooders_length = _this2.brooders.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        searchReplacements: function searchReplacements() {
+            var _this3 = this;
+
+            this.replacements_loaded = false;
+            axios.get('search_replacement_pens/' + this.search).then(function (response) {
+                return _this3.replacement_pens = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+            this.replacements_loaded = true;
+        },
+        fetchGenerations: function fetchGenerations() {
+            var _this4 = this;
+
+            this.generations_loaded = false;
+            axios.get('replacement_fetch_generations').then(function (response) {
+                _this4.generations = response.data;
+                _this4.generations_loaded = true;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchLines: function fetchLines() {
+            var _this5 = this;
+
+            this.lines_loaded = false;
+            axios.get('replacement_fetch_lines/' + this.selected_generation).then(function (response) {
+                _this5.lines = response.data;
+                _this5.lines_loaded = true;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchFamilies: function fetchFamilies() {
+            var _this6 = this;
+
+            this.families_loaded = false;
+            axios.get('replacement_fetch_families/' + this.selected_line).then(function (response) {
+                _this6.families = response.data;
+                _this6.families_loaded = true;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        addReplacements: function addReplacements() {
+            var _this7 = this;
+
+            axios.post('add_replacements', {
+                family_id: this.selected_family,
+                pen_id: this.selected_pen,
+                males: this.males,
+                females: this.females,
+                date_added: this.customFormatter(this.date_added),
+                external: this.external,
+                replacement_tag: this.replacement_tag,
+                brooder_inventory: this.selected_brooder
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this7.selected_generation = '';
+                    _this7.selected_line = '';
+                    _this7.selected_family = '';
+                    _this7.selected_pen = '';
+                    _this7.males = '';
+                    _this7.females = '';
+                    _this7.date_added = '';
+                    _this7.external = false;
+                    _this7.replacement_tag = '';
+                    _this7.selected_brooder = '';
+                    Materialize.toast('Successfully added replacements', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast(error, 3000, 'red rounded');
+            });
+            this.getReplacementPens();
+        },
+        fetchPenInfo: function fetchPenInfo() {
+            var _this8 = this;
+
+            this.info_loaded = false;
+            axios.get('replacement_pen_info/' + this.selected_pen).then(function (response) {
+                _this8.pen_info = response.data;
+                _this8.info_loaded = true;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        closeInfoModal: function closeInfoModal() {
+            $('#info').modal('close');
+        },
+        customFormatter: function customFormatter(date_added) {
+            return moment(date_added).format('YYYY-MM-DD');
+        }
+    },
+    mounted: function mounted() {},
+    created: function created() {
+        this.initialize();
+    }
+});
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col s12 m12 l12" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _vm.inventory_pen == null &&
+      _vm.feeding_pen == null &&
+      _vm.phenomorpho_pen == null
+        ? _c("div", [
+            _c("div", { staticClass: "row valign-wrapper" }, [
+              _c("div", { staticClass: "col s12 m9 l9 valign" }, [
+                _c("label", { attrs: { for: "search" } }, [_vm._v("Search")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search,
+                      expression: "search"
+                    }
+                  ],
+                  attrs: {
+                    placeholder: "Type family number",
+                    id: "search",
+                    type: "text"
+                  },
+                  domProps: { value: _vm.search },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m3 l3 valign" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "btn waves-effect waves-light blue-grey darken-1",
+                    attrs: { type: "submit" },
+                    on: { click: _vm.searchReplacements }
+                  },
+                  [
+                    _vm._v("Search"),
+                    _c("i", { staticClass: "fas fa-search right" })
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.replacements_loaded
+              ? _c(
+                  "div",
+                  { staticClass: "row" },
+                  [
+                    _c("transition", { attrs: { name: "fade" } }, [
+                      _vm.replacement_pens_len > 0
+                        ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c(
+                              "div",
+                              { staticClass: "row" },
+                              _vm._l(_vm.replacement_pens.data, function(
+                                replacement_pen
+                              ) {
+                                return _c(
+                                  "div",
+                                  {
+                                    key: replacement_pen.id,
+                                    staticClass: "col s12 m6 l6"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "card blue-grey lighten-4"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "card-content black-text"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "card-title" },
+                                              [
+                                                _vm._v(
+                                                  "Pen " +
+                                                    _vm._s(
+                                                      replacement_pen.number
+                                                    )
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("div", { staticClass: "row" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "col s12 m12 l12"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                Content : " +
+                                                      _vm._s(
+                                                        replacement_pen.current_capacity
+                                                      ) +
+                                                      "\n                                            "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "col s12 m12 l12"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                Free : " +
+                                                      _vm._s(
+                                                        replacement_pen.total_capacity -
+                                                          replacement_pen.current_capacity
+                                                      ) +
+                                                      "\n                                            "
+                                                  )
+                                                ]
+                                              )
+                                            ])
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "card-action right-align"
+                                          },
+                                          [
+                                            replacement_pen.current_capacity > 0
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticClass:
+                                                      "black-text tooltipped",
+                                                    attrs: {
+                                                      href:
+                                                        "javascript:void(0)",
+                                                      "data-position": "bottom",
+                                                      "data-delay": "50",
+                                                      "data-tooltip":
+                                                        "Pen information"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.inventory_pen =
+                                                          replacement_pen.id
+                                                        _vm.inventory_number =
+                                                          replacement_pen.number
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass:
+                                                        "fas fa-info-circle"
+                                                    })
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            replacement_pen.total_capacity >
+                                            replacement_pen.current_capacity
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticClass:
+                                                      "black-text tooltipped modal-trigger",
+                                                    attrs: {
+                                                      href: "#add_modal",
+                                                      "data-position": "bottom",
+                                                      "data-delay": "50",
+                                                      "data-tooltip":
+                                                        "Add replacement"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.selected_pen =
+                                                          replacement_pen.id
+                                                        _vm.selected_pen_number =
+                                                          replacement_pen.number
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass:
+                                                        "far fa-plus-square"
+                                                    })
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            replacement_pen.current_capacity > 0
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticClass:
+                                                      "black-text tooltipped modal-trigger",
+                                                    attrs: {
+                                                      href:
+                                                        "javascript:void(0)",
+                                                      "data-position": "bottom",
+                                                      "data-delay": "50",
+                                                      "data-tooltip":
+                                                        "Feeding records"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.feeding_pen =
+                                                          replacement_pen.id
+                                                        _vm.feeding_number =
+                                                          replacement_pen.number
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass:
+                                                        "fas fa-utensils"
+                                                    })
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            replacement_pen.current_capacity > 0
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticClass:
+                                                      "black-text tooltipped",
+                                                    attrs: {
+                                                      href:
+                                                        "javascript:void(0)",
+                                                      "data-position": "bottom",
+                                                      "data-delay": "50",
+                                                      "data-tooltip":
+                                                        "Open Pheno/Morpho Records"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.phenomorpho_pen =
+                                                          replacement_pen.id
+                                                        _vm.phenomorpho_number =
+                                                          replacement_pen.number
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass: "fas fa-eye"
+                                                    })
+                                                  ]
+                                                )
+                                              : _vm._e()
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              })
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row center" }, [
+                              _c(
+                                "div",
+                                { staticClass: "col s12 m12 l12" },
+                                [
+                                  _c("pagination", {
+                                    attrs: { data: _vm.replacement_pens },
+                                    on: {
+                                      "pagination-change-page":
+                                        _vm.getReplacementPens
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ])
+                          ])
+                        : _c(
+                            "div",
+                            { staticClass: "col s12 m12 l12 center-align" },
+                            [_c("h5", [_vm._v("No Pens")])]
+                          )
+                    ])
+                  ],
+                  1
+                )
+              : _c("div", { staticClass: "row center" }, [_vm._m(2)])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.inventory_pen != null
+        ? _c(
+            "div",
+            [
+              _c("inventory-replacement", {
+                attrs: {
+                  inv_pen_id: _vm.inventory_pen,
+                  inv_pen_number: _vm.inventory_number
+                },
+                on: {
+                  close_inventory: function($event) {
+                    _vm.inventory_pen = null
+                    _vm.inventory_number = null
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.feeding_pen != null
+        ? _c(
+            "div",
+            [
+              _c("feeding-replacement", {
+                attrs: {
+                  feed_pen_id: _vm.feeding_pen,
+                  feed_pen_number: _vm.feeding_number
+                },
+                on: {
+                  close_feeding: function($event) {
+                    _vm.feeding_pen = null
+                    _vm.feeding_number = null
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.phenomorpho_pen != null
+        ? _c(
+            "div",
+            [
+              _c("phenomorpho-replacement", {
+                attrs: {
+                  phenomorpho_pen_id: _vm.phenomorpho_pen,
+                  phenomorpho_pen_number: _vm.phenomorpho_number
+                },
+                on: {
+                  close_phenomorpho: function($event) {
+                    _vm.phenomorpho_pen = null
+                    _vm.phenomorpho_number = null
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "modal modal-fixed-footer", attrs: { id: "add_modal" } },
+        [
+          _c(
+            "form",
+            {
+              attrs: { method: "post" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.addReplacements($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h4", [
+                      _vm._v(
+                        "Add Replacement to Pen " +
+                          _vm._s(_vm.selected_pen_number)
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("div", { staticClass: "card-panel" }, [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("span", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.external,
+                                  expression: "external"
+                                }
+                              ],
+                              staticClass: "with-gap",
+                              attrs: {
+                                name: "external",
+                                type: "radio",
+                                id: "within"
+                              },
+                              domProps: {
+                                value: false,
+                                checked: _vm._q(_vm.external, false)
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.external = false
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "within" } }, [
+                              _vm._v("Within System")
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("span", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.external,
+                                  expression: "external"
+                                }
+                              ],
+                              staticClass: "with-gap",
+                              attrs: {
+                                name: "external",
+                                type: "radio",
+                                id: "outside"
+                              },
+                              domProps: {
+                                value: true,
+                                checked: _vm._q(_vm.external, true)
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.external = true
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "outside" } }, [
+                              _vm._v("Outside Systemm")
+                            ])
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m6 l6" }, [
+                          _c("label", [_vm._v("Generation")]),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.selected_generation,
+                                  expression: "selected_generation"
+                                }
+                              ],
+                              staticClass: "browser-default",
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.selected_generation = $event.target
+                                      .multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  },
+                                  _vm.fetchLines
+                                ]
+                              }
+                            },
+                            [
+                              _vm.generations_loaded == false
+                                ? _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("Loading Options...")]
+                                  )
+                                : _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("Select Generation")]
+                                  ),
+                              _vm._v(" "),
+                              _vm.generations.length == 0
+                                ? _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("No Generations")]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(_vm.generations, function(generation) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: generation.id,
+                                    domProps: { value: generation.id }
+                                  },
+                                  [_vm._v(_vm._s(generation.number))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m6 l6" }, [
+                          _c("label", [_vm._v("Line")]),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.selected_line,
+                                  expression: "selected_line"
+                                }
+                              ],
+                              staticClass: "browser-default",
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.selected_line = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  },
+                                  _vm.fetchFamilies
+                                ]
+                              }
+                            },
+                            [
+                              _vm.lines_loaded == false
+                                ? _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("Loading Options...")]
+                                  )
+                                : _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("Select Line")]
+                                  ),
+                              _vm._v(" "),
+                              _vm.lines.length == 0
+                                ? _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("No Lines")]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(_vm.lines, function(line) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: line.id,
+                                    domProps: { value: line.id }
+                                  },
+                                  [_vm._v(_vm._s(line.number))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m6 l6" }, [
+                          _c("label", [_vm._v("Family")]),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.selected_family,
+                                  expression: "selected_family"
+                                }
+                              ],
+                              staticClass: "browser-default",
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.selected_family = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  },
+                                  _vm.getBrooderPens
+                                ]
+                              }
+                            },
+                            [
+                              _vm.families_loaded == false
+                                ? _c(
+                                    "option",
+                                    { attrs: { value: "", disabled: "" } },
+                                    [_vm._v("Loading Options...")]
+                                  )
+                                : _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("Select Family")]
+                                  ),
+                              _vm._v(" "),
+                              _vm.families.length == 0
+                                ? _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("No Families")]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(_vm.families, function(family) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: family.id,
+                                    domProps: { value: family.id }
+                                  },
+                                  [_vm._v(_vm._s(family.number))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm.external == false
+                        ? _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m6 l6" }, [
+                              _c("label", [_vm._v("Transfer from Brooders")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.selected_brooder,
+                                      expression: "selected_brooder"
+                                    }
+                                  ],
+                                  staticClass: "browser-default",
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.selected_brooder = $event.target
+                                        .multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("Select Brooder")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.brooders_length == 0
+                                    ? _c(
+                                        "option",
+                                        { attrs: { value: "", disabled: "" } },
+                                        [_vm._v("No Families")]
+                                      )
+                                    : _vm._l(_vm.brooders, function(brooder) {
+                                        return _c(
+                                          "option",
+                                          {
+                                            key: brooder.inv_id,
+                                            domProps: { value: brooder.inv_id }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "Brooder: " +
+                                                _vm._s(
+                                                  brooder.broodergrower_tag
+                                                ) +
+                                                " | Pen: " +
+                                                _vm._s(brooder.number)
+                                            )
+                                          ]
+                                        )
+                                      })
+                                ],
+                                2
+                              )
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 m6 l6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model.number",
+                                  value: _vm.males,
+                                  expression: "males",
+                                  modifiers: { number: true }
+                                }
+                              ],
+                              attrs: {
+                                id: "number_male",
+                                type: "number",
+                                min: "0",
+                                placeholder: "Number of male to transfer or add"
+                              },
+                              domProps: { value: _vm.males },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.males = _vm._n($event.target.value)
+                                },
+                                blur: function($event) {
+                                  _vm.$forceUpdate()
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "number_male" } }, [
+                              _vm._v("Number Male")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 m6 l6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model.number",
+                                  value: _vm.females,
+                                  expression: "females",
+                                  modifiers: { number: true }
+                                }
+                              ],
+                              attrs: {
+                                id: "number_female",
+                                type: "number",
+                                min: "0",
+                                placeholder:
+                                  "Number of female to transfer or add"
+                              },
+                              domProps: { value: _vm.females },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.females = _vm._n($event.target.value)
+                                },
+                                blur: function($event) {
+                                  _vm.$forceUpdate()
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "number_female" } }, [
+                              _vm._v("Number Female")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 m6 l6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.replacement_tag,
+                                  expression: "replacement_tag"
+                                }
+                              ],
+                              attrs: {
+                                id: "replacement_tag",
+                                type: "text",
+                                placeholder: "Replacement's System ID"
+                              },
+                              domProps: { value: _vm.replacement_tag },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.replacement_tag = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "replacement_tag" } }, [
+                              _vm._v("Replacement Tag")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 m6 l6" },
+                          [
+                            _c("label", { attrs: { for: "date_added" } }, [
+                              _vm._v("Date Added")
+                            ]),
+                            _vm._v(" "),
+                            _c("datepicker", {
+                              attrs: {
+                                id: "date_added",
+                                format: _vm.customFormatter,
+                                placeholder:
+                                  "Date when the replacement is transferred"
+                              },
+                              model: {
+                                value: _vm.date_added,
+                                callback: function($$v) {
+                                  _vm.date_added = $$v
+                                },
+                                expression: "date_added"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(4)
+            ]
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Replacements")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("ul", { staticClass: "breadcrumb" }, [
+          _c("li", [_c("a", { attrs: { href: "./" } }, [_vm._v("Home")])]),
+          _vm._v(" "),
+          _c("li", [_vm._v("Replacements")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("div", { staticClass: "preloader-wrapper big active" }, [
+        _c("div", { staticClass: "spinner-layer spinner-blue-only" }, [
+          _c("div", { staticClass: "circle-clipper left" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "gap-patch" }, [
+            _c("div", { staticClass: "circle" })
+          ]),
+          _c("div", { staticClass: "circle-clipper right" }, [
+            _c("div", { staticClass: "circle" })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _vm._v("\n                        Loading...\n                    ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("p", [
+          _c("i", { staticClass: "fas fa-exclamation-circle" }),
+          _vm._v(" Choose "),
+          _c("strong", [_vm._v("Within System")]),
+          _vm._v(
+            " tab if you wish to add replacements from brooder & grower stocks."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _c("i", { staticClass: "fas fa-exclamation-circle" }),
+          _vm._v(" Choose "),
+          _c("strong", [_vm._v("Outside System")]),
+          _vm._v(" if you wish to add replacements from outside sources.")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "javascript:void(0)", type: "submit" }
+        },
+        [_vm._v("Submit")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-154c7aca", module.exports)
+  }
+}
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(197)
+/* template */
+var __vue_template__ = __webpack_require__(198)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/replacements/Inventory.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-29abe125", Component.options)
+  } else {
+    hotAPI.reload("data-v-29abe125", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 197 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['inv_pen_id', 'inv_pen_number'],
+    data: function data() {
+        return {
+            inventories: {},
+            inventories_length: 0,
+            selected_inventory_id: '',
+            selected_inventory_tag: ''
+        };
+    },
+
+    methods: {
+        initialize: function initialize() {
+            this.fetchPenInventory();
+        },
+        fetchPenInventory: function fetchPenInventory() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('replacement_pen_info/' + this.inv_pen_id + '?page=' + page).then(function (response) {
+                _this.inventories = response.data;
+                _this.inventories_length = _this.inventories.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        closeInventory: function closeInventory() {
+            this.$emit('close_inventory', null);
+        }
+    },
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    created: function created() {
+        this.initialize();
+    },
+    mounted: function mounted() {
+        // $('#update').modal({
+        //         dismissible : false,
+        // });
+    },
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
+    }
+});
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _c("div", { staticClass: "row valign-wrapper" }, [
+          _c("div", { staticClass: "col s8 m8 l8" }, [
+            _c("h5", [
+              _vm._v("Pen " + _vm._s(_vm.inv_pen_number) + " Inventory")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col s4 m4 l4 right-align" }, [
+            _c(
+              "a",
+              {
+                staticClass: "waves-effect waves-red btn-flat red-text",
+                on: { click: _vm.closeInventory }
+              },
+              [
+                _c("i", { staticClass: "far fa-times-circle left" }),
+                _vm._v("Close")
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c(
+              "table",
+              { staticClass: "responsive-table bordered highlight centered" },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm.inventories_length == 0
+                      ? _c("tr", [
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")])
+                        ])
+                      : _vm._l(_vm.inventories.data, function(inventory) {
+                          return _c("tr", { key: inventory.inv_id }, [
+                            _c("td", [
+                              _vm._v(_vm._s(inventory.replacement_tag))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(inventory.fam_number))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(inventory.line_number))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(inventory.gen_number))]),
+                            _vm._v(" "),
+                            inventory.batching_date == null
+                              ? _c("td", [_vm._v("N/A")])
+                              : _c("td", [
+                                  _vm._v(_vm._s(inventory.batching_date))
+                                ]),
+                            _vm._v(" "),
+                            inventory.number_male == null
+                              ? _c("td", [_vm._v("N/A")])
+                              : _c("td", [
+                                  _vm._v(_vm._s(inventory.number_male))
+                                ]),
+                            _vm._v(" "),
+                            inventory.number_female == null
+                              ? _c("td", [_vm._v("N/A")])
+                              : _c("td", [
+                                  _vm._v(_vm._s(inventory.number_female))
+                                ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(inventory.total))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(inventory.last_update))])
+                          ])
+                        })
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col s12 m12 l12" },
+            [
+              _c("pagination", {
+                attrs: { data: _vm.inventories },
+                on: { "pagination-change-page": _vm.fetchPenInventory }
+              })
+            ],
+            1
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Tag")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Family")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Line")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Generation")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Batching Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Male")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Female")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Added")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-29abe125", module.exports)
+  }
+}
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(200)
+/* template */
+var __vue_template__ = __webpack_require__(201)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/replacements/FeedingRecord.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7525ddbe", Component.options)
+  } else {
+    hotAPI.reload("data-v-7525ddbe", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 200 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
 //
 //
 //
@@ -75092,12 +76728,1236 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Vue.component('pagination', __webpack_require__(4));
 var moment = __webpack_require__(0);
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['replacementId'],
     components: {
         Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
     },
+    props: ['feed_pen_id', 'feed_pen_number'],
     data: function data() {
         return {
+            feedings: {},
+            feedings_length: 0,
+            feed_record_collected: '',
+            offered: '',
+            refused: '',
+            remarks: ''
+        };
+    },
+
+    methods: {
+        initialize: function initialize() {
+            this.fetchFeedingRecord();
+        },
+        fetchFeedingRecord: function fetchFeedingRecord() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('replacement_feeding_records/' + this.feed_pen_id + '?page=' + page).then(function (response) {
+                _this.feedings = response.data;
+                _this.feedings_length = _this.feedings.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        addFeedingRecord: function addFeedingRecord() {
+            var _this2 = this;
+
+            axios.post('add_replacement_feeding', {
+                pen_id: this.feed_pen_id,
+                date_collected: this.customFormatter(this.feed_record_collected),
+                offered: this.offered,
+                refused: this.refused,
+                remarks: this.remarks
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this2.feed_record_collected = '';
+                    _this2.offered = '';
+                    _this2.refused = '';
+                    _this2.remarks = '';
+                    Materialize.toast('Successfully added feeding record', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to add feeding record', 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        customFormatter: function customFormatter(date_added) {
+            return moment(date_added).format('YYYY-MM-DD');
+        },
+        closeFeeding: function closeFeeding() {
+            this.$emit('close_feeding', null);
+        }
+    },
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    mounted: function mounted() {
+        $('#feeding').modal({
+            dismissible: false
+        });
+    },
+    created: function created() {
+        this.initialize();
+    },
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
+    }
+});
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _c("div", { staticClass: "row valign-wrapper" }, [
+          _c("div", { staticClass: "col s6 m6 l7" }, [
+            _c("h5", [_vm._v(_vm._s(_vm.feed_pen_number) + " Feeding Records")])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
+            _c(
+              "a",
+              {
+                staticClass: "waves-effect waves-red btn-flat red-text",
+                on: { click: _vm.closeFeeding }
+              },
+              [
+                _c("i", { staticClass: "far fa-times-circle left" }),
+                _vm._v("Close")
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c(
+              "table",
+              { staticClass: "responsive-table bordered highlight centered" },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm.feedings_length == 0
+                      ? _c("tr", [
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.feedings.data, function(feeding) {
+                      return _c("tr", { key: feeding.feeding_id }, [
+                        _c("td", [_vm._v(_vm._s(feeding.date_collected))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(feeding.replacement_tag))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(feeding.amount_offered))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(feeding.amount_refused))]),
+                        _vm._v(" "),
+                        feeding.remarks == null
+                          ? _c("td", [_vm._v("None")])
+                          : _c("td", [_vm._v(_vm._s(feeding.remarks))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v("-")])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row center" }, [
+          _c(
+            "div",
+            { staticClass: "col s12 m12 l12" },
+            [
+              _c("pagination", {
+                attrs: { data: _vm.feedings },
+                on: { "pagination-change-page": _vm.fetchFeedingRecord }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "modal modal-fixed-footer", attrs: { id: "feeding" } },
+          [
+            _c(
+              "form",
+              {
+                attrs: { method: "post" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.addFeedingRecord($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("h4", [
+                        _vm._v(_vm._s(_vm.feed_pen_number) + " Feeding Records")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 m6 l6" },
+                          [
+                            _c("label", { attrs: { for: "date_added" } }, [
+                              _vm._v("Date Collected")
+                            ]),
+                            _vm._v(" "),
+                            _c("datepicker", {
+                              attrs: {
+                                id: "date_added",
+                                format: _vm.customFormatter
+                              },
+                              model: {
+                                value: _vm.feed_record_collected,
+                                callback: function($$v) {
+                                  _vm.feed_record_collected = $$v
+                                },
+                                expression: "feed_record_collected"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 s6 m6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model.number",
+                                  value: _vm.offered,
+                                  expression: "offered",
+                                  modifiers: { number: true }
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                placeholder: "Amount of Feed Offered (g)",
+                                id: "feed_offered",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$",
+                                validate: ""
+                              },
+                              domProps: { value: _vm.offered },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.offered = _vm._n($event.target.value)
+                                },
+                                blur: function($event) {
+                                  _vm.$forceUpdate()
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "active",
+                                attrs: { for: "feed_offered" }
+                              },
+                              [_vm._v("Feed Offered")]
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 s6 m6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model.number",
+                                  value: _vm.refused,
+                                  expression: "refused",
+                                  modifiers: { number: true }
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                placeholder: "Amount of Feed Refused (g)",
+                                id: "feed_refused",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.refused },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.refused = _vm._n($event.target.value)
+                                },
+                                blur: function($event) {
+                                  _vm.$forceUpdate()
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "active",
+                                attrs: { for: "feed_refused" }
+                              },
+                              [_vm._v("Feed Refused")]
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 s6 m6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.remarks,
+                                  expression: "remarks"
+                                }
+                              ],
+                              attrs: {
+                                placeholder: "Add remarks",
+                                id: "remarks",
+                                type: "text"
+                              },
+                              domProps: { value: _vm.remarks },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.remarks = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "active",
+                                attrs: { for: "remarks" }
+                              },
+                              [_vm._v("Remarks")]
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(2)
+              ]
+            )
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s3 m3 l3 right-align" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "waves-effect waves-green btn-flat green-text modal-trigger",
+          attrs: { href: "#feeding" }
+        },
+        [_c("i", { staticClass: "fas fa-plus-circle left" }), _vm._v("Add")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tag")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Offered(g)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Refused(g)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Edit")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Submit")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7525ddbe", module.exports)
+  }
+}
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(203)
+/* template */
+var __vue_template__ = __webpack_require__(204)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/replacements/PhenoMorpho.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2ab8d604", Component.options)
+  } else {
+    hotAPI.reload("data-v-2ab8d604", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 203 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var moment = __webpack_require__(0);
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
+    props: ['phenomorpho_pen_id', 'phenomorpho_pen_number'],
+    data: function data() {
+        return {
+            inventories: {},
+            inventories_length: 0,
+            selected_inventory_id: '',
+            selected_inventory_tag: '',
+
+            date_collected: '',
+            tag: '',
             gender: '',
             plummage_color: '',
             plummage_pattern: '',
@@ -75131,14 +77991,48 @@ var moment = __webpack_require__(0);
             body_length: '',
             chest_circumference: '',
             wing_span: '',
-            shank_length: ''
+            shank_length: '',
+
+            phenomorpho_values: {},
+            phenomorpho_values_length: 0
         };
     },
 
     methods: {
-        submitPhenoMorpho: function submitPhenoMorpho() {
-            axios.post('/add_phenomorpho', {
-                replacement_id: this.replacementId,
+        initialize: function initialize() {
+            this.fetchPhenoMorphoInventory();
+        },
+        fetchPhenoMorphoInventory: function fetchPhenoMorphoInventory() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('replacement_fetch_phenomorphoinventory/' + this.phenomorpho_pen_id + '?page=' + page).then(function (response) {
+                _this.inventories = response.data;
+                _this.inventories_length = _this.inventories.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchPhenoMorphoList: function fetchPhenoMorphoList() {
+            var _this2 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('replacement_fetch_phenomorpholist/' + this.selected_inventory_id + '?page=' + page).then(function (response) {
+                _this2.phenomorpho_values = response.data;
+                _this2.phenomorpho_values_length = _this2.phenomorpho_values.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        addPhenoMorpho: function addPhenoMorpho() {
+            var _this3 = this;
+
+            axios.post('add_replacement_phenomorpho', {
+                replacement_inventory_id: this.selected_inventory_id,
+                tag: this.tag,
+                date_collected: this.customFormatter(this.date_collected),
                 gender: this.gender,
                 plummage_color: this.plummage_color,
                 plummage_pattern: this.plummage_pattern,
@@ -75160,432 +78054,399 @@ var moment = __webpack_require__(0);
                 wing_span: this.wing_span,
                 shank_length: this.shank_length
             }).then(function (response) {
-                console.log(response);
+                if (response.data.error == undefined) {
+                    _this3.selected_inventory_id = '';
+                    _this3.tag = '';
+                    _this3.date_collected = '';
+                    _this3.gender = '';
+                    _this3.plummage_color = '';
+                    _this3.plummage_pattern = '';
+                    _this3.hackle_color = '';
+                    _this3.hackle_pattern = '';
+                    _this3.body_carriage = '';
+                    _this3.comb_type = '';
+                    _this3.comb_color = '';
+                    _this3.earlobe_color = '';
+                    _this3.iris_color = '';
+                    _this3.beak_color = '';
+                    _this3.shank_color = '';
+                    _this3.skin_color = '';
+                    _this3.other_features = '';
+                    _this3.height = '';
+                    _this3.weight = '';
+                    _this3.body_length = '';
+                    _this3.chest_circumference = '';
+                    _this3.wing_span = '';
+                    _this3.shank_length = '';
+                    Materialize.toast('Successfully added pheno and morpho data', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
             }).catch(function (error) {
-                console.log(error);
+                Materialize.toast(error, 3000, 'red rounded');
             });
+        },
+        customFormatter: function customFormatter(date_added) {
+            return moment(date_added).format('YYYY-MM-DD');
+        },
+        capitalize: function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        },
+        closePhenoMorpho: function closePhenoMorpho() {
+            this.$emit('close_phenomorpho', null);
         }
     },
-    created: function created() {}
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    created: function created() {
+        this.initialize();
+    },
+    mounted: function mounted() {
+        $('#pheno_morpho').modal({
+            dismissible: false
+        });
+        $('#view').modal({
+            dismissible: false
+        });
+        $('ul.tabs').tabs();
+    },
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
+    }
 });
 
 /***/ }),
-/* 198 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _vm._m(0),
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _c("div", { staticClass: "row valign-wrapper" }, [
+          _c("div", { staticClass: "col s8 m8 l8" }, [
+            _c("h5", [
+              _vm._v(
+                _vm._s(_vm.phenomorpho_pen_number) +
+                  " Phenotypic & Morphometric Data"
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col s4 m4 l4 right-align" }, [
+            _c(
+              "a",
+              {
+                staticClass: "waves-effect waves-red btn-flat red-text",
+                on: { click: _vm.closePhenoMorpho }
+              },
+              [
+                _c("i", { staticClass: "far fa-times-circle left" }),
+                _vm._v("Close")
+              ]
+            )
+          ])
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              attrs: { action: "post" },
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submitPhenoMorpho($event)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "col s12 m12 l12" }, [
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col s12 m12 l12", attrs: { id: "pheno" } },
-                    [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Gender")]),
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c(
+              "table",
+              { staticClass: "responsive-table bordered highlight centered" },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm.inventories_length == 0
+                      ? _c("tr", [
+                          _c("td", [_vm._v("-")]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.gender,
-                                      expression: "gender"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    name: "gender",
-                                    type: "radio",
-                                    id: "gender_male",
-                                    value: "Male"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.gender, "Male")
-                                  },
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")])
+                        ])
+                      : _vm._l(_vm.inventories.data, function(inventory) {
+                          return _c("tr", { key: inventory.inv_id }, [
+                            _c("td", [
+                              _vm._v(_vm._s(inventory.replacement_tag))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(inventory.number_male))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(inventory.number_female))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "modal-trigger",
+                                  attrs: { href: "#view" },
                                   on: {
-                                    change: function($event) {
-                                      _vm.gender = "Male"
+                                    click: function($event) {
+                                      _vm.selected_inventory_id =
+                                        inventory.inv_id
+                                      _vm.selected_inventory_tag =
+                                        inventory.replacement_tag
+                                      _vm.fetchPhenoMorphoList()
                                     }
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("label", { attrs: { for: "gender_male" } }, [
-                                  _vm._v("Male")
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.gender,
-                                      expression: "gender"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    name: "gender",
-                                    type: "radio",
-                                    id: "gender_female",
-                                    value: "Female"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.gender, "Female")
-                                  },
+                                },
+                                [_c("i", { staticClass: "fas fa-eye" })]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "modal-trigger",
+                                  attrs: { href: "#pheno_morpho" },
                                   on: {
-                                    change: function($event) {
-                                      _vm.gender = "Female"
+                                    click: function($event) {
+                                      _vm.selected_inventory_id =
+                                        inventory.inv_id
+                                      _vm.selected_inventory_tag =
+                                        inventory.replacement_tag
                                     }
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "gender_female" } },
-                                  [_vm._v("Female")]
-                                )
-                              ])
+                                },
+                                [_c("i", { staticClass: "fas fa-plus-circle" })]
+                              )
                             ])
                           ])
-                        ])
-                      ]),
+                        })
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col s12 m12 l12 center" },
+            [
+              _c("pagination", {
+                attrs: { data: _vm.inventories },
+                on: { "pagination-change-page": _vm.fetchPhenoMorphoInventory }
+              })
+            ],
+            1
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal modal-fixed-footer",
+          attrs: { id: "pheno_morpho" }
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c("h4", [
+                  _vm._v(
+                    "Phenotypic & Morphometric | " +
+                      _vm._s(_vm.selected_inventory_tag)
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c(
+                  "form",
+                  {
+                    attrs: { method: "POST" },
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.addPhenoMorpho($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _vm._m(1),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Plummage Color")]),
-                          _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col s12 m12 l12",
+                          attrs: { id: "pheno" }
+                        },
+                        [
                           _c("div", { staticClass: "col s12 m12 l12" }, [
                             _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_color,
-                                      expression: "plummage_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_color_white",
-                                    value: "White"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.plummage_color, "White")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_color = "White"
+                              _c(
+                                "div",
+                                { staticClass: "col s12 m6 l6" },
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "date_added" } },
+                                    [_vm._v("Date Collected")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("datepicker", {
+                                    attrs: {
+                                      id: "date_added",
+                                      format: _vm.customFormatter
+                                    },
+                                    model: {
+                                      value: _vm.date_collected,
+                                      callback: function($$v) {
+                                        _vm.date_collected = $$v
                                       },
-                                      function($event) {
-                                        _vm.plummage_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_color_white" } },
-                                  [_vm._v("White")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_color,
-                                      expression: "plummage_color"
+                                      expression: "date_collected"
                                     }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_color_black",
-                                    value: "Black"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.plummage_color, "Black")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_color = "Black"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_color_black" } },
-                                  [_vm._v("Black")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_color,
-                                      expression: "plummage_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_color_red",
-                                    value: "Red"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.plummage_color, "Red")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_color = "Red"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_color_red" } },
-                                  [_vm._v("Red")]
-                                )
-                              ])
+                                  })
+                                ],
+                                1
+                              )
                             ])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col s12 m12 l12" }, [
                             _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_color,
-                                      expression: "plummage_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_color_orange",
-                                    value: "Orange"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_color,
-                                      "Orange"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_color = "Orange"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_color_others = false
+                              _c(
+                                "div",
+                                { staticClass: "col s12 m6 l6 input-field" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.tag,
+                                        expression: "tag"
                                       }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_color_orange" } },
-                                  [_vm._v("Orange")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_color,
-                                      expression: "plummage_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_color_brown",
-                                    value: "Brown"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.plummage_color, "Brown")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_color = "Brown"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_color_others = false
+                                    ],
+                                    attrs: {
+                                      id: "tag",
+                                      type: "text",
+                                      placeholder: "Tag or Registry ID"
+                                    },
+                                    domProps: { value: _vm.tag },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.tag = $event.target.value
                                       }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_color_brown" } },
-                                  [_vm._v("Brown")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_color,
-                                      expression: "plummage_color"
                                     }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_color_yellow",
-                                    value: "Yellow"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_color,
-                                      "Yellow"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_color = "Yellow"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_color_yellow" } },
-                                  [_vm._v("Yellow")]
-                                )
-                              ])
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "active",
+                                      attrs: { for: "tag" }
+                                    },
+                                    [_vm._v("Tag")]
+                                  )
+                                ]
+                              )
                             ])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col s12 m12 l12" }, [
                             _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_color,
-                                      expression: "plummage_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_color_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_color,
-                                      "Others"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_color = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_color_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  {
-                                    attrs: { for: "plummage_color_others_rad" }
-                                  },
-                                  [_vm._v("Others")]
-                                )
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.plummage_color_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _c("label", [_vm._v("Gender")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.gender,
+                                          expression: "gender"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "gender_male",
+                                        value: "male"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.gender, "male")
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          _vm.gender = "male"
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
                                     _c(
                                       "label",
-                                      {
-                                        attrs: { for: "plummage_color_others" }
+                                      { attrs: { for: "gender_male" } },
+                                      [_vm._v("Male")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.gender,
+                                          expression: "gender"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "gender_female",
+                                        value: "female"
                                       },
-                                      [_vm._v("Others")]
-                                    ),
+                                      domProps: {
+                                        checked: _vm._q(_vm.gender, "female")
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          _vm.gender = "female"
+                                        }
+                                      }
+                                    }),
                                     _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "gender_female" } },
+                                      [_vm._v("Female")]
+                                    )
+                                  ])
+                                ])
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Plummage Color")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -75595,306 +78456,369 @@ var render = function() {
                                           expression: "plummage_color"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "plummage_color_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "plummage_color_white",
+                                        value: "White"
                                       },
-                                      domProps: { value: _vm.plummage_color },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_color,
+                                          "White"
+                                        )
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_color = "White"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_color_others = false
                                           }
-                                          _vm.plummage_color =
-                                            $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "plummage_color_white" }
+                                      },
+                                      [_vm._v("White")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_color,
+                                          expression: "plummage_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_color_black",
+                                        value: "Black"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_color,
+                                          "Black"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_color = "Black"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "plummage_color_black" }
+                                      },
+                                      [_vm._v("Black")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_color,
+                                          expression: "plummage_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_color_red",
+                                        value: "Red"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_color,
+                                          "Red"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_color = "Red"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "plummage_color_red" } },
+                                      [_vm._v("Red")]
+                                    )
                                   ])
                                 ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Plummage Pattern")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_pattern,
-                                      expression: "plummage_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_pattern_plain",
-                                    value: "Plain"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_pattern,
-                                      "Plain"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_pattern = "Plain"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_pattern_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_pattern_plain" } },
-                                  [_vm._v("Plain")]
-                                )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_pattern,
-                                      expression: "plummage_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_pattern_barred",
-                                    value: "Barred"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_pattern,
-                                      "Barred"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_pattern = "Barred"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_pattern_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_pattern_barred" } },
-                                  [_vm._v("Barred")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_pattern,
-                                      expression: "plummage_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_pattern_wild",
-                                    value: "Wild Type"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_pattern,
-                                      "Wild Type"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_pattern = "Wild Type"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_pattern_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_pattern_wild" } },
-                                  [_vm._v("Wild Type")]
-                                )
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_pattern,
-                                      expression: "plummage_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_pattern_laced",
-                                    value: "Laced"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_pattern,
-                                      "Laced"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_pattern = "Laced"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_pattern_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "plummage_pattern_laced" } },
-                                  [_vm._v("Laced")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_pattern,
-                                      expression: "plummage_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_pattern_mottled",
-                                    value: "Mottled"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_pattern,
-                                      "Mottled"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_pattern = "Mottled"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_pattern_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  {
-                                    attrs: { for: "plummage_pattern_mottled" }
-                                  },
-                                  [_vm._v("Mottled")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.plummage_pattern,
-                                      expression: "plummage_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "plummage_pattern_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.plummage_pattern,
-                                      "Others"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.plummage_pattern = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.plummage_pattern_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  {
-                                    attrs: {
-                                      for: "plummage_pattern_others_rad"
-                                    }
-                                  },
-                                  [_vm._v("Others")]
-                                )
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.plummage_pattern_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_color,
+                                          expression: "plummage_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_color_orange",
+                                        value: "Orange"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_color,
+                                          "Orange"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_color = "Orange"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "plummage_color_orange" }
+                                      },
+                                      [_vm._v("Orange")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_color,
+                                          expression: "plummage_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_color_brown",
+                                        value: "Brown"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_color,
+                                          "Brown"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_color = "Brown"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "plummage_color_brown" }
+                                      },
+                                      [_vm._v("Brown")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_color,
+                                          expression: "plummage_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_color_yellow",
+                                        value: "Yellow"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_color,
+                                          "Yellow"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_color = "Yellow"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "plummage_color_yellow" }
+                                      },
+                                      [_vm._v("Yellow")]
+                                    )
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_color,
+                                          expression: "plummage_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_color_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_color,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_color = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_color_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
                                     _c(
                                       "label",
                                       {
                                         attrs: {
-                                          for: "plummage_pattern_others"
+                                          for: "plummage_color_others_rad"
                                         }
                                       },
                                       [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                    )
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.plummage_color_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "plummage_color_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.plummage_color
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.plummage_color =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Plummage Pattern")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -75904,278 +78828,328 @@ var render = function() {
                                           expression: "plummage_pattern"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "plummage_pattern_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "plummage_pattern_plain",
+                                        value: "Plain"
                                       },
-                                      domProps: { value: _vm.plummage_pattern },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_pattern,
+                                          "Plain"
+                                        )
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_pattern = "Plain"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_pattern_others = false
                                           }
-                                          _vm.plummage_pattern =
-                                            $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
-                                  ])
-                                ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Hackle Color")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_color,
-                                      expression: "hackle_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_color_yellow",
-                                    value: "Yellow"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.hackle_color, "Yellow")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_color = "Yellow"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_color_yellow" } },
-                                  [_vm._v("Yellow")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_color,
-                                      expression: "hackle_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_color_orange",
-                                    value: "Orange"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.hackle_color, "Orange")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_color = "Orange"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_color_orange" } },
-                                  [_vm._v("Orange")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_color,
-                                      expression: "hackle_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_color_brown",
-                                    value: "Brown"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.hackle_color, "Brown")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_color = "Brown"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_color_brown" } },
-                                  [_vm._v("Brown")]
-                                )
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_color,
-                                      expression: "hackle_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_color_red",
-                                    value: "Red"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.hackle_color, "Red")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_color = "Red"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_color_red" } },
-                                  [_vm._v("Red")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_color,
-                                      expression: "hackle_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_color_black",
-                                    value: "Black"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.hackle_color, "Black")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_color = "Black"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_color_black" } },
-                                  [_vm._v("Black")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_color,
-                                      expression: "hackle_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_color_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.hackle_color, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_color = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_color_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_color_others_rad" } },
-                                  [_vm._v("Others")]
-                                )
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.hackle_color_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
+                                    }),
+                                    _vm._v(" "),
                                     _c(
                                       "label",
-                                      { attrs: { for: "hackle_color_others" } },
-                                      [_vm._v("Others")]
-                                    ),
+                                      {
+                                        attrs: { for: "plummage_pattern_plain" }
+                                      },
+                                      [_vm._v("Plain")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_pattern,
+                                          expression: "plummage_pattern"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_pattern_barred",
+                                        value: "Barred"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_pattern,
+                                          "Barred"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_pattern = "Barred"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_pattern_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
                                     _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: {
+                                          for: "plummage_pattern_barred"
+                                        }
+                                      },
+                                      [_vm._v("Barred")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_pattern,
+                                          expression: "plummage_pattern"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_pattern_wild",
+                                        value: "Wild Type"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_pattern,
+                                          "Wild Type"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_pattern = "Wild Type"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_pattern_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "plummage_pattern_wild" }
+                                      },
+                                      [_vm._v("Wild Type")]
+                                    )
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_pattern,
+                                          expression: "plummage_pattern"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_pattern_laced",
+                                        value: "Laced"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_pattern,
+                                          "Laced"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_pattern = "Laced"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_pattern_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "plummage_pattern_laced" }
+                                      },
+                                      [_vm._v("Laced")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_pattern,
+                                          expression: "plummage_pattern"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_pattern_mottled",
+                                        value: "Mottled"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_pattern,
+                                          "Mottled"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_pattern = "Mottled"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_pattern_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: {
+                                          for: "plummage_pattern_mottled"
+                                        }
+                                      },
+                                      [_vm._v("Mottled")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.plummage_pattern,
+                                          expression: "plummage_pattern"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "plummage_pattern_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.plummage_pattern,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.plummage_pattern = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.plummage_pattern_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: {
+                                          for: "plummage_pattern_others_rad"
+                                        }
+                                      },
+                                      [_vm._v("Others")]
+                                    )
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.plummage_pattern_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_pattern_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "plummage_pattern_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.plummage_pattern
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.plummage_pattern =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Hackle Color")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -76185,207 +79159,311 @@ var render = function() {
                                           expression: "hackle_color"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "hackle_color_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "hackle_color_yellow",
+                                        value: "Yellow"
                                       },
-                                      domProps: { value: _vm.hackle_color },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_color,
+                                          "Yellow"
+                                        )
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_color = "Yellow"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_color_others = false
                                           }
-                                          _vm.hackle_color = $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "hackle_color_yellow" } },
+                                      [_vm._v("Yellow")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.hackle_color,
+                                          expression: "hackle_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "hackle_color_orange",
+                                        value: "Orange"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_color,
+                                          "Orange"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_color = "Orange"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "hackle_color_orange" } },
+                                      [_vm._v("Orange")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.hackle_color,
+                                          expression: "hackle_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "hackle_color_brown",
+                                        value: "Brown"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_color,
+                                          "Brown"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_color = "Brown"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "hackle_color_brown" } },
+                                      [_vm._v("Brown")]
+                                    )
                                   ])
                                 ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Hackle Pattern")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_pattern,
-                                      expression: "hackle_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_pattern_plain",
-                                    value: "Plain"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.hackle_pattern, "Plain")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_pattern = "Plain"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_pattern_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_pattern_plain" } },
-                                  [_vm._v("Plain")]
-                                )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_pattern,
-                                      expression: "hackle_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_pattern_laced",
-                                    value: "Laced"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.hackle_pattern, "Laced")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_pattern = "Laced"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_pattern_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_pattern_laced" } },
-                                  [_vm._v("Laced")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_pattern,
-                                      expression: "hackle_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_pattern_barred",
-                                    value: "Barred"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.hackle_pattern,
-                                      "Barred"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_pattern = "Barred"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_pattern_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_pattern_barred" } },
-                                  [_vm._v("Barred")]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.hackle_pattern,
-                                      expression: "hackle_pattern"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "hackle_type_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.hackle_pattern,
-                                      "Others"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.hackle_pattern = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.hackle_pattern_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "hackle_type_others_rad" } },
-                                  [_vm._v("Others")]
-                                )
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.hackle_pattern_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.hackle_color,
+                                          expression: "hackle_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "hackle_color_red",
+                                        value: "Red"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.hackle_color, "Red")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_color = "Red"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "hackle_color_red" } },
+                                      [_vm._v("Red")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.hackle_color,
+                                          expression: "hackle_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "hackle_color_black",
+                                        value: "Black"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_color,
+                                          "Black"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_color = "Black"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "hackle_color_black" } },
+                                      [_vm._v("Black")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.hackle_color,
+                                          expression: "hackle_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "hackle_color_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_color,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_color = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_color_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
                                     _c(
                                       "label",
                                       {
-                                        attrs: { for: "hackle_pattern_others" }
+                                        attrs: {
+                                          for: "hackle_color_others_rad"
+                                        }
                                       },
                                       [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                    )
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.hackle_color_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_color_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_color,
+                                                  expression: "hackle_color"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "hackle_color_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.hackle_color
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.hackle_color =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Hackle Pattern")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -76395,170 +79473,234 @@ var render = function() {
                                           expression: "hackle_pattern"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "hackle_pattern_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "hackle_pattern_plain",
+                                        value: "Plain"
                                       },
-                                      domProps: { value: _vm.hackle_pattern },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_pattern,
+                                          "Plain"
+                                        )
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_pattern = "Plain"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_pattern_others = false
                                           }
-                                          _vm.hackle_pattern =
-                                            $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
-                                  ])
-                                ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Body Carriage")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.body_carriage,
-                                      expression: "body_carriage"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "body_carriage_upright",
-                                    value: "Upright"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.body_carriage,
-                                      "Upright"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.body_carriage = "Upright"
-                                      },
-                                      function($event) {
-                                        _vm.body_carriage_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "body_carriage_upright" } },
-                                  [_vm._v("Upright")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.body_carriage,
-                                      expression: "body_carriage"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "body_carriage_slight",
-                                    value: "Slight Upright"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.body_carriage,
-                                      "Slight Upright"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.body_carriage = "Slight Upright"
-                                      },
-                                      function($event) {
-                                        _vm.body_carriage_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "body_carriage_slight" } },
-                                  [_vm._v("Slight Upright")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.body_carriage,
-                                      expression: "body_carriage"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "body_carriage_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.body_carriage, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.body_carriage = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.body_carriage_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  {
-                                    attrs: { for: "body_carriage_others_rad" }
-                                  },
-                                  [_vm._v("Others")]
-                                )
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.body_carriage_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
+                                    }),
+                                    _vm._v(" "),
                                     _c(
                                       "label",
                                       {
-                                        attrs: { for: "body_carriage_others" }
+                                        attrs: { for: "hackle_pattern_plain" }
+                                      },
+                                      [_vm._v("Plain")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.hackle_pattern,
+                                          expression: "hackle_pattern"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "hackle_pattern_laced",
+                                        value: "Laced"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_pattern,
+                                          "Laced"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_pattern = "Laced"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_pattern_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "hackle_pattern_laced" }
+                                      },
+                                      [_vm._v("Laced")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.hackle_pattern,
+                                          expression: "hackle_pattern"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "hackle_pattern_barred",
+                                        value: "Barred"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_pattern,
+                                          "Barred"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_pattern = "Barred"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_pattern_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "hackle_pattern_barred" }
+                                      },
+                                      [_vm._v("Barred")]
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.hackle_pattern,
+                                          expression: "hackle_pattern"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "hackle_type_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.hackle_pattern,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.hackle_pattern = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.hackle_pattern_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "hackle_type_others_rad" }
                                       },
                                       [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                    )
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.hackle_pattern_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_pattern_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_pattern,
+                                                  expression: "hackle_pattern"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "hackle_pattern_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.hackle_pattern
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.hackle_pattern =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Body Carriage")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -76568,200 +79710,191 @@ var render = function() {
                                           expression: "body_carriage"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "body_carriage_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "body_carriage_upright",
+                                        value: "Upright"
                                       },
-                                      domProps: { value: _vm.body_carriage },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.body_carriage,
+                                          "Upright"
+                                        )
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.body_carriage = "Upright"
+                                          },
+                                          function($event) {
+                                            _vm.body_carriage_others = false
                                           }
-                                          _vm.body_carriage =
-                                            $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "body_carriage_upright" }
+                                      },
+                                      [_vm._v("Upright")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.body_carriage,
+                                          expression: "body_carriage"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "body_carriage_slight",
+                                        value: "Slight Upright"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.body_carriage,
+                                          "Slight Upright"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.body_carriage = "Slight Upright"
+                                          },
+                                          function($event) {
+                                            _vm.body_carriage_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "body_carriage_slight" }
+                                      },
+                                      [_vm._v("Slight Upright")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.body_carriage,
+                                          expression: "body_carriage"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "body_carriage_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.body_carriage,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.body_carriage = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.body_carriage_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: {
+                                          for: "body_carriage_others_rad"
+                                        }
+                                      },
+                                      [_vm._v("Others")]
+                                    )
                                   ])
                                 ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Comb Type")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.comb_type,
-                                      expression: "comb_type"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "comb_type_single",
-                                    value: "Single"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.comb_type, "Single")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.comb_type = "Single"
-                                      },
-                                      function($event) {
-                                        _vm.comb_type_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "comb_type_single" } },
-                                  [_vm._v("Single")]
-                                )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.comb_type,
-                                      expression: "comb_type"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "comb_type_pea",
-                                    value: "Pea"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.comb_type, "Pea")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.comb_type = "Pea"
-                                      },
-                                      function($event) {
-                                        _vm.comb_type_others = false
-                                      }
+                              _vm.body_carriage_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "body_carriage_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.body_carriage,
+                                                  expression: "body_carriage"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "body_carriage_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.body_carriage
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.body_carriage =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
                                     ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "comb_type_pea" } },
-                                  [_vm._v("Pea")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.comb_type,
-                                      expression: "comb_type"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "comb_type_rose",
-                                    value: "Rose"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.comb_type, "Rose")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.comb_type = "Rose"
-                                      },
-                                      function($event) {
-                                        _vm.comb_type_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "comb_type_rose" } },
-                                  [_vm._v("Rose")]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.comb_type,
-                                      expression: "comb_type"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "comb_type_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.comb_type, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.comb_type = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.comb_type_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "comb_type_others_rad" } },
-                                  [_vm._v("Others")]
-                                )
-                              ])
+                                  )
+                                : _vm._e()
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm.comb_type_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Comb Type")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "comb_type_others" } },
-                                      [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -76771,199 +79904,216 @@ var render = function() {
                                           expression: "comb_type"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "comb_type_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "comb_type_single",
+                                        value: "Single"
                                       },
-                                      domProps: { value: _vm.comb_type },
+                                      domProps: {
+                                        checked: _vm._q(_vm.comb_type, "Single")
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.comb_type = "Single"
+                                          },
+                                          function($event) {
+                                            _vm.comb_type_others = false
                                           }
-                                          _vm.comb_type = $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "comb_type_single" } },
+                                      [_vm._v("Single")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.comb_type,
+                                          expression: "comb_type"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "comb_type_pea",
+                                        value: "Pea"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.comb_type, "Pea")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.comb_type = "Pea"
+                                          },
+                                          function($event) {
+                                            _vm.comb_type_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "comb_type_pea" } },
+                                      [_vm._v("Pea")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.comb_type,
+                                          expression: "comb_type"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "comb_type_rose",
+                                        value: "Rose"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.comb_type, "Rose")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.comb_type = "Rose"
+                                          },
+                                          function($event) {
+                                            _vm.comb_type_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "comb_type_rose" } },
+                                      [_vm._v("Rose")]
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.comb_type,
+                                          expression: "comb_type"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "comb_type_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.comb_type, "Others")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.comb_type = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.comb_type_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "comb_type_others_rad" }
+                                      },
+                                      [_vm._v("Others")]
+                                    )
                                   ])
                                 ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Comb Color")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.comb_color,
-                                      expression: "comb_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "comb_color_red",
-                                    value: "Red"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.comb_color, "Red")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.comb_color = "Red"
-                                      },
-                                      function($event) {
-                                        _vm.comb_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "comb_color_red" } },
-                                  [_vm._v("Red")]
-                                )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.comb_color,
-                                      expression: "comb_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "comb_color_pink",
-                                    value: "Pink"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.comb_color, "Pink")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.comb_color = "Pink"
-                                      },
-                                      function($event) {
-                                        _vm.comb_color_others = false
-                                      }
+                              _vm.comb_type_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "comb_type_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_type,
+                                                  expression: "comb_type"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "comb_type_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.comb_type
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.comb_type =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
                                     ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "comb_color_pink" } },
-                                  [_vm._v("Pink")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.comb_color,
-                                      expression: "comb_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "comb_color_black",
-                                    value: "Black"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.comb_color, "Black")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.comb_color = "Black"
-                                      },
-                                      function($event) {
-                                        _vm.comb_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "comb_color_black" } },
-                                  [_vm._v("Black")]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.comb_color,
-                                      expression: "comb_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "comb_color_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.comb_color, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.comb_color = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.comb_color_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "comb_color_others_rad" } },
-                                  [_vm._v("Others")]
-                                )
-                              ])
+                                  )
+                                : _vm._e()
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm.comb_color_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Comb Color")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "comb_color_others" } },
-                                      [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -76973,206 +80123,219 @@ var render = function() {
                                           expression: "comb_color"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "comb_color_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "comb_color_red",
+                                        value: "Red"
                                       },
-                                      domProps: { value: _vm.comb_color },
+                                      domProps: {
+                                        checked: _vm._q(_vm.comb_color, "Red")
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.comb_color = "Red"
+                                          },
+                                          function($event) {
+                                            _vm.comb_color_others = false
                                           }
-                                          _vm.comb_color = $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "comb_color_red" } },
+                                      [_vm._v("Red")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.comb_color,
+                                          expression: "comb_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "comb_color_pink",
+                                        value: "Pink"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.comb_color, "Pink")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.comb_color = "Pink"
+                                          },
+                                          function($event) {
+                                            _vm.comb_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "comb_color_pink" } },
+                                      [_vm._v("Pink")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.comb_color,
+                                          expression: "comb_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "comb_color_black",
+                                        value: "Black"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.comb_color, "Black")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.comb_color = "Black"
+                                          },
+                                          function($event) {
+                                            _vm.comb_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "comb_color_black" } },
+                                      [_vm._v("Black")]
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.comb_color,
+                                          expression: "comb_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "comb_color_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.comb_color,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.comb_color = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.comb_color_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "comb_color_others_rad" }
+                                      },
+                                      [_vm._v("Others")]
+                                    )
                                   ])
                                 ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Earlobe Color")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.earlobe_color,
-                                      expression: "earlobe_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "earlobe_color_white",
-                                    value: "White"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.earlobe_color, "White")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.earlobe_color = "White"
-                                      },
-                                      function($event) {
-                                        _vm.earlobe_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "earlobe_color_white" } },
-                                  [_vm._v("White")]
-                                )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.earlobe_color,
-                                      expression: "earlobe_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "earlobe_color_red",
-                                    value: "Red"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.earlobe_color, "Red")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.earlobe_color = "Red"
-                                      },
-                                      function($event) {
-                                        _vm.earlobe_color_others = false
-                                      }
+                              _vm.comb_color_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "comb_color_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_color,
+                                                  expression: "comb_color"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "comb_color_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.comb_color
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.comb_color =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
                                     ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "earlobe_color_red" } },
-                                  [_vm._v("Red")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.earlobe_color,
-                                      expression: "earlobe_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "earlobe_color_redwhwhite",
-                                    value: "Red-White"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(
-                                      _vm.earlobe_color,
-                                      "Red-White"
-                                    )
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.earlobe_color = "Red-White"
-                                      },
-                                      function($event) {
-                                        _vm.earlobe_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  {
-                                    attrs: { for: "earlobe_color_redwhwhite" }
-                                  },
-                                  [_vm._v("Red-White")]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.earlobe_color,
-                                      expression: "earlobe_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "earlobe_color_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.earlobe_color, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.earlobe_color = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.earlobe_color_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "earlobe_color_rad" } },
-                                  [_vm._v("Others")]
-                                )
-                              ])
+                                  )
+                                : _vm._e()
                             ])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col s12 m12 l12" }, [
                             _c("div", { staticClass: "row" }, [
-                              _vm.earlobe_color_others
-                                ? _c("div", { staticClass: "col s12 m6 l6" }, [
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "earlobe_color_others" }
-                                      },
-                                      [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                              _c("label", [_vm._v("Earlobe Color")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -77182,238 +80345,226 @@ var render = function() {
                                           expression: "earlobe_color"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "earlobe_color_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "earlobe_color_white",
+                                        value: "White"
                                       },
-                                      domProps: { value: _vm.earlobe_color },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.earlobe_color,
+                                          "White"
+                                        )
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.earlobe_color = "White"
+                                          },
+                                          function($event) {
+                                            _vm.earlobe_color_others = false
                                           }
-                                          _vm.earlobe_color =
-                                            $event.target.value
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "earlobe_color_white" } },
+                                      [_vm._v("White")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.earlobe_color,
+                                          expression: "earlobe_color"
                                         }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "earlobe_color_red",
+                                        value: "Red"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.earlobe_color,
+                                          "Red"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.earlobe_color = "Red"
+                                          },
+                                          function($event) {
+                                            _vm.earlobe_color_others = false
+                                          }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "earlobe_color_red" } },
+                                      [_vm._v("Red")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.earlobe_color,
+                                          expression: "earlobe_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "earlobe_color_redwhwhite",
+                                        value: "Red-White"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.earlobe_color,
+                                          "Red-White"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.earlobe_color = "Red-White"
+                                          },
+                                          function($event) {
+                                            _vm.earlobe_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: {
+                                          for: "earlobe_color_redwhwhite"
+                                        }
+                                      },
+                                      [_vm._v("Red-White")]
+                                    )
                                   ])
-                                : _vm._e()
-                            ])
-                          ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Iris Color")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.iris_color,
-                                      expression: "iris_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "iris_color_red",
-                                    value: "Red"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.iris_color, "Red")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.iris_color = "Red"
-                                      },
-                                      function($event) {
-                                        _vm.iris_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
+                                ]),
                                 _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "iris_color_red" } },
-                                  [_vm._v("Red")]
-                                )
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.earlobe_color,
+                                          expression: "earlobe_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "earlobe_color_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.earlobe_color,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.earlobe_color = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.earlobe_color_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "earlobe_color_rad" } },
+                                      [_vm._v("Others")]
+                                    )
+                                  ])
+                                ])
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.iris_color,
-                                      expression: "iris_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "iris_color_orange",
-                                    value: "Orange"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.iris_color, "Orange")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.iris_color = "Orange"
-                                      },
-                                      function($event) {
-                                        _vm.iris_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "iris_color_orange" } },
-                                  [_vm._v("Orange")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.iris_color,
-                                      expression: "iris_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "iris_color_brown",
-                                    value: "Brown"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.iris_color, "Brown")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.iris_color = "Brown"
-                                      },
-                                      function($event) {
-                                        _vm.iris_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "iris_color_brown" } },
-                                  [_vm._v("Brown")]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.iris_color,
-                                      expression: "iris_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "iris_color_yellow",
-                                    value: "Yellow"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.iris_color, "Yellow")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.iris_color = "Yellow"
-                                      },
-                                      function($event) {
-                                        _vm.iris_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "iris_color_yellow" } },
-                                  [_vm._v("Yellow")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.iris_color,
-                                      expression: "iris_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "iris_color_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.iris_color, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.iris_color = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.iris_color_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "iris_color_others_rad" } },
-                                  [_vm._v("Others")]
-                                )
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _vm.earlobe_color_others
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "col s12 m6 l6" },
+                                        [
+                                          _c(
+                                            "label",
+                                            {
+                                              attrs: {
+                                                for: "earlobe_color_others"
+                                              }
+                                            },
+                                            [_vm._v("Others")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.earlobe_color,
+                                                expression: "earlobe_color"
+                                              }
+                                            ],
+                                            attrs: {
+                                              id: "earlobe_color_others",
+                                              type: "text"
+                                            },
+                                            domProps: {
+                                              value: _vm.earlobe_color
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.earlobe_color =
+                                                  $event.target.value
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    : _vm._e()
+                                ])
                               ])
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm.iris_color_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Iris Color")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "iris_color_others" } },
-                                      [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -77423,237 +80574,263 @@ var render = function() {
                                           expression: "iris_color"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "iris_color_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "iris_color_red",
+                                        value: "Red"
                                       },
-                                      domProps: { value: _vm.iris_color },
+                                      domProps: {
+                                        checked: _vm._q(_vm.iris_color, "Red")
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.iris_color = "Red"
+                                          },
+                                          function($event) {
+                                            _vm.iris_color_others = false
                                           }
-                                          _vm.iris_color = $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "iris_color_red" } },
+                                      [_vm._v("Red")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.iris_color,
+                                          expression: "iris_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "iris_color_orange",
+                                        value: "Orange"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.iris_color,
+                                          "Orange"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.iris_color = "Orange"
+                                          },
+                                          function($event) {
+                                            _vm.iris_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "iris_color_orange" } },
+                                      [_vm._v("Orange")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.iris_color,
+                                          expression: "iris_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "iris_color_brown",
+                                        value: "Brown"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.iris_color, "Brown")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.iris_color = "Brown"
+                                          },
+                                          function($event) {
+                                            _vm.iris_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "iris_color_brown" } },
+                                      [_vm._v("Brown")]
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.iris_color,
+                                          expression: "iris_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "iris_color_yellow",
+                                        value: "Yellow"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.iris_color,
+                                          "Yellow"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.iris_color = "Yellow"
+                                          },
+                                          function($event) {
+                                            _vm.iris_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "iris_color_yellow" } },
+                                      [_vm._v("Yellow")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.iris_color,
+                                          expression: "iris_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "iris_color_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.iris_color,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.iris_color = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.iris_color_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "iris_color_others_rad" }
+                                      },
+                                      [_vm._v("Others")]
+                                    )
                                   ])
                                 ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Beak Color")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.beak_color,
-                                      expression: "beak_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "beak_color_white",
-                                    value: "White"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.beak_color, "White")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.beak_color = "White"
-                                      },
-                                      function($event) {
-                                        _vm.beak_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "beak_color_white" } },
-                                  [_vm._v("White")]
-                                )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.beak_color,
-                                      expression: "beak_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "beak_color_black",
-                                    value: "Black"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.beak_color, "Black")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.beak_color = "Black"
-                                      },
-                                      function($event) {
-                                        _vm.beak_color_others = false
-                                      }
+                              _vm.iris_color_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "iris_color_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.iris_color,
+                                                  expression: "iris_color"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "iris_color_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.iris_color
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.iris_color =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
                                     ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "beak_color_black" } },
-                                  [_vm._v("Black")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.beak_color,
-                                      expression: "beak_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "beak_color_brown",
-                                    value: "Brown"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.beak_color, "Brown")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.beak_color = "Brown"
-                                      },
-                                      function($event) {
-                                        _vm.beak_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "beak_color_brown" } },
-                                  [_vm._v("Brown")]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.beak_color,
-                                      expression: "beak_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "beak_color_yellow",
-                                    value: "Yellow"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.beak_color, "Yellow")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.beak_color = "Yellow"
-                                      },
-                                      function($event) {
-                                        _vm.beak_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "beak_color_yellow" } },
-                                  [_vm._v("Yellow")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.beak_color,
-                                      expression: "beak_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "beak_color_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.beak_color, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.beak_color = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.beak_color_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "beak_color_others_rad" } },
-                                  [_vm._v("Others")]
-                                )
-                              ])
+                                  )
+                                : _vm._e()
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm.beak_color_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Beak Color")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "beak_color_others" } },
-                                      [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -77663,275 +80840,260 @@ var render = function() {
                                           expression: "beak_color"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "beak_color_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "beak_color_white",
+                                        value: "White"
                                       },
-                                      domProps: { value: _vm.beak_color },
+                                      domProps: {
+                                        checked: _vm._q(_vm.beak_color, "White")
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.beak_color = "White"
+                                          },
+                                          function($event) {
+                                            _vm.beak_color_others = false
                                           }
-                                          _vm.beak_color = $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "beak_color_white" } },
+                                      [_vm._v("White")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.beak_color,
+                                          expression: "beak_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "beak_color_black",
+                                        value: "Black"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.beak_color, "Black")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.beak_color = "Black"
+                                          },
+                                          function($event) {
+                                            _vm.beak_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "beak_color_black" } },
+                                      [_vm._v("Black")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.beak_color,
+                                          expression: "beak_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "beak_color_brown",
+                                        value: "Brown"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.beak_color, "Brown")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.beak_color = "Brown"
+                                          },
+                                          function($event) {
+                                            _vm.beak_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "beak_color_brown" } },
+                                      [_vm._v("Brown")]
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.beak_color,
+                                          expression: "beak_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "beak_color_yellow",
+                                        value: "Yellow"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.beak_color,
+                                          "Yellow"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.beak_color = "Yellow"
+                                          },
+                                          function($event) {
+                                            _vm.beak_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "beak_color_yellow" } },
+                                      [_vm._v("Yellow")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.beak_color,
+                                          expression: "beak_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "beak_color_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.beak_color,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.beak_color = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.beak_color_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "beak_color_others_rad" }
+                                      },
+                                      [_vm._v("Others")]
+                                    )
                                   ])
                                 ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Shank Color")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shank_color,
-                                      expression: "shank_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "shank_color_white",
-                                    value: "White"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shank_color, "White")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.shank_color = "White"
-                                      },
-                                      function($event) {
-                                        _vm.shank_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "shank_color_white" } },
-                                  [_vm._v("White")]
-                                )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shank_color,
-                                      expression: "shank_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "shank_color_black",
-                                    value: "Black"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shank_color, "Black")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.shank_color = "Black"
-                                      },
-                                      function($event) {
-                                        _vm.shank_color_others = false
-                                      }
+                              _vm.beak_color_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "beak_color_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.beak_color,
+                                                  expression: "beak_color"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "beak_color_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.beak_color
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.beak_color =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
                                     ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "shank_color_black" } },
-                                  [_vm._v("Black")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shank_color,
-                                      expression: "shank_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "shank_color_yellow",
-                                    value: "Yellow"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shank_color, "Yellow")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.shank_color = "Yellow"
-                                      },
-                                      function($event) {
-                                        _vm.shank_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "shank_color_yellow" } },
-                                  [_vm._v("Yellow")]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shank_color,
-                                      expression: "shank_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "shank_color_green",
-                                    value: "Green"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shank_color, "Green")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.shank_color = "Green"
-                                      },
-                                      function($event) {
-                                        _vm.shank_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "shank_color_green" } },
-                                  [_vm._v("Green")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shank_color,
-                                      expression: "shank_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "shank_color_grey",
-                                    value: "Grey"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shank_color, "Grey")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.shank_color = "Grey"
-                                      },
-                                      function($event) {
-                                        _vm.shank_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "shank_color_grey" } },
-                                  [_vm._v("Grey")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shank_color,
-                                      expression: "shank_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "shank_color_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shank_color, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.shank_color = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.shank_color_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "shank_color_others_rad" } },
-                                  [_vm._v("Others")]
-                                )
-                              ])
+                                  )
+                                : _vm._e()
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm.shank_color_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Shank Color")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "shank_color_others" } },
-                                      [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -77941,159 +81103,307 @@ var render = function() {
                                           expression: "shank_color"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "shank_color_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "shank_color_white",
+                                        value: "White"
                                       },
-                                      domProps: { value: _vm.shank_color },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.shank_color,
+                                          "White"
+                                        )
+                                      },
                                       on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                        change: [
+                                          function($event) {
+                                            _vm.shank_color = "White"
+                                          },
+                                          function($event) {
+                                            _vm.shank_color_others = false
                                           }
-                                          _vm.shank_color = $event.target.value
-                                        }
+                                        ]
                                       }
-                                    })
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "shank_color_white" } },
+                                      [_vm._v("White")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shank_color,
+                                          expression: "shank_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "shank_color_black",
+                                        value: "Black"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.shank_color,
+                                          "Black"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.shank_color = "Black"
+                                          },
+                                          function($event) {
+                                            _vm.shank_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "shank_color_black" } },
+                                      [_vm._v("Black")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shank_color,
+                                          expression: "shank_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "shank_color_yellow",
+                                        value: "Yellow"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.shank_color,
+                                          "Yellow"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.shank_color = "Yellow"
+                                          },
+                                          function($event) {
+                                            _vm.shank_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "shank_color_yellow" } },
+                                      [_vm._v("Yellow")]
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shank_color,
+                                          expression: "shank_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "shank_color_green",
+                                        value: "Green"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.shank_color,
+                                          "Green"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.shank_color = "Green"
+                                          },
+                                          function($event) {
+                                            _vm.shank_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "shank_color_green" } },
+                                      [_vm._v("Green")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shank_color,
+                                          expression: "shank_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "shank_color_grey",
+                                        value: "Grey"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(_vm.shank_color, "Grey")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.shank_color = "Grey"
+                                          },
+                                          function($event) {
+                                            _vm.shank_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "shank_color_grey" } },
+                                      [_vm._v("Grey")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shank_color,
+                                          expression: "shank_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "shank_color_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.shank_color,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.shank_color = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.shank_color_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "shank_color_others_rad" }
+                                      },
+                                      [_vm._v("Others")]
+                                    )
                                   ])
                                 ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("label", [_vm._v("Skin Color")]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.skin_color,
-                                      expression: "skin_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "skin_color_white",
-                                    value: "White"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.skin_color, "White")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.skin_color = "White"
-                                      },
-                                      function($event) {
-                                        _vm.skin_color_others = false
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "skin_color_white" } },
-                                  [_vm._v("White")]
-                                )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.skin_color,
-                                      expression: "skin_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "skin_color_yellow",
-                                    value: "Yellow"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.skin_color, "Yellow")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.skin_color = "Yellow"
-                                      },
-                                      function($event) {
-                                        _vm.skin_color_others = false
-                                      }
+                              _vm.shank_color_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "shank_color_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.shank_color
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.shank_color =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
                                     ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "skin_color_yellow" } },
-                                  [_vm._v("Yellow")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col s12 m4 l4" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.skin_color,
-                                      expression: "skin_color"
-                                    }
-                                  ],
-                                  staticClass: "with-gap",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "skin_color_others_rad",
-                                    value: "Others"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.skin_color, "Others")
-                                  },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        _vm.skin_color = "Others"
-                                      },
-                                      function($event) {
-                                        _vm.skin_color_others = true
-                                      }
-                                    ]
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  { attrs: { for: "skin_color_others_rad" } },
-                                  [_vm._v("Others")]
-                                )
-                              ])
+                                  )
+                                : _vm._e()
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm.skin_color_others
-                            ? _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("label", [_vm._v("Skin Color")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m6 l6" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "skin_color_others" } },
-                                      [_vm._v("Others")]
-                                    ),
-                                    _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
                                     _c("input", {
                                       directives: [
                                         {
@@ -78103,354 +81413,592 @@ var render = function() {
                                           expression: "skin_color"
                                         }
                                       ],
+                                      staticClass: "with-gap",
                                       attrs: {
-                                        id: "skin_color_others",
-                                        type: "text"
+                                        type: "radio",
+                                        id: "skin_color_white",
+                                        value: "White"
                                       },
-                                      domProps: { value: _vm.skin_color },
+                                      domProps: {
+                                        checked: _vm._q(_vm.skin_color, "White")
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.skin_color = "White"
+                                          },
+                                          function($event) {
+                                            _vm.skin_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "skin_color_white" } },
+                                      [_vm._v("White")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.skin_color,
+                                          expression: "skin_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "skin_color_yellow",
+                                        value: "Yellow"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.skin_color,
+                                          "Yellow"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.skin_color = "Yellow"
+                                          },
+                                          function($event) {
+                                            _vm.skin_color_others = false
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "skin_color_yellow" } },
+                                      [_vm._v("Yellow")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col s12 m4 l4" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.skin_color,
+                                          expression: "skin_color"
+                                        }
+                                      ],
+                                      staticClass: "with-gap",
+                                      attrs: {
+                                        type: "radio",
+                                        id: "skin_color_others_rad",
+                                        value: "Others"
+                                      },
+                                      domProps: {
+                                        checked: _vm._q(
+                                          _vm.skin_color,
+                                          "Others"
+                                        )
+                                      },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            _vm.skin_color = "Others"
+                                          },
+                                          function($event) {
+                                            _vm.skin_color_others = true
+                                          }
+                                        ]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        attrs: { for: "skin_color_others_rad" }
+                                      },
+                                      [_vm._v("Others")]
+                                    )
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.skin_color_others
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m6 l6" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "skin_color_others"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.skin_color,
+                                                  expression: "skin_color"
+                                                }
+                                              ],
+                                              attrs: {
+                                                id: "skin_color_others",
+                                                type: "text"
+                                              },
+                                              domProps: {
+                                                value: _vm.skin_color
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.skin_color =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col s12 m12 l12" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col s12 m12 l12" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col s12 m6 l6" }, [
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "other_features" } },
+                                      [_vm._v("Others Unique Features")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.other_features,
+                                          expression: "other_features"
+                                        }
+                                      ],
+                                      attrs: {
+                                        id: "other_features",
+                                        type: "text",
+                                        placeholder: "e.g. Frizzly, Silky"
+                                      },
+                                      domProps: { value: _vm.other_features },
                                       on: {
                                         input: function($event) {
                                           if ($event.target.composing) {
                                             return
                                           }
-                                          _vm.skin_color = $event.target.value
+                                          _vm.other_features =
+                                            $event.target.value
                                         }
                                       }
                                     })
                                   ])
                                 ])
                               ])
-                            : _vm._e()
-                        ])
-                      ]),
+                            ])
+                          ])
+                        ]
+                      ),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col s12 m12 l12" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m6 l6" }, [
-                                _c(
-                                  "label",
-                                  { attrs: { for: "other_features" } },
-                                  [_vm._v("Others Unique Features")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.other_features,
-                                      expression: "other_features"
-                                    }
-                                  ],
-                                  attrs: {
-                                    id: "other_features",
-                                    type: "text",
-                                    placeholder: "e.g. Frizzly, Silky"
-                                  },
-                                  domProps: { value: _vm.other_features },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col s12 m12 l12",
+                          attrs: { id: "morpho" }
+                        },
+                        [
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col s12 l6 m6" }, [
+                                  _c("label", { attrs: { for: "height" } }, [
+                                    _vm._v("Height (cm)")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: _vm.height,
+                                        expression: "height",
+                                        modifiers: { number: true }
                                       }
-                                      _vm.other_features = $event.target.value
+                                    ],
+                                    staticClass: "validate",
+                                    attrs: {
+                                      id: "height",
+                                      type: "number",
+                                      min: "0",
+                                      step: "0.001",
+                                      pattern: "^\\d*(\\.\\d{0,3})?$",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.height },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.height = _vm._n($event.target.value)
+                                      },
+                                      blur: function($event) {
+                                        _vm.$forceUpdate()
+                                      }
                                     }
-                                  }
-                                })
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col s12 l6 m6" }, [
+                                  _c("label", { attrs: { for: "weight" } }, [
+                                    _vm._v("Weight (g)")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: _vm.weight,
+                                        expression: "weight",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "validate",
+                                    attrs: {
+                                      id: "weight",
+                                      type: "number",
+                                      min: "0",
+                                      step: "0.001",
+                                      pattern: "^\\d*(\\.\\d{0,3})?$",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.weight },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.weight = _vm._n($event.target.value)
+                                      },
+                                      blur: function($event) {
+                                        _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col s12 l6 m6" }, [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "body_length" } },
+                                    [_vm._v("Body Length (cm)")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: _vm.body_length,
+                                        expression: "body_length",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "validate",
+                                    attrs: {
+                                      id: "body_length",
+                                      type: "number",
+                                      min: "0",
+                                      step: "0.001",
+                                      pattern: "^\\d*(\\.\\d{0,3})?$",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.body_length },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.body_length = _vm._n(
+                                          $event.target.value
+                                        )
+                                      },
+                                      blur: function($event) {
+                                        _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col s12 l6 m6" }, [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "chest_circumference" } },
+                                    [_vm._v("Chest Circumference (cm)")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: _vm.chest_circumference,
+                                        expression: "chest_circumference",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "validate",
+                                    attrs: {
+                                      id: "chest_circumference",
+                                      type: "number",
+                                      min: "0",
+                                      step: "0.001",
+                                      pattern: "^\\d*(\\.\\d{0,3})?$",
+                                      required: ""
+                                    },
+                                    domProps: {
+                                      value: _vm.chest_circumference
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.chest_circumference = _vm._n(
+                                          $event.target.value
+                                        )
+                                      },
+                                      blur: function($event) {
+                                        _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col s12 l6 m6" }, [
+                                  _c("label", { attrs: { for: "wing_span" } }, [
+                                    _vm._v("Wing Span (cm)")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: _vm.wing_span,
+                                        expression: "wing_span",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "validate",
+                                    attrs: {
+                                      id: "wing_span",
+                                      type: "number",
+                                      min: "0",
+                                      step: "0.001",
+                                      pattern: "^\\d*(\\.\\d{0,3})?$",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.wing_span },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.wing_span = _vm._n(
+                                          $event.target.value
+                                        )
+                                      },
+                                      blur: function($event) {
+                                        _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col s12 l6 m6" }, [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "shank_length" } },
+                                    [_vm._v("Shank Length (cm)")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: _vm.shank_length,
+                                        expression: "shank_length",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "validate",
+                                    attrs: {
+                                      id: "shank_length",
+                                      type: "number",
+                                      min: "0",
+                                      step: "0.001",
+                                      pattern: "^\\d*(\\.\\d{0,3})?$",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.shank_length },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.shank_length = _vm._n(
+                                          $event.target.value
+                                        )
+                                      },
+                                      blur: function($event) {
+                                        _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ])
                               ])
                             ])
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col s12 m12 l12", attrs: { id: "morpho" } },
-                    [
-                      _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col s12 m12 l12" }, [
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col s12 l6 m6" }, [
-                              _c("label", { attrs: { for: "height" } }, [
-                                _vm._v("Height (cm)")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model.number",
-                                    value: _vm.height,
-                                    expression: "height",
-                                    modifiers: { number: true }
-                                  }
-                                ],
-                                staticClass: "validate",
-                                attrs: {
-                                  id: "height",
-                                  type: "number",
-                                  min: "0",
-                                  step: "0.001",
-                                  pattern: "^\\d*(\\.\\d{0,3})?$",
-                                  required: ""
-                                },
-                                domProps: { value: _vm.height },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.height = _vm._n($event.target.value)
-                                  },
-                                  blur: function($event) {
-                                    _vm.$forceUpdate()
-                                  }
-                                }
-                              })
-                            ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col s12 l6 m6" }, [
-                              _c("label", { attrs: { for: "weight" } }, [
-                                _vm._v("Weight (g)")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model.number",
-                                    value: _vm.weight,
-                                    expression: "weight",
-                                    modifiers: { number: true }
-                                  }
-                                ],
-                                staticClass: "validate",
-                                attrs: {
-                                  id: "weight",
-                                  type: "number",
-                                  min: "0",
-                                  step: "0.001",
-                                  pattern: "^\\d*(\\.\\d{0,3})?$",
-                                  required: ""
-                                },
-                                domProps: { value: _vm.weight },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.weight = _vm._n($event.target.value)
-                                  },
-                                  blur: function($event) {
-                                    _vm.$forceUpdate()
-                                  }
-                                }
-                              })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col s12 l6 m6" }, [
-                              _c("label", { attrs: { for: "body_length" } }, [
-                                _vm._v("Body Length (cm)")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model.number",
-                                    value: _vm.body_length,
-                                    expression: "body_length",
-                                    modifiers: { number: true }
-                                  }
-                                ],
-                                staticClass: "validate",
-                                attrs: {
-                                  id: "body_length",
-                                  type: "number",
-                                  min: "0",
-                                  step: "0.001",
-                                  pattern: "^\\d*(\\.\\d{0,3})?$",
-                                  required: ""
-                                },
-                                domProps: { value: _vm.body_length },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.body_length = _vm._n(
-                                      $event.target.value
-                                    )
-                                  },
-                                  blur: function($event) {
-                                    _vm.$forceUpdate()
-                                  }
-                                }
-                              })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col s12 l6 m6" }, [
-                              _c(
-                                "label",
-                                { attrs: { for: "chest_circumference" } },
-                                [_vm._v("Chest Circumference (cm)")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model.number",
-                                    value: _vm.chest_circumference,
-                                    expression: "chest_circumference",
-                                    modifiers: { number: true }
-                                  }
-                                ],
-                                staticClass: "validate",
-                                attrs: {
-                                  id: "chest_circumference",
-                                  type: "number",
-                                  min: "0",
-                                  step: "0.001",
-                                  pattern: "^\\d*(\\.\\d{0,3})?$",
-                                  required: ""
-                                },
-                                domProps: { value: _vm.chest_circumference },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.chest_circumference = _vm._n(
-                                      $event.target.value
-                                    )
-                                  },
-                                  blur: function($event) {
-                                    _vm.$forceUpdate()
-                                  }
-                                }
-                              })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col s12 l6 m6" }, [
-                              _c("label", { attrs: { for: "wing_span" } }, [
-                                _vm._v("Wing Span (cm)")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model.number",
-                                    value: _vm.wing_span,
-                                    expression: "wing_span",
-                                    modifiers: { number: true }
-                                  }
-                                ],
-                                staticClass: "validate",
-                                attrs: {
-                                  id: "wing_span",
-                                  type: "number",
-                                  min: "0",
-                                  step: "0.001",
-                                  pattern: "^\\d*(\\.\\d{0,3})?$",
-                                  required: ""
-                                },
-                                domProps: { value: _vm.wing_span },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.wing_span = _vm._n($event.target.value)
-                                  },
-                                  blur: function($event) {
-                                    _vm.$forceUpdate()
-                                  }
-                                }
-                              })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col s12 l6 m6" }, [
-                              _c("label", { attrs: { for: "shank_length" } }, [
-                                _vm._v("Shank Length (cm)")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model.number",
-                                    value: _vm.shank_length,
-                                    expression: "shank_length",
-                                    modifiers: { number: true }
-                                  }
-                                ],
-                                staticClass: "validate",
-                                attrs: {
-                                  id: "shank_length",
-                                  type: "number",
-                                  min: "0",
-                                  step: "0.001",
-                                  pattern: "^\\d*(\\.\\d{0,3})?$",
-                                  required: ""
-                                },
-                                domProps: { value: _vm.shank_length },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.shank_length = _vm._n(
-                                      $event.target.value
-                                    )
-                                  },
-                                  blur: function($event) {
-                                    _vm.$forceUpdate()
-                                  }
-                                }
-                              })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row center" }, [
-                            _c("div", { staticClass: "col s12 m12 l12" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass:
-                                    "waves-effect waves-light btn blue-grey darken-1",
-                                  attrs: { type: "submit" },
-                                  on: { click: _vm.submitPhenoMorpho }
-                                },
-                                [_vm._v("Submit")]
-                              )
-                            ])
-                          ])
-                        ])
-                      ])
-                    ]
+                          _vm._m(2)
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(3)
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "modal modal-fixed-footer", attrs: { id: "view" } },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c("h4", [
+                  _vm._v(
+                    "Phenotypic & Morphometric | " +
+                      _vm._s(_vm.selected_inventory_tag)
                   )
                 ])
               ])
-            ]
-          )
-        ])
-      ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c(
+                  "table",
+                  {
+                    staticClass: "responsive-table bordered highlight centered"
+                  },
+                  [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      [
+                        _vm.phenomorpho_values_length == 0
+                          ? _c("tr", [
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")])
+                            ])
+                          : _vm._l(_vm.phenomorpho_values.data, function(
+                              value
+                            ) {
+                              return _c("tr", { key: value.values_id }, [
+                                _c("td", [_vm._v(_vm._s(value.tag))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(_vm.capitalize(value.gender)))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(value.phenotypic))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(value.morphometric))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(value.date_collected))])
+                              ])
+                            })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row center" }, [
+              _c(
+                "div",
+                { staticClass: "col s12 m12 l12" },
+                [
+                  _c("pagination", {
+                    attrs: { data: _vm.inventories },
+                    on: {
+                      "pagination-change-page": _vm.fetchPhenoMorphoInventory
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(5)
+        ]
+      )
     ])
   ])
 }
@@ -78459,31 +82007,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("h5", [_vm._v("Replacement Phenotypic and Morphometric Values")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s12 m12 l12" }, [
-      _c("ul", { staticClass: "breadcrumb" }, [
-        _c("li", [
-          _c("a", { attrs: { href: "javascript:javascript:history.go(-2)" } }, [
-            _vm._v("Home")
-          ])
-        ]),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Tag")]),
         _vm._v(" "),
-        _c("li", [
-          _c("a", { attrs: { href: "javascript:javascript:history.go(-1)" } }, [
-            _vm._v("Replacements")
-          ])
-        ]),
+        _c("th", [_vm._v("Male")]),
         _vm._v(" "),
-        _c("li", [_vm._v("Phenotypic and Morphometric Records")])
+        _c("th", [_vm._v("Female")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pheno & Morpho Data")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Add Pheno & Morpho")])
       ])
     ])
   },
@@ -78504,6 +82038,73 @@ var staticRenderFns = [
         ])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row center" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light blue-grey",
+            attrs: { type: "submit" }
+          },
+          [_vm._v("Submit")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Tag")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Gender")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pheno")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Morpho")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date Collected")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat ",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -78511,20 +82112,20 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-44605d3e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2ab8d604", module.exports)
   }
 }
 
 /***/ }),
-/* 199 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(200)
+var __vue_script__ = __webpack_require__(206)
 /* template */
-var __vue_template__ = __webpack_require__(201)
+var __vue_template__ = __webpack_require__(207)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -78563,13 +82164,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 200 */
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
-//
 //
 //
 //
@@ -78863,7 +82463,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 201 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -79599,15 +83199,6 @@ var staticRenderFns = [
           attrs: { href: "javascript:void(0)" }
         },
         [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass:
-            "modal-action modal-close waves-effect waves-grey btn-flat"
-        },
-        [_vm._v("Submit")]
       )
     ])
   }
@@ -79622,15 +83213,15 @@ if (false) {
 }
 
 /***/ }),
-/* 202 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(203)
+var __vue_script__ = __webpack_require__(209)
 /* template */
-var __vue_template__ = __webpack_require__(204)
+var __vue_template__ = __webpack_require__(210)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -79669,7 +83260,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 203 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -79850,7 +83441,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 204 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -80178,15 +83769,15 @@ if (false) {
 }
 
 /***/ }),
-/* 205 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(206)
+var __vue_script__ = __webpack_require__(212)
 /* template */
-var __vue_template__ = __webpack_require__(207)
+var __vue_template__ = __webpack_require__(213)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -80225,7 +83816,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 206 */
+/* 212 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -80420,7 +84011,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 207 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -80801,15 +84392,15 @@ if (false) {
 }
 
 /***/ }),
-/* 208 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(209)
+var __vue_script__ = __webpack_require__(215)
 /* template */
-var __vue_template__ = __webpack_require__(210)
+var __vue_template__ = __webpack_require__(216)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -80848,7 +84439,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 209 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -81107,7 +84698,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 210 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -81796,37 +85387,28 @@ if (false) {
 }
 
 /***/ }),
-/* 211 */
+/* 217 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
 /* 218 */,
 /* 219 */,
-/* 220 */
+/* 220 */,
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(221)
-}
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(223)
+var __vue_script__ = __webpack_require__(222)
 /* template */
-var __vue_template__ = __webpack_require__(224)
+var __vue_template__ = __webpack_require__(223)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -81839,7 +85421,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/replacements/Replacement.vue"
+Component.options.__file = "resources/assets/js/components/breeders/FeedingRecord.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -81848,9 +85430,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-154c7aca", Component.options)
+    hotAPI.createRecord("data-v-ddad8c62", Component.options)
   } else {
-    hotAPI.reload("data-v-154c7aca", Component.options)
+    hotAPI.reload("data-v-ddad8c62", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -81861,47 +85443,629 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 221 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(222);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(192)("31a3c631", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-154c7aca\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Replacement.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-154c7aca\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Replacement.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
 /* 222 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(191)(false);
-// imports
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
-// module
-exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n    -webkit-transition: opacity .5s;\n    transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to {\n    opacity: 0;\n}\n", ""]);
+Vue.component('pagination', __webpack_require__(4));
+var moment = __webpack_require__(0);
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
+    props: ['breeder', 'breeder_tag'],
+    data: function data() {
+        return {
+            feedings: {},
+            feedings_length: 0,
+            date_collected: '',
+            offered: '',
+            refused: '',
+            remarks: ''
+        };
+    },
 
-// exports
+    methods: {
+        initialize: function initialize() {
+            this.fetchFeedingRecord();
+        },
+        fetchFeedingRecord: function fetchFeedingRecord() {
+            var _this = this;
 
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('breeder_feeding/' + this.breeder + '?page=' + page).then(function (response) {
+                _this.feedings = response.data;
+                _this.feedings_length = _this.feedings.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        addFeedingRecord: function addFeedingRecord() {
+            var _this2 = this;
+
+            axios.post('breeder_feeding', {
+                breeder_id: this.breeder,
+                date_collected: this.customFormatter(this.date_collected),
+                offered: this.offered,
+                refused: this.refused,
+                remarks: this.remarks
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this2.date_collected = '';
+                    _this2.offered = '';
+                    _this2.refused = '';
+                    _this2.remarks = '';
+                    Materialize.toast('Successfully added feeding record', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to add feeding record', 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        customFormatter: function customFormatter(date_added) {
+            return moment(date_added).format('YYYY-MM-DD');
+        },
+        closeFeeding: function closeFeeding() {
+            this.$emit('close_feeding', null);
+        }
+    },
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    mounted: function mounted() {
+        $('#feeding').modal({
+            dismissible: false
+        });
+    },
+    created: function created() {
+        this.initialize();
+    },
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
+    }
+});
 
 /***/ }),
 /* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col s12 m12 m12" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _c("div", { staticClass: "row valign-wrapper" }, [
+          _c("div", { staticClass: "col s6 m6 l7" }, [
+            _c("h5", [_vm._v(_vm._s(_vm.breeder_tag) + " Feeding Records")])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
+            _c(
+              "a",
+              {
+                staticClass: "waves-effect waves-red btn-flat red-text",
+                on: { click: _vm.closeFeeding }
+              },
+              [
+                _c("i", { staticClass: "far fa-times-circle left" }),
+                _vm._v("Close")
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c(
+              "table",
+              { staticClass: "responsive-table bordered highlight centered" },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm.feedings_length == 0
+                      ? _c("tr", [
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.feedings.data, function(feeding) {
+                      return _c("tr", { key: feeding.feeding_id }, [
+                        _c("td", [_vm._v(_vm._s(feeding.date_collected))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(feeding.breeder_tag))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(feeding.amount_offered))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(feeding.amount_refused))]),
+                        _vm._v(" "),
+                        feeding.remarks == null
+                          ? _c("td", [_vm._v("None")])
+                          : _c("td", [_vm._v(_vm._s(feeding.remarks))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v("-")])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row center" }, [
+          _c(
+            "div",
+            { staticClass: "col s12 m12 l12" },
+            [
+              _c("pagination", {
+                attrs: { data: _vm.feedings },
+                on: { "pagination-change-page": _vm.fetchFeedingRecord }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "modal modal-fixed-footer", attrs: { id: "feeding" } },
+          [
+            _c(
+              "form",
+              {
+                attrs: { method: "post" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.addFeedingRecord($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("h4", [
+                        _vm._v(_vm._s(_vm.breeder_tag) + " Feeding Records")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 m6 l6" },
+                          [
+                            _c("label", { attrs: { for: "date_added" } }, [
+                              _vm._v("Date Collected")
+                            ]),
+                            _vm._v(" "),
+                            _c("datepicker", {
+                              attrs: {
+                                id: "date_added",
+                                format: _vm.customFormatter
+                              },
+                              model: {
+                                value: _vm.date_collected,
+                                callback: function($$v) {
+                                  _vm.date_collected = $$v
+                                },
+                                expression: "date_collected"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 s6 m6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model.number",
+                                  value: _vm.offered,
+                                  expression: "offered",
+                                  modifiers: { number: true }
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                placeholder: "Amount of Feed Offered (g)",
+                                id: "feed_offered",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$",
+                                validate: ""
+                              },
+                              domProps: { value: _vm.offered },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.offered = _vm._n($event.target.value)
+                                },
+                                blur: function($event) {
+                                  _vm.$forceUpdate()
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "active",
+                                attrs: { for: "feed_offered" }
+                              },
+                              [_vm._v("Feed Offered")]
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 s6 m6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model.number",
+                                  value: _vm.refused,
+                                  expression: "refused",
+                                  modifiers: { number: true }
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                placeholder: "Amount of Feed Refused (g)",
+                                id: "feed_refused",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.refused },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.refused = _vm._n($event.target.value)
+                                },
+                                blur: function($event) {
+                                  _vm.$forceUpdate()
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "active",
+                                attrs: { for: "feed_refused" }
+                              },
+                              [_vm._v("Feed Refused")]
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s12 s6 m6 input-field" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.remarks,
+                                  expression: "remarks"
+                                }
+                              ],
+                              attrs: {
+                                placeholder: "Add remarks",
+                                id: "remarks",
+                                type: "text"
+                              },
+                              domProps: { value: _vm.remarks },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.remarks = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "active",
+                                attrs: { for: "remarks" }
+                              },
+                              [_vm._v("Remarks")]
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(2)
+              ]
+            )
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s3 m3 l3 right-align" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "waves-effect waves-green btn-flat green-text modal-trigger",
+          attrs: { href: "#feeding" }
+        },
+        [_c("i", { staticClass: "fas fa-plus-circle left" }), _vm._v("Add")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tag")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Offered(g)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Refused(g)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Edit")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Submit")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ddad8c62", module.exports)
+  }
+}
+
+/***/ }),
+/* 224 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(225)
+/* template */
+var __vue_template__ = __webpack_require__(226)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/breeders/EggQuality.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ac0a0160", Component.options)
+  } else {
+    hotAPI.reload("data-v-ac0a0160", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 225 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -82119,254 +86283,126 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
+Vue.component('pagination', __webpack_require__(4));
 var moment = __webpack_require__(0);
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
         Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
     },
+    props: ['breeder', 'breeder_tag'],
     data: function data() {
         return {
-            search: '',
-            replacements_loaded: false,
-            replacement_pens: {},
-            replacement_pens_len: 0,
-            selected_pen: '',
-            selected_pen_number: '',
+            eggqualities: {},
+            eggqualities_length: 0,
 
-            // form variables
-            external: false,
-            selected_generation: '',
-            selected_line: '',
-            selected_family: '',
-            date_added: '',
-            batching_date: '',
-            males: '',
-            females: '',
-
-            generations: [],
-            lines: [],
-            families: [],
-            generations_loaded: false,
-            lines_loaded: false,
-            families_loaded: false,
-
-            pen_info: [],
-            info_loaded: false,
-            show_info: false,
-
-            selected_pheno_morpho: '',
-
-            gender: '',
-            plummage_color: '',
-            plummage_pattern: '',
-            hackle_color: '',
-            hackle_pattern: '',
-            body_carriage: '',
-            comb_type: '',
-            comb_color: '',
-            earlobe_color: '',
-            iris_color: '',
-            beak_color: '',
-            shank_color: '',
-            skin_color: '',
-            other_features: '',
-
-            plummage_color_others: false,
-            plummage_pattern_others: false,
-            hackle_color_others: false,
-            hackle_pattern_others: false,
-            body_carriage_others: false,
-            comb_type_others: false,
-            comb_color_others: false,
-            earlobe_color_others: false,
-            iris_color_others: false,
-            beak_color_others: false,
-            shank_color_others: false,
-            skin_color_others: false,
-
-            height: '',
-            weight: '',
-            body_length: '',
-            chest_circumference: '',
-            wing_span: '',
-            shank_length: '',
-
-            feed_record_collected: '',
-            offered: '',
-            refused: '',
-            remarks: ''
+            others: false,
+            date_collected: '',
+            egg_quality_at: '',
+            egg_weight: '',
+            egg_color: '',
+            egg_shape: '',
+            egg_length: '',
+            egg_width: '',
+            albumen_height: '',
+            albumen_weight: '',
+            yolk_weight: '',
+            yolk_color: '',
+            shell_weight: '',
+            thickness_top: '',
+            thickness_mid: '',
+            thickness_bot: ''
         };
     },
 
     methods: {
         initialize: function initialize() {
-            this.getReplacementPens();
-            this.fetchGenerations();
+            this.fetchEggQualityRecord();
         },
-        getReplacementPens: function getReplacementPens() {
+        fetchEggQualityRecord: function fetchEggQualityRecord() {
             var _this = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            this.replacements_loaded = false;
-            axios.get('replacement_pens?page=' + page).then(function (response) {
-                _this.replacement_pens_len = response.data.data.length;
-                _this.replacement_pens = response.data;
+            axios.get('breeder_eggquality/' + this.breeder + '?page=' + page).then(function (response) {
+                _this.eggqualities = response.data;
+                _this.eggqualities_length = _this.eggqualities.data.length;
             }).catch(function (error) {
                 console.log(error);
             });
-            this.replacements_loaded = true;
         },
-        searchReplacements: function searchReplacements() {
+        addEggQualityRecord: function addEggQualityRecord() {
             var _this2 = this;
 
-            this.replacements_loaded = false;
-            axios.get('search_replacement_pens/' + this.search).then(function (response) {
-                return _this2.replacement_pens = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-            this.replacements_loaded = true;
-        },
-        fetchGenerations: function fetchGenerations() {
-            var _this3 = this;
-
-            this.generations_loaded = false;
-            axios.get('replacement_fetch_generations').then(function (response) {
-                _this3.generations = response.data;
-                _this3.generations_loaded = true;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetchLines: function fetchLines() {
-            var _this4 = this;
-
-            this.lines_loaded = false;
-            axios.get('replacement_fetch_lines/' + this.selected_generation).then(function (response) {
-                _this4.lines = response.data;
-                _this4.lines_loaded = true;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetchFamilies: function fetchFamilies() {
-            var _this5 = this;
-
-            this.families_loaded = false;
-            axios.get('replacement_fetch_families/' + this.selected_line).then(function (response) {
-                _this5.families = response.data;
-                _this5.families_loaded = true;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        addReplacements: function addReplacements() {
-            axios.post('add_replacements', {
-                family_id: this.selected_family,
-                pen_id: this.selected_pen,
-                males: this.males,
-                females: this.females,
-                date_added: this.customFormatter(this.date_added),
-                batching_date: this.customFormatter(this.batching_date),
-                external: this.external
+            axios.post('breeder_add_eggquality', {
+                breeder_id: this.breeder,
+                date_collected: this.customFormatter(this.date_collected),
+                egg_quality_at: this.egg_quality_at,
+                egg_weight: this.egg_weight,
+                egg_color: this.egg_color,
+                egg_shape: this.egg_shape,
+                egg_length: this.egg_length,
+                egg_width: this.egg_width,
+                albumen_height: this.albumen_height,
+                albumen_weight: this.albumen_weight,
+                yolk_weight: this.yolk_weight,
+                yolk_color: this.yolk_color,
+                shell_weight: this.shell_weight,
+                thickness_top: this.thickness_top,
+                thickness_mid: this.thickness_mid,
+                thickness_bot: this.thickness_bot
             }).then(function (response) {
-                Materialize.toast('Successfully added replacements', 3000, 'rounded');
+                if (response.data.error == undefined) {
+                    _this2.others = false, _this2.date_collected = '';
+                    _this2.egg_quality_at = '';
+                    _this2.egg_weight = '';
+                    _this2.egg_color = '';
+                    _this2.egg_shape = '';
+                    _this2.egg_length = '';
+                    _this2.egg_width = '';
+                    _this2.albumen_height = '';
+                    _this2.albumen_weight = '';
+                    _this2.yolk_weight = '';
+                    _this2.yolk_color = '';
+                    _this2.shell_weight = '';
+                    _this2.thickness_top = '';
+                    _this2.thickness_mid = '';
+                    _this2.thickness_bot = '';
+                    Materialize.toast('Successfully added egg quality record', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
             }).catch(function (error) {
-                Materialize.toast('Failed to add replacements', 3000, 'rounded');
+                Materialize.toast('Failed to add egg quality record', 3000, 'red rounded');
             });
-            this.getReplacementPens();
-        },
-        fetchPenInfo: function fetchPenInfo() {
-            var _this6 = this;
-
-            this.info_loaded = false;
-            axios.get('replacement_pen_info/' + this.selected_pen).then(function (response) {
-                _this6.pen_info = response.data;
-                _this6.info_loaded = true;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        submitPhenoMorpho: function submitPhenoMorpho() {
-            axios.post('add_phenomorpho', {
-                replacement_id: this.selected_pheno_morpho,
-                gender: this.gender,
-                plummage_color: this.plummage_color,
-                plummage_pattern: this.plummage_pattern,
-                hackle_color: this.hackle_color,
-                hackle_pattern: this.hackle_pattern,
-                body_carriage: this.body_carriage,
-                comb_type: this.comb_type,
-                comb_color: this.comb_color,
-                earlobe_color: this.earlobe_color,
-                iris_color: this.iris_color,
-                beak_color: this.beak_color,
-                shank_color: this.shank_color,
-                skin_color: this.skin_color,
-                other_features: this.other_features,
-                height: this.height,
-                weight: this.weight,
-                body_length: this.body_length,
-                chest_circumference: this.chest_circumference,
-                wing_span: this.wing_span,
-                shank_length: this.shank_length
-            }).then(function (response) {
-                Materialize.toast('Successfully added phenotypic and morphometric data', 3000, 'rounded');
-            }).catch(function (error) {
-                Materialize.toast('Failed to add phenotypic and morphometric data', 3000, 'rounded');
-            });
-        },
-        submitPenFeedingRecord: function submitPenFeedingRecord() {
-            axios.post('add_penfeeding', {
-                pen_id: this.selected_pen,
-                date_collected: this.customFormatter(this.feed_record_collected),
-                offered: this.offered,
-                refused: this.refused,
-                remark: this.remarks
-            }).then(function (response) {
-                Materialize.toast('Successfully added feeding record', 3000, 'rounded');
-            }).catch(function (error) {
-                Materialize.toast('Failed to add feeding record', 3000, 'rounded');
-            });
-        },
-        closeInfoModal: function closeInfoModal() {
-            $('#info').modal('close');
+            this.initialize();
         },
         customFormatter: function customFormatter(date_added) {
             return moment(date_added).format('YYYY-MM-DD');
+        },
+        closeEggQual: function closeEggQual() {
+            this.$emit('close_eggqual', null);
         }
     },
-    mounted: function mounted() {},
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    mounted: function mounted() {
+        $('#eggquality').modal({
+            dismissible: false
+        });
+    },
     created: function created() {
         this.initialize();
+    },
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
     }
 });
 
 /***/ }),
-/* 224 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -82374,267 +86410,892 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col s12 m12 l12" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _c("div", { staticClass: "row valign-wrapper" }, [
-        _c("div", { staticClass: "col s12 m9 l9 valign" }, [
-          _c("label", { attrs: { for: "search" } }, [_vm._v("Search")]),
+    _c("div", { staticClass: "col s12 m12 m12" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s6 m6 l6" }, [
+            _c("h5", [_vm._v(_vm._s(_vm.breeder_tag) + " Egg Quality Records")])
+          ]),
           _vm._v(" "),
-          _c("input", {
-            directives: [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
+            _c(
+              "a",
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.search,
-                expression: "search"
-              }
-            ],
-            attrs: {
-              placeholder: "Type family number",
-              id: "search",
-              type: "text"
-            },
-            domProps: { value: _vm.search },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.search = $event.target.value
-              }
-            }
-          })
+                staticClass: "waves-effect waves-red btn-flat red-text",
+                on: { click: _vm.closeEggQual }
+              },
+              [
+                _c("i", { staticClass: "far fa-times-circle left" }),
+                _vm._v("Close")
+              ]
+            )
+          ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col s12 m3 l3 valign" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn waves-effect waves-light blue-grey darken-1",
-              attrs: { type: "submit" },
-              on: { click: _vm.searchReplacements }
-            },
-            [_vm._v("Search"), _c("i", { staticClass: "fas fa-search right" })]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.replacements_loaded
-        ? _c(
-            "div",
-            { staticClass: "row" },
-            [
-              _c("transition", { attrs: { name: "fade" } }, [
-                _vm.replacement_pens_len > 0
-                  ? _c("div", { staticClass: "col s12 m12 l12" }, [
-                      _c(
-                        "div",
-                        { staticClass: "row" },
-                        _vm._l(_vm.replacement_pens.data, function(
-                          replacement_pen
-                        ) {
-                          return _c(
-                            "div",
-                            {
-                              key: replacement_pen.id,
-                              staticClass: "col s12 m6 l6"
-                            },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "card blue-grey lighten-4" },
-                                [
-                                  _c(
-                                    "div",
-                                    { staticClass: "card-content black-text" },
-                                    [
-                                      _c("div", { staticClass: "card-title" }, [
-                                        _vm._v(
-                                          "Pen " +
-                                            _vm._s(replacement_pen.number)
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "row" }, [
-                                        _c(
-                                          "div",
-                                          { staticClass: "col s12 m12 l12" },
-                                          [
-                                            _vm._v(
-                                              "\n                                            Content : " +
-                                                _vm._s(
-                                                  replacement_pen.current_capacity
-                                                ) +
-                                                "\n                                        "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "col s12 m12 l12" },
-                                          [
-                                            _vm._v(
-                                              "\n                                            Free : " +
-                                                _vm._s(
-                                                  replacement_pen.total_capacity -
-                                                    replacement_pen.current_capacity
-                                                ) +
-                                                "\n                                        "
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "card-action right-align" },
-                                    [
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "black-text tooltipped modal-trigger",
-                                          attrs: {
-                                            href: "#info",
-                                            "data-position": "bottom",
-                                            "data-delay": "50",
-                                            "data-tooltip": "Pen information"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.selected_pen =
-                                                replacement_pen.id
-                                              _vm.fetchPenInfo()
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fas fa-info-circle"
-                                          })
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      replacement_pen.total_capacity >
-                                      replacement_pen.current_capacity
-                                        ? _c(
-                                            "a",
-                                            {
-                                              staticClass:
-                                                "black-text tooltipped modal-trigger",
-                                              attrs: {
-                                                href: "#add_modal",
-                                                "data-position": "bottom",
-                                                "data-delay": "50",
-                                                "data-tooltip":
-                                                  "Add replacement"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.selected_pen =
-                                                    replacement_pen.id
-                                                  _vm.selected_pen_number =
-                                                    replacement_pen.number
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("i", {
-                                                staticClass:
-                                                  "far fa-plus-square"
-                                              })
-                                            ]
-                                          )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      replacement_pen.current_capacity > 0
-                                        ? _c(
-                                            "a",
-                                            {
-                                              staticClass:
-                                                "black-text tooltipped modal-trigger",
-                                              attrs: {
-                                                href: "#feeding",
-                                                "data-position": "bottom",
-                                                "data-delay": "50",
-                                                "data-tooltip":
-                                                  "Feeding records"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.selected_pen =
-                                                    replacement_pen.id
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("i", {
-                                                staticClass: "fas fa-utensils"
-                                              })
-                                            ]
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]
-                          )
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c(
+              "table",
+              { staticClass: "responsive-table centered bordered highlight" },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm.eggqualities_length == 0
+                      ? _c("tr", [
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")])
+                        ])
+                      : _vm._l(_vm.eggqualities.data, function(qualities) {
+                          return _c("tr", { key: qualities.id }, [
+                            _c("td", [
+                              _vm._v(_vm._s(qualities.date_collected))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(qualities.egg_quality_at))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.weight))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.color))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.shape))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.length))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.width))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(qualities.albumen_height))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(qualities.albumen_weight))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.yolk_weight))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.yolk_color))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.shell_weight))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.thickness_top))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.thickness_mid))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(qualities.thickness_bot))])
+                          ])
                         })
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "row center" }, [
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row center" }, [
+          _c(
+            "div",
+            { staticClass: "col s12 m12 l12" },
+            [
+              _c("pagination", {
+                attrs: { data: _vm.eggqualities },
+                on: { "pagination-change-page": _vm.fetchEggQualityRecord }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal modal-fixed-footer",
+            attrs: { id: "eggquality" }
+          },
+          [
+            _c(
+              "form",
+              {
+                attrs: { method: "post" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.addEggQualityRecord($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("h4", [
+                        _vm._v(_vm._s(_vm.breeder_tag) + " Egg Quality")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("div", { staticClass: "row" }, [
                         _c(
                           "div",
-                          { staticClass: "col s12 m12 l12" },
+                          { staticClass: "col s12 m6 l6" },
                           [
-                            _c("pagination", {
-                              attrs: { data: _vm.replacement_pens },
-                              on: {
-                                "pagination-change-page": _vm.getReplacementPens
+                            _c("label", { attrs: { for: "date_added" } }, [
+                              _vm._v("Date Collected")
+                            ]),
+                            _vm._v(" "),
+                            _c("datepicker", {
+                              attrs: {
+                                id: "date_added",
+                                format: _vm.customFormatter
+                              },
+                              model: {
+                                value: _vm.date_collected,
+                                callback: function($$v) {
+                                  _vm.date_collected = $$v
+                                },
+                                expression: "date_collected"
                               }
                             })
                           ],
                           1
                         )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m3 l3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.egg_quality_at,
+                                expression: "egg_quality_at"
+                              }
+                            ],
+                            staticClass: "with-gap",
+                            attrs: {
+                              name: "egg_quality_at",
+                              type: "radio",
+                              id: "egg_quality_35",
+                              value: "35"
+                            },
+                            domProps: {
+                              checked: _vm._q(_vm.egg_quality_at, "35")
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  _vm.egg_quality_at = "35"
+                                },
+                                function($event) {
+                                  _vm.others = false
+                                }
+                              ]
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "egg_quality_35" } }, [
+                            _vm._v("35 Days of Age")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col s12 m3 l3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.egg_quality_at,
+                                expression: "egg_quality_at"
+                              }
+                            ],
+                            staticClass: "with-gap",
+                            attrs: {
+                              name: "egg_quality_at",
+                              type: "radio",
+                              id: "egg_quality_40",
+                              value: "40"
+                            },
+                            domProps: {
+                              checked: _vm._q(_vm.egg_quality_at, "40")
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  _vm.egg_quality_at = "40"
+                                },
+                                function($event) {
+                                  _vm.others = false
+                                }
+                              ]
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "egg_quality_40" } }, [
+                            _vm._v("40 Days of Age")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col s12 m3 l3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.egg_quality_at,
+                                expression: "egg_quality_at"
+                              }
+                            ],
+                            staticClass: "with-gap",
+                            attrs: {
+                              name: "egg_quality_at",
+                              type: "radio",
+                              id: "egg_quality_60",
+                              value: "60"
+                            },
+                            domProps: {
+                              checked: _vm._q(_vm.egg_quality_at, "60")
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  _vm.egg_quality_at = "60"
+                                },
+                                function($event) {
+                                  _vm.others = false
+                                }
+                              ]
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "egg_quality_60" } }, [
+                            _vm._v("60 Days of Age")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col s12 m3 l3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.egg_quality_at,
+                                expression: "egg_quality_at"
+                              }
+                            ],
+                            staticClass: "with-gap",
+                            attrs: {
+                              name: "egg_quality_at",
+                              type: "radio",
+                              id: "egg_quality_others",
+                              value: ""
+                            },
+                            domProps: {
+                              checked: _vm._q(_vm.egg_quality_at, "")
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  _vm.egg_quality_at = ""
+                                },
+                                function($event) {
+                                  _vm.others = true
+                                }
+                              ]
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            { attrs: { for: "egg_quality_others" } },
+                            [_vm._v("Others")]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm.others
+                        ? _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m6 l6" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.egg_quality_at,
+                                    expression: "egg_quality_at"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "number",
+                                  min: "0",
+                                  placeholder: "Input egg quality day"
+                                },
+                                domProps: { value: _vm.egg_quality_at },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.egg_quality_at = $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.egg_weight,
+                                  expression: "egg_weight"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "egg_weigth",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.egg_weight },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.egg_weight = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "egg_weight" } }, [
+                              _vm._v("Egg Weight (g)")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.egg_color,
+                                  expression: "egg_color"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "egg_color",
+                                type: "text",
+                                placeholder: "e.g. Brown, Cream"
+                              },
+                              domProps: { value: _vm.egg_color },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.egg_color = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "egg_color" } }, [
+                              _vm._v("Egg Color")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.egg_shape,
+                                  expression: "egg_shape"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "egg_shape",
+                                type: "text",
+                                placeholder: "e.g. Ovoid"
+                              },
+                              domProps: { value: _vm.egg_shape },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.egg_shape = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "egg_shape" } }, [
+                              _vm._v("Egg Shape")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.egg_length,
+                                  expression: "egg_length"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "length",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.egg_length },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.egg_length = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "length" } }, [
+                              _vm._v("Length (mm)")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.egg_width,
+                                  expression: "egg_width"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "width",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.egg_width },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.egg_width = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "width" } }, [
+                              _vm._v("Width (mm)")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.albumen_height,
+                                  expression: "albumen_height"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "abumen_height",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.albumen_height },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.albumen_height = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "albumen_height" } }, [
+                              _vm._v("Albument Height (mm)")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.albumen_weight,
+                                  expression: "albumen_weight"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "albumen_weight",
+                                type: "number",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.albumen_weight },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.albumen_weight = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "albumen_weight" } }, [
+                              _vm._v("Albumen Weight (mm)")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.yolk_weight,
+                                  expression: "yolk_weight"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "yolk_weight",
+                                type: "number",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.yolk_weight },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.yolk_weight = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "yolk_weight" } }, [
+                              _vm._v("Yolk Weight (g)")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.yolk_color,
+                                  expression: "yolk_color"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: { id: "yolk_color", type: "text" },
+                              domProps: { value: _vm.yolk_color },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.yolk_color = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "yolk_color" } }, [
+                              _vm._v("Yolk Color")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.shell_weight,
+                                  expression: "shell_weight"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "shell_weight",
+                                type: "number",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.shell_weight },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.shell_weight = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "shell_weight" } }, [
+                              _vm._v("Shell Weight (g)")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.thickness_top,
+                                  expression: "thickness_top"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "top",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.thickness_top },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.thickness_top = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "top" } }, [
+                              _vm._v("Shell Thickness Top")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.thickness_mid,
+                                  expression: "thickness_mid"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "middle",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.thickness_mid },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.thickness_mid = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "middle" } }, [
+                              _vm._v("Shell Thickness Middle")
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-field col s12 m6 l6" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.thickness_bot,
+                                  expression: "thickness_bot"
+                                }
+                              ],
+                              staticClass: "validate",
+                              attrs: {
+                                id: "bottom",
+                                type: "number",
+                                min: "0",
+                                step: "0.001",
+                                pattern: "^\\d*(\\.\\d{0,3})?$"
+                              },
+                              domProps: { value: _vm.thickness_bot },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.thickness_bot = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "bottom" } }, [
+                              _vm._v("Shell Thickness Bottom")
+                            ])
+                          ]
+                        )
                       ])
                     ])
-                  : _c("div", { staticClass: "col s12 m12 l12 center-align" }, [
-                      _c("h5", [_vm._v("No Pens")])
-                    ])
-              ])
-            ],
-            1
-          )
-        : _c("div", { staticClass: "row center" }, [_vm._m(2)]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "modal modal-fixed-footer", attrs: { id: "add_modal" } },
-        [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12" }, [
-                _c("h4", [
-                  _vm._v(
-                    "Add Replacement to Pen " + _vm._s(_vm.selected_pen_number)
-                  )
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._m(3)
-          ]),
-          _vm._v(" "),
-          _vm._m(4)
-        ]
-      )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(2)
+              ]
+            )
+          ]
+        )
+      ])
     ])
   ])
 }
@@ -82643,109 +87304,53 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("h5", [_vm._v("Replacements")])
-      ])
+    return _c("div", { staticClass: "col s3 m3 l3 right-align" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "waves-effect waves-green btn-flat green-text modal-trigger",
+          attrs: { href: "#eggquality" }
+        },
+        [_c("i", { staticClass: "fas fa-plus-circle left" }), _vm._v("Add")]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("ul", { staticClass: "breadcrumb" }, [
-          _c("li", [_c("a", { attrs: { href: "./" } }, [_vm._v("Home")])]),
-          _vm._v(" "),
-          _c("li", [_vm._v("Replacements")])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s12 m12 l12" }, [
-      _c("div", { staticClass: "preloader-wrapper big active" }, [
-        _c("div", { staticClass: "spinner-layer spinner-blue-only" }, [
-          _c("div", { staticClass: "circle-clipper left" }, [
-            _c("div", { staticClass: "circle" })
-          ]),
-          _c("div", { staticClass: "gap-patch" }, [
-            _c("div", { staticClass: "circle" })
-          ]),
-          _c("div", { staticClass: "circle-clipper right" }, [
-            _c("div", { staticClass: "circle" })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _vm._v("\n                    Loading...\n                ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col s12 m12 l12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-content" }, [
-            _c("p", [
-              _c("i", { staticClass: "fas fa-exclamation-circle" }),
-              _vm._v(" Choose "),
-              _c("strong", [_vm._v("Within System")]),
-              _vm._v(
-                " tab if you wish to add replacements from brooder & grower stocks."
-              )
-            ]),
-            _vm._v(" "),
-            _c("p", [
-              _c("i", { staticClass: "fas fa-exclamation-circle" }),
-              _vm._v(" Choose "),
-              _c("strong", [_vm._v("Outside System")]),
-              _vm._v(" if you wish to add replacements from outside sources.")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-tabs" }, [
-            _c("ul", { staticClass: "tabs tabs-fixed-width" }, [
-              _c("li", { staticClass: "tab" }, [
-                _c("a", { attrs: { href: "#within" } }, [
-                  _vm._v("Within System")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "tab" }, [
-                _c("a", { attrs: { href: "#outside" } }, [
-                  _vm._v("Outside System")
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-content grey lighten-4" }, [
-            _c("div", { attrs: { id: "within" } }, [
-              _c("form", { attrs: { action: "" } }, [
-                _vm._v(
-                  "\n                                        inside\n                                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { attrs: { id: "outside" } }, [
-              _c("form", { attrs: { action: "" } }, [
-                _vm._v(
-                  "\n                                        outside\n                                    "
-                )
-              ])
-            ])
-          ])
-        ])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Day")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("W")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("C")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("S")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("L")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("W")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("AH")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("AW")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("YW")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("YColor")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("SW")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("TT")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("MT")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("BT")])
       ])
     ])
   },
@@ -82762,6 +87367,16 @@ var staticRenderFns = [
           attrs: { href: "javascript:void(0)" }
         },
         [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Submit")]
       )
     ])
   }
@@ -82771,7 +87386,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-154c7aca", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-ac0a0160", module.exports)
   }
 }
 

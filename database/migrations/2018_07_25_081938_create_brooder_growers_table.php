@@ -17,6 +17,7 @@ class CreateBrooderGrowersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('family_id');
             $table->date('date_added');
+            $table->softDeletes();
         });
 
         Schema::table('brooder_growers', function($table) {

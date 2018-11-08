@@ -23,6 +23,7 @@ class CreateReplacementInventoriesTable extends Migration
             $table->integer('number_female')->default(0);
             $table->integer('total')->default(0);
             $table->date('last_update');
+            $table->softDeletes();
         });
 
         Schema::table('replacement_inventories', function($table) {

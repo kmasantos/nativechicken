@@ -12,17 +12,17 @@ class EggQuality extends Model
      *
      * @var string
      */
-    protected $table = 'egg_qualitities';
+    protected $table = 'egg_qualities';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'date_collected', 'egg_quality_at', 'weight', 'color', 
+        'date_collected', 'egg_quality_at', 'weight', 'color',
         'shape', 'length', 'width', 'albumen_height', 'albumen_weight',
         'yolk_weight', 'yolk_color', 'shell_weight', 'thickness_top',
-        'thickness_mid', 'thickness_bot' 
+        'thickness_mid', 'thickness_bot'
     ];
 
     public function breeders()

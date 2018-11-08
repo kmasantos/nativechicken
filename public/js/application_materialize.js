@@ -25,14 +25,6 @@ $( document ).ready(function() {
         format: 'yyyy-mm-dd',
     });
 
-    $('#pheno_morpho').modal({
-        dismissible: false
-    });
-
-    $('#feeding').modal({
-        dismissible: false
-    });
-
     $('#pen_modal').modal({
         dismissible: false
     });

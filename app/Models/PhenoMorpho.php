@@ -19,7 +19,7 @@ class PhenoMorpho extends Model
      * @var array
      */
     protected $fillable = [
-
+        'replacement_inventory_id', 'breeder_inventory_id', 'values_id'
     ];
 
     public function replacement_inventories()

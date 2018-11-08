@@ -6,7 +6,8 @@
                 <h5>No Available Breeders</h5>
             </div>
         </div>
-        <div v-else-if="breeders_length > 0">
+
+        <div v-if="breeder_hatchery==null&&breeder_feeding==null&&breeder_eggprod==null&&breeder_eggquality==null">
             <!-- Search Bar -->
             <div class="row valign-wrapper" >
                 <div class="col s12 m8 l8 input-field">
@@ -57,12 +58,12 @@
                                     </div>
                                 </div>
                                 <div class="card-action center-align">
-                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-utensils"></i></a>
-                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
-                                    <a href="#record" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
-                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
-                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
-                                    <a href="#" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_feeding = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-utensils"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
+                                    <a href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -76,8 +77,17 @@
                 </div>
             </div>
         </div>
-        <div id="record">
-            <hatchery-record v-if="breeder_hatchery!=null" :breeder="breeder_hatchery" :breeder_tag="selected_breeder_tag" v-on:close_record="breeder_hatchery=null"></hatchery-record>
+        <div v-if="breeder_hatchery!=null">
+            <hatchery-record :breeder="breeder_hatchery" :breeder_tag="selected_breeder_tag" v-on:close_record="breeder_hatchery=null;selected_breeder_tag=null"></hatchery-record>
+        </div>
+        <div v-if="breeder_feeding!=null">
+            <feedingrecord-breeder :breeder="breeder_feeding" :breeder_tag="selected_breeder_tag" v-on:close_feeding="breeder_feeding=null;selected_breeder_tag=null"></feedingrecord-breeder>
+        </div>
+        <div v-if="breeder_eggprod!=null">
+            <egg-production :breeder="breeder_eggprod" :breeder_tag="selected_breeder_tag" v-on:close_eggprod="breeder_eggprod=null;selected_breeder_tag=null"></egg-production>
+        </div>
+        <div v-if="breeder_eggquality!=null">
+            <eggquality-breeder :breeder="breeder_eggquality" :breeder_tag="selected_breeder_tag" v-on:close_eggqual="breeder_eggquality=null;selected_breeder_tag=null"></eggquality-breeder>
         </div>
         <!-- FAB -->
         <div class="fixed-action-btn">
@@ -376,10 +386,10 @@
                 breeder_hatchery : null,
                 breeder_eggprod : null,
                 breeder_eggquality : null,
-                breeder_eggfeeding : null,
-                breeder_eggmortality : null,
+                breeder_feeding : null,
+                breeder_mortality : null,
                 breeder_phenomorpho : null,
-                breeder_eggdelete : null,
+                breeder_delete : null,
                 breeder_edit : null,
             }
         },
@@ -481,7 +491,7 @@
             },
             addBreeder : function () {
                 var param = {};
-                if(within==true){
+                if(within){
                     param = {
                         within : this.within,
                         breeder_tag : this.breeder_tag,

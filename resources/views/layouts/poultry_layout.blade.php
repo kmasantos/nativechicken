@@ -25,7 +25,7 @@
                 <img class="circle" src="/images/farmer.png">
                 <span class="white-text name">{{Auth::user()->name}}</span>
                 <span class="white-text email">{{Auth::user()->email}}</span>
-                </div>
+            </div>
         </li>
         <li><a class="subheader">Menu</a></li>
         <li class="no-padding">

@@ -224,8 +224,17 @@
                 this.$emit('close_record', null)
             }
         },
+        beforeCreate() {
+            $('.tooltipped').tooltip('remove');
+        },
+        mounted() {
+
+        },
         created (){
             this.initialize();
-        }
+        },
+        destroyed () {
+            $('.tooltipped').tooltip({delay: 50});
+        },
     }
 </script>
