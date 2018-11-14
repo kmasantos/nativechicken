@@ -251,17 +251,21 @@
                                                 <label>Hackle Pattern</label>
                                                 <div class="col s12 m12 l12">
                                                     <div class="row">
-                                                        <div class="col s12 m4 l4">
+                                                        <div class="col s12 m3 l3">
                                                             <input @change="hackle_pattern_others=false" class="with-gap" v-model="hackle_pattern" type="radio" id="hackle_pattern_plain" value="Plain" />
                                                             <label for="hackle_pattern_plain">Plain</label>
                                                         </div>
-                                                        <div class="col s12 m4 l4">
+                                                        <div class="col s12 m3 l3">
                                                             <input @change="hackle_pattern_others=false" class="with-gap" v-model="hackle_pattern" type="radio" id="hackle_pattern_laced" value="Laced" />
                                                             <label for="hackle_pattern_laced">Laced</label>
                                                         </div>
-                                                        <div class="col s12 m4 l4">
+                                                        <div class="col s12 m3 l3">
                                                             <input @change="hackle_pattern_others=false" class="with-gap" v-model="hackle_pattern" type="radio" id="hackle_pattern_barred" value="Barred" />
                                                             <label for="hackle_pattern_barred">Barred</label>
+                                                        </div>
+                                                        <div class="col s12 m3 l3">
+                                                            <input @change="hackle_pattern_others=true" class="with-gap" v-model="hackle_pattern" type="radio" id="hackle_pattern_others_rad" value="Others" />
+                                                            <label for="hackle_pattern_others_rad">Others</label>
                                                         </div>
                                                     </div>
                                                     <div class="row">

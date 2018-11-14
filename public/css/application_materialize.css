@@ -58,3 +58,8 @@ ul.breadcrumb li a:hover {
     height: 350px;
 }
 
+#breeder_phenomorpho {
+    width: 90% !important ;
+    height: 100% !important;
+    overflow: visible;
+}

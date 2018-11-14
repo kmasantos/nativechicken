@@ -1,15 +1,14 @@
 <template>
     <div>
-        <!-- No Breeder Inventory -->
-        <div class="row center-align" v-if="breeders_length === 0">
-            <div class="col s12 m12 l12">
-                <h5>No Available Breeders</h5>
+        <div v-if="breeder_hatchery==null&&breeder_feeding==null&&breeder_eggprod==null&&breeder_eggquality==null&&breeder_phenomorpho==null">
+            <!-- No Breeder Inventory -->
+            <div class="row center-align" v-if="breeders_length === 0">
+                <div class="col s12 m12 l12">
+                    <h5>No Available Breeders</h5>
+                </div>
             </div>
-        </div>
-
-        <div v-if="breeder_hatchery==null&&breeder_feeding==null&&breeder_eggprod==null&&breeder_eggquality==null">
             <!-- Search Bar -->
-            <div class="row valign-wrapper" >
+            <div class="row valign-wrapper" v-if="breeders_length > 0">
                 <div class="col s12 m8 l8 input-field">
                     <input v-model="search" id="search" type="text">
                     <label for="search">Search Breeder Tag Number</label>
@@ -21,7 +20,7 @@
                 </div>
             </div>
             <!-- Breeder Inventory List -->
-            <div class="row">
+            <div class="row" v-if="breeders_length > 0">
                 <div class="col s12 m12 l12">
                     <div class="row">
                         <div class="col s12 m6 l6" v-for="breeder in breeders.data" :key="breeder.inventory_id">
@@ -62,7 +61,7 @@
                                     <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
-                                    <a href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
                                     <a href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
                                 </div>
                             </div>
@@ -88,6 +87,9 @@
         </div>
         <div v-if="breeder_eggquality!=null">
             <eggquality-breeder :breeder="breeder_eggquality" :breeder_tag="selected_breeder_tag" v-on:close_eggqual="breeder_eggquality=null;selected_breeder_tag=null"></eggquality-breeder>
+        </div>
+        <div v-if="breeder_phenomorpho!=null">
+            <phenomorpho-breeder :breeder="breeder_phenomorpho" :breeder_tag="selected_breeder_tag" v-on:close_phenomorpho="breeder_phenomorpho=null;selected_breeder_tag=null"></phenomorpho-breeder>
         </div>
         <!-- FAB -->
         <div class="fixed-action-btn">
@@ -508,7 +510,7 @@
                     param = {
                         within : this.within,
                         breeder_tag : this.breeder_tag,
-                        family : this.selected_male_fam,
+                        male_family : this.selected_male_fam,
                         number_male : this.number_male,
                         number_female : this.number_female,
                         pen_id : this.selected_pen,
@@ -559,6 +561,12 @@
         },
         created() {
             this.initialize();
-        }
+        },
+        beforeCreate() {
+            $('.tooltipped').tooltip('remove');
+        },
+        destroyed () {
+            $('.tooltipped').tooltip({delay: 50});
+        },
     }
 </script>

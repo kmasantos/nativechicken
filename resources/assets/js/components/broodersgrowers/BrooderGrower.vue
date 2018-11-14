@@ -89,7 +89,7 @@
                 <div class="modal-content">
                     <div class="row">
                         <div class="col s12 m12 l12">
-                            <h4>Add Brooder & Grower</h4>
+                            <h4>Add Brooder & Grower from Outside Source</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -146,6 +146,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Close</a>
+                    <button class="modal-action modal-close waves-effect waves-grey btn-flat" type="submit">Submit</button>
                 </div>
             </form>
         </div>

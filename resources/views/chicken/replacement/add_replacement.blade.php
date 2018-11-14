@@ -1,7 +1,7 @@
 @extends('layouts.poultry_layout')
 
 @section('title')
-    Replacements
+    Growers & Replacements
 @endsection
 
 @section('content')

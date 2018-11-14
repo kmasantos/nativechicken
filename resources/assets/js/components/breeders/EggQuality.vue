@@ -19,12 +19,12 @@
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Day</th>
-                                    <th>W</th>
+                                    <th>Week</th>
+                                    <th>Wt</th>
                                     <th>C</th>
                                     <th>S</th>
                                     <th>L</th>
-                                    <th>W</th>
+                                    <th>Wd</th>
                                     <th>AH</th>
                                     <th>AW</th>
                                     <th>YW</th>
@@ -98,24 +98,24 @@
                                     <div class="row">
                                         <div class="col s12 m3 l3">
                                             <input @change="others=false" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_35" value = "35"/>
-                                            <label for="egg_quality_35">35 Days of Age</label>
+                                            <label for="egg_quality_35">35 Weeks of Age</label>
                                         </div>
                                         <div class="col s12 m3 l3">
                                             <input @change="others=false" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_40" value = "40"/>
-                                            <label for="egg_quality_40">40 Days of Age</label>
+                                            <label for="egg_quality_40">40 Weeks of Age</label>
                                         </div>
                                         <div class="col s12 m3 l3">
                                             <input @change="others=false" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_60" value = "60"/>
-                                            <label for="egg_quality_60">60 Days of Age</label>
+                                            <label for="egg_quality_60">60 Weeks of Age</label>
                                         </div>
                                         <div class="col s12 m3 l3">
-                                            <input @change="others=true" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_others" value = ""/>
+                                            <input @change="others=true" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_others" value = "Others"/>
                                             <label for="egg_quality_others">Others</label>
                                         </div>
                                     </div>
                                     <div class="row" v-if="others">
                                         <div class="col s12 m6 l6">
-                                            <input v-model="egg_quality_at" type="number" min=0 placeholder="Input egg quality day"/>
+                                            <input v-model="egg_quality_at" type="number" min=0 placeholder="Input egg quality at week"/>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -181,19 +181,19 @@
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="top" type="number" min=0 class="validate" v-model="thickness_top" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="top">Shell Thickness Top</label>
+                                            <label for="top">Shell Thickness Top (mm)</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="middle" type="number" min=0 class="validate" v-model="thickness_mid" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="middle">Shell Thickness Middle</label>
+                                            <label for="middle">Shell Thickness Middle (mm)</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="bottom" type="number" min=0 class="validate" v-model="thickness_bot" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="bottom">Shell Thickness Bottom</label>
+                                            <label for="bottom">Shell Thickness Bottom (mm)</label>
                                         </div>
                                     </div>
                                 </div>

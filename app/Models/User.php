@@ -49,4 +49,12 @@ class User extends Authenticatable
         $farm = Farm::where('id', $this->farm_id)->firstOrFail();
         return $farm;
     }
+
+    public function getAnimalType()
+    {
+        $type = Farm::where('farms.id', $this->farm_id)
+        ->leftJoin('breeds', 'farms.breedable_id', 'breeds.id')
+        ->firstOrFail();
+        return $type->animaltype_id;
+    }
 }

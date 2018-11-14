@@ -20,6 +20,9 @@ use App\Models\HatcheryRecord;
 use App\Models\EggQuality;
 use App\Models\BrooderGrower;
 use App\Models\BrooderGrowerInventory;
+use App\Models\PhenoMorpho;
+use App\Models\PhenoMorphoValue;
+
 
 class BreederController extends Controller
 {
@@ -41,6 +44,7 @@ class BreederController extends Controller
         ->leftJoin('lines', 'families.line_id', 'lines.id')
         ->leftJoin('generations', 'lines.generation_id', 'generations.id')
         ->where('total', '>', 0)
+        ->where('generations.farm_id', Auth::user()->farm_id)
         ->select('breeder_inventories.*', 'breeders.*','families.*',
         'breeder_inventories.id as inventory_id','breeders.id as breeder_id','families.id as family_id','families.number as family_number',
         'lines.number as line_number', 'generations.number as generation_number')
@@ -161,7 +165,7 @@ class BreederController extends Controller
         }else{
             $request->validate([
                 'breeder_tag' => 'required',
-                'family'  => 'required',
+                'male_family'  => 'required',
                 'number_male'  => 'required|numeric',
                 'number_female'  => 'required|numeric',
                 'pen_id'  => 'required',
@@ -179,7 +183,7 @@ class BreederController extends Controller
 
             $movement = new AnimalMovement;
             $movement->date = $request->date_added;
-            $movement->family_id = $request->family;
+            $movement->family_id = $request->male_family;
             $movement->previous_pen_id = null;
             $movement->current_pen_id = $request->pen_id;
             $movement->previous_type = null;
@@ -190,12 +194,12 @@ class BreederController extends Controller
             $movement->number_total = $request->number_male + $request->number_female;
             $movement->remarks = "outside system";
 
-            $breeder_record = Breeder::where('family_id', $request->family)->where('female_family_id', null)->first();
+            $breeder_record = Breeder::where('family_id', $request->male_family)->where('female_family_id', null)->first();
             if($breeder_record!=null){
                 return response()->json( ['error'=>'Breeder record already exist'] );
             }
             $new_breeder = new Breeder;
-            $new_breeder->family_id = $request->family;
+            $new_breeder->family_id = $request->male_family;
             $new_breeder->female_family_id = null;
             $new_breeder->date_added = $request->date_added;
             $new_breeder->save();
@@ -386,7 +390,8 @@ class BreederController extends Controller
     public function fetchEggQuality($breeder_inventory)
     {
         $qualities = EggQuality::
-        leftjoin('breeder_inventories', 'breeder_inventories.id', 'egg_qualities.breeder_inventory_id')
+        leftJoin('breeder_inventories', 'breeder_inventories.id', 'egg_qualities.breeder_inventory_id')
+        ->leftJoin('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
         ->where('egg_qualities.breeder_inventory_id', $breeder_inventory)
         ->orderBy('egg_qualities.date_collected', 'desc')->paginate(10);
         return $qualities;
@@ -396,21 +401,6 @@ class BreederController extends Controller
     {
         $request->validate([
             'breeder_id' => 'required',
-            'date_collected' => 'required',
-            'egg_quality_at' => 'required',
-            'egg_weight' => 'required',
-            'egg_color' => 'required',
-            'egg_shape' => 'required',
-            'egg_length' => 'required',
-            'egg_width' => 'required',
-            'albumen_height' => 'required',
-            'albumen_weight' => 'required',
-            'yolk_weight' => 'required',
-            'yolk_color' => 'required',
-            'shell_weight' => 'required',
-            'thickness_top' => 'required',
-            'thickness_mid' => 'required',
-            'thickness_bot' => 'required'
         ]);
         $eggqual = new EggQuality;
         $eggqual->breeder_inventory_id = $request->breeder_id;
@@ -431,6 +421,91 @@ class BreederController extends Controller
         $eggqual->thickness_bot = $request->thickness_bot;
         $eggqual->save();
         return response()->json(['status' => 'success', 'message' => 'Egg quality added']);
+    }
+
+    public function getPhenoMorphoRecord ($inventory_id)
+    {
+        $inventories = BreederInventory::leftJoin('pheno_morphos', 'pheno_morphos.breeder_inventory_id', 'breeder_inventories.id')
+        ->leftJoin('pheno_morpho_values', 'pheno_morpho_values.id', 'pheno_morphos.values_id')
+        ->select('breeder_inventories.*', 'pheno_morphos.*', 'pheno_morpho_values.*', 'breeder_inventories.id as inventory_id',
+        'pheno_morphos.id as phenomorpho_id', 'pheno_morpho_values.id as values_id')
+        ->where('pheno_morphos.breeder_inventory_id', $inventory_id)
+        ->orderBy('pheno_morpho_values.date_collected', 'desc')
+        ->paginate(10);
+        return $inventories;
+    }
+
+    public function addPhenoMorphoRecords (Request $request)
+    {
+        if(Auth::user()->getAnimalType() == 1){
+            // chicken
+            $request->validate([
+                'breeder_inventory_id' => 'required',
+                'tag' => 'required',
+                'date_collected' => 'required',
+                'gender' => 'required',
+                'plummage_color' => 'required',
+                'plummage_pattern' => 'required',
+                'hackle_color' => 'required',
+                'hackle_pattern' => 'required',
+                'body_carriage' => 'required',
+                'comb_type' => 'required',
+                'comb_color' => 'required',
+                'earlobe_color' => 'required',
+                'iris_color' => 'required',
+                'beak_color' => 'required',
+                'shank_color' => 'required',
+                'skin_color' => 'required',
+                'height' => 'required',
+                'weight' => 'required',
+                'body_length' => 'required',
+                'chest_circumference' => 'required',
+                'wing_span' => 'required',
+                'shank_length' => 'required',
+            ]);
+        }else{
+            // ducks
+        }
+
+        $pheno = collect([
+            $request->plummage_color,
+            $request->plummage_pattern,
+            $request->hackle_color,
+            $request->hackle_pattern,
+            $request->body_carriage,
+            $request->comb_type,
+            $request->comb_color,
+            $request->earlobe_color,
+            $request->iris_color,
+            $request->beak_color,
+            $request->shank_color,
+            $request->skin_color
+        ]);
+
+        $morpho = collect([
+            $request->height,
+            $request->weight,
+            $request->body_length,
+            $request->chest_circumference,
+            $request->wing_span,
+            $request->shank_length
+        ]);
+
+        $phenomorphovalues = new PhenoMorphoValue;
+        $phenomorphovalues->tag = $request->tag;
+        $phenomorphovalues->gender = $request->gender;
+        $phenomorphovalues->phenotypic = $pheno;
+        $phenomorphovalues->morphometric = $morpho;
+        $phenomorphovalues->date_collected = $request->date_collected;
+        $phenomorphovalues->save();
+
+        $phenomorpho = new PhenoMorpho;
+        $phenomorpho->breeder_inventory_id = $request->breeder_inventory_id;
+        $phenomorpho->values_id = $phenomorphovalues->id;
+        $phenomorpho->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Phenotypic and Morphometric values saved']);
+
     }
 
     public function breederInventoryPage()

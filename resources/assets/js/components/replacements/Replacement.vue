@@ -4,7 +4,7 @@
             <!-- Title -->
             <div class="row">
                 <div class="col s12 m12 l12">
-                    <h5>Replacements</h5>
+                    <h5>Growers & Replacements</h5>
                 </div>
             </div>
             <!-- Breadcrumb -->
@@ -12,7 +12,7 @@
                 <div class="col s12 m12 l12">
                     <ul class="breadcrumb">
                         <li><a href="./">Home</a></li>
-                        <li>Replacements</li>
+                        <li>Growers & Replacements</li>
                     </ul>
                 </div>
             </div>

@@ -25,7 +25,7 @@ class FarmController extends Controller
     public function index()
     {
         $farm = Farm::where('id', Auth::user()->farm_id)->firstOrFail();
-        if($farm->batching_week == null){
+        if($farm->batching_week < 0){
             return view('general.set_batching');
         }
         return view('general.dashboard');
@@ -101,7 +101,7 @@ class FarmController extends Controller
             'pen_capacity' => 'required',
         ]);
         $request->pen_number = str_pad($request->pen_number, 2, '0', STR_PAD_LEFT);
-        $exists = Pen::where('number', 'like', '%'.$request->pen_number)->where('type', $request->type)->first();
+        $exists = Pen::where('farm_id', Auth::user()->farm_id)->where('number', 'like', '%'.$request->pen_number)->where('type', $request->type)->first();
         if($exists != null){
             return response()->json( ['error'=>'Pen number already exist'] );
         }
@@ -222,7 +222,7 @@ class FarmController extends Controller
             'generation_number' => 'required',
         ]);
         $request->generation_number = str_pad($request->generation_number, 4, '0', STR_PAD_LEFT);
-        $exists = Generation::where('number', 'like', $request->generation_number)->first();
+        $exists = Generation::where('farm_id', Auth::user()->farm_id)->where('number', 'like', $request->generation_number)->first();
         if($exists!=null){
             return response()->json( ['error'=>'Generation number already exist'] );
         }
@@ -322,7 +322,7 @@ class FarmController extends Controller
         ->where('families.is_active', true)
         ->select('lines.number AS line_number', 'families.number AS family_number',
         'families.is_active as is_active', 'generations.number AS generation_number')
-        ->orderBy('generations.number', 'desc')
+        ->orderBy('families.number', 'desc')
         ->paginate(10);
         return $families;
     }

@@ -35,7 +35,7 @@
                 </li>
             </ul>
         </li>
-        @if (Auth::user()->getFarm()->batching_week != null)
+        @if (Auth::user()->getFarm()->batching_week != null || Auth::user()->getFarm()->batching_week == 0)
         <li class="no-padding">
                 <ul class="collapsible">
                     <li>
@@ -67,21 +67,14 @@
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                    <a href="{{route('farm.chicken.replacemnt.replacement_add')}}" class="collapsible-header">Replacement<i class="material-icons">autorenew</i></a>
-                    {{-- <div class="collapsible-body">
-                        <ul>
-                            <li><a href="{{route('farm.chicken.replacemnt.replacement_add')}}">Add Replacements</a></li>
-                            <li><a href="{{route('farm.chicken.replacemnt.phenomorpho_record')}}">Phenotypic and Morphometric</a></li>
-                            <li><a href="{{route('farm.chicken.replacemnt.feeding_record')}}">Feeding Records</a></li>
-                        </ul>
-                    </div> --}}
+                    <a href="{{route('farm.chicken.replacemnt.replacement_add')}}" class="collapsible-header">Growers & Replacement<i class="material-icons">autorenew</i></a>
                     </li>
                 </ul>
             </li>
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                    <a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}" class="collapsible-header">Brooders & Growers<i class="material-icons">group_work</i></a>
+                    <a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}" class="collapsible-header">Brooders<i class="material-icons">group_work</i></a>
                     {{-- <div class="collapsible-body">
                         <ul>
                             <li><a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}">Add Brooders & Growers</a></li>

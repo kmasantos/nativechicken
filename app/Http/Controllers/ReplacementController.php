@@ -119,7 +119,7 @@ class ReplacementController extends Controller
             return response()->json(['status' => 'success', 'message' => 'Replacement added']);
         }else{
             $brooder_inventory = BrooderGrowerInventory::where('id', $request->brooder_inventory)->first();
-            if(($brooder_inventory->number_male==null || $brooder_inventory->number_female==null)||$brooder_inventory->total < ($request->male+$request->females)){
+            if(($brooder_inventory->number_male<$request->male || $brooder_inventory->number_female<$request->females)||$brooder_inventory->total < ($request->male+$request->females)){
                 return response()->json( ['error'=>'There is a problem in your brooder inventory data or the input quantity does is too large'] );
             }
 

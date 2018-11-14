@@ -107,6 +107,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('breeder_add_hatchery', 'BreederController@addHatcheryParameter');
         Route::get('breeder_eggquality/{breeder_inventory}', 'BreederController@fetchEggQuality');
         Route::post('breeder_add_eggquality', 'BreederController@addEggQuality');
+        Route::get('breeder_phenomorpho_records/{inventory_id}', 'BreederController@getPhenoMorphoRecord');
+        Route::post('breeder_add_phenomorpho', 'BreederController@addPhenoMorphoRecords');
         /**
          * *New Axios Routes for Replacement
          */
