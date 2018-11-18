@@ -4687,316 +4687,6 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bind = __webpack_require__(10);
-var isBuffer = __webpack_require__(146);
-
-/*global toString:true*/
-
-// utils is a library of generic helper functions non-specific to axios
-
-var toString = Object.prototype.toString;
-
-/**
- * Determine if a value is an Array
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Array, otherwise false
- */
-function isArray(val) {
-  return toString.call(val) === '[object Array]';
-}
-
-/**
- * Determine if a value is an ArrayBuffer
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an ArrayBuffer, otherwise false
- */
-function isArrayBuffer(val) {
-  return toString.call(val) === '[object ArrayBuffer]';
-}
-
-/**
- * Determine if a value is a FormData
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an FormData, otherwise false
- */
-function isFormData(val) {
-  return (typeof FormData !== 'undefined') && (val instanceof FormData);
-}
-
-/**
- * Determine if a value is a view on an ArrayBuffer
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
- */
-function isArrayBufferView(val) {
-  var result;
-  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
-    result = ArrayBuffer.isView(val);
-  } else {
-    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
-  }
-  return result;
-}
-
-/**
- * Determine if a value is a String
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a String, otherwise false
- */
-function isString(val) {
-  return typeof val === 'string';
-}
-
-/**
- * Determine if a value is a Number
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Number, otherwise false
- */
-function isNumber(val) {
-  return typeof val === 'number';
-}
-
-/**
- * Determine if a value is undefined
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if the value is undefined, otherwise false
- */
-function isUndefined(val) {
-  return typeof val === 'undefined';
-}
-
-/**
- * Determine if a value is an Object
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Object, otherwise false
- */
-function isObject(val) {
-  return val !== null && typeof val === 'object';
-}
-
-/**
- * Determine if a value is a Date
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Date, otherwise false
- */
-function isDate(val) {
-  return toString.call(val) === '[object Date]';
-}
-
-/**
- * Determine if a value is a File
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a File, otherwise false
- */
-function isFile(val) {
-  return toString.call(val) === '[object File]';
-}
-
-/**
- * Determine if a value is a Blob
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Blob, otherwise false
- */
-function isBlob(val) {
-  return toString.call(val) === '[object Blob]';
-}
-
-/**
- * Determine if a value is a Function
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Function, otherwise false
- */
-function isFunction(val) {
-  return toString.call(val) === '[object Function]';
-}
-
-/**
- * Determine if a value is a Stream
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Stream, otherwise false
- */
-function isStream(val) {
-  return isObject(val) && isFunction(val.pipe);
-}
-
-/**
- * Determine if a value is a URLSearchParams object
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a URLSearchParams object, otherwise false
- */
-function isURLSearchParams(val) {
-  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
-}
-
-/**
- * Trim excess whitespace off the beginning and end of a string
- *
- * @param {String} str The String to trim
- * @returns {String} The String freed of excess whitespace
- */
-function trim(str) {
-  return str.replace(/^\s*/, '').replace(/\s*$/, '');
-}
-
-/**
- * Determine if we're running in a standard browser environment
- *
- * This allows axios to run in a web worker, and react-native.
- * Both environments support XMLHttpRequest, but not fully standard globals.
- *
- * web workers:
- *  typeof window -> undefined
- *  typeof document -> undefined
- *
- * react-native:
- *  navigator.product -> 'ReactNative'
- */
-function isStandardBrowserEnv() {
-  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
-    return false;
-  }
-  return (
-    typeof window !== 'undefined' &&
-    typeof document !== 'undefined'
-  );
-}
-
-/**
- * Iterate over an Array or an Object invoking a function for each item.
- *
- * If `obj` is an Array callback will be called passing
- * the value, index, and complete array for each item.
- *
- * If 'obj' is an Object callback will be called passing
- * the value, key, and complete object for each property.
- *
- * @param {Object|Array} obj The object to iterate
- * @param {Function} fn The callback to invoke for each item
- */
-function forEach(obj, fn) {
-  // Don't bother if no value provided
-  if (obj === null || typeof obj === 'undefined') {
-    return;
-  }
-
-  // Force an array if not already something iterable
-  if (typeof obj !== 'object') {
-    /*eslint no-param-reassign:0*/
-    obj = [obj];
-  }
-
-  if (isArray(obj)) {
-    // Iterate over array values
-    for (var i = 0, l = obj.length; i < l; i++) {
-      fn.call(null, obj[i], i, obj);
-    }
-  } else {
-    // Iterate over object keys
-    for (var key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        fn.call(null, obj[key], key, obj);
-      }
-    }
-  }
-}
-
-/**
- * Accepts varargs expecting each argument to be an object, then
- * immutably merges the properties of each object and returns result.
- *
- * When multiple objects contain the same key the later object in
- * the arguments list will take precedence.
- *
- * Example:
- *
- * ```js
- * var result = merge({foo: 123}, {foo: 456});
- * console.log(result.foo); // outputs 456
- * ```
- *
- * @param {Object} obj1 Object to merge
- * @returns {Object} Result of all merge properties
- */
-function merge(/* obj1, obj2, obj3, ... */) {
-  var result = {};
-  function assignValue(val, key) {
-    if (typeof result[key] === 'object' && typeof val === 'object') {
-      result[key] = merge(result[key], val);
-    } else {
-      result[key] = val;
-    }
-  }
-
-  for (var i = 0, l = arguments.length; i < l; i++) {
-    forEach(arguments[i], assignValue);
-  }
-  return result;
-}
-
-/**
- * Extends object a by mutably adding to it the properties of object b.
- *
- * @param {Object} a The object to be extended
- * @param {Object} b The object to copy properties from
- * @param {Object} thisArg The object to bind function to
- * @return {Object} The resulting value of object a
- */
-function extend(a, b, thisArg) {
-  forEach(b, function assignValue(val, key) {
-    if (thisArg && typeof val === 'function') {
-      a[key] = bind(val, thisArg);
-    } else {
-      a[key] = val;
-    }
-  });
-  return a;
-}
-
-module.exports = {
-  isArray: isArray,
-  isArrayBuffer: isArrayBuffer,
-  isBuffer: isBuffer,
-  isFormData: isFormData,
-  isArrayBufferView: isArrayBufferView,
-  isString: isString,
-  isNumber: isNumber,
-  isObject: isObject,
-  isUndefined: isUndefined,
-  isDate: isDate,
-  isFile: isFile,
-  isBlob: isBlob,
-  isFunction: isFunction,
-  isStream: isStream,
-  isURLSearchParams: isURLSearchParams,
-  isStandardBrowserEnv: isStandardBrowserEnv,
-  forEach: forEach,
-  merge: merge,
-  extend: extend,
-  trim: trim
-};
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6480,6 +6170,316 @@ var Datepicker = {render: function(){var _vm=this;var _h=_vm.$createElement;var 
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(10);
+var isBuffer = __webpack_require__(146);
+
+/*global toString:true*/
+
+// utils is a library of generic helper functions non-specific to axios
+
+var toString = Object.prototype.toString;
+
+/**
+ * Determine if a value is an Array
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Array, otherwise false
+ */
+function isArray(val) {
+  return toString.call(val) === '[object Array]';
+}
+
+/**
+ * Determine if a value is an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+ */
+function isArrayBuffer(val) {
+  return toString.call(val) === '[object ArrayBuffer]';
+}
+
+/**
+ * Determine if a value is a FormData
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an FormData, otherwise false
+ */
+function isFormData(val) {
+  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+}
+
+/**
+ * Determine if a value is a view on an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+ */
+function isArrayBufferView(val) {
+  var result;
+  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+    result = ArrayBuffer.isView(val);
+  } else {
+    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+  }
+  return result;
+}
+
+/**
+ * Determine if a value is a String
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a String, otherwise false
+ */
+function isString(val) {
+  return typeof val === 'string';
+}
+
+/**
+ * Determine if a value is a Number
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Number, otherwise false
+ */
+function isNumber(val) {
+  return typeof val === 'number';
+}
+
+/**
+ * Determine if a value is undefined
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if the value is undefined, otherwise false
+ */
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/**
+ * Determine if a value is an Object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Object, otherwise false
+ */
+function isObject(val) {
+  return val !== null && typeof val === 'object';
+}
+
+/**
+ * Determine if a value is a Date
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Date, otherwise false
+ */
+function isDate(val) {
+  return toString.call(val) === '[object Date]';
+}
+
+/**
+ * Determine if a value is a File
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a File, otherwise false
+ */
+function isFile(val) {
+  return toString.call(val) === '[object File]';
+}
+
+/**
+ * Determine if a value is a Blob
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Blob, otherwise false
+ */
+function isBlob(val) {
+  return toString.call(val) === '[object Blob]';
+}
+
+/**
+ * Determine if a value is a Function
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Function, otherwise false
+ */
+function isFunction(val) {
+  return toString.call(val) === '[object Function]';
+}
+
+/**
+ * Determine if a value is a Stream
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Stream, otherwise false
+ */
+function isStream(val) {
+  return isObject(val) && isFunction(val.pipe);
+}
+
+/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+ */
+function isURLSearchParams(val) {
+  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+}
+
+/**
+ * Trim excess whitespace off the beginning and end of a string
+ *
+ * @param {String} str The String to trim
+ * @returns {String} The String freed of excess whitespace
+ */
+function trim(str) {
+  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+}
+
+/**
+ * Determine if we're running in a standard browser environment
+ *
+ * This allows axios to run in a web worker, and react-native.
+ * Both environments support XMLHttpRequest, but not fully standard globals.
+ *
+ * web workers:
+ *  typeof window -> undefined
+ *  typeof document -> undefined
+ *
+ * react-native:
+ *  navigator.product -> 'ReactNative'
+ */
+function isStandardBrowserEnv() {
+  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    return false;
+  }
+  return (
+    typeof window !== 'undefined' &&
+    typeof document !== 'undefined'
+  );
+}
+
+/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If 'obj' is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * @param {Object|Array} obj The object to iterate
+ * @param {Function} fn The callback to invoke for each item
+ */
+function forEach(obj, fn) {
+  // Don't bother if no value provided
+  if (obj === null || typeof obj === 'undefined') {
+    return;
+  }
+
+  // Force an array if not already something iterable
+  if (typeof obj !== 'object') {
+    /*eslint no-param-reassign:0*/
+    obj = [obj];
+  }
+
+  if (isArray(obj)) {
+    // Iterate over array values
+    for (var i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
+    }
+  } else {
+    // Iterate over object keys
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+}
+
+/**
+ * Accepts varargs expecting each argument to be an object, then
+ * immutably merges the properties of each object and returns result.
+ *
+ * When multiple objects contain the same key the later object in
+ * the arguments list will take precedence.
+ *
+ * Example:
+ *
+ * ```js
+ * var result = merge({foo: 123}, {foo: 456});
+ * console.log(result.foo); // outputs 456
+ * ```
+ *
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function merge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (typeof result[key] === 'object' && typeof val === 'object') {
+      result[key] = merge(result[key], val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
+ * Extends object a by mutably adding to it the properties of object b.
+ *
+ * @param {Object} a The object to be extended
+ * @param {Object} b The object to copy properties from
+ * @param {Object} thisArg The object to bind function to
+ * @return {Object} The resulting value of object a
+ */
+function extend(a, b, thisArg) {
+  forEach(b, function assignValue(val, key) {
+    if (thisArg && typeof val === 'function') {
+      a[key] = bind(val, thisArg);
+    } else {
+      a[key] = val;
+    }
+  });
+  return a;
+}
+
+module.exports = {
+  isArray: isArray,
+  isArrayBuffer: isArrayBuffer,
+  isBuffer: isBuffer,
+  isFormData: isFormData,
+  isArrayBufferView: isArrayBufferView,
+  isString: isString,
+  isNumber: isNumber,
+  isObject: isObject,
+  isUndefined: isUndefined,
+  isDate: isDate,
+  isFile: isFile,
+  isBlob: isBlob,
+  isFunction: isFunction,
+  isStream: isStream,
+  isURLSearchParams: isURLSearchParams,
+  isStandardBrowserEnv: isStandardBrowserEnv,
+  forEach: forEach,
+  merge: merge,
+  extend: extend,
+  trim: trim
+};
+
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
@@ -7811,7 +7811,7 @@ module.exports = g;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var normalizeHeaderName = __webpack_require__(148);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -21063,7 +21063,7 @@ process.umask = function() { return 0; };
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var settle = __webpack_require__(149);
 var buildURL = __webpack_require__(151);
 var parseHeaders = __webpack_require__(152);
@@ -33156,7 +33156,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(140);
-module.exports = __webpack_require__(226);
+module.exports = __webpack_require__(229);
 
 
 /***/ }),
@@ -33192,18 +33192,19 @@ Vue.component('egg-production', __webpack_require__(185));
 Vue.component('feedingrecord-breeder', __webpack_require__(188));
 Vue.component('eggquality-breeder', __webpack_require__(191));
 Vue.component('phenomorpho-breeder', __webpack_require__(194));
+Vue.component('mortality-breeder', __webpack_require__(197));
 
 // Replacement Vue Components
-Vue.component('add-replacement', __webpack_require__(197));
-Vue.component('inventory-replacement', __webpack_require__(205));
-Vue.component('feeding-replacement', __webpack_require__(208));
-Vue.component('phenomorpho-replacement', __webpack_require__(211));
+Vue.component('add-replacement', __webpack_require__(200));
+Vue.component('inventory-replacement', __webpack_require__(208));
+Vue.component('feeding-replacement', __webpack_require__(211));
+Vue.component('phenomorpho-replacement', __webpack_require__(214));
 
 // Brooder & Grower Vue Components
-Vue.component('add-broodergrower', __webpack_require__(214));
-Vue.component('inventory-broodergrower', __webpack_require__(217));
-Vue.component('feedingrecord-broodergrower', __webpack_require__(220));
-Vue.component('growthrecord-broodergrower', __webpack_require__(223));
+Vue.component('add-broodergrower', __webpack_require__(217));
+Vue.component('inventory-broodergrower', __webpack_require__(220));
+Vue.component('feedingrecord-broodergrower', __webpack_require__(223));
+Vue.component('growthrecord-broodergrower', __webpack_require__(226));
 
 /**
  ** Others
@@ -54353,7 +54354,7 @@ module.exports = __webpack_require__(145);
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var bind = __webpack_require__(10);
 var Axios = __webpack_require__(147);
 var defaults = __webpack_require__(6);
@@ -54440,7 +54441,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(6);
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var InterceptorManager = __webpack_require__(156);
 var dispatchRequest = __webpack_require__(157);
 
@@ -54525,7 +54526,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -54605,7 +54606,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -54678,7 +54679,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -54738,7 +54739,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -54856,7 +54857,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -54916,7 +54917,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -54975,7 +54976,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var transformData = __webpack_require__(158);
 var isCancel = __webpack_require__(14);
 var defaults = __webpack_require__(6);
@@ -55068,7 +55069,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 /**
  * Transform the data for a request or a response
@@ -67853,6 +67854,72 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -67865,7 +67932,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             pens_length: 0,
             pen_number: '',
             pen_type: '',
-            pen_capacity: ''
+            pen_capacity: '',
+
+            selected_pen: '',
+            selected_pen_number: '',
+            edit_number: '',
+            edit_type: '',
+            edit_capacity: ''
         };
     },
 
@@ -67922,6 +67995,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 Materialize.toast('Failed to add pen with error : ' + error.message, 3000, 'red rounded');
             });
             this.initialize();
+        },
+        editPen: function editPen() {
+            var _this4 = this;
+
+            axios.patch('edit_pen', {
+                pen_id: this.selected_pen,
+                pen_number: this.edit_number,
+                type: this.edit_type,
+                pen_capacity: this.edit_capacity
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this4.selected_pen = '';
+                    _this4.edit_number = '';
+                    _this4.edit_type = false;
+                    _this4.edit_capacity = '';
+                    Materialize.toast('Successfully edited ' + response.data.message, 3000, 'green rounded');
+                    _this4.closeEditModal();
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to edit pen with error : ' + error.message, 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        deletePen: function deletePen() {
+            var _this5 = this;
+
+            axios.delete('delete_pen/' + this.selected_pen).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this5.selected_pen = '';
+                    $('#delete_pen').modal('close');
+                    Materialize.toast('Successfully deleted ' + response.data.message, 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to deleted pen with error : ' + error.message, 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        closeEditModal: function closeEditModal() {
+            $('#pen_edit').modal('close');
         },
         capitalize: function capitalize(string) {
             var lower = string;
@@ -68178,6 +68294,8 @@ var render = function() {
                                     _vm._v(" "),
                                     _c("td", [_vm._v("-")]),
                                     _vm._v(" "),
+                                    _c("td", [_vm._v("-")]),
+                                    _vm._v(" "),
                                     _c("td", [_vm._v("-")])
                                   ])
                                 : _vm._l(_vm.pens.data, function(pen) {
@@ -68194,6 +68312,32 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(_vm._s(pen.total_capacity))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "modal-trigger",
+                                            attrs: { href: "#pen_edit" },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.selected_pen = pen.id
+                                                _vm.selected_pen_number =
+                                                  pen.number
+                                                _vm.edit_number = pen.number
+                                                _vm.edit_type = pen.type
+                                                _vm.edit_capacity =
+                                                  pen.total_capacity
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fas fa-edit"
+                                            })
+                                          ]
+                                        )
                                       ])
                                     ])
                                   })
@@ -68412,7 +68556,278 @@ var render = function() {
           ]
         )
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal modal-fixed-footer", attrs: { id: "pen_edit" } },
+      [
+        _c(
+          "form",
+          {
+            attrs: { action: "patch" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.editPen($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "row valign-wrapper" }, [
+                _c("div", { staticClass: "col s12 m12 l9" }, [
+                  _c("h4", [
+                    _vm._v("Edit Pen " + _vm._s(_vm.selected_pen_number))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col s12 m12 l3" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass:
+                        "waves-effect waves-red btn-flat red-text tooltipped modal-trigger",
+                      attrs: {
+                        href: "#delete_pen",
+                        "data-position": "bottom",
+                        "data-delay": "50",
+                        "data-tooltip": "Delete Pen"
+                      },
+                      on: { click: _vm.closeEditModal }
+                    },
+                    [
+                      _c("i", { staticClass: "far fa-trash-alt left" }),
+                      _vm._v(" Delete")
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "divider" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row valign-wrapper" }, [
+                _c("div", { staticClass: "col s12 m12 l12" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "input-field col s12 m6 l6" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.edit_number,
+                            expression: "edit_number"
+                          }
+                        ],
+                        attrs: {
+                          placeholder: "New Pen Number",
+                          id: "edit_number",
+                          type: "text"
+                        },
+                        domProps: { value: _vm.edit_number },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.edit_number = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "edit_number" } }, [
+                        _vm._v("New Pen Number")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "edit_type" } }, [
+                    _vm._v("New Pen Type")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row", attrs: { id: "pen_type" } }, [
+                    _c("div", { staticClass: "col s12 m4 l4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.edit_type,
+                            expression: "edit_type"
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: {
+                          type: "radio",
+                          id: "edit_brooder",
+                          value: "brooder"
+                        },
+                        domProps: { checked: _vm._q(_vm.edit_type, "brooder") },
+                        on: {
+                          change: function($event) {
+                            _vm.edit_type = "brooder"
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "edit_brooder" } }, [
+                        _vm._v("Brooder")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m4 l4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.edit_type,
+                            expression: "edit_type"
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: {
+                          type: "radio",
+                          id: "edit_grower",
+                          value: "grower"
+                        },
+                        domProps: { checked: _vm._q(_vm.edit_type, "grower") },
+                        on: {
+                          change: function($event) {
+                            _vm.edit_type = "grower"
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "edit_grower" } }, [
+                        _vm._v("Grower")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m4 l4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.edit_type,
+                            expression: "edit_type"
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: {
+                          type: "radio",
+                          id: "edit_layer",
+                          value: "layer"
+                        },
+                        domProps: { checked: _vm._q(_vm.edit_type, "layer") },
+                        on: {
+                          change: function($event) {
+                            _vm.edit_type = "layer"
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "edit_layer" } }, [
+                        _vm._v("Layer")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "input-field col s12 m6 l6" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.edit_capacity,
+                            expression: "edit_capacity",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        attrs: {
+                          placeholder: "Total Pen Capacity",
+                          id: "edit_capacity",
+                          type: "number",
+                          min: "0"
+                        },
+                        domProps: { value: _vm.edit_capacity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.edit_capacity = _vm._n($event.target.value)
+                          },
+                          blur: function($event) {
+                            _vm.$forceUpdate()
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "edit_capacity" } }, [
+                        _vm._v("New Pen Capacity")
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(7)
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal", attrs: { id: "delete_pen" } }, [
+      _c("div", { staticClass: "modal-content" }, [
+        _c("h4", { staticClass: "red-text" }, [
+          _c("i", { staticClass: "fas fa-exclamation-triangle" }),
+          _vm._v(" Delete " + _vm._s(_vm.selected_pen_number) + "?")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v("Are you sure you want to "),
+          _c("strong", [_vm._v("Delete")]),
+          _vm._v(" pen "),
+          _c("strong", [_vm._v(_vm._s(_vm.selected_pen_number))]),
+          _vm._v("?")
+        ]),
+        _vm._v(" "),
+        _vm._m(8),
+        _vm._v(" "),
+        _vm._m(9),
+        _vm._v(" "),
+        _c("input", {
+          attrs: { name: "delete_pen_id", type: "hidden" },
+          domProps: { value: _vm.selected_pen }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-footer" }, [
+        _c(
+          "a",
+          {
+            staticClass:
+              "modal-action modal-close waves-effect waves-green btn-flat",
+            attrs: { href: "javascript:void(0)" }
+          },
+          [_vm._v("No")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "modal-close waves-effect waves-grey btn-flat",
+            attrs: { type: "submit" },
+            on: { click: _vm.deletePen }
+          },
+          [_vm._v("Yes")]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -68492,7 +68907,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Content")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Capacity")])
+        _c("th", [_vm._v("Capacity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Edit")])
       ])
     ])
   },
@@ -68545,6 +68962,48 @@ var staticRenderFns = [
         },
         [_vm._v("Add")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass: "modal-close waves-effect waves-grey btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "modal-close waves-effect waves-grey btn-flat",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Edit")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("irreversible")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "orange-text" }, [
+      _c("i", { staticClass: "fas fa-asterisk" }),
+      _c("i", [_vm._v(" This will not work to pens with content")])
     ])
   }
 ]
@@ -69990,7 +70449,13 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
 //
 //
 //
@@ -70340,13 +70805,13 @@ var moment = __webpack_require__(0);
         Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
     },
     data: function data() {
-        return {
+        return _defineProperty({
             search: '',
             breeders: {},
             breeders_length: 0,
             // form data
             within: true,
-            breeder_tag: '',
+
             generations: [],
             generations_length: 0,
             selected_male_gen: '',
@@ -70375,6 +70840,7 @@ var moment = __webpack_require__(0);
             pens_length: 0,
             selected_pen: '',
             date_added: '',
+            estimated_batching_date: '',
 
             inventory_list: true,
             selected_breeder_tag: null,
@@ -70386,7 +70852,7 @@ var moment = __webpack_require__(0);
             breeder_phenomorpho: null,
             breeder_delete: null,
             breeder_edit: null
-        };
+        }, 'breeder_mortality', null);
     },
 
     methods: {
@@ -70489,10 +70955,9 @@ var moment = __webpack_require__(0);
             var _this10 = this;
 
             var param = {};
-            if (within) {
+            if (this.within) {
                 param = {
                     within: this.within,
-                    breeder_tag: this.breeder_tag,
                     male_family: this.selected_male_fam,
                     male_inventory: this.selected_male_inv,
                     number_male: this.number_male,
@@ -70505,8 +70970,8 @@ var moment = __webpack_require__(0);
             } else {
                 param = {
                     within: this.within,
-                    breeder_tag: this.breeder_tag,
-                    male_family: this.selected_male_fam,
+                    estimated_batching_date: this.customFormatter(this.estimated_batching_date),
+                    family: this.selected_male_fam,
                     number_male: this.number_male,
                     number_female: this.number_female,
                     pen_id: this.selected_pen,
@@ -70539,6 +71004,7 @@ var moment = __webpack_require__(0);
                     _this10.number_female = 0;
                     _this10.selected_pen = '';
                     _this10.date_added = '';
+                    _this10.estimated_batching_date = '';
                     Materialize.toast('Successfully added breeders', 3000, 'green rounded');
                 } else {
                     Materialize.toast(response.data.error, 3000, 'red rounded');
@@ -70577,7 +71043,8 @@ var render = function() {
     _vm.breeder_feeding == null &&
     _vm.breeder_eggprod == null &&
     _vm.breeder_eggquality == null &&
-    _vm.breeder_phenomorpho == null
+    _vm.breeder_phenomorpho == null &&
+    _vm.breeder_mortality == null
       ? _c("div", [
           _vm.breeders_length === 0
             ? _c("div", { staticClass: "row center-align" }, [_vm._m(0)])
@@ -70641,9 +71108,19 @@ var render = function() {
                                   [
                                     _c("div", { staticClass: "col s6 m6 l6" }, [
                                       _c(
+                                        "label",
+                                        {
+                                          staticClass: "white-label",
+                                          attrs: { for: "tag_title white-text" }
+                                        },
+                                        [_vm._v("Breeder Tag")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
                                         "span",
                                         {
-                                          staticClass: "card-title white-text"
+                                          staticClass: "card-title white-text",
+                                          attrs: { id: "tag_title" }
                                         },
                                         [_vm._v(_vm._s(breeder.breeder_tag))]
                                       )
@@ -70670,7 +71147,7 @@ var render = function() {
                                               "data-position": "bottom",
                                               "data-delay": "50",
                                               "data-tooltip":
-                                                "Family " +
+                                                "Family : " +
                                                 breeder.family_number
                                             }
                                           },
@@ -70691,7 +71168,7 @@ var render = function() {
                                               "data-position": "bottom",
                                               "data-delay": "50",
                                               "data-tooltip":
-                                                "Line " + breeder.line_number
+                                                "Line : " + breeder.line_number
                                             }
                                           },
                                           [
@@ -70711,7 +71188,7 @@ var render = function() {
                                               "data-position": "bottom",
                                               "data-delay": "50",
                                               "data-tooltip":
-                                                "Generation " +
+                                                "Generation : " +
                                                 breeder.generation_number
                                             }
                                           },
@@ -70757,6 +71234,27 @@ var render = function() {
                                                   "\n                                                "
                                               )
                                             ])
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "li",
+                                          {
+                                            staticClass:
+                                              "collection-item blue-grey lighten-4 tooltipped",
+                                            attrs: {
+                                              "data-position": "bottom",
+                                              "data-delay": "50",
+                                              "data-tooltip":
+                                                "Batching Date : " +
+                                                breeder.batching_date
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "B: " +
+                                                _vm._s(breeder.batching_date)
+                                            )
                                           ]
                                         )
                                       ])
@@ -70894,7 +71392,31 @@ var render = function() {
                                     [_c("i", { staticClass: "fas fa-eye" })]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(4, true)
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "white-text tooltipped",
+                                      attrs: {
+                                        href: "javascript:void(0)",
+                                        "data-position": "bottom",
+                                        "data-delay": "50",
+                                        "data-tooltip": "Open Mortality & Sales"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.breeder_mortality =
+                                            breeder.inventory_id
+                                          _vm.selected_breeder_tag =
+                                            breeder.breeder_tag
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fas fa-dollar-sign"
+                                      })
+                                    ]
+                                  )
                                 ]
                               )
                             ]
@@ -71028,7 +71550,28 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm._m(5),
+    _vm.breeder_mortality != null
+      ? _c(
+          "div",
+          [
+            _c("mortality-breeder", {
+              attrs: {
+                breeder: _vm.breeder_mortality,
+                breeder_tag: _vm.selected_breeder_tag
+              },
+              on: {
+                close_mortality: function($event) {
+                  _vm.breeder_mortality = null
+                  _vm.selected_breeder_tag = null
+                }
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm._m(4),
     _vm._v(" "),
     _c(
       "div",
@@ -71038,12 +71581,12 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(6),
+          _vm._m(5),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col s12 m12 l12" }, [
               _c("div", { staticClass: "card" }, [
-                _vm._m(7),
+                _vm._m(6),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-tabs" }, [
                   _c("ul", { staticClass: "tabs tabs-fixed-width" }, [
@@ -71097,45 +71640,6 @@ var render = function() {
                         }
                       },
                       [
-                        _c("div", { staticClass: "row" }, [
-                          _c(
-                            "div",
-                            { staticClass: "col input-field s12 m6 l6" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.breeder_tag,
-                                    expression: "breeder_tag"
-                                  }
-                                ],
-                                staticClass: "validate",
-                                attrs: {
-                                  placeholder:
-                                    "Identification tag of the new breeder group",
-                                  id: "breeder_group",
-                                  type: "text"
-                                },
-                                domProps: { value: _vm.breeder_tag },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.breeder_tag = $event.target.value
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "breeder_group" } }, [
-                                _vm._v("Breeder Group Tag")
-                              ])
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
                           _c("div", { staticClass: "col s12 m6 l6" }, [
                             _c("label", [_vm._v("Male's Generation")]),
@@ -72067,7 +72571,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(8)
+                        _vm._m(7)
                       ]
                     )
                   ]),
@@ -72088,39 +72592,34 @@ var render = function() {
                         _c("div", { staticClass: "row" }, [
                           _c(
                             "div",
-                            { staticClass: "col input-field s12 m6 l6" },
+                            { staticClass: "col s12 m6 l6" },
                             [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.breeder_tag,
-                                    expression: "breeder_tag"
-                                  }
-                                ],
-                                staticClass: "validate",
-                                attrs: {
-                                  placeholder:
-                                    "Identification tag of the new breeder group",
-                                  id: "breeder_group",
-                                  type: "text"
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "active",
+                                  attrs: { for: "estimated_batching_date" }
                                 },
-                                domProps: { value: _vm.breeder_tag },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.breeder_tag = $event.target.value
-                                  }
-                                }
-                              }),
+                                [_vm._v("Estimated Date of Hatch")]
+                              ),
                               _vm._v(" "),
-                              _c("label", { attrs: { for: "breeder_group" } }, [
-                                _vm._v("Breeder Group Tag")
-                              ])
-                            ]
+                              _c("datepicker", {
+                                attrs: {
+                                  id: "estimated_batching_date",
+                                  format: _vm.customFormatter(
+                                    _vm.estimated_batching_date
+                                  )
+                                },
+                                model: {
+                                  value: _vm.estimated_batching_date,
+                                  callback: function($$v) {
+                                    _vm.estimated_batching_date = $$v
+                                  },
+                                  expression: "estimated_batching_date"
+                                }
+                              })
+                            ],
+                            1
                           )
                         ]),
                         _vm._v(" "),
@@ -72552,7 +73051,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(9)
+                        _vm._m(8)
                       ]
                     )
                   ])
@@ -72562,7 +73061,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(10)
+        _vm._m(9)
       ]
     )
   ])
@@ -72624,24 +73123,6 @@ var staticRenderFns = [
         [_c("i", { staticClass: "far fa-trash-alt" })]
       )
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "white-text tooltipped",
-        attrs: {
-          href: "javascript:void(0)",
-          "data-position": "bottom",
-          "data-delay": "50",
-          "data-tooltip": "Open Mortality & Sales"
-        }
-      },
-      [_c("i", { staticClass: "fas fa-dollar-sign" })]
-    )
   },
   function() {
     var _vm = this
@@ -72813,7 +73294,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -73660,7 +74141,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -74442,7 +74923,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -75064,7 +75545,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -76437,7 +76918,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -77247,9 +77728,27 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(record.tag))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(record.phenotypic))]),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(
+                              record.phenotypic.substring(
+                                1,
+                                record.phenotypic.length - 1
+                              )
+                            )
+                          )
+                        ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(record.morphometric))])
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(
+                              record.morphometric.substring(
+                                1,
+                                record.morphometric.length - 1
+                              )
+                            )
+                          )
+                        ])
                       ])
                     })
                   ],
@@ -80974,15 +81473,450 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(198)
+/* template */
+var __vue_template__ = __webpack_require__(199)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/breeders/MortalitySales.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01abfa23", Component.options)
+  } else {
+    hotAPI.reload("data-v-01abfa23", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 198 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
+    props: ['breeder', 'breeder_tag'],
+    data: function data() {
+        return {
+            records: {},
+            records_length: 0
+        };
+    },
+
+    methods: {
+        getMortalitySale: function getMortalitySale() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('breeder_mortalitysale_record/' + this.breeder + '?page=' + page).then(function (response) {
+                _this.records = response.data;
+                _this.records_length = _this.records.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        closeMortalitySales: function closeMortalitySales() {
+            this.$emit('close_mortality', null);
+        }
+    },
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    created: function created() {
+        $('.tooltipped').tooltip({ delay: 50 });
+        this.getMortalitySale();
+    },
+    destroyed: function destroyed() {},
+    mounted: function mounted() {
+        $('#mortality').modal({
+            dismissible: false
+        });
+        $('ul.tabs').tabs();
+    }
+});
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _c("div", { staticClass: "row valign-wrapper" }, [
+          _c("div", { staticClass: "col s6 m6 l6" }, [
+            _c("h5", [_vm._v(_vm._s(_vm.breeder_tag) + " Mortality & Sales")])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col s3 m3 l3" }, [
+            _c(
+              "a",
+              {
+                staticClass: "waves-effect waves-red btn-flat red-text",
+                on: { click: _vm.closeMortalitySales }
+              },
+              [
+                _c("i", { staticClass: "far fa-times-circle left" }),
+                _vm._v("Close")
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c(
+              "table",
+              { staticClass: "responsive-table centered bordered highlight" },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm.records_length === 0
+                      ? _c("tr", [
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.records.data, function(record) {
+                      return _c("tr", { key: record.id }, [
+                        _c("td", [_vm._v(_vm._s(record.date))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(record.category))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(record.male))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(record.female))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(record.total))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(record.price))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(record.reason))])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "modal modal-fixed-footer", attrs: { id: "mortality" } },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c("h4", [
+                  _vm._v(_vm._s(_vm.breeder_tag) + " Mortality & Sales")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "divider" }),
+            _vm._v(" "),
+            _vm._m(2)
+          ]),
+          _vm._v(" "),
+          _vm._m(3)
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s3 m3 l3 center" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "waves-effect waves-green btn-flat green-text modal-trigger",
+          attrs: { href: "#mortality" }
+        },
+        [_c("i", { staticClass: "fas fa-plus-circle left" }), _vm._v("Add")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Category")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Male")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Female")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Reason")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-content" }, [
+            _c("p", [
+              _c("i", { staticClass: "fas fa-exclamation-circle" }),
+              _vm._v(" Go to "),
+              _c("strong", [_vm._v("Mortality")]),
+              _vm._v(" tab to report animal death.")
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _c("i", { staticClass: "fas fa-exclamation-circle" }),
+              _vm._v(" Go to "),
+              _c("strong", [_vm._v("Sales")]),
+              _vm._v(" tab to report animal sales.")
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _c("i", { staticClass: "fas fa-exclamation-circle" }),
+              _vm._v(" Go to "),
+              _c("strong", [_vm._v("Egg Sales")]),
+              _vm._v(" tab to report egg sales.")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-tabs" }, [
+            _c("ul", { staticClass: "tabs tabs-fixed-width" }, [
+              _c("li", { staticClass: "tab" }, [
+                _c("a", { attrs: { href: "#mort" } }, [_vm._v("Mortality")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "tab" }, [
+                _c("a", { attrs: { href: "#sale" } }, [_vm._v("Sales")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "tab" }, [
+                _c("a", { attrs: { href: "#egg" } }, [_vm._v("Egg Sales")])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content grey lighten-4" }, [
+            _c("div", { attrs: { id: "mort" } }),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "sale" } }),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "egg" } })
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat ",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-01abfa23", module.exports)
+  }
+}
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(198)
+  __webpack_require__(201)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(203)
+var __vue_script__ = __webpack_require__(206)
 /* template */
-var __vue_template__ = __webpack_require__(204)
+var __vue_template__ = __webpack_require__(207)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -81021,17 +81955,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(199);
+var content = __webpack_require__(202);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(201)("31a3c631", content, false, {});
+var update = __webpack_require__(204)("31a3c631", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -81047,10 +81981,10 @@ if(false) {
 }
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(200)(false);
+exports = module.exports = __webpack_require__(203)(false);
 // imports
 
 
@@ -81061,7 +81995,7 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n    -webkit
 
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, exports) {
 
 /*
@@ -81143,7 +82077,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -81162,7 +82096,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(202)
+var listToStyles = __webpack_require__(205)
 
 /*
 type StyleObject = {
@@ -81371,7 +82305,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 202 */
+/* 205 */
 /***/ (function(module, exports) {
 
 /**
@@ -81404,12 +82338,12 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 203 */
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -81803,7 +82737,7 @@ Vue.component('pagination', __webpack_require__(4));
 });
 
 /***/ }),
-/* 204 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -82910,15 +83844,15 @@ if (false) {
 }
 
 /***/ }),
-/* 205 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(206)
+var __vue_script__ = __webpack_require__(209)
 /* template */
-var __vue_template__ = __webpack_require__(207)
+var __vue_template__ = __webpack_require__(210)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -82957,7 +83891,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 206 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83081,7 +84015,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 207 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -83242,15 +84176,15 @@ if (false) {
 }
 
 /***/ }),
-/* 208 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(209)
+var __vue_script__ = __webpack_require__(212)
 /* template */
-var __vue_template__ = __webpack_require__(210)
+var __vue_template__ = __webpack_require__(213)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -83289,12 +84223,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 209 */
+/* 212 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -83484,7 +84418,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 210 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -83865,15 +84799,15 @@ if (false) {
 }
 
 /***/ }),
-/* 211 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(212)
+var __vue_script__ = __webpack_require__(215)
 /* template */
-var __vue_template__ = __webpack_require__(213)
+var __vue_template__ = __webpack_require__(216)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -83912,12 +84846,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 212 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -84798,7 +85732,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 213 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -88690,9 +89624,27 @@ var render = function() {
                                   _vm._v(_vm._s(_vm.capitalize(value.gender)))
                                 ]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(value.phenotypic))]),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(
+                                      value.phenotypic.substring(
+                                        1,
+                                        value.phenotypic.length - 1
+                                      )
+                                    )
+                                  )
+                                ]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(value.morphometric))]),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(
+                                      value.morphometric.substring(
+                                        1,
+                                        value.morphometric.length - 1
+                                      )
+                                    )
+                                  )
+                                ]),
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(value.date_collected))])
                               ])
@@ -88843,15 +89795,15 @@ if (false) {
 }
 
 /***/ }),
-/* 214 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(215)
+var __vue_script__ = __webpack_require__(218)
 /* template */
-var __vue_template__ = __webpack_require__(216)
+var __vue_template__ = __webpack_require__(219)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -88890,12 +89842,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 215 */
+/* 218 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -89190,7 +90142,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 216 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -89950,15 +90902,15 @@ if (false) {
 }
 
 /***/ }),
-/* 217 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(218)
+var __vue_script__ = __webpack_require__(221)
 /* template */
-var __vue_template__ = __webpack_require__(219)
+var __vue_template__ = __webpack_require__(222)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -89997,7 +90949,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 218 */
+/* 221 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90178,7 +91130,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 219 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -90506,15 +91458,15 @@ if (false) {
 }
 
 /***/ }),
-/* 220 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(221)
+var __vue_script__ = __webpack_require__(224)
 /* template */
-var __vue_template__ = __webpack_require__(222)
+var __vue_template__ = __webpack_require__(225)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -90553,12 +91505,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 221 */
+/* 224 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 //
 //
 //
@@ -90748,7 +91700,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 222 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -91129,15 +92081,15 @@ if (false) {
 }
 
 /***/ }),
-/* 223 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(224)
+var __vue_script__ = __webpack_require__(227)
 /* template */
-var __vue_template__ = __webpack_require__(225)
+var __vue_template__ = __webpack_require__(228)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -91176,12 +92128,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 224 */
+/* 227 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -91435,7 +92387,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 225 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -92124,7 +93076,7 @@ if (false) {
 }
 
 /***/ }),
-/* 226 */
+/* 229 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="breeder_hatchery==null&&breeder_feeding==null&&breeder_eggprod==null&&breeder_eggquality==null&&breeder_phenomorpho==null">
+        <div v-if="breeder_hatchery==null&&breeder_feeding==null&&breeder_eggprod==null&&breeder_eggquality==null&&breeder_phenomorpho==null&&breeder_mortality==null">
             <!-- No Breeder Inventory -->
             <div class="row center-align" v-if="breeders_length === 0">
                 <div class="col s12 m12 l12">
@@ -28,7 +28,8 @@
                                 <div class="card-content">
                                     <div class="row valign-wrapper">
                                         <div class="col s6 m6 l6">
-                                            <span class="card-title white-text">{{breeder.breeder_tag}}</span>
+                                            <label class="white-label" for="tag_title white-text">Breeder Tag</label>
+                                            <span id="tag_title" class="card-title white-text">{{breeder.breeder_tag}}</span>
                                         </div>
                                         <div class="col s3 m3 l3 center-align">
                                             <a class="waves-effect waves-grey btn-flat white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="far fa-edit"></i></a>
@@ -40,9 +41,9 @@
                                     <div class="row">
                                         <div class="col s12 m12 l12">
                                             <ul class="collection">
-                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Family ' + breeder.family_number">F: {{breeder.family_number}}</li>
-                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Line ' + breeder.line_number">L: {{breeder.line_number}}</li>
-                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Generation ' + breeder.generation_number">G: {{breeder.generation_number}}</li>
+                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Family : ' + breeder.family_number">F: {{breeder.family_number}}</li>
+                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Line : ' + breeder.line_number">L: {{breeder.line_number}}</li>
+                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Generation : ' + breeder.generation_number">G: {{breeder.generation_number}}</li>
                                                 <li class="collection-item blue-grey lighten-4 center-align">
                                                     <span>
                                                         <i class="fas fa-mars"></i> Male : {{breeder.number_male}}
@@ -50,8 +51,8 @@
                                                     <span>
                                                         <i class="fas fa-venus"></i> Female : {{breeder.number_female}}
                                                     </span>
-
                                                 </li>
+                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Batching Date : ' + breeder.batching_date">B: {{breeder.batching_date}}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -62,7 +63,7 @@
                                     <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
-                                    <a href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_mortality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -90,6 +91,9 @@
         </div>
         <div v-if="breeder_phenomorpho!=null">
             <phenomorpho-breeder :breeder="breeder_phenomorpho" :breeder_tag="selected_breeder_tag" v-on:close_phenomorpho="breeder_phenomorpho=null;selected_breeder_tag=null"></phenomorpho-breeder>
+        </div>
+        <div v-if="breeder_mortality!=null">
+            <mortality-breeder :breeder="breeder_mortality" :breeder_tag="selected_breeder_tag" v-on:close_mortality="breeder_mortality=null;selected_breeder_tag=null"></mortality-breeder>
         </div>
         <!-- FAB -->
         <div class="fixed-action-btn">
@@ -120,12 +124,12 @@
                                 <!-- Within System -->
                                 <div id="within">
                                     <form v-on:submit.prevent="addBreeder" method="post">
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="col input-field s12 m6 l6">
                                                 <input v-model="breeder_tag" placeholder="Identification tag of the new breeder group" id="breeder_group" type="text" class="validate">
                                                 <label for="breeder_group">Breeder Group Tag</label>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col s12 m6 l6">
                                                 <label>Male's Generation</label>
@@ -253,9 +257,9 @@
                                 <div id="outside">
                                     <form v-on:submit.prevent="addBreeder" method="post">
                                         <div class="row">
-                                            <div class="col input-field s12 m6 l6">
-                                                <input v-model="breeder_tag" placeholder="Identification tag of the new breeder group" id="breeder_group" type="text" class="validate">
-                                                <label for="breeder_group">Breeder Group Tag</label>
+                                            <div class="col s12 m6 l6">
+                                                <label class="active" for="estimated_batching_date">Estimated Date of Hatch</label>
+                                                <datepicker id="estimated_batching_date" :format="customFormatter(estimated_batching_date)" v-model="estimated_batching_date"></datepicker>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -353,7 +357,7 @@
                 breeders_length : 0,
                 // form data
                 within : true,
-                breeder_tag : '',
+
                 generations : [],
                 generations_length : 0,
                 selected_male_gen : '',
@@ -382,6 +386,7 @@
                 pens_length : 0,
                 selected_pen : '',
                 date_added : '',
+                estimated_batching_date : '',
 
                 inventory_list : true,
                 selected_breeder_tag : null,
@@ -393,6 +398,7 @@
                 breeder_phenomorpho : null,
                 breeder_delete : null,
                 breeder_edit : null,
+                breeder_mortality : null,
             }
         },
         methods : {
@@ -493,10 +499,9 @@
             },
             addBreeder : function () {
                 var param = {};
-                if(within){
+                if(this.within){
                     param = {
                         within : this.within,
-                        breeder_tag : this.breeder_tag,
                         male_family : this.selected_male_fam,
                         male_inventory : this.selected_male_inv,
                         number_male : this.number_male,
@@ -509,8 +514,8 @@
                 }else{
                     param = {
                         within : this.within,
-                        breeder_tag : this.breeder_tag,
-                        male_family : this.selected_male_fam,
+                        estimated_batching_date : this.customFormatter(this.estimated_batching_date),
+                        family : this.selected_male_fam,
                         number_male : this.number_male,
                         number_female : this.number_female,
                         pen_id : this.selected_pen,
@@ -544,6 +549,7 @@
                         this.number_female = 0;
                         this.selected_pen = '';
                         this.date_added = '';
+                        this.estimated_batching_date = '';
                         Materialize.toast('Successfully added breeders', 3000, 'green rounded');
                     }else{
                         Materialize.toast(response.data.error, 3000, 'red rounded');

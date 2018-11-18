@@ -22,7 +22,7 @@ use App\Models\BrooderGrower;
 use App\Models\BrooderGrowerInventory;
 use App\Models\PhenoMorpho;
 use App\Models\PhenoMorphoValue;
-
+use App\Models\MortalitySale;
 
 class BreederController extends Controller
 {
@@ -53,11 +53,17 @@ class BreederController extends Controller
         return $inventories;
     }
 
+    /**
+     * !BUG : Breeder existence check
+     * TODO Check breeder by combination of generation, line and family and the breeder inventory tag
+     */
     public function addBreeder(Request $request)
     {
+        $timestamp = Carbon::now()->timestamp;
+        $random = random_bytes(2);
+        $tag = bin2hex($random).$timestamp;
         if($request->within == true){
             $request->validate([
-                'breeder_tag' => 'required',
                 'male_family'  => 'required',
                 'male_inventory'  => 'required',
                 'number_male'  => 'required|numeric',
@@ -67,10 +73,6 @@ class BreederController extends Controller
                 'pen_id'  => 'required',
                 'date_added'  => 'required|date',
             ]);
-            $exists = BreederInventory::where('breeder_tag', 'like', $request->breeder_tag)->first();
-            if($exists!=null){
-                return response()->json( ['error'=>'Breeder tag id already exist'] );
-            }
             $breeder_pen = Pen::where('id', $request->pen_id)->firstOrFail();
             if($breeder_pen->total_capacity < ($breeder_pen->current_capacity + ($request->number_male + $request->number_female))){
                 return response()->json( ['error'=>'Breeder pen capacity is too small for total male and female'] );
@@ -92,6 +94,7 @@ class BreederController extends Controller
             $movement_replacement_male = new AnimalMovement;
             $movement_replacement_male->date = $request->date_added;
             $movement_replacement_male->family_id = $request->male_family;
+            $movement_replacement_male->tag = $male_inventory->replacement_tag;
             $movement_replacement_male->previous_pen_id = $male_inventory->pen_id;
             $movement_replacement_male->current_pen_id = $request->pen_id;
             $movement_replacement_male->previous_type = 'replacement';
@@ -105,6 +108,7 @@ class BreederController extends Controller
             $movement_replacement_female = new AnimalMovement;
             $movement_replacement_female->date = $request->date_added;
             $movement_replacement_female->family_id = $request->female_family;
+            $movement_replacement_female->tag = $female_inventory->replacmement_tag;
             $movement_replacement_female->previous_pen_id = $female_inventory->pen_id;
             $movement_replacement_female->current_pen_id = $request->pen_id;
             $movement_replacement_female->previous_type = 'replacement';
@@ -133,7 +137,7 @@ class BreederController extends Controller
                 $new_inventory = new BreederInventory;
                 $new_inventory->breeder_id = $new_breeder->id;
                 $new_inventory->pen_id = $request->pen_id;
-                $new_inventory->breeder_tag = $request->breeder_tag;
+                $new_inventory->breeder_tag = $tag;
                 $new_inventory->batching_date = $male_inventory->batching_date;
                 $new_inventory->number_male = $request->number_male;
                 $new_inventory->number_female = $request->number_female;
@@ -144,7 +148,7 @@ class BreederController extends Controller
                 $new_inventory = new BreederInventory;
                 $new_inventory->breeder_id = $breeder_record->id;
                 $new_inventory->pen_id = $request->pen_id;
-                $new_inventory->breeder_tag = $request->breeder_tag;
+                $new_inventory->breeder_tag = $tag;
                 $new_inventory->batching_date = $male_inventory->batching_date;
                 $new_inventory->number_male = $request->number_male;
                 $new_inventory->number_female = $request->number_female;
@@ -164,17 +168,12 @@ class BreederController extends Controller
             return response()->json(['status' => 'success', 'message' => 'Breeder added']);
         }else{
             $request->validate([
-                'breeder_tag' => 'required',
-                'male_family'  => 'required',
+                'family'  => 'required',
                 'number_male'  => 'required|numeric',
                 'number_female'  => 'required|numeric',
                 'pen_id'  => 'required',
                 'date_added'  => 'required|date',
             ]);
-            $exists = BreederInventory::where('breeder_tag', 'like', $request->breeder_tag)->first();
-            if($exists!=null){
-                return response()->json( ['error'=>'Breeder tag id already exist'] );
-            }
             $breeder_pen = Pen::where('id', $request->pen_id)->firstOrFail();
             if($breeder_pen->total_capacity < ($breeder_pen->current_capacity + ($request->number_male + $request->number_female))){
                 return response()->json( ['error'=>'Breeder pen capacity is too small for total male and female'] );
@@ -183,7 +182,8 @@ class BreederController extends Controller
 
             $movement = new AnimalMovement;
             $movement->date = $request->date_added;
-            $movement->family_id = $request->male_family;
+            $movement->family_id = $request->family;
+            $movement->tag = $tag;
             $movement->previous_pen_id = null;
             $movement->current_pen_id = $request->pen_id;
             $movement->previous_type = null;
@@ -194,12 +194,8 @@ class BreederController extends Controller
             $movement->number_total = $request->number_male + $request->number_female;
             $movement->remarks = "outside system";
 
-            $breeder_record = Breeder::where('family_id', $request->male_family)->where('female_family_id', null)->first();
-            if($breeder_record!=null){
-                return response()->json( ['error'=>'Breeder record already exist'] );
-            }
             $new_breeder = new Breeder;
-            $new_breeder->family_id = $request->male_family;
+            $new_breeder->family_id = $request->family;
             $new_breeder->female_family_id = null;
             $new_breeder->date_added = $request->date_added;
             $new_breeder->save();
@@ -207,8 +203,8 @@ class BreederController extends Controller
             $new_inventory = new BreederInventory;
             $new_inventory->breeder_id = $new_breeder->id;
             $new_inventory->pen_id = $request->pen_id;
-            $new_inventory->breeder_tag = $request->breeder_tag;
-            $new_inventory->batching_date = null;
+            $new_inventory->breeder_tag = $tag;
+            $new_inventory->batching_date = $request->estimated_batching_date;
             $new_inventory->number_male = $request->number_male;
             $new_inventory->number_female = $request->number_female;
             $new_inventory->total = $request->number_male + $request->number_female;
@@ -505,6 +501,46 @@ class BreederController extends Controller
         $phenomorpho->save();
 
         return response()->json(['status' => 'success', 'message' => 'Phenotypic and Morphometric values saved']);
+    }
+
+    public function getMortalitySale ($inventory_id)
+    {
+        $record = MortalitySale::where('breeder_inventory_id', $inventory_id)
+        ->orderBy('date', 'desc')
+        ->paginate(10);
+        return $record;
+    }
+
+    /**
+     * TODO Add these functions
+     */
+    public function addMortalitySale (Request $request)
+    {
+
+    }
+
+    public function editBreederRecord ()
+    {
+
+    }
+
+    public function editFeedingRecord()
+    {
+
+    }
+
+    public function editEggQualityRecord ()
+    {
+
+    }
+
+    public function editHatcheryRecord ()
+    {
+
+    }
+
+    public function editPhenoMorphoRecord ()
+    {
 
     }
 

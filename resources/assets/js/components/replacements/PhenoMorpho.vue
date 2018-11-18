@@ -679,8 +679,8 @@
                                     <tr v-else v-for="value in phenomorpho_values.data" :key="value.values_id">
                                         <td>{{value.tag}}</td>
                                         <td>{{capitalize(value.gender)}}</td>
-                                        <td>{{value.phenotypic}}</td>
-                                        <td>{{value.morphometric}}</td>
+                                        <td>{{value.phenotypic.substring(1, value.phenotypic .length-1)}}</td>
+                                        <td>{{value.morphometric.substring(1, value.morphometric .length-1)}}</td>
                                         <td>{{value.date_collected}}</td>
                                     </tr>
                                 </tbody>

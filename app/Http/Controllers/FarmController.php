@@ -157,6 +157,30 @@ class FarmController extends Controller
         }
     }
 
+    public function editPen(Request $request)
+    {
+        $pen = Pen::where('id', $request->pen_id)->firstOrFail();
+        if($request->pen_number != null){
+            $pen->number = $request->pen_number;
+        }if($request->type!=null){
+            $pen->type = $request->type;
+        }if($request->pen_capacity!=null){
+            if($request->pen_capacity >= $pen->current_capacity){
+                $pen->total_capacity = $request->pen_capacity;
+            }
+        }
+        $pen->save();
+        return response()->json(['status' => 'success', 'message' => $pen->number]);
+    }
+
+    public function deletePen($pen_id)
+    {
+        $pen = Pen::where('id', $pen_id)->firstOrFail();
+        $number = $pen->number;
+        $pen->delete();
+        return response()->json(['status' => 'success', 'message' => $number]);
+    }
+
     /**
      * Get farm settings page
      * @param none
@@ -322,7 +346,9 @@ class FarmController extends Controller
         ->where('families.is_active', true)
         ->select('lines.number AS line_number', 'families.number AS family_number',
         'families.is_active as is_active', 'generations.number AS generation_number')
-        ->orderBy('families.number', 'desc')
+        ->orderBy('generations.number', 'desc')
+        ->orderBy('lines.number', 'desc')
+        ->orderBy('families.number', 'asc')
         ->paginate(10);
         return $families;
     }

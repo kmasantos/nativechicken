@@ -27,6 +27,7 @@ Vue.component('egg-production', require('./components/breeders/EggProduction.vue
 Vue.component('feedingrecord-breeder', require('./components/breeders/FeedingRecord.vue'));
 Vue.component('eggquality-breeder', require('./components/breeders/EggQuality.vue'));
 Vue.component('phenomorpho-breeder', require('./components/breeders/PhenoMorpho.vue'));
+Vue.component('mortality-breeder', require('./components/breeders/MortalitySales.vue'));
 
 // Replacement Vue Components
 Vue.component('add-replacement', require('./components/replacements/Replacement.vue'));

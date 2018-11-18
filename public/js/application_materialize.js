@@ -49,4 +49,11 @@ $( document ).ready(function() {
         dismissible : false,
     });
 
+    $('#pen_edit').modal({
+        dismissible : false,
+    });
+
+    $('#delete_pen').modal({
+        dismissible : false,
+    });
 });

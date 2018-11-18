@@ -37,8 +37,8 @@
                                     <td>{{record.date_collected}}</td>
                                     <td>{{capitalize(record.gender)}}</td>
                                     <td>{{record.tag}}</td>
-                                    <td>{{record.phenotypic}}</td>
-                                    <td>{{record.morphometric}}</td>
+                                    <td>{{record.phenotypic.substring(1, record.phenotypic. length-1)}}</td>
+                                    <td>{{record.morphometric.substring(1, record.morphometric. length-1)}}</td>
                                 </tr>
                             </tbody>
                         </table>

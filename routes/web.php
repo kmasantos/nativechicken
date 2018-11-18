@@ -74,6 +74,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('fetch_pens', 'FarmController@fetchPens');
         Route::post('add_pens', 'FarmController@addPen');
         Route::get('search_pens/{search_array}', 'FarmController@searchPen');
+        Route::patch('edit_pen', 'FarmController@editPen');
+        Route::delete('delete_pen/{pen_id}', 'FarmController@deletePen');
         Route::get('fetch_generation', 'FarmController@getGenerations');
         Route::post('add_generation', 'FarmController@addGeneration');
         Route::get('search_generation/{search}', 'FarmController@searchGeneration');
@@ -109,6 +111,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('breeder_add_eggquality', 'BreederController@addEggQuality');
         Route::get('breeder_phenomorpho_records/{inventory_id}', 'BreederController@getPhenoMorphoRecord');
         Route::post('breeder_add_phenomorpho', 'BreederController@addPhenoMorphoRecords');
+        Route::get('breeder_mortalitysale_record/{inventory_id}', 'BreederController@getMortalitySale');
+        Route::post('breeder__add_mortalitysale', 'BreederController@addMortalitySale');
         /**
          * *New Axios Routes for Replacement
          */

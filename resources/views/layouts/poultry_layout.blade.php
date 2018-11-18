@@ -35,7 +35,7 @@
                 </li>
             </ul>
         </li>
-        @if (Auth::user()->getFarm()->batching_week != null || Auth::user()->getFarm()->batching_week == 0)
+        @if (Auth::user()->getFarm()->batching_week != -1)
         <li class="no-padding">
                 <ul class="collapsible">
                     <li>
@@ -75,20 +75,6 @@
                 <ul class="collapsible collapsible-accordion">
                     <li>
                     <a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}" class="collapsible-header">Brooders<i class="material-icons">group_work</i></a>
-                    {{-- <div class="collapsible-body">
-                        <ul>
-                            <li><a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}">Add Brooders & Growers</a></li>
-                            <li><a href="{{route('farm.chicken.broodergrower.broodergrower_feedingrecord')}}">Feeding Records</a></li>
-                            <li><a href="{{route('farm.chicken.broodergrower.broodergrower_growthrecord')}}">Growth Performance</a></li>
-                        </ul>
-                    </div> --}}
-                    </li>
-                </ul>
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible">
-                    <li>
-                        <a href="#!" class="collapsible-header" class="waves-effect"><i class="material-icons">monetization_on</i>Mortality & Sales</a>
                     </li>
                 </ul>
             </li>

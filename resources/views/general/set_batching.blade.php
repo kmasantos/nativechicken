@@ -13,7 +13,12 @@
     <div class="row">
         <div class="col s12 m12 l12">
             <div class="card-panel">
-                <div class="row c">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <p class="orange-text"><i class="fas fa-exclamation-triangle"></i> <strong>Batching Week</strong> : Gap of weeks for animals to be considered in a group</p>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col s12 m12 l12">
                         {!! Form::open([ 'route' => 'farm.set_batching', 'method' => 'patch']) !!}
                             <input type="hidden" name="_method" value="PATCH">
@@ -26,8 +31,8 @@
                             </div>
                             <div class="row center">
                                 <div class="col s12 m12 l12">
-                                    <button class="btn waves-effect waves-light blue-grey" type="submit" name="action">Submit
-                                        <i class="material-icons right">send</i>
+                                    <button class="btn waves-effect waves-light blue-grey" type="submit" name="action">Set
+                                        <i class="fas fa-check left"></i>
                                     </button>
                                 </div>
                             </div>
