@@ -524,13 +524,14 @@ class BreederController extends Controller
         $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
         $breeder_inventory->number_male = $breeder_inventory->number_male - $request->male;
         $breeder_inventory->number_female = $breeder_inventory->number_female - $request->female;
-        $breeder_inventory->total = $breeder_inventory->number_male + $breeder_inventory->number_female;
+        $breeder_inventory->total = $breeder_inventory->total - ($breeder_inventory->number_male + $breeder_inventory->number_female);
 
-        $breeder_pen->current_capacity = $breeder_pen->current_capacity + ($request->male + $request->female);
+        $breeder_pen->current_capacity = $breeder_pen->current_capacity - ($request->male + $request->female);
 
         $movement = new AnimalMovement;
         $movement->date = $request->date;
         $movement->family_id = $breeder_inventory->getBreederData()->family_id;
+        $movement->tag = $breeder_inventory->tag;
         $movement->previous_pen_id = $breeder_pen->id;
         $movement->current_pen_id = null;
         $movement->previous_type = "breeder";
@@ -561,7 +562,48 @@ class BreederController extends Controller
 
     public function addSale (Request $request)
     {
-        dd($request);
+        $breeder_inventory = BreederInventory::where('id', $request->breeder_id)->firstOrFail();
+        if($request->male > $breeder_inventory->number_male || $request->female > $breeder_inventory->number_female){
+            return response()->json( ['error'=>'Input too quantity is too large for the inventory'] );
+        }
+
+        $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
+        $breeder_inventory->number_male = $breeder_inventory->number_male - $request->male;
+        $breeder_inventory->number_female = $breeder_inventory->number_female - $request->female;
+        $breeder_inventory->total = $breeder_inventory->total - ($breeder_inventory->number_male + $breeder_inventory->number_female);
+
+        $breeder_pen->current_capacity = $breeder_pen->current_capacity - ($request->male + $request->female);
+
+        $movement = new AnimalMovement;
+        $movement->date = $request->date;
+        $movement->family_id = $breeder_inventory->getBreederData()->family_id;
+        $movement->tag = $breeder_inventory->tag;
+        $movement->previous_pen_id = $breeder_pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "breeder";
+        $movement->current_type = "breeder";
+        $movement->activity = "sale";
+        $movement->number_male = $request->male;
+        $movement->number_female = $request->female;
+        $movement->number_total = $request->male + $request->female;
+        $movement->remarks = $request->remarks;
+
+        $sales = new MortalitySale;
+        $sales->date = $request->date;
+        $sales->breeder_inventory_id = $request->breeder_id;
+        $sales->type = "breeder";
+        $sales->category = "sold";
+        $sales->male = $request->male;
+        $sales->female = $request->female;
+        $sales->total = $request->male + $request->female;
+        $sales->price = $request->price;
+        $sales->remarks = $request->remarks;
+
+        $breeder_inventory->save();
+        $breeder_pen->save();
+        $movement->save();
+        $sales->save();
+        return response()->json(['status' => 'success', 'message' => 'Breeder sales recorded']);
     }
 
     public function addEggSale (Request $request)
@@ -578,9 +620,29 @@ class BreederController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Egg sales added']);
     }
 
-    public function editBreederRecord ()
+    public function cullBreeder ($inventory_id)
     {
+        $now = Carbon::now();
+        $inventory = BreederInventory::where('id', $inventory_id)->firstOrFail();
+        $pen = Pen::where('id', $inventory->pen_id)->firstOrFail();
+        $pen->current_capacity = 0;
 
+        $movement = new AnimalMovement;
+        $movement->date = $now->toDateString();
+        $movement->family_id = $inventory->getBreederData()->family_id;
+        $movement->previous_pen_id = $pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "breeder";
+        $movement->current_type = "breeder";
+        $movement->activity = "cull";
+        $movement->number_male = $inventory->number_male;
+        $movement->number_female = $inventory->number_female;
+        $movement->number_total = $inventory->number_male + $inventory->number_female;
+
+        $movement->save();
+        $pen->save();
+        $inventory->delete();
+        return response()->json(['status' => 'success', 'message' => 'Culled breeders']);
     }
 
     public function editFeedingRecord()
@@ -598,7 +660,7 @@ class BreederController extends Controller
 
     }
 
-    public function editPhenoMorphoRecord ()
+    public function deletePhenoMorphoRecord ()
     {
 
     }

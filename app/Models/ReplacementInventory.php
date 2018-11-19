@@ -34,4 +34,9 @@ class ReplacementInventory extends Model
     {
         return $this->belongsTo(Pen::class);
     }
+
+    public function getReplacementData()
+    {
+        return Replacement::where('id', $this->replacement_id)->first();
+    }
 }

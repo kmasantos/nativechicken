@@ -179,19 +179,19 @@
                                     <div class="row">
                                         <div class="col s12 m6 l6 input-field">
                                             <input v-model.number="males" id="number_male" type="number" min=0 placeholder="Number of male to transfer or add">
-                                            <label for="number_male">Number Male</label>
+                                            <label class="active" for="number_male">Number Male</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s12 m6 l6 input-field">
                                             <input v-model.number="females" id="number_female" type="number" min=0 placeholder="Number of female to transfer or add">
-                                            <label for="number_female">Number Female</label>
+                                            <label class="active" for="number_female">Number Female</label>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col s12 m6 l6 input-field">
-                                            <input v-model="replacement_tag" id="replacement_tag" type="text" placeholder="Replacement's System ID">
-                                            <label for="replacement_tag">Replacement Tag</label>
+                                    <div class="row" v-if="external==true">
+                                        <div class="col s12 m6 l6">
+                                            <label for="estimate_date_hatched">Estimated Hatch Date</label>
+                                            <datepicker id="estimate_date_hatched" :format="customFormatter" v-model="estimate_date_hatched" placeholder="Estimated date of hatch"></datepicker>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -243,6 +243,7 @@
                 males : '',
                 females : '',
                 replacement_tag : '',
+                estimate_date_hatched : '',
 
                 generations : [],
                 lines : [],
@@ -329,6 +330,9 @@
                 });
             },
             addReplacements : function () {
+                if(this.external==true){
+                    this.estimate_date_hatched = this.customFormatter(this.estimate_date_hatched);
+                }
                 axios.post('add_replacements', {
                     family_id : this.selected_family,
                     pen_id : this.selected_pen,
@@ -337,7 +341,8 @@
                     date_added : this.customFormatter(this.date_added),
                     external : this.external,
                     replacement_tag : this.replacement_tag,
-                    brooder_inventory : this.selected_brooder
+                    brooder_inventory : this.selected_brooder,
+                    estimate_hatch_date : this.estimate_date_hatched,
                 })
                 .then(response => {
                     if(response.data.error == undefined){
@@ -351,6 +356,7 @@
                         this.external = false;
                         this.replacement_tag = '';
                         this.selected_brooder = '';
+                        this.estimate_date_hatched = '';
                         Materialize.toast('Successfully added replacements', 3000, 'green rounded');
                     }else{
                         Materialize.toast(response.data.error, 3000, 'red rounded');

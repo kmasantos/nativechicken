@@ -70686,6 +70686,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -70740,8 +70743,7 @@ var moment = __webpack_require__(0);
             breeder_feeding: null,
             breeder_mortality: null,
             breeder_phenomorpho: null,
-            breeder_delete: null,
-            breeder_edit: null
+            breeder_delete: null
         }, 'breeder_mortality', null);
     },
 
@@ -70904,6 +70906,22 @@ var moment = __webpack_require__(0);
             });
             this.initialize();
         },
+        cullBreeder: function cullBreeder() {
+            var _this11 = this;
+
+            axios.delete('cull_breeder/' + this.breeder_delete).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this11.breeder_delete = '';
+                    $('#cull_modal').modal('close');
+                    Materialize.toast('Successfully culled breeder', 5000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to deleted pen with error : ' + error.message, 5000, 'red rounded');
+            });
+            this.initialize();
+        },
         customFormatter: function customFormatter(date) {
             var formatted = moment(date).format('YYYY-MM-DD');
             return formatted;
@@ -70911,12 +70929,11 @@ var moment = __webpack_require__(0);
     },
     created: function created() {
         this.initialize();
-    },
-    beforeCreate: function beforeCreate() {
-        $('.tooltipped').tooltip('remove');
-    },
-    destroyed: function destroyed() {
         $('.tooltipped').tooltip({ delay: 50 });
+    },
+    beforeCreate: function beforeCreate() {},
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip('remove');
     }
 });
 
@@ -70996,7 +71013,7 @@ var render = function() {
                                   "div",
                                   { staticClass: "row valign-wrapper" },
                                   [
-                                    _c("div", { staticClass: "col s6 m6 l6" }, [
+                                    _c("div", { staticClass: "col s8 m8 l8" }, [
                                       _c(
                                         "label",
                                         {
@@ -71016,9 +71033,40 @@ var render = function() {
                                       )
                                     ]),
                                     _vm._v(" "),
-                                    _vm._m(2, true),
-                                    _vm._v(" "),
-                                    _vm._m(3, true)
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "col s4 m4 l4 center-align"
+                                      },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass:
+                                              "waves-effect waves-grey btn-flat red-text tooltipped modal-trigger",
+                                            attrs: {
+                                              href: "#cull_modal",
+                                              "data-position": "bottom",
+                                              "data-delay": "50",
+                                              "data-tooltip": "Cull"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.breeder_delete =
+                                                  breeder.inventory_id
+                                                _vm.selected_breeder_tag =
+                                                  breeder.breeder_tag
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "far fa-trash-alt"
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
                                   ]
                                 ),
                                 _vm._v(" "),
@@ -71461,7 +71509,7 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm._m(4),
+    _vm._m(2),
     _vm._v(" "),
     _c(
       "div",
@@ -71471,12 +71519,12 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(5),
+          _vm._m(3),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col s12 m12 l12" }, [
               _c("div", { staticClass: "card" }, [
-                _vm._m(6),
+                _vm._m(4),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-tabs" }, [
                   _c("ul", { staticClass: "tabs tabs-fixed-width" }, [
@@ -72461,7 +72509,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(7)
+                        _vm._m(5)
                       ]
                     )
                   ]),
@@ -72941,7 +72989,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(8)
+                        _vm._m(6)
                       ]
                     )
                   ])
@@ -72951,9 +72999,45 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(9)
+        _vm._m(7)
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal", attrs: { id: "cull_modal" } }, [
+      _c("div", { staticClass: "modal-content" }, [
+        _c("h4", { staticClass: "red-text" }, [
+          _c("i", { staticClass: "fas fa-exclamation-triangle" }),
+          _vm._v(" Cull Breeder " + _vm._s(_vm.selected_breeder_tag) + "?")
+        ]),
+        _vm._v(" "),
+        _vm._m(8),
+        _vm._v(" "),
+        _vm._m(9)
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-footer" }, [
+        _c(
+          "a",
+          {
+            staticClass:
+              "modal-action modal-close waves-effect waves-grey btn-flat",
+            attrs: { href: "javascript:void(0)" }
+          },
+          [_vm._v("No")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass:
+              "modal-action modal-close waves-effect waves-grey btn-flat",
+            attrs: { href: "javascript:void(0)" },
+            on: { click: _vm.cullBreeder }
+          },
+          [_vm._v("Yes")]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -72974,44 +73058,6 @@ var staticRenderFns = [
         _vm._v("Search\n                    "),
         _c("i", { staticClass: "material-icons right" }, [_vm._v("search")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
-      _c(
-        "a",
-        {
-          staticClass: "waves-effect waves-grey btn-flat white-text tooltipped",
-          attrs: {
-            "data-position": "bottom",
-            "data-delay": "50",
-            "data-tooltip": "Edit"
-          }
-        },
-        [_c("i", { staticClass: "far fa-edit" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
-      _c(
-        "a",
-        {
-          staticClass: "waves-effect waves-grey btn-flat red-text tooltipped",
-          attrs: {
-            "data-position": "bottom",
-            "data-delay": "50",
-            "data-tooltip": "Delete"
-          }
-        },
-        [_c("i", { staticClass: "far fa-trash-alt" })]
-      )
     ])
   },
   function() {
@@ -73119,6 +73165,25 @@ var staticRenderFns = [
         },
         [_vm._v("Close")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Are you sure you want to "),
+      _c("strong", [_vm._v("Cull")]),
+      _vm._v(" this breeder group?")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("irreversible")])
     ])
   }
 ]
@@ -83498,6 +83563,7 @@ Vue.component('pagination', __webpack_require__(4));
             males: '',
             females: '',
             replacement_tag: '',
+            estimate_date_hatched: '',
 
             generations: [],
             lines: [],
@@ -83591,6 +83657,9 @@ Vue.component('pagination', __webpack_require__(4));
         addReplacements: function addReplacements() {
             var _this7 = this;
 
+            if (this.external == true) {
+                this.estimate_date_hatched = this.customFormatter(this.estimate_date_hatched);
+            }
             axios.post('add_replacements', {
                 family_id: this.selected_family,
                 pen_id: this.selected_pen,
@@ -83599,7 +83668,8 @@ Vue.component('pagination', __webpack_require__(4));
                 date_added: this.customFormatter(this.date_added),
                 external: this.external,
                 replacement_tag: this.replacement_tag,
-                brooder_inventory: this.selected_brooder
+                brooder_inventory: this.selected_brooder,
+                estimate_hatch_date: this.estimate_date_hatched
             }).then(function (response) {
                 if (response.data.error == undefined) {
                     _this7.selected_generation = '';
@@ -83612,6 +83682,7 @@ Vue.component('pagination', __webpack_require__(4));
                     _this7.external = false;
                     _this7.replacement_tag = '';
                     _this7.selected_brooder = '';
+                    _this7.estimate_date_hatched = '';
                     Materialize.toast('Successfully added replacements', 3000, 'green rounded');
                 } else {
                     Materialize.toast(response.data.error, 3000, 'red rounded');
@@ -84515,9 +84586,14 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _c("label", { attrs: { for: "number_male" } }, [
-                              _vm._v("Number Male")
-                            ])
+                            _c(
+                              "label",
+                              {
+                                staticClass: "active",
+                                attrs: { for: "number_male" }
+                              },
+                              [_vm._v("Number Male")]
+                            )
                           ]
                         )
                       ]),
@@ -84558,49 +84634,49 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _c("label", { attrs: { for: "number_female" } }, [
-                              _vm._v("Number Female")
-                            ])
+                            _c(
+                              "label",
+                              {
+                                staticClass: "active",
+                                attrs: { for: "number_female" }
+                              },
+                              [_vm._v("Number Female")]
+                            )
                           ]
                         )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "row" }, [
-                        _c(
-                          "div",
-                          { staticClass: "col s12 m6 l6 input-field" },
-                          [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.replacement_tag,
-                                  expression: "replacement_tag"
-                                }
-                              ],
-                              attrs: {
-                                id: "replacement_tag",
-                                type: "text",
-                                placeholder: "Replacement's System ID"
-                              },
-                              domProps: { value: _vm.replacement_tag },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                      _vm.external == true
+                        ? _c("div", { staticClass: "row" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col s12 m6 l6" },
+                              [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "estimate_date_hatched" } },
+                                  [_vm._v("Estimated Hatch Date")]
+                                ),
+                                _vm._v(" "),
+                                _c("datepicker", {
+                                  attrs: {
+                                    id: "estimate_date_hatched",
+                                    format: _vm.customFormatter,
+                                    placeholder: "Estimated date of hatch"
+                                  },
+                                  model: {
+                                    value: _vm.estimate_date_hatched,
+                                    callback: function($$v) {
+                                      _vm.estimate_date_hatched = $$v
+                                    },
+                                    expression: "estimate_date_hatched"
                                   }
-                                  _vm.replacement_tag = $event.target.value
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("label", { attrs: { for: "replacement_tag" } }, [
-                              _vm._v("Replacement Tag")
-                            ])
-                          ]
-                        )
-                      ]),
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("div", { staticClass: "row" }, [
                         _c(
@@ -84805,6 +84881,242 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -84876,14 +85188,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
     props: ['inv_pen_id', 'inv_pen_number'],
     data: function data() {
         return {
             inventories: {},
             inventories_length: 0,
             selected_inventory_id: '',
-            selected_inventory_tag: ''
+            selected_inventory_tag: '',
+
+            records: {},
+            records_length: 0,
+
+            mort_date_died: '',
+            mort_male: '',
+            mort_female: '',
+            mort_reason: '',
+            mort_remarks: '',
+
+            sale_date: '',
+            sale_male: '',
+            sale_female: '',
+            sale_price: '',
+            sale_remarks: '',
+
+            egg_date: '',
+            sale_eggs: '',
+            egg_price: '',
+            egg_remarks: ''
         };
     },
 
@@ -84905,6 +85241,93 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         closeInventory: function closeInventory() {
             this.$emit('close_inventory', null);
+        },
+        getMortalitySale: function getMortalitySale() {
+            var _this2 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('replacement_mortalitysale_record/' + this.selected_inventory_id + '?page=' + page).then(function (response) {
+                _this2.records = response.data;
+                _this2.records_length = _this2.records.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        addSalesRecord: function addSalesRecord() {
+            var _this3 = this;
+
+            axios.post('replacement_sale', {
+                replacement_id: this.selected_inventory_id,
+                date: this.customFormatter(this.sale_date),
+                male: this.sale_male,
+                female: this.sale_female,
+                price: this.sale_price,
+                remarks: this.sale_remarks
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this3.sale_date = '', _this3.sale_male = '', _this3.sale_female = '', _this3.sale_remarks = '', _this3.sale_price = '', Materialize.toast('Successfully added sales record', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast(error, 3000, 'red rounded');
+            });
+            this.getMortalitySale();
+            this.fetchPenInventory();
+            $('#mortality').modal('close');
+        },
+        addMortalityRecord: function addMortalityRecord() {
+            var _this4 = this;
+
+            axios.post('replacement_mortality', {
+                replacement_id: this.selected_inventory_id,
+                date: this.customFormatter(this.mort_date_died),
+                male: this.mort_male,
+                female: this.mort_female,
+                reason: this.mort_reason,
+                remarks: this.mort_remarks
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this4.mort_date_died = '', _this4.mort_male = '', _this4.mort_female = '', _this4.mort_reason = '', _this4.mort_remarks = '', Materialize.toast('Successfully added mortality record', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast(error, 3000, 'red rounded');
+            });
+            this.getMortalitySale();
+            this.fetchPenInventory();
+            $('#mortality').modal('close');
+        },
+        addEggSalesRecord: function addEggSalesRecord() {
+            var _this5 = this;
+
+            axios.post('replacement_egg_sale', {
+                replacement_id: this.selected_inventory_id,
+                date: this.customFormatter(this.egg_date),
+                eggs: this.sale_eggs,
+                price: this.egg_price,
+                remarks: this.egg_remarks
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this5.egg_date = '', _this5.sale_eggs = '', _this5.egg_price = '', _this5.egg_remarks = '', Materialize.toast('Successfully added egg sales record', 3000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast(error, 3000, 'red rounded');
+            });
+            this.getMortalitySale();
+            $('#mortality').modal('close');
+        },
+        customFormatter: function customFormatter(date) {
+            return moment(date).format('YYYY-MM-DD');
+        },
+        capitalize: function capitalize(string) {
+            var lower = string;
+            var upper = lower.charAt(0).toUpperCase() + lower.substr(1);
+            return upper;
         }
     },
     beforeCreate: function beforeCreate() {
@@ -84914,9 +85337,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.initialize();
     },
     mounted: function mounted() {
-        // $('#update').modal({
-        //         dismissible : false,
-        // });
+        $('#mortality_sale').modal({
+            dismissible: false
+        });
+        $('#mortality').modal({
+            dismissible: false
+        });
+        $('ul.tabs').tabs();
     },
     destroyed: function destroyed() {
         $('.tooltipped').tooltip({ delay: 50 });
@@ -84985,6 +85412,8 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v("-")]),
                           _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
                           _c("td", [_vm._v("-")])
                         ])
                       : _vm._l(_vm.inventories.data, function(inventory) {
@@ -85019,7 +85448,31 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(inventory.total))]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(inventory.last_update))])
+                            _c("td", [_vm._v(_vm._s(inventory.last_update))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "modal-trigger",
+                                  attrs: { href: "#mortality_sale" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selected_inventory_id =
+                                        inventory.inv_id
+                                      _vm.selected_inventory_tag =
+                                        inventory.replacement_tag
+                                      _vm.getMortalitySale()
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fas fa-minus-circle"
+                                  })
+                                ]
+                              )
+                            ])
                           ])
                         })
                   ],
@@ -85043,7 +85496,871 @@ var render = function() {
             1
           )
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal modal-fixed-footer",
+          attrs: { id: "mortality_sale" }
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "row valign-wrapper" }, [
+              _c("div", { staticClass: "col s8 m8 l8" }, [
+                _c("h4", [
+                  _vm._v(
+                    "Mortality & Sales Record | " +
+                      _vm._s(_vm.selected_inventory_tag)
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c(
+                  "table",
+                  {
+                    staticClass: "responsive-table centered bordered highlight"
+                  },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      [
+                        _vm.records_length === 0
+                          ? _c("tr", [
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("-")])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm._l(_vm.records.data, function(record) {
+                          return _c("tr", { key: record.id }, [
+                            _c("td", [_vm._v(_vm._s(record.date))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(_vm.capitalize(record.category)))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(_vm.capitalize(record.type)))
+                            ]),
+                            _vm._v(" "),
+                            record.male == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [_vm._v(_vm._s(record.male))]),
+                            _vm._v(" "),
+                            record.female == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [_vm._v(_vm._s(record.female))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(record.total))]),
+                            _vm._v(" "),
+                            record.price == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [_vm._v(_vm._s(record.price))]),
+                            _vm._v(" "),
+                            record.reason == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [_vm._v(_vm._s(record.reason))])
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col s12 m12 l12" },
+                [
+                  _c("pagination", {
+                    attrs: { data: _vm.records },
+                    on: { "pagination-change-page": _vm.getMortalitySale }
+                  })
+                ],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(3)
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "modal modal-fixed-footer", attrs: { id: "mortality" } },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c("h4", [
+                  _vm._v(
+                    "Mortality & Sales | " + _vm._s(_vm.selected_inventory_tag)
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "divider" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c("div", { staticClass: "card" }, [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-content grey lighten-4" }, [
+                    _c("div", { attrs: { id: "mort" } }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c(
+                            "form",
+                            {
+                              attrs: { method: "post" },
+                              on: {
+                                submit: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.addMortalityRecord($event)
+                                }
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6" },
+                                  [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "mort_date_died" }
+                                      },
+                                      [_vm._v("Date Died")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("datepicker", {
+                                      attrs: {
+                                        id: "mort_date_died",
+                                        format: _vm.customFormatter,
+                                        placeholder:
+                                          "Date when animal death is recorded"
+                                      },
+                                      model: {
+                                        value: _vm.mort_date_died,
+                                        callback: function($$v) {
+                                          _vm.mort_date_died = $$v
+                                        },
+                                        expression: "mort_date_died"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.number",
+                                          value: _vm.mort_male,
+                                          expression: "mort_male",
+                                          modifiers: { number: true }
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Number dead of male",
+                                        id: "mort_male",
+                                        type: "number",
+                                        min: "0"
+                                      },
+                                      domProps: { value: _vm.mort_male },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.mort_male = _vm._n(
+                                            $event.target.value
+                                          )
+                                        },
+                                        blur: function($event) {
+                                          _vm.$forceUpdate()
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "mort_male" }
+                                      },
+                                      [_vm._v("Male Death")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.number",
+                                          value: _vm.mort_female,
+                                          expression: "mort_female",
+                                          modifiers: { number: true }
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Number dead of female",
+                                        id: "mort_female",
+                                        type: "number",
+                                        min: "0"
+                                      },
+                                      domProps: { value: _vm.mort_female },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.mort_female = _vm._n(
+                                            $event.target.value
+                                          )
+                                        },
+                                        blur: function($event) {
+                                          _vm.$forceUpdate()
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "mort_female" }
+                                      },
+                                      [_vm._v("Female Death")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col s12 m6 l6" }, [
+                                  _c("label", [_vm._v("Reason")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.mort_reason,
+                                          expression: "mort_reason"
+                                        }
+                                      ],
+                                      staticClass: "browser-default",
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.mort_reason = $event.target
+                                            .multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        {
+                                          attrs: {
+                                            value: "",
+                                            disabled: "",
+                                            selected: ""
+                                          }
+                                        },
+                                        [_vm._v("Choose your option")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "Sickness" } },
+                                        [_vm._v("Sickness")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        {
+                                          attrs: { value: "Trauma - Natural" }
+                                        },
+                                        [_vm._v("Trauma - Natural")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        {
+                                          attrs: { value: "Trauma - Predatory" }
+                                        },
+                                        [_vm._v("Trauma - Predatory")]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.mort_remarks,
+                                          expression: "mort_remarks"
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Add remarks",
+                                        id: "mort_remarks",
+                                        type: "text"
+                                      },
+                                      domProps: { value: _vm.mort_remarks },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.mort_remarks = $event.target.value
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "mort_remarks" }
+                                      },
+                                      [_vm._v("Remarks")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(6)
+                            ]
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { attrs: { id: "sale" } }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c(
+                            "form",
+                            {
+                              attrs: { method: "post" },
+                              on: {
+                                submit: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.addSalesRecord($event)
+                                }
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6" },
+                                  [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "sale_date" }
+                                      },
+                                      [_vm._v("Date Sold")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("datepicker", {
+                                      attrs: {
+                                        id: "sale_date",
+                                        format: _vm.customFormatter,
+                                        placeholder:
+                                          "Date when animals are sold"
+                                      },
+                                      model: {
+                                        value: _vm.sale_date,
+                                        callback: function($$v) {
+                                          _vm.sale_date = $$v
+                                        },
+                                        expression: "sale_date"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.number",
+                                          value: _vm.sale_male,
+                                          expression: "sale_male",
+                                          modifiers: { number: true }
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Number of sold male",
+                                        id: "sale_male",
+                                        type: "number",
+                                        min: "0"
+                                      },
+                                      domProps: { value: _vm.sale_male },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.sale_male = _vm._n(
+                                            $event.target.value
+                                          )
+                                        },
+                                        blur: function($event) {
+                                          _vm.$forceUpdate()
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "sale_male" }
+                                      },
+                                      [_vm._v("Male Sold")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.number",
+                                          value: _vm.sale_female,
+                                          expression: "sale_female",
+                                          modifiers: { number: true }
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Number of sold female",
+                                        id: "sale_female",
+                                        type: "number",
+                                        min: "0"
+                                      },
+                                      domProps: { value: _vm.sale_female },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.sale_female = _vm._n(
+                                            $event.target.value
+                                          )
+                                        },
+                                        blur: function($event) {
+                                          _vm.$forceUpdate()
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "sale_female" }
+                                      },
+                                      [_vm._v("Female Sold")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.number",
+                                          value: _vm.sale_price,
+                                          expression: "sale_price",
+                                          modifiers: { number: true }
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Price/kg",
+                                        id: "sale_price",
+                                        type: "number",
+                                        min: "0",
+                                        step: "0.001",
+                                        pattern: "^\\d*(\\.\\d{0,3})?$"
+                                      },
+                                      domProps: { value: _vm.sale_price },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.sale_price = _vm._n(
+                                            $event.target.value
+                                          )
+                                        },
+                                        blur: function($event) {
+                                          _vm.$forceUpdate()
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "sale_price" }
+                                      },
+                                      [_vm._v("Price")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.sale_remarks,
+                                          expression: "sale_remarks"
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Add remarks",
+                                        id: "sale_remarks",
+                                        type: "text"
+                                      },
+                                      domProps: { value: _vm.sale_remarks },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.sale_remarks = $event.target.value
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "sale_remarks" }
+                                      },
+                                      [_vm._v("Remarks")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(7)
+                            ]
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { attrs: { id: "egg" } }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c(
+                            "form",
+                            {
+                              attrs: { method: "post" },
+                              on: {
+                                submit: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.addEggSalesRecord($event)
+                                }
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6" },
+                                  [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "egg_date" }
+                                      },
+                                      [_vm._v("Date Eggs Sold")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("datepicker", {
+                                      attrs: {
+                                        id: "egg_date",
+                                        format: _vm.customFormatter,
+                                        placeholder: "Date when eggs are sold"
+                                      },
+                                      model: {
+                                        value: _vm.egg_date,
+                                        callback: function($$v) {
+                                          _vm.egg_date = $$v
+                                        },
+                                        expression: "egg_date"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.number",
+                                          value: _vm.sale_eggs,
+                                          expression: "sale_eggs",
+                                          modifiers: { number: true }
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Number of eggs sold",
+                                        id: "sale_eggs",
+                                        type: "number",
+                                        min: "0"
+                                      },
+                                      domProps: { value: _vm.sale_eggs },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.sale_eggs = _vm._n(
+                                            $event.target.value
+                                          )
+                                        },
+                                        blur: function($event) {
+                                          _vm.$forceUpdate()
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "sale_eggs" }
+                                      },
+                                      [_vm._v("Number Sold")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.number",
+                                          value: _vm.egg_price,
+                                          expression: "egg_price",
+                                          modifiers: { number: true }
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Price/piece",
+                                        id: "egg_price",
+                                        type: "number",
+                                        min: "0",
+                                        step: "0.001",
+                                        pattern: "^\\d*(\\.\\d{0,3})?$"
+                                      },
+                                      domProps: { value: _vm.egg_price },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.egg_price = _vm._n(
+                                            $event.target.value
+                                          )
+                                        },
+                                        blur: function($event) {
+                                          _vm.$forceUpdate()
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "egg_price" }
+                                      },
+                                      [_vm._v("Price")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col s12 m6 l6 input-field" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.egg_remarks,
+                                          expression: "egg_remarks"
+                                        }
+                                      ],
+                                      attrs: {
+                                        placeholder: "Add remarks",
+                                        id: "egg_remarks",
+                                        type: "text"
+                                      },
+                                      domProps: { value: _vm.egg_remarks },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.egg_remarks = $event.target.value
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "active",
+                                        attrs: { for: "egg_remarks" }
+                                      },
+                                      [_vm._v("Remarks")]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(8)
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(9)
+        ]
+      )
     ])
   ])
 }
@@ -85070,8 +86387,195 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Total")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Added")])
+        _c("th", [_vm._v("Added")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Mortality/Sale")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s4 m4 l4" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "waves-effect waves-green btn-flat green-text modal-trigger",
+          attrs: { href: "#mortality" }
+        },
+        [_c("i", { staticClass: "fas fa-plus-circle left" }), _vm._v("Add")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Category")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Male")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Female")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Reason")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-content" }, [
+      _c("p", [
+        _c("i", { staticClass: "fas fa-exclamation-circle" }),
+        _vm._v(" Go to "),
+        _c("strong", [_vm._v("Mortality")]),
+        _vm._v(" tab to report animal death.")
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _c("i", { staticClass: "fas fa-exclamation-circle" }),
+        _vm._v(" Go to "),
+        _c("strong", [_vm._v("Sales")]),
+        _vm._v(" tab to report animal sales.")
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _c("i", { staticClass: "fas fa-exclamation-circle" }),
+        _vm._v(" Go to "),
+        _c("strong", [_vm._v("Egg Sales")]),
+        _vm._v(" tab to report egg sales.")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-tabs" }, [
+      _c("ul", { staticClass: "tabs tabs-fixed-width" }, [
+        _c("li", { staticClass: "tab" }, [
+          _c("a", { attrs: { href: "#mort" } }, [_vm._v("Mortality")])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "tab" }, [
+          _c("a", { attrs: { href: "#sale" } }, [_vm._v("Sales")])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "tab" }, [
+          _c("a", { attrs: { href: "#egg" } }, [_vm._v("Egg Sales")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row center" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light blue-grey darken-1",
+            attrs: { type: "submit", name: "action" }
+          },
+          [
+            _vm._v(
+              "Save\n                                                                "
+            ),
+            _c("i", { staticClass: "far fa-save" })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row center" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light blue-grey darken-1",
+            attrs: { type: "submit", name: "action" }
+          },
+          [
+            _vm._v(
+              "Save\n                                                                "
+            ),
+            _c("i", { staticClass: "far fa-save" })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row center" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light blue-grey darken-1",
+            attrs: { type: "submit", name: "action" }
+          },
+          [
+            _vm._v(
+              "Save\n                                                                "
+            ),
+            _c("i", { staticClass: "far fa-save" })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat ",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      )
     ])
   }
 ]
@@ -85138,8 +86642,6 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
-//
-//
 //
 //
 //
@@ -85398,9 +86900,7 @@ var render = function() {
                         _vm._v(" "),
                         feeding.remarks == null
                           ? _c("td", [_vm._v("None")])
-                          : _c("td", [_vm._v(_vm._s(feeding.remarks))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v("-")])
+                          : _c("td", [_vm._v(_vm._s(feeding.remarks))])
                       ])
                     })
                   ],
@@ -85665,9 +87165,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Refused(g)")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Remarks")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Edit")])
+        _c("th", [_vm._v("Remarks")])
       ])
     ])
   },

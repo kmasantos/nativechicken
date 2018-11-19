@@ -115,6 +115,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('breeder_mortality', 'BreederController@addMortality');
         Route::post('breeder_sale', 'BreederController@addSale');
         Route::post('breeder_egg_sale', 'BreederController@addEggSale');
+        Route::delete('cull_breeder/{inventory_id}', 'BreederController@cullBreeder');
         /**
          * *New Axios Routes for Replacement
          */
@@ -131,7 +132,10 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('replacement_fetch_brooderpens/{family_id}','ReplacementController@getBrooderInventories');
         Route::get('replacement_fetch_phenomorphoinventory/{pen_id}','ReplacementController@getPhenoMorphoInventory');
         Route::get('replacement_fetch_phenomorpholist/{inventory_id}','ReplacementController@getPhenoMorphoList');
-
+        Route::get('replacement_mortalitysale_record/{inventory_id}', 'ReplacementController@getMortalitySale');
+        Route::post('replacement_mortality', 'ReplacementController@addMortality');
+        Route::post('replacement_sale', 'ReplacementController@addSale');
+        Route::post('replacement_egg_sale', 'ReplacementController@addEggSale');
 
         /**
          * !Old Routes, delete when replaced

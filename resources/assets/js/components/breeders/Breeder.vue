@@ -27,15 +27,12 @@
                             <div class="card blue-grey lighten-2">
                                 <div class="card-content">
                                     <div class="row valign-wrapper">
-                                        <div class="col s6 m6 l6">
+                                        <div class="col s8 m8 l8">
                                             <label class="white-label" for="tag_title white-text">Breeder Tag</label>
                                             <span id="tag_title" class="card-title white-text">{{breeder.breeder_tag}}</span>
                                         </div>
-                                        <div class="col s3 m3 l3 center-align">
-                                            <a class="waves-effect waves-grey btn-flat white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="far fa-edit"></i></a>
-                                        </div>
-                                        <div class="col s3 m3 l3 center-align">
-                                            <a class="waves-effect waves-grey btn-flat red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="far fa-trash-alt"></i></a>
+                                        <div class="col s4 m4 l4 center-align">
+                                            <a @click="breeder_delete=breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" href="#cull_modal" class="waves-effect waves-grey btn-flat red-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Cull"><i class="far fa-trash-alt"></i></a>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -124,12 +121,6 @@
                                 <!-- Within System -->
                                 <div id="within">
                                     <form v-on:submit.prevent="addBreeder" method="post">
-                                        <!-- <div class="row">
-                                            <div class="col input-field s12 m6 l6">
-                                                <input v-model="breeder_tag" placeholder="Identification tag of the new breeder group" id="breeder_group" type="text" class="validate">
-                                                <label for="breeder_group">Breeder Group Tag</label>
-                                            </div>
-                                        </div> -->
                                         <div class="row">
                                             <div class="col s12 m6 l6">
                                                 <label>Male's Generation</label>
@@ -338,6 +329,18 @@
                 <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
             </div>
         </div>
+
+        <div id="cull_modal" class="modal">
+            <div class="modal-content">
+                <h4 class="red-text"><i class="fas fa-exclamation-triangle"></i> Cull Breeder {{selected_breeder_tag}}?</h4>
+                <p>Are you sure you want to <strong>Cull</strong> this breeder group?</p>
+                <p>This action is <strong>irreversible</strong></p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                <a @click="cullBreeder" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -397,7 +400,6 @@
                 breeder_mortality : null,
                 breeder_phenomorpho : null,
                 breeder_delete : null,
-                breeder_edit : null,
                 breeder_mortality : null,
             }
         },
@@ -560,6 +562,22 @@
                 });
                 this.initialize();
             },
+            cullBreeder : function () {
+                axios.delete('cull_breeder/'+this.breeder_delete)
+                .then(response => {
+                    if(response.data.error == undefined){
+                        this.breeder_delete = '';
+                        $('#cull_modal').modal('close')
+                        Materialize.toast('Successfully culled breeder', 5000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
+                    }
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to deleted pen with error : ' + error.message, 5000, 'red rounded');
+                });
+                this.initialize();
+            },
             customFormatter : function (date) {
                 var formatted = moment(date).format('YYYY-MM-DD')
                 return formatted;
@@ -567,12 +585,13 @@
         },
         created() {
             this.initialize();
+            $('.tooltipped').tooltip({delay: 50});
         },
         beforeCreate() {
-            $('.tooltipped').tooltip('remove');
+
         },
         destroyed () {
-            $('.tooltipped').tooltip({delay: 50});
+            $('.tooltipped').tooltip('remove');
         },
     }
 </script>

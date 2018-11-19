@@ -50,4 +50,10 @@ class Replacement extends Model
         $inventories = ReplacementInventory::where('replacement_id', $this->id)->get();
         return $inventories;
     }
+
+    public function getFamily()
+    {
+        $family = Family::where('id', $this->family_id)->first();
+        return $family;
+    }
 }

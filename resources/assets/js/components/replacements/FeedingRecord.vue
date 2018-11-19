@@ -23,7 +23,6 @@
                                     <th>Offered(g)</th>
                                     <th>Refused(g)</th>
                                     <th>Remarks</th>
-                                    <th>Edit</th>
                                 </tr>
                             </thead>
 
@@ -43,7 +42,6 @@
                                     <td>{{feeding.amount_refused}}</td>
                                     <td v-if="feeding.remarks == null">None</td>
                                     <td v-else>{{feeding.remarks}}</td>
-                                    <td>-</td>
                                 </tr>
                             </tbody>
                         </table>

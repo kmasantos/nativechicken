@@ -17,6 +17,7 @@ use App\Models\BrooderGrowerInventory;
 use App\Models\PhenoMorpho;
 use App\Models\PhenoMorphoValue;
 use App\Models\ReplacementFeeding;
+use App\Models\MortalitySale;
 
 class ReplacementController extends Controller
 {
@@ -67,14 +68,15 @@ class ReplacementController extends Controller
 
     public function addReplacements(Request $request)
     {
+        $timestamp = Carbon::now()->timestamp;
+        $random = random_bytes(2);
+        $tag = bin2hex($random).$timestamp;
         $request->validate([
             "family_id" => "required",
             "pen_id" => "required",
             "males" => "required",
             "females" => "required",
-            "date_added" => "required",
             "external" => "required",
-            "replacement_tag" => "required"
         ]);
         $replacement_pen = Pen::where('id', $request->pen_id)->firstOrFail();
         $replacement = Replacement::where('family_id', $request->family_id)->first();
@@ -95,6 +97,7 @@ class ReplacementController extends Controller
             $movement = new AnimalMovement;
             $movement->date = $request->date_added;
             $movement->family_id = $request->family_id;
+            $movement->tag = $tag;
             $movement->previous_pen_id = null;
             $movement->current_pen_id = $replacement_pen->id;
             $movement->previous_type = null;
@@ -109,8 +112,8 @@ class ReplacementController extends Controller
             $inventory = new ReplacementInventory;
             $inventory->replacement_id = $replacement->id;
             $inventory->pen_id = $replacement_pen->id;
-            $inventory->replacement_tag = $request->replacement_tag;
-            $inventory->batching_date = null;
+            $inventory->replacement_tag = $tag;
+            $inventory->batching_date = $request->estimate_hatch_date;
             $inventory->number_male = $request->males;
             $inventory->number_female = $request->females;
             $inventory->total = $request->males + $request->females;
@@ -126,6 +129,7 @@ class ReplacementController extends Controller
             $brooder_movement = new AnimalMovement;
             $brooder_movement->date = $request->date_added;
             $brooder_movement->family_id = $request->family_id;
+            $brooder_movement->tag = $tag;
             $brooder_movement->previous_pen_id = $brooder_inventory->pen_id;
             $brooder_movement->current_pen_id = $replacement_pen->id;
             $brooder_movement->previous_type = "broodersgrowers";
@@ -147,7 +151,7 @@ class ReplacementController extends Controller
             $inventory = new ReplacementInventory;
             $inventory->replacement_id = $replacement->id;
             $inventory->pen_id = $replacement_pen->id;
-            $inventory->replacement_tag = $request->replacement_tag;
+            $inventory->replacement_tag = $tag;
             $inventory->batching_date = $brooder_inventory->batching_date;
             $inventory->number_male = $request->males;
             $inventory->number_female = $request->females;
@@ -324,6 +328,121 @@ class ReplacementController extends Controller
         ->paginate(10);
         return $list;
     }
+
+    public function getMortalitySale ($inventory_id)
+    {
+        $record = MortalitySale::where('replacement_inventory_id', $inventory_id)
+        ->orderBy('date', 'desc')
+        ->paginate(10);
+        return $record;
+    }
+
+    public function addMortality (Request $request)
+    {
+        $replacement_inventory = ReplacementInventory::where('id', $request->replacement_id)->firstOrFail();
+        if($request->male > $replacement_inventory->number_male || $request->female > $replacement_inventory->number_female){
+            return response()->json( ['error'=>'Input too quantity is too large for the inventory'] );
+        }
+
+        $replacement_pen = Pen::where('id', $replacement_inventory->pen_id)->firstOrFail();
+        $replacement_inventory->number_male = $replacement_inventory->number_male - $request->male;
+        $replacement_inventory->number_female = $replacement_inventory->number_female - $request->female;
+        $replacement_inventory->total = $replacement_inventory->total - ($replacement_inventory->number_male + $replacement_inventory->number_female);
+
+        $replacement_pen->current_capacity = $replacement_pen->current_capacity - ($request->male + $request->female);
+
+        $movement = new AnimalMovement;
+        $movement->date = $request->date;
+        $movement->family_id = $replacement_inventory->getReplacementData()->family_id;
+        $movement->tag = $replacement_inventory->tag;
+        $movement->previous_pen_id = $replacement_pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "replacement";
+        $movement->current_type = "replacement";
+        $movement->activity = "mortality";
+        $movement->number_male = $request->male;
+        $movement->number_female = $request->female;
+        $movement->number_total = $request->male + $request->female;
+        $movement->remarks = $request->remarks;
+
+        $mortality = new MortalitySale;
+        $mortality->date = $request->date;
+        $mortality->replacement_inventory_id = $request->replacement_id;
+        $mortality->type = "replacement";
+        $mortality->category = "died";
+        $mortality->male = $request->male;
+        $mortality->female = $request->female;
+        $mortality->total = $request->male + $request->female;
+        $mortality->reason = $request->reason;
+        $mortality->remarks = $request->remarks;
+
+        $replacement_inventory->save();
+        $replacement_pen->save();
+        $movement->save();
+        $mortality->save();
+        return response()->json(['status' => 'success', 'message' => 'Replacement mortality recorded']);
+    }
+
+    public function addSale (Request $request)
+    {
+        $replacement_inventory = ReplacementInventory::where('id', $request->replacement_id)->firstOrFail();
+        if($request->male > $replacement_inventory->number_male || $request->female > $replacement_inventory->number_female){
+            return response()->json( ['error'=>'Input too quantity is too large for the inventory'] );
+        }
+
+        $replacement_pen = Pen::where('id', $replacement_inventory->pen_id)->firstOrFail();
+        $replacement_inventory->number_male = $replacement_inventory->number_male - $request->male;
+        $replacement_inventory->number_female = $replacement_inventory->number_female - $request->female;
+        $replacement_inventory->total = $replacement_inventory->total - ($replacement_inventory->number_male + $replacement_inventory->number_female);
+
+        $replacement_pen->current_capacity = $replacement_pen->current_capacity - ($request->male + $request->female);
+
+        $movement = new AnimalMovement;
+        $movement->date = $request->date;
+        $movement->family_id = $replacement_inventory->getReplacementData()->family_id;
+        $movement->tag = $replacement_inventory->tag;
+        $movement->previous_pen_id = $replacement_pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "replacement";
+        $movement->current_type = "replacement";
+        $movement->activity = "sale";
+        $movement->number_male = $request->male;
+        $movement->number_female = $request->female;
+        $movement->number_total = $request->male + $request->female;
+        $movement->remarks = $request->remarks;
+
+        $sales = new MortalitySale;
+        $sales->date = $request->date;
+        $sales->replacement_inventory_id = $request->replacement_id;
+        $sales->type = "replacement";
+        $sales->category = "sold";
+        $sales->male = $request->male;
+        $sales->female = $request->female;
+        $sales->total = $request->male + $request->female;
+        $sales->price = $request->price;
+        $sales->remarks = $request->remarks;
+
+        $replacement_inventory->save();
+        $replacement_pen->save();
+        $movement->save();
+        $sales->save();
+        return response()->json(['status' => 'success', 'message' => 'Replacement sales recorded']);
+    }
+
+    public function addEggSale (Request $request)
+    {
+        $record = new MortalitySale;
+        $record->replacement_inventory_id = $request->replacement_id;
+        $record->type = "egg";
+        $record->category = "sold";
+        $record->total = $request->eggs;
+        $record->price = $request->price;
+        $record->remarks = $request->remarks;
+        $record->date = $request->date;
+        $record->save();
+        return response()->json(['status' => 'success', 'message' => 'Egg sales added']);
+    }
+
 
     /*
     **  Helper Functions
