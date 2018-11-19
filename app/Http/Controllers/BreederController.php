@@ -514,9 +514,68 @@ class BreederController extends Controller
     /**
      * TODO Add these functions
      */
-    public function addMortalitySale (Request $request)
+    public function addMortality (Request $request)
     {
+        $breeder_inventory = BreederInventory::where('id', $request->breeder_id)->firstOrFail();
+        if($request->male > $breeder_inventory->number_male || $request->female > $breeder_inventory->number_female){
+            return response()->json( ['error'=>'Input too quantity is too large for the inventory'] );
+        }
 
+        $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
+        $breeder_inventory->number_male = $breeder_inventory->number_male - $request->male;
+        $breeder_inventory->number_female = $breeder_inventory->number_female - $request->female;
+        $breeder_inventory->total = $breeder_inventory->number_male + $breeder_inventory->number_female;
+
+        $breeder_pen->current_capacity = $breeder_pen->current_capacity + ($request->male + $request->female);
+
+        $movement = new AnimalMovement;
+        $movement->date = $request->date;
+        $movement->family_id = $breeder_inventory->getBreederData()->family_id;
+        $movement->previous_pen_id = $breeder_pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "breeder";
+        $movement->current_type = "breeder";
+        $movement->activity = "mortality";
+        $movement->number_male = $request->male;
+        $movement->number_female = $request->female;
+        $movement->number_total = $request->male + $request->female;
+        $movement->remarks = $request->remarks;
+
+        $mortality = new MortalitySale;
+        $mortality->date = $request->date;
+        $mortality->breeder_inventory_id = $request->breeder_id;
+        $mortality->type = "breeder";
+        $mortality->category = "died";
+        $mortality->male = $request->male;
+        $mortality->female = $request->female;
+        $mortality->total = $request->male + $request->female;
+        $mortality->reason = $request->reason;
+        $mortality->remarks = $request->remarks;
+
+        $breeder_inventory->save();
+        $breeder_pen->save();
+        $movement->save();
+        $mortality->save();
+        return response()->json(['status' => 'success', 'message' => 'Breeder mortality recorded']);
+    }
+
+    public function addSale (Request $request)
+    {
+        dd($request);
+    }
+
+    public function addEggSale (Request $request)
+    {
+        $record = new MortalitySale;
+        $record->breeder_inventory_id = $request->breeder_id;
+        $record->type = "egg";
+        $record->category = "sold";
+        $record->total = $request->eggs;
+        $record->price = $request->price;
+        $record->remarks = $request->remarks;
+        $record->date = $request->date;
+        $record->save();
+        return response()->json(['status' => 'success', 'message' => 'Egg sales added']);
     }
 
     public function editBreederRecord ()

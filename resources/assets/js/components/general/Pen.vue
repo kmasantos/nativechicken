@@ -170,21 +170,6 @@
                                     <label for="edit_number">New Pen Number</label>
                                 </div>
                             </div>
-                            <label for="edit_type">New Pen Type</label>
-                            <div id="pen_type" class="row">
-                                <div class="col s12 m4 l4">
-                                    <input v-model="edit_type" class="with-gap" type="radio" id="edit_brooder" value="brooder"/>
-                                    <label for="edit_brooder">Brooder</label>
-                                </div>
-                                <div class="col s12 m4 l4">
-                                    <input v-model="edit_type" class="with-gap" type="radio" id="edit_grower" value="grower"/>
-                                    <label for="edit_grower">Grower</label>
-                                </div>
-                                <div class="col s12 m4 l4">
-                                    <input v-model="edit_type" class="with-gap" type="radio" id="edit_layer" value="layer"/>
-                                    <label for="edit_layer">Layer</label>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="input-field col s12 m6 l6">
                                     <input v-model.number="edit_capacity" placeholder="Total Pen Capacity" id="edit_capacity" type="number" min=0>
@@ -233,7 +218,6 @@
                 selected_pen : '',
                 selected_pen_number : '',
                 edit_number : '',
-                edit_type : '',
                 edit_capacity : '',
             }
         },
@@ -297,7 +281,6 @@
                     if(response.data.error == undefined){
                         this.selected_pen = '';
                         this.edit_number = '';
-                        this.edit_type = false;
                         this.edit_capacity = '';
                         Materialize.toast('Successfully edited ' + response.data.message, 3000, 'green rounded');
                         this.closeEditModal();

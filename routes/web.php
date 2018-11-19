@@ -112,7 +112,9 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_phenomorpho_records/{inventory_id}', 'BreederController@getPhenoMorphoRecord');
         Route::post('breeder_add_phenomorpho', 'BreederController@addPhenoMorphoRecords');
         Route::get('breeder_mortalitysale_record/{inventory_id}', 'BreederController@getMortalitySale');
-        Route::post('breeder__add_mortalitysale', 'BreederController@addMortalitySale');
+        Route::post('breeder_mortality', 'BreederController@addMortality');
+        Route::post('breeder_sale', 'BreederController@addSale');
+        Route::post('breeder_egg_sale', 'BreederController@addEggSale');
         /**
          * *New Axios Routes for Replacement
          */

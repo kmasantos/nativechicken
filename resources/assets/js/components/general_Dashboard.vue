@@ -97,7 +97,7 @@
                                 <div class="col s12 m6 l6 center">
                                     <div class="row">
                                         <div class="col s12 m12 l12">
-                                            <h5>Replacement</h5>
+                                            <h5>Growers & Replacements</h5>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -111,7 +111,7 @@
                                 <div class="col s12 m12 l12 center">
                                     <div class="row">
                                         <div class="col s12 m12 l12">
-                                            <h5>Brooders & Growers</h5>
+                                            <h5>Brooders</h5>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -271,7 +271,7 @@
                                 <div class="col s12 m6 l6 center">
                                     <div class="row">
                                         <div class="col s12 m12 l12">
-                                            <h5>Replacement</h5>
+                                            <h5>Growers & Replacements</h5>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -306,7 +306,7 @@
                                 <div class="col s12 m12 l12 center">
                                     <div class="row">
                                         <div class="col s12 m12 l12">
-                                            <h5>Brooders & Growers</h5>
+                                            <h5>Brooders</h5>
                                         </div>
                                     </div>
                                     <div class="row">

@@ -129,7 +129,7 @@
         },
         props :{
             breeder : Number,
-            breeder_tag : Number,
+            breeder_tag : String,
         },
         data (){
             return {

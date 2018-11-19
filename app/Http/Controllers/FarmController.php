@@ -162,9 +162,8 @@ class FarmController extends Controller
         $pen = Pen::where('id', $request->pen_id)->firstOrFail();
         if($request->pen_number != null){
             $pen->number = $request->pen_number;
-        }if($request->type!=null){
-            $pen->type = $request->type;
-        }if($request->pen_capacity!=null){
+        }
+        if($request->pen_capacity!=null){
             if($request->pen_capacity >= $pen->current_capacity){
                 $pen->total_capacity = $request->pen_capacity;
             }
@@ -177,7 +176,12 @@ class FarmController extends Controller
     {
         $pen = Pen::where('id', $pen_id)->firstOrFail();
         $number = $pen->number;
-        $pen->delete();
+        if($pen->current_capacity > 0){
+            return response()->json( ['error'=>'Pen contents not equal to 0'] );
+        }else{
+            $pen->delete();
+        }
+
         return response()->json(['status' => 'success', 'message' => $number]);
     }
 
