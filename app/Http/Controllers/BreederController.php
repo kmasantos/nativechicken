@@ -59,9 +59,10 @@ class BreederController extends Controller
      */
     public function addBreeder(Request $request)
     {
+        $code = Auth::user()->getFarm()->code;
         $timestamp = Carbon::now()->timestamp;
-        $random = random_bytes(2);
-        $tag = bin2hex($random).$timestamp;
+        $random = random_bytes(1);
+        $tag = $code.bin2hex($random).$timestamp;
         if($request->within == true){
             $request->validate([
                 'male_family'  => 'required',
@@ -524,7 +525,7 @@ class BreederController extends Controller
         $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
         $breeder_inventory->number_male = $breeder_inventory->number_male - $request->male;
         $breeder_inventory->number_female = $breeder_inventory->number_female - $request->female;
-        $breeder_inventory->total = $breeder_inventory->total - ($breeder_inventory->number_male + $breeder_inventory->number_female);
+        $breeder_inventory->total = $breeder_inventory->total - ($request->male + $request->female);
 
         $breeder_pen->current_capacity = $breeder_pen->current_capacity - ($request->male + $request->female);
 
@@ -570,7 +571,7 @@ class BreederController extends Controller
         $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
         $breeder_inventory->number_male = $breeder_inventory->number_male - $request->male;
         $breeder_inventory->number_female = $breeder_inventory->number_female - $request->female;
-        $breeder_inventory->total = $breeder_inventory->total - ($breeder_inventory->number_male + $breeder_inventory->number_female);
+        $breeder_inventory->total = $breeder_inventory->total - ($request->male + $request->female);
 
         $breeder_pen->current_capacity = $breeder_pen->current_capacity - ($request->male + $request->female);
 
@@ -630,6 +631,7 @@ class BreederController extends Controller
         $movement = new AnimalMovement;
         $movement->date = $now->toDateString();
         $movement->family_id = $inventory->getBreederData()->family_id;
+        $movement->tag = $inventory->breeder_tag;
         $movement->previous_pen_id = $pen->id;
         $movement->current_pen_id = null;
         $movement->previous_type = "breeder";

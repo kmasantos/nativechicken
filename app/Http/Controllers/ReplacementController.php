@@ -68,9 +68,10 @@ class ReplacementController extends Controller
 
     public function addReplacements(Request $request)
     {
+        $code = Auth::user()->getFarm()->code;
         $timestamp = Carbon::now()->timestamp;
-        $random = random_bytes(2);
-        $tag = bin2hex($random).$timestamp;
+        $random = random_bytes(1);
+        $tag = $code.bin2hex($random).$timestamp;
         $request->validate([
             "family_id" => "required",
             "pen_id" => "required",
@@ -347,7 +348,7 @@ class ReplacementController extends Controller
         $replacement_pen = Pen::where('id', $replacement_inventory->pen_id)->firstOrFail();
         $replacement_inventory->number_male = $replacement_inventory->number_male - $request->male;
         $replacement_inventory->number_female = $replacement_inventory->number_female - $request->female;
-        $replacement_inventory->total = $replacement_inventory->total - ($replacement_inventory->number_male + $replacement_inventory->number_female);
+        $replacement_inventory->total = $replacement_inventory->total - ($request->male + $request->female);
 
         $replacement_pen->current_capacity = $replacement_pen->current_capacity - ($request->male + $request->female);
 
@@ -393,7 +394,7 @@ class ReplacementController extends Controller
         $replacement_pen = Pen::where('id', $replacement_inventory->pen_id)->firstOrFail();
         $replacement_inventory->number_male = $replacement_inventory->number_male - $request->male;
         $replacement_inventory->number_female = $replacement_inventory->number_female - $request->female;
-        $replacement_inventory->total = $replacement_inventory->total - ($replacement_inventory->number_male + $replacement_inventory->number_female);
+        $replacement_inventory->total = $replacement_inventory->total - ($request->male + $request->female);
 
         $replacement_pen->current_capacity = $replacement_pen->current_capacity - ($request->male + $request->female);
 
@@ -453,6 +454,7 @@ class ReplacementController extends Controller
         $movement = new AnimalMovement;
         $movement->date = $now->toDateString();
         $movement->family_id = $inventory->getReplacementData()->family_id;
+        $movement->tag = $inventory->replacement_tag;
         $movement->previous_pen_id = $pen->id;
         $movement->current_pen_id = null;
         $movement->previous_type = "replacement";

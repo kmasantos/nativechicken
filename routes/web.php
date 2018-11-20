@@ -142,11 +142,8 @@ Route::group(['middleware' => ['web']], function ()
          * !Old Routes, delete when replaced
          */
         Route::get('broodergrower_list','BrooderGrowerController@getBrooderGrower');
-
         Route::get('broodergrower_fetch_pens','BrooderGrowerController@fetchPens');
-
         Route::get('broodergrower_feeding_records/{pen_id}', 'BrooderGrowerController@fetchFeedingRecords');
-
         Route::get('broodergrower_growth_records/{pen_id}', 'BrooderGrowerController@fetchGrowthRecords');
         Route::post('add_broodergrower_growth', 'BrooderGrowerController@addGrowthRecord');
 
@@ -161,7 +158,11 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_broodergrower_feeding', 'BrooderGrowerController@addFeedingRecord');
         Route::get('broodergrower_pen_info/{pen_id}','BrooderGrowerController@fetchPenInfo');
         Route::patch('update_broodergrower', 'BrooderGrowerController@updateBrooderGrower');
-
+        Route::get('brooder_mortalitysale_record/{inventory_id}', 'BrooderGrowerController@getMortalitySale');
+        Route::post('brooder_mortality', 'BrooderGrowerController@addMortality');
+        Route::post('brooder_sale', 'BrooderGrowerController@addSale');
+        Route::post('brooder_egg_sale', 'BrooderGrowerController@addEggSale');
+        Route::delete('cull_brooder/{inventory_id}', 'BrooderGrowerController@cullBrooder');
     });
     // Admin Routes
     Route::group(['prefix' => 'admin'], function()

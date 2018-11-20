@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="col s12 m12 l12" v-if="inventory_pen!=null">
-                    <inventory-broodergrower  :inv_pen_id="inventory_pen" :inv_pen_number="inventory_number" v-on:close_inventory="inventory_pen=null;inventory_number=null"></inventory-broodergrower>
+                    <inventory-broodergrower  :inv_pen_id="inventory_pen" :inv_pen_number="inventory_number" v-on:close_inventory="inventory_pen=null;inventory_number=null;initialize()"></inventory-broodergrower>
                 </div>
                 <div class="col s12 m12 l12" v-if="feeding_pen!=null">
                     <feedingrecord-broodergrower :feed_pen_id="feeding_pen" :feed_pen_number="feeding_number" v-on:close_feeding="feeding_pen=null;feeding_number=null"></feedingrecord-broodergrower>
@@ -90,12 +90,6 @@
                     <div class="row">
                         <div class="col s12 m12 l12">
                             <h4>Add Brooder & Grower from Outside Source</h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s6 m6 l6">
-                            <label for="brooder_tag">Brooder & Grower Tag</label>
-                            <input placeholder="Brooder & Grower tag for identification" id="brooder_tag" type="text" class="validate" v-model="broodergrower_tag">
                         </div>
                     </div>
                     <div class="row">
@@ -139,6 +133,12 @@
                     </div>
                     <div class="row">
                         <div class="col s12 m6 l6">
+                            <label for="estimate_date_hatch">Estimated Date of Hatch</label>
+                            <datepicker id="estimate_date_hatch" :format="customFormatter" v-model="estimate_date_hatch"></datepicker>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6 l6">
                             <label for="date_added">Date Added</label>
                             <datepicker id="date_added" :format="customFormatter" v-model="date_added"></datepicker>
                         </div>
@@ -174,7 +174,7 @@
                 selectedline : '',
                 selectedfamily : '',
                 selectedpen : '',
-                broodergrower_tag : '',
+                estimate_date_hatch : '',
                 total : '',
                 date_added : '',
 
@@ -245,6 +245,7 @@
                     family_id : this.selectedfamily,
                     pen_id : this.selectedpen,
                     date_added : this.customFormatter(this.date_added),
+                    batching_date : this.customFormatter(this.estimate_date_hatch),
                     total : this.total,
                 })
                 .then(response => {
@@ -256,6 +257,7 @@
                         this.broodergrower_tag = '';
                         this.total = '';
                         this.date_added = '';
+                        this.estimate_date_hatch = '';
                         Materialize.toast('Successfully added brooders and growers', 3000, 'green rounded');
                     }else{
                         Materialize.toast(response.data.error, 3000, 'red rounded');

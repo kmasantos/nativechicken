@@ -34,4 +34,9 @@ class BrooderGrowerInventory extends Model
     {
         return $this->belongsTo(Pen::class);
     }
+
+    public function getBrooderData ()
+    {
+        return BrooderGrower::where('id', $this->broodergrower_id)->first();
+    }
 }

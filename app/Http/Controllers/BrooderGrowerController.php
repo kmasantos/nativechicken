@@ -16,6 +16,7 @@ use App\Models\BrooderGrowerGrowth;
 use App\Models\AnimalMovement;
 use App\Models\HatcheryRecord;
 use App\Models\Breeder;
+use App\Models\MortalitySale;
 
 class BrooderGrowerController extends Controller
 {
@@ -37,8 +38,11 @@ class BrooderGrowerController extends Controller
 
     public function addBrooderGrower(Request $request)
     {
+        $code = Auth::user()->getFarm()->code;
+        $timestamp = Carbon::now()->timestamp;
+        $random = random_bytes(1);
+        $tag = $code.bin2hex($random).$timestamp;
         $request->validate([
-            'broodergrower_tag' => 'required',
             'family_id' => 'required',
             'pen_id' => 'required',
             'date_added' => 'required',
@@ -59,23 +63,23 @@ class BrooderGrowerController extends Controller
             $new_brooder_inventory = new BrooderGrowerInventory;
             $new_brooder_inventory->broodergrower_id = $new_brooder->id;
             $new_brooder_inventory->pen_id = $request->pen_id;
-            $new_brooder_inventory->broodergrower_tag = $request->broodergrower_tag;
-            $new_brooder_inventory->batching_date = null;
+            $new_brooder_inventory->broodergrower_tag = $tag;
+            $new_brooder_inventory->batching_date = $request->batching_date;
             $new_brooder_inventory->number_male = null;
             $new_brooder_inventory->number_female = null;
             $new_brooder_inventory->total = $request->total;
             $new_brooder_inventory->last_update = $request->date_added;
             $new_brooder_inventory->save();
         }else{
-            $exist = BrooderGrowerInventory::where('broodergrower_tag', 'like', $request->broodergrower_tag)->first();
+            $exist = BrooderGrowerInventory::where('broodergrower_tag', 'like', $tag)->first();
             if($exist!=null){
                 return response()->json(['error'=>'Duplicate Brooder & Grower tag'] );
             }
             $new_brooder_inventory = new BrooderGrowerInventory;
             $new_brooder_inventory->broodergrower_id = $brooder_record->id;
             $new_brooder_inventory->pen_id = $request->pen_id;
-            $new_brooder_inventory->broodergrower_tag = $request->broodergrower_tag;
-            $new_brooder_inventory->batching_date = null;
+            $new_brooder_inventory->broodergrower_tag = $tag;
+            $new_brooder_inventory->batching_date = $request->batching_date;
             $new_brooder_inventory->number_male = null;
             $new_brooder_inventory->number_female = null;
             $new_brooder_inventory->total = $request->total;
@@ -87,6 +91,7 @@ class BrooderGrowerController extends Controller
         $brooder_movement = new AnimalMovement;
         $brooder_movement->date = $request->date_added;
         $brooder_movement->family_id = $request->family_id;
+        $brooder_movement->tag = $tag;
         $brooder_movement->previous_pen_id = null;
         $brooder_movement->current_pen_id = $brooder_pen->id;
         $brooder_movement->previous_type = 'egg';
@@ -133,6 +138,7 @@ class BrooderGrowerController extends Controller
             $movement = new AnimalMovement;
             $movement->date = $date->toDateString();
             $movement->family_id = $broodergrower->family_id;
+            $movement->tag = $inventory->broodergrower_tag;
             $movement->previous_pen_id = null;
             $movement->current_pen_id  = $inventory->pen_id;
             $movement->previous_type = 'egg';
@@ -255,6 +261,164 @@ class BrooderGrowerController extends Controller
             }
             return response()->json(['status' => 'success', 'message' => 'Growth Records added']);
         }
+    }
+
+    public function getMortalitySale ($inventory_id)
+    {
+        $record = MortalitySale::where('brooder_inventory_id', $inventory_id)
+        ->orderBy('date', 'desc')
+        ->paginate(10);
+        return $record;
+    }
+
+    public function addMortality (Request $request)
+    {
+        $brooder_inventory = BrooderGrowerInventory::where('id', $request->brooder_id)->firstOrFail();
+        if($request->male > $brooder_inventory->number_male || $request->female > $brooder_inventory->number_female || $request->total > $brooder_inventory->total){
+            return response()->json( ['error'=>'Input too quantity is too large for the inventory'] );
+        }
+
+        $brooder_pen = Pen::where('id', $brooder_inventory->pen_id)->firstOrFail();
+        if($request->total != null){
+            $brooder_inventory->total = $brooder_inventory->total - $request->total;
+            $brooder_pen->current_capacity = $brooder_pen->current_capacity - $request->total;
+        }else{
+            $brooder_inventory->number_male = $brooder_inventory->number_male - $request->male;
+            $brooder_inventory->number_female = $brooder_inventory->number_female - $request->female;
+            $brooder_inventory->total = $brooder_inventory->total - ($request->male + $request->female);
+            $brooder_pen->current_capacity = $brooder_pen->current_capacity - ($request->male + $request->female);
+        }
+
+        $movement = new AnimalMovement;
+        $movement->date = $request->date;
+        $movement->family_id = $brooder_inventory->getBrooderData()->family_id;
+        $movement->tag = $brooder_inventory->tag;
+        $movement->previous_pen_id = $brooder_pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "broodersgrowers";
+        $movement->current_type = "broodersgrowers";
+        $movement->activity = "mortality";
+        if($request->total != null){
+            $movement->number_male = null;
+            $movement->number_female = null;
+            $movement->number_total = $request->total;
+        }else{
+            $movement->number_male = $request->male;
+            $movement->number_female = $request->female;
+            $movement->number_total = $request->male + $request->female;
+        }
+        $movement->remarks = $request->remarks;
+
+        $mortality = new MortalitySale;
+        $mortality->date = $request->date;
+        $mortality->brooder_inventory_id = $request->brooder_id;
+        $mortality->type = "brooder";
+        $mortality->category = "died";
+        if($request->total != null){
+            $mortality->male = null;
+            $mortality->female = null;
+            $mortality->total = $request->total;
+        }else{
+            $mortality->male = $request->male;
+            $mortality->female = $request->female;
+            $mortality->total = $request->male + $request->female;
+        }
+        $mortality->reason = $request->reason;
+        $mortality->remarks = $request->remarks;
+
+        $brooder_inventory->save();
+        $brooder_pen->save();
+        $movement->save();
+        $mortality->save();
+        return response()->json(['status' => 'success', 'message' => 'Brooder mortality recorded']);
+    }
+
+    public function addSale (Request $request)
+    {
+        $brooder_inventory = BrooderGrowerInventory::where('id', $request->brooder_id)->firstOrFail();
+        if($request->male > $brooder_inventory->number_male || $request->female > $brooder_inventory->number_female || $request->total > $brooder_inventory->total){
+            return response()->json( ['error'=>'Input too quantity is too large for the inventory'] );
+        }
+
+        $brooder_pen = Pen::where('id', $brooder_inventory->pen_id)->firstOrFail();
+        if($request->total != null){
+            $brooder_inventory->total = $brooder_inventory->total - $request->total;
+            $brooder_pen->current_capacity = $brooder_pen->current_capacity - $request->total;
+        }else{
+            $brooder_inventory->number_male = $brooder_inventory->number_male - $request->male;
+            $brooder_inventory->number_female = $brooder_inventory->number_female - $request->female;
+            $brooder_inventory->total = $brooder_inventory->total - ($request->male + $request->female);
+            $brooder_pen->current_capacity = $brooder_pen->current_capacity - ($request->male + $request->female);
+        }
+
+        $movement = new AnimalMovement;
+        $movement->date = $request->date;
+        $movement->family_id = $brooder_inventory->getBrooderData()->family_id;
+        $movement->tag = $brooder_inventory->tag;
+        $movement->previous_pen_id = $brooder_pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "broodersgrowers";
+        $movement->current_type = "broodersgrowers";
+        $movement->activity = "sale";
+        if($request->total != null){
+            $movement->number_male = null;
+            $movement->number_female = null;
+            $movement->number_total = $request->total;
+        }else{
+            $movement->number_male = $request->male;
+            $movement->number_female = $request->female;
+            $movement->number_total = $request->male + $request->female;
+        }
+        $movement->remarks = $request->remarks;
+
+        $sales = new MortalitySale;
+        $sales->date = $request->date;
+        $sales->brooder_inventory_id = $request->brooder_id;
+        $sales->type = "brooder";
+        $sales->category = "sold";
+        if($request->total != null){
+            $sales->male = null;
+            $sales->female = null;
+            $sales->total = $request->total;
+        }else{
+            $sales->male = $request->male;
+            $sales->female = $request->female;
+            $sales->total = $request->male + $request->female;
+        }
+        $sales->price = $request->price;
+        $sales->remarks = $request->remarks;
+
+        $brooder_inventory->save();
+        $brooder_pen->save();
+        $movement->save();
+        $sales->save();
+        return response()->json(['status' => 'success', 'message' => 'Brooder sales recorded']);
+    }
+
+    public function cullBrooder ($inventory_id)
+    {
+        $now = Carbon::now();
+        $inventory = BrooderGrowerInventory::where('id', $inventory_id)->firstOrFail();
+        $pen = Pen::where('id', $inventory->pen_id)->firstOrFail();
+        $pen->current_capacity = $pen->current_capacity - $inventory->total;
+
+        $movement = new AnimalMovement;
+        $movement->date = $now->toDateString();
+        $movement->family_id = $inventory->getBrooderData()->family_id;
+        $movement->tag = $inventory->broodergrower_tag;
+        $movement->previous_pen_id = $pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "broodersgrowers";
+        $movement->current_type = "broodersgrowers";
+        $movement->activity = "cull";
+        $movement->number_male = $inventory->number_male;
+        $movement->number_female = $inventory->number_female;
+        $movement->number_total = $inventory->number_male + $inventory->number_female;
+
+        $movement->save();
+        $pen->save();
+        $inventory->delete();
+        return response()->json(['status' => 'success', 'message' => 'Culled brooders']);
     }
 
     /**
