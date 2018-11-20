@@ -67145,7 +67145,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         initialize: function initialize() {
             this.loaded = true;
-        }
+        },
+        fetchData: function fetchData() {}
     },
     mounted: function mounted() {
         console.log('Component mounted.');
@@ -73379,12 +73380,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -73408,8 +73403,7 @@ var moment = __webpack_require__(0);
             number_fertile: '',
             number_hatched: '',
             date_hatched: '',
-            selected_brooder_pen: '',
-            broodergrower_tag: ''
+            selected_brooder_pen: ''
         };
     },
 
@@ -73451,11 +73445,10 @@ var moment = __webpack_require__(0);
                 number_fertile: this.number_fertile,
                 number_hatched: this.number_hatched,
                 date_hatched: this.customFormatter(this.date_hatched),
-                broodergrower_tag: this.broodergrower_tag,
                 broodergrower_pen_id: this.selected_brooder_pen
             }).then(function (response) {
                 if (response.data.error == undefined) {
-                    _this3.date_eggs_set = '', _this3.number_eggs_set = '', _this3.number_fertile = '', _this3.number_hatched = '', _this3.date_hatched = '', _this3.selected_brooder_pen = '', _this3.broodergrower_tag = '', Materialize.toast('Successfully added hatchery record', 3000, 'green rounded');
+                    _this3.date_eggs_set = '', _this3.number_eggs_set = '', _this3.number_fertile = '', _this3.number_hatched = '', _this3.date_hatched = '', _this3.selected_brooder_pen = '', Materialize.toast('Successfully added hatchery record', 3000, 'green rounded');
                 } else {
                     Materialize.toast(response.data.error, 3000, 'red rounded');
                 }
@@ -73876,41 +73869,6 @@ var render = function() {
                       ],
                       1
                     )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col s6 m6 l6" }, [
-                      _c("label", { attrs: { for: "brooder_tag" } }, [
-                        _vm._v("Brooder & Grower Tag")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.broodergrower_tag,
-                            expression: "broodergrower_tag"
-                          }
-                        ],
-                        staticClass: "validate",
-                        attrs: {
-                          placeholder:
-                            "Brooder & Grower tag for identification",
-                          id: "brooder_tag",
-                          type: "text"
-                        },
-                        domProps: { value: _vm.broodergrower_tag },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.broodergrower_tag = $event.target.value
-                          }
-                        }
-                      })
-                    ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row" }, [

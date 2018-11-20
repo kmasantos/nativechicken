@@ -364,6 +364,9 @@
             initialize : function () {
                 this.loaded = true;
             },
+            fetchData : function () {
+
+            },
         },
         mounted() {
             console.log('Component mounted.');

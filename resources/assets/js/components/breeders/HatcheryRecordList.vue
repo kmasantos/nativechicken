@@ -105,12 +105,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m6 l6">
-                                    <label for="brooder_tag">Brooder & Grower Tag</label>
-                                    <input placeholder="Brooder & Grower tag for identification" id="brooder_tag" type="text" class="validate" v-model="broodergrower_tag">
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col s12 m6 l6">
                                     <label>Place to brooder pen</label>
                                     <select v-model="selected_brooder_pen" class="browser-default">
@@ -159,7 +153,6 @@
                 number_hatched : '',
                 date_hatched : '',
                 selected_brooder_pen : '',
-                broodergrower_tag : '',
             }
         },
         methods : {
@@ -195,7 +188,6 @@
                     number_fertile : this.number_fertile,
                     number_hatched : this.number_hatched,
                     date_hatched : this.customFormatter(this.date_hatched),
-                    broodergrower_tag : this.broodergrower_tag,
                     broodergrower_pen_id : this.selected_brooder_pen,
                 })
                 .then(response => {
@@ -206,7 +198,6 @@
                         this.number_hatched = '',
                         this.date_hatched = '',
                         this.selected_brooder_pen = '',
-                        this.broodergrower_tag = '',
                         Materialize.toast('Successfully added hatchery record', 3000, 'green rounded');
                     }else{
                         Materialize.toast(response.data.error, 3000, 'red rounded');

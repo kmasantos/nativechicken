@@ -61,4 +61,15 @@ class Breeder extends Model
         return $family;
     }
 
+    public function getLine()
+    {
+        $line = Line::where('id', $this->getFamily()->line_id)->first();
+        return $line;
+    }
+
+    public function getGeneration()
+    {
+        $generation = Generation::where('id', $this->getLine()->generation_id)->first();
+        return $generation;
+    }
 }

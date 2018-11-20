@@ -31,6 +31,11 @@ class FarmController extends Controller
         return view('general.dashboard');
     }
 
+    public function getDashData()
+    {
+
+    }
+
     /**
      *  Test Page for Element UI
      *

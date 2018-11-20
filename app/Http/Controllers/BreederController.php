@@ -323,17 +323,55 @@ class BreederController extends Controller
             return response()->json( ['error'=>'Brooder pen does not have enough space for the chicks'] );
         }
         $breeder = Breeder::where('id', $inventory->breeder_id)->firstOrFail();
-        $brooder_record = BrooderGrower::where('family_id', $breeder->family_id)->first();
+
+        $breeder_gen = $breeder->getGeneration();
+        $breeder_line = $breeder->getLine();
+        $breeder_family = $breeder->getFamily();
+        // Check generation existence
+        $check_generation = Generation::where('numerical_generation', $breeder_gen->numerical_generation+1)->first();
+        if($check_generation == null){
+            $check_generation = new Generation;
+            $check_generation->farm_id = Auth::user()->farm_id;
+            $check_generation->number = str_pad($breeder_gen->numerical_generation+1, 4, '0', STR_PAD_LEFT);;
+            $check_generation->numerical_generation = $breeder_gen->numerical_generation+1;
+            $check_generation->is_active = true;
+            $check_generation->save();
+        }
+        // Check for line existence
+        $check_line = Line::where('number', $breeder_line->number)->where('generation_id', $check_generation->id)->first();
+        if($check_line == null){
+            $check_line = new Line;
+            $check_line->number = $breeder_line->number;
+            $check_line->generation_id = $check_generation->id;
+            $check_line->is_active = true;
+            $check_line->save();
+        }
+        // Check family existence
+        $check_family = Family::where('number', $breeder_family->number)->where('line_id', $check_line->id)->first();
+        if($check_family == null){
+            $check_family = new Family;
+            $check_family->number = $breeder_family->number;
+            $check_family->line_id = $check_line->id;
+            $check_family->is_active = true;
+            $check_family->save();
+        }
+
+        $code = Auth::user()->getFarm()->code;
+        $timestamp = Carbon::now()->timestamp;
+        $random = random_bytes(1);
+        $tag = $code.bin2hex($random).$timestamp;
+
+        $brooder_record = BrooderGrower::where('family_id', $check_family->id)->first();
         if($brooder_record==null){
             $new_brooder = new BrooderGrower;
-            $new_brooder->family_id = $breeder->family_id;
+            $new_brooder->family_id = $check_family->id;
             $new_brooder->date_added = $request->date_hatched;
             $new_brooder->save();
 
             $new_brooder_inventory = new BrooderGrowerInventory;
             $new_brooder_inventory->broodergrower_id = $new_brooder->id;
             $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
-            $new_brooder_inventory->broodergrower_tag = $request->broodergrower_tag;
+            $new_brooder_inventory->broodergrower_tag = $tag;
             $new_brooder_inventory->batching_date = $hatchery->batching_date;
             $new_brooder_inventory->number_male = null;
             $new_brooder_inventory->number_female = null;
@@ -344,7 +382,7 @@ class BreederController extends Controller
             $new_brooder_inventory = new BrooderGrowerInventory;
             $new_brooder_inventory->broodergrower_id = $brooder_record->id;
             $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
-            $new_brooder_inventory->broodergrower_tag = $request->broodergrower_tag;
+            $new_brooder_inventory->broodergrower_tag = $tag;
             $new_brooder_inventory->batching_date = $hatchery->batching_date;
             $new_brooder_inventory->number_male = null;
             $new_brooder_inventory->number_female = null;
@@ -357,6 +395,7 @@ class BreederController extends Controller
         $brooder_movement = new AnimalMovement;
         $brooder_movement->date = $hatchery->date_hatched;
         $brooder_movement->family_id = $breeder->family_id;
+        $brooder_movement->tag = $tag;
         $brooder_movement->previous_pen_id = null;
         $brooder_movement->current_pen_id = $brooder_pen->id;
         $brooder_movement->previous_type = 'egg';

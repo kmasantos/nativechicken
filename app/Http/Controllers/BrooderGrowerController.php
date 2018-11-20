@@ -230,17 +230,20 @@ class BrooderGrowerController extends Controller
             $total_male = $inventories->sum('number_male');
             $weight_per_male = $request->male_weight/$total_male;
             foreach($inventories as $inventory){
-                $growth_record = new BrooderGrowerGrowth;
-                $growth_record->broodergrower_inventory_id = $inventory->id;
-                $growth_record->date_collected = $request->date_collected;
-                $growth_record->collection_day = $request->collection_day;
-                $growth_record->male_quantity = $inventory->number_male;
-                $growth_record->male_weight = round($inventory->number_male*$weight_per_male, 3);
-                $growth_record->female_quantity = $inventory->number_female;
-                $growth_record->female_weight = round($inventory->number_female*$weight_per_female, 3);
-                $growth_record->total_quantity = $inventory->total;
-                $growth_record->total_weight = $growth_record->male_weight+$growth_record->female_weight;
-                $growth_record->save();
+                $check_record = BrooderGrowerGrowth::where('broodergrower_inventory_id', $inventory->id)->where('collection_day', $request->collection_day)->first();
+                if($check_record == null){
+                    $growth_record = new BrooderGrowerGrowth;
+                    $growth_record->broodergrower_inventory_id = $inventory->id;
+                    $growth_record->date_collected = $request->date_collected;
+                    $growth_record->collection_day = $request->collection_day;
+                    $growth_record->male_quantity = $inventory->number_male;
+                    $growth_record->male_weight = round($inventory->number_male*$weight_per_male, 3);
+                    $growth_record->female_quantity = $inventory->number_female;
+                    $growth_record->female_weight = round($inventory->number_female*$weight_per_female, 3);
+                    $growth_record->total_quantity = $inventory->total;
+                    $growth_record->total_weight = $growth_record->male_weight+$growth_record->female_weight;
+                    $growth_record->save();
+                }
             }
             return response()->json(['status' => 'success', 'message' => 'Growth Records added']);
         }else{
@@ -251,13 +254,16 @@ class BrooderGrowerController extends Controller
             ]);
             $weight_per_head = $request->total_weight/$pen->current_capacity;
             foreach($inventories as $inventory){
-                $growth_record = new BrooderGrowerGrowth;
-                $growth_record->broodergrower_inventory_id = $inventory->id;
-                $growth_record->date_collected = $request->date_collected;
-                $growth_record->collection_day = $request->collection_day;
-                $growth_record->total_quantity = $inventory->total;
-                $growth_record->total_weight = round($inventory->total*$weight_per_head, 3);
-                $growth_record->save();
+                $check_record = BrooderGrowerGrowth::where('broodergrower_inventory_id', $inventory->id)->where('collection_day', $request->collection_day)->first();
+                if($check_record == null){
+                    $growth_record = new BrooderGrowerGrowth;
+                    $growth_record->broodergrower_inventory_id = $inventory->id;
+                    $growth_record->date_collected = $request->date_collected;
+                    $growth_record->collection_day = $request->collection_day;
+                    $growth_record->total_quantity = $inventory->total;
+                    $growth_record->total_weight = round($inventory->total*$weight_per_head, 3);
+                    $growth_record->save();
+                }
             }
             return response()->json(['status' => 'success', 'message' => 'Growth Records added']);
         }
