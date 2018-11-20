@@ -70918,7 +70918,7 @@ var moment = __webpack_require__(0);
                     Materialize.toast(response.data.error, 5000, 'red rounded');
                 }
             }).catch(function (error) {
-                Materialize.toast('Failed to deleted pen with error : ' + error.message, 5000, 'red rounded');
+                Materialize.toast('Failed to cull breeder', 5000, 'red rounded');
             });
             this.initialize();
         },
@@ -84050,6 +84050,7 @@ var render = function() {
                   close_inventory: function($event) {
                     _vm.inventory_pen = null
                     _vm.inventory_number = null
+                    _vm.initialize()
                   }
                 }
               })
@@ -85187,6 +85188,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -85321,6 +85336,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getMortalitySale();
             $('#mortality').modal('close');
         },
+        cullReplacement: function cullReplacement() {
+            var _this6 = this;
+
+            axios.delete('cull_replacement/' + this.selected_inventory_id).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this6.selected_inventory_id = '';
+                    $('#cull_modal').modal('close');
+                    Materialize.toast('Successfully culled replacement', 5000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to cull replacement', 5000, 'red rounded');
+            });
+            this.getMortalitySale();
+            this.fetchPenInventory();
+        },
         customFormatter: function customFormatter(date) {
             return moment(date).format('YYYY-MM-DD');
         },
@@ -85341,6 +85373,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             dismissible: false
         });
         $('#mortality').modal({
+            dismissible: false
+        });
+        $('#cull_modal').modal({
             dismissible: false
         });
         $('ul.tabs').tabs();
@@ -85414,6 +85449,8 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v("-")]),
                           _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
                           _c("td", [_vm._v("-")])
                         ])
                       : _vm._l(_vm.inventories.data, function(inventory) {
@@ -85469,6 +85506,29 @@ var render = function() {
                                 [
                                   _c("i", {
                                     staticClass: "fas fa-minus-circle"
+                                  })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "modal-trigger",
+                                  attrs: { href: "#cull_modal" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selected_inventory_id =
+                                        inventory.inv_id
+                                      _vm.selected_inventory_tag =
+                                        inventory.replacement_tag
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fas fa-times-circle"
                                   })
                                 ]
                               )
@@ -86360,7 +86420,49 @@ var render = function() {
           _vm._v(" "),
           _vm._m(9)
         ]
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal", attrs: { id: "cull_modal" } }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _c("h4", { staticClass: "red-text" }, [
+            _c("i", { staticClass: "fas fa-exclamation-triangle" }),
+            _vm._v(
+              " Cull Replacement " + _vm._s(_vm.selected_inventory_tag) + "?"
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(10),
+          _vm._v(" "),
+          _vm._m(11)
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-footer" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "modal-action modal-close waves-effect waves-grey btn-flat",
+              attrs: { href: "javascript:void(0)" }
+            },
+            [_vm._v("No")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass:
+                "modal-action modal-close waves-effect waves-grey btn-flat",
+              attrs: { href: "javascript:void(0)" },
+              on: {
+                click: function($event) {
+                  _vm.cullReplacement()
+                }
+              }
+            },
+            [_vm._v("Yes")]
+          )
+        ])
+      ])
     ])
   ])
 }
@@ -86373,13 +86475,13 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Tag")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Family")]),
+        _c("th", [_vm._v("Fam")]),
         _vm._v(" "),
         _c("th", [_vm._v("Line")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Generation")]),
+        _c("th", [_vm._v("Gen")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Batching Date")]),
+        _c("th", [_vm._v("Batch Date")]),
         _vm._v(" "),
         _c("th", [_vm._v("Male")]),
         _vm._v(" "),
@@ -86389,7 +86491,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Added")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Mortality/Sale")])
+        _c("th", [_vm._v("Mortality/Sale")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Cull")])
       ])
     ])
   },
@@ -86576,6 +86680,25 @@ var staticRenderFns = [
         },
         [_vm._v("Close")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Are you sure you want to "),
+      _c("strong", [_vm._v("Cull")]),
+      _vm._v(" this replacement group?")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("irreversible")])
     ])
   }
 ]

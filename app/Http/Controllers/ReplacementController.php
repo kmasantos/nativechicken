@@ -443,6 +443,30 @@ class ReplacementController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Egg sales added']);
     }
 
+    public function cullReplacement ($inventory_id)
+    {
+        $now = Carbon::now();
+        $inventory = ReplacementInventory::where('id', $inventory_id)->firstOrFail();
+        $pen = Pen::where('id', $inventory->pen_id)->firstOrFail();
+        $pen->current_capacity = $pen->current_capacity - $inventory->total;
+
+        $movement = new AnimalMovement;
+        $movement->date = $now->toDateString();
+        $movement->family_id = $inventory->getReplacementData()->family_id;
+        $movement->previous_pen_id = $pen->id;
+        $movement->current_pen_id = null;
+        $movement->previous_type = "replacement";
+        $movement->current_type = "replacement";
+        $movement->activity = "cull";
+        $movement->number_male = $inventory->number_male;
+        $movement->number_female = $inventory->number_female;
+        $movement->number_total = $inventory->number_male + $inventory->number_female;
+
+        $movement->save();
+        $pen->save();
+        $inventory->delete();
+        return response()->json(['status' => 'success', 'message' => 'Culled replacement']);
+    }
 
     /*
     **  Helper Functions

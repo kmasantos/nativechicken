@@ -16,20 +16,22 @@
                                 <thead>
                                     <tr>
                                         <th>Tag</th>
-                                        <th>Family</th>
+                                        <th>Fam</th>
                                         <th>Line</th>
-                                        <th>Generation</th>
-                                        <th>Batching Date</th>
+                                        <th>Gen</th>
+                                        <th>Batch Date</th>
                                         <th>Male</th>
                                         <th>Female</th>
                                         <th>Total</th>
                                         <th>Added</th>
                                         <th>Mortality/Sale</th>
+                                        <th>Cull</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr v-if="inventories_length == 0">
+                                        <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
@@ -55,6 +57,7 @@
                                         <td>{{inventory.total}}</td>
                                         <td>{{inventory.last_update}}</td>
                                         <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;getMortalitySale()" href="#mortality_sale" class="modal-trigger"><i class="fas fa-minus-circle"></i></a></td>
+                                        <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;" href="#cull_modal" class="modal-trigger"><i class="fas fa-times-circle"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -299,6 +302,17 @@
                         <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
                     </div>
                 </div>
+                <div id="cull_modal" class="modal">
+                    <div class="modal-content">
+                        <h4 class="red-text"><i class="fas fa-exclamation-triangle"></i> Cull Replacement {{selected_inventory_tag}}?</h4>
+                        <p>Are you sure you want to <strong>Cull</strong> this replacement group?</p>
+                        <p>This action is <strong>irreversible</strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                        <a @click="cullReplacement()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                    </div>
+                </div>
             </div>
         </div>
 </template>
@@ -449,6 +463,23 @@ export default {
                 this.getMortalitySale();
                 $('#mortality').modal('close');
             },
+            cullReplacement : function () {
+                axios.delete('cull_replacement/'+this.selected_inventory_id)
+                .then(response => {
+                    if(response.data.error == undefined){
+                        this.selected_inventory_id = '';
+                        $('#cull_modal').modal('close')
+                        Materialize.toast('Successfully culled replacement', 5000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
+                    }
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to cull replacement', 5000, 'red rounded');
+                });
+                this.getMortalitySale();
+                this.fetchPenInventory();
+            },
             customFormatter : function(date) {
                 return moment(date).format('YYYY-MM-DD');
             },
@@ -469,6 +500,9 @@ export default {
             dismissible : false,
         });
         $('#mortality').modal({
+            dismissible : false,
+        });
+        $('#cull_modal').modal({
             dismissible : false,
         });
         $('ul.tabs').tabs();

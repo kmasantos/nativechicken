@@ -95,7 +95,7 @@
             </div>
 
             <div v-if="inventory_pen!=null">
-                <inventory-replacement :inv_pen_id="inventory_pen" :inv_pen_number="inventory_number" v-on:close_inventory="inventory_pen=null;inventory_number=null"></inventory-replacement>
+                <inventory-replacement :inv_pen_id="inventory_pen" :inv_pen_number="inventory_number" v-on:close_inventory="inventory_pen=null;inventory_number=null;initialize()"></inventory-replacement>
             </div>
             <div v-if="feeding_pen!=null">
                 <feeding-replacement :feed_pen_id="feeding_pen" :feed_pen_number="feeding_number" v-on:close_feeding="feeding_pen=null;feeding_number=null"></feeding-replacement>

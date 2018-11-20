@@ -574,7 +574,7 @@
                     }
                 })
                 .catch(error => {
-                    Materialize.toast('Failed to deleted pen with error : ' + error.message, 5000, 'red rounded');
+                    Materialize.toast('Failed to cull breeder', 5000, 'red rounded');
                 });
                 this.initialize();
             },

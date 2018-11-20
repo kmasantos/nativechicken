@@ -136,6 +136,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('replacement_mortality', 'ReplacementController@addMortality');
         Route::post('replacement_sale', 'ReplacementController@addSale');
         Route::post('replacement_egg_sale', 'ReplacementController@addEggSale');
+        Route::delete('cull_replacement/{inventory_id}', 'ReplacementController@cullReplacement');
 
         /**
          * !Old Routes, delete when replaced
