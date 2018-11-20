@@ -69093,6 +69093,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -69113,7 +69132,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             gen_list_len: 0,
             generation_loaded: false,
             generation_list_loaded: false,
-            line_list_loaded: false
+            line_list_loaded: false,
+
+            selected_gen: '',
+            selected_gen_number: ''
         };
     },
 
@@ -69207,6 +69229,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return console.log(error);
             });
             this.generation_list_loaded = true;
+        },
+        cullGeneration: function cullGeneration() {
+            axios.patch('cull_generation/' + this.selected_gen).then(function (response) {
+                Materialize.toast('Generation culled', 3000, 'green rounded');
+            }).catch(function (error) {
+                Materialize.toast('Generation culling failed', 3000, 'red rounded');
+            });
+            this.initialize();
         }
     },
     created: function created() {
@@ -69309,6 +69339,28 @@ var render = function() {
                                   _c("i", { staticClass: "material-icons" }, [
                                     _vm._v("details")
                                   ])
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "modal-trigger",
+                                  attrs: { href: "#cull_generation" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selected_gen = generation.id
+                                      _vm.selected_gen_number =
+                                        generation.number
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fas fa-times-circle"
+                                  })
                                 ]
                               )
                             ])
@@ -69548,7 +69600,12 @@ var render = function() {
               return _c(
                 "li",
                 { key: line.id, staticClass: "collection-item" },
-                [_c("div", [_vm._v("Line " + _vm._s(line.number))])]
+                [
+                  _c("div", [
+                    _vm._v("Line "),
+                    _c("strong", [_vm._v(_vm._s(line.number))])
+                  ])
+                ]
               )
             })
           ],
@@ -69557,6 +69614,46 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._m(6)
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal", attrs: { id: "cull_generation" } }, [
+      _c("div", { staticClass: "modal-content" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c("h4", { staticClass: "red-text" }, [
+              _c("i", { staticClass: "fas fa-exclamation-triangle" }),
+              _vm._v(" Cull Generation " + _vm._s(_vm.selected_gen_number))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(7)
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-footer" }, [
+        _c(
+          "a",
+          {
+            staticClass: "modal-close waves-effect waves-grey btn-flat",
+            attrs: { href: "javascript:void(0)" },
+            on: {
+              click: function($event) {
+                _vm.cullGeneration()
+              }
+            }
+          },
+          [_vm._v("Yes")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "modal-close waves-effect waves-grey btn-flat",
+            attrs: { href: "javascript:void(0)" }
+          },
+          [_vm._v("No")]
+        )
+      ])
     ])
   ])
 }
@@ -69593,7 +69690,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Details")])
+        _c("th", [_vm._v("Details")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Cull")])
       ])
     ])
   },
@@ -69686,6 +69785,23 @@ var staticRenderFns = [
         },
         [_vm._v("Close")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("p", [
+        _vm._v("Are you sure you want to "),
+        _c("strong", [_vm._v("Cull")]),
+        _vm._v(" this generation and remove all it's other components?")
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "orange-text" }, [
+        _c("i", { staticClass: "fas fa-asterisk" }),
+        _vm._v(" This action is irreversible")
+      ])
     ])
   }
 ]

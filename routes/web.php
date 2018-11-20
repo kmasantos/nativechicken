@@ -87,6 +87,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_family', 'FarmController@addFamilyRecord');
         Route::get('search_family/{search}', 'FarmController@searchFamily');
         Route::get('dash_data', 'FarmController@getDashData');
+        Route::patch('cull_generation/{generation_id}', 'FarmController@cullGeneration');
 
         // Breeder Axios Routes
         Route::get('breeder_list', 'BreederController@getBreederList');

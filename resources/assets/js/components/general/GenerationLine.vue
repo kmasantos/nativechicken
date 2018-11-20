@@ -36,6 +36,7 @@
                                 <th>Number</th>
                                 <th>Status</th>
                                 <th>Details</th>
+                                <th>Cull</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,6 +45,7 @@
                                 <td v-if="generation.is_active">Active</td>
                                 <td v-else>Inactive</td>
                                 <td><a href="#details_modal" @click.prevent="viewDetails(generation.id);selected_generation_number=generation.number" class="modal-trigger"><i class="material-icons">details</i></a></td>
+                                <td><a href="#cull_generation" @click="selected_gen=generation.id;selected_gen_number=generation.number" class="modal-trigger"><i class="fas fa-times-circle"></i></a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -121,11 +123,28 @@
                 <ul class="collection with-header">
                     <li class="collection-header"><h5>Generation {{selected_generation_number}} Lines</h5></li>
                     <li v-if="line_len == 0" class="collection-item"><div>No Lines in this Generation</div></li>
-                    <li v-for="line in line_list" :key="line.id" class="collection-item"><div>Line {{line.number}}</div></li>
+                    <li v-for="line in line_list" :key="line.id" class="collection-item"><div>Line <strong>{{line.number}}</strong></div></li>
                 </ul>
             </div>
             <div class="modal-footer">
                 <a href="javascript:void(0)" class="modal-close waves-effect waves-grey btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="cull_generation" class="modal">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <h4 class="red-text"><i class="fas fa-exclamation-triangle"></i> Cull Generation {{selected_gen_number}}</h4>
+                    </div>
+                    <div class="col s12 m12 l12">
+                        <p>Are you sure you want to <strong>Cull</strong> this generation and remove all it's other components?</p>
+                        <p class="orange-text"><i class="fas fa-asterisk"></i> This action is irreversible</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a @click="cullGeneration()" href="javascript:void(0)" class="modal-close waves-effect waves-grey btn-flat">Yes</a>
+                <a href="javascript:void(0)" class="modal-close waves-effect waves-grey btn-flat">No</a>
             </div>
         </div>
     </div>
@@ -151,7 +170,10 @@
                 gen_list_len : 0,
                 generation_loaded : false,
                 generation_list_loaded : false,
-                line_list_loaded : false
+                line_list_loaded : false,
+
+                selected_gen: '',
+                selected_gen_number : '',
             }
         },
         methods : {
@@ -230,6 +252,16 @@
                 })
                 .catch(error => console.log(error));
                 this.generation_list_loaded = true;
+            },
+            cullGeneration : function (){
+                axios.patch('cull_generation/'+this.selected_gen)
+                .then(response => {
+                    Materialize.toast('Generation culled', 3000, 'green rounded');
+                })
+                .catch(error => {
+                    Materialize.toast('Generation culling failed', 3000, 'red rounded');
+                });
+                this.initialize();
             }
         },
         created () {

@@ -10,6 +10,13 @@ use App\Models\Generation;
 use App\Models\Line;
 use App\Models\Family;
 
+use App\Models\Breeder;
+use App\Models\BreederInventory;
+use App\Models\Replacement;
+use App\Models\ReplacementInventory;
+use App\Models\BrooderGrower;
+use App\Models\BrooderGrowerInventory;
+
 class FarmController extends Controller
 {
     public function __construct()
@@ -34,6 +41,66 @@ class FarmController extends Controller
     public function getDashData()
     {
 
+    }
+
+    public function cullGeneration($generation_id)
+    {
+        $generation = Generation::where('id', $generation_id)->first();
+        $generation->is_active = false;
+        $generation->save();
+        $lines = Line::where('generation_id', $generation->id)->get();
+        foreach($lines as $line){
+            $families = Family::where('line_id', $line->id)->get();
+            foreach($families as $family){
+                $breeders = Breeder::where('family_id', $family->id)->get();
+                foreach($breeders as $breeder){
+                    $inventories = BreederInventory::where('breeder_id', $breeder->id)->get();
+                    foreach($inventories as $inventory){
+                        $pen = Pen::where('id', $inventory->pen_id)->first();
+                        if($pen->current_capacity != 0){
+                            $pen->current_capacity = 0;
+                            $pen->save();
+                        }
+                        $inventory->delete();
+                    }
+                    $breeder->delete();
+                }
+
+                $replacements = Replacement::where('family_id', $family->id)->get();
+                foreach($replacements as $replacement){
+                    $inventories = ReplacementInventory::where('replacement_id', $replacement->id)->get();
+                    foreach($inventories as $inventory){
+                        $pen = Pen::where('id', $inventory->pen_id)->first();
+                        if($pen->current_capacity != 0){
+                            $pen->current_capacity = 0;
+                            $pen->save();
+                        }
+                        $replacement->delete();
+                    }
+                    $breeder->delete();
+                }
+
+                $brooders = BrooderGrower::where('family_id', $family->id)->get();
+                foreach($brooders as $brooder){
+                    $inventories = BrooderGrowerInventory::where('broodergrower_id', $brooder->id)->get();
+                    foreach($inventories as $inventory){
+                        $pen = Pen::where('id', $inventory->pen_id)->first();
+                        if($pen->current_capacity != 0){
+                            $pen->current_capacity = 0;
+                            $pen->save();
+                        }
+                        $inventory->delete();
+                    }
+                    $brooder->delete();
+                }
+
+                $family->is_active = false;
+                $family->save();
+            }
+            $line->is_active = false;
+            $line->save();
+        }
+        return response()->json(['status' => 'success', 'message' => 'Generation culled']);
     }
 
     /**
