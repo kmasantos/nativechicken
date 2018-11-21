@@ -473,8 +473,35 @@ class BreederController extends Controller
 
     public function addPhenoMorphoRecords (Request $request)
     {
-        if(Auth::user()->getAnimalType() == 1){
-            // chicken
+        if($request->duck){
+            $request->validate([
+                'breeder_inventory_id' => 'required',
+                'tag' => 'required',
+                'date_collected' => 'required',
+                'gender' => 'required',
+                'plummage_color' => 'required',
+                'plummage_pattern' => 'required',
+                'neck_feather' => 'required',
+                'wing_feather' => 'required',
+                'tail_feather' => 'required',
+                'bill_color' => 'required',
+                'bill_shape' => 'required',
+                'bean_color' => 'required',
+                'crest' => 'required',
+                'eye_color' => 'required',
+                'body_carriage' => 'required',
+                'shank_color' => 'required',
+                'skin_color' => 'required',
+                'height' => 'required',
+                'weight' => 'required',
+                'body_length' => 'required',
+                'chest_circumference' => 'required',
+                'wing_span' => 'required',
+                'shank_length' => 'required',
+                'bill_length'  => 'required',
+                'neck_length'  => 'required',
+            ]);
+        }else{
             $request->validate([
                 'breeder_inventory_id' => 'required',
                 'tag' => 'required',
@@ -499,8 +526,6 @@ class BreederController extends Controller
                 'wing_span' => 'required',
                 'shank_length' => 'required',
             ]);
-        }else{
-            // ducks
         }
 
         $pheno = collect([

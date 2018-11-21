@@ -66752,7 +66752,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/general_Dashboard.vue"
+Component.options.__file = "resources/assets/js/components/general/Dashboard.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -66761,9 +66761,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a5d11754", Component.options)
+    hotAPI.createRecord("data-v-5381a686", Component.options)
   } else {
-    hotAPI.reload("data-v-a5d11754", Component.options)
+    hotAPI.reload("data-v-5381a686", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -67119,38 +67119,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            loaded: false
+            loaded: false,
+            summary: []
         };
     },
 
     methods: {
         initialize: function initialize() {
             this.loaded = true;
+            this.getDashboardData();
         },
-        fetchData: function fetchData() {}
+        getDashboardData: function getDashboardData() {
+            var _this = this;
+
+            axios.get('farm/get_dashboard_data').then(function (response) {
+                _this.summary = response.data;
+            });
+        }
+
     },
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    },
+    mounted: function mounted() {},
     created: function created() {
         this.initialize();
     }
@@ -67171,7 +67163,323 @@ var render = function() {
           { staticClass: "row", attrs: { id: "preloader-whole-page" } },
           [_vm._m(0), _vm._v(" "), _vm._m(1)]
         )
-      : _c("div", { staticClass: "row" }, [_vm._m(2)])
+      : _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12 m6 l6" }, [
+                _c("div", { staticClass: "card-panel hoverable" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "divider" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [_vm._v(_vm._s(_vm.summary.male))])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(4),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [_vm._v(_vm._s(_vm.summary.female))])
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [_vm._v(_vm._s(_vm.summary.total))])
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m6 l6" }, [
+                _c("div", { staticClass: "card-panel hoverable" }, [
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "divider" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(7),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [
+                            _vm._v(
+                              _vm._s(_vm.summary.breeder_feeding / 1000) + " kg"
+                            )
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(8),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [
+                            _vm._v(
+                              _vm._s(_vm.summary.replacement_feeding / 1000) +
+                                " kg"
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                      _vm._m(9),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [
+                            _vm._v(
+                              _vm._s(_vm.summary.brooder_feeding / 1000) + " kg"
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m6 l6" }, [
+                _c("div", { staticClass: "card-panel hoverable" }, [
+                  _vm._m(10),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "divider" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(11),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [
+                            _vm._v(
+                              _vm._s(_vm.summary.percent_fertility * 100) + "%"
+                            )
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(12),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [
+                            _vm._v(
+                              _vm._s(_vm.summary.percent_hatchability * 100) +
+                                "%"
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                      _vm._m(13),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [
+                            _vm._v(
+                              _vm._s(_vm.summary.percent_hen_day * 100) + "%"
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m6 l6" }, [
+                _c("div", { staticClass: "card-panel hoverable" }, [
+                  _vm._m(14),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "divider" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(15),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [_vm._v(_vm._s(_vm.summary.eggs_collected))])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(16),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m12 l12" }, [
+                          _c("h5", [
+                            _vm._v(_vm._s(_vm.summary.total_egg_weight))
+                          ])
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                      _vm._m(17),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col svalign-wrapper2 m12 l12" },
+                          [
+                            _c("h5", [
+                              _vm._v(_vm._s(_vm.summary.total_rejected))
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s12 m12 l12" }, [
+                _c("div", { staticClass: "card-panel hoverable" }, [
+                  _vm._m(18),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "divider" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(19),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m6 l6" }, [
+                          _vm._m(20),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _vm._v(_vm._s(_vm.summary.brooder_mortality))
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col s12 m6 l6" }, [
+                          _vm._m(21),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _vm._v(_vm._s(_vm.summary.brooder_sales))
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col s12 m6 l6 center" }, [
+                      _vm._m(22),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m4 l4" }, [
+                          _vm._m(23),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _vm._v(_vm._s(_vm.summary.replacement_mortality))
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col s12 m4 l4" }, [
+                          _vm._m(24),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _vm._v(_vm._s(_vm.summary.replacement_sales))
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col s12 m4 l4" }, [
+                          _vm._m(25),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _vm._v(_vm._s(_vm.summary.replacement_egg_sales))
+                            ])
+                          ])
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12 center" }, [
+                      _vm._m(26),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m4 l4" }, [
+                          _vm._m(27),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _vm._v(_vm._s(_vm.summary.breeder_mortality))
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col s12 m4 l4" }, [
+                          _vm._m(28),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _vm._v(_vm._s(_vm.summary.breeder_sales))
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col s12 m4 l4" }, [
+                          _vm._m(29),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col s12 m12 l12" }, [
+                              _vm._v(_vm._s(_vm.summary.breeder_egg_sales))
+                            ])
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
   ])
 }
 var staticRenderFns = [
@@ -67209,435 +67517,267 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s12 m12 l12" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col s12 m6 l6" }, [
-          _c("div", { staticClass: "card-panel hoverable" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("h5", [_vm._v("General Inventory Status")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "divider" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [
-                      _vm._v("Male "),
-                      _c("i", { staticClass: "fas fa-mars" })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("10")])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [
-                      _vm._v("Female "),
-                      _c("i", { staticClass: "fas fa-venus" })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("10")])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [
-                      _vm._v("Total "),
-                      _c("i", { staticClass: "fas fa-venus-mars" })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("20")])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col s12 m6 l6" }, [
-          _c("div", { staticClass: "card-panel hoverable" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("h5", [_vm._v("Monthly Feeding Status")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "divider" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Breeder")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("10 kg")])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Growers & Replacements")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("50 kg")])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Brooders")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("40 kg")])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col s12 m6 l6" }, [
-          _c("div", { staticClass: "card-panel hoverable" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("h5", [_vm._v("Monthly Egg Production")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "divider" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Percent Fertility")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("100%")])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Percent Hatchability")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("100%")])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Percent Hen Day")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("100%")])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col s12 m6 l6" }, [
-          _c("div", { staticClass: "card-panel hoverable" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("h5", [_vm._v("Monthly Hatchery Status")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "divider" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Total Eggs Collected")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("160")])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Total Ave Weight")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("100")])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Total Ave Rejected")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col svalign-wrapper2 m12 l12" }, [
-                    _c("h5", [_vm._v("20")])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col s12 m12 l12" }, [
-          _c("div", { staticClass: "card-panel hoverable" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("h5", [_vm._v("Mortality, Sales  & Culling")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "divider" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Breeder")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Mortality")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Sales")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Culling")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col s12 m6 l6 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Growers & Replacements")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Mortality")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Sales")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Culling")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col s12 m12 l12 center" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m12 l12" }, [
-                    _c("h5", [_vm._v("Brooders")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col s12 m3 l3" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Mortality")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s12 m3 l3" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Sales")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s12 m3 l3" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Culling")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col s12 m3 l3" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("Egg Sales")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col s12 m12 l12" }, [
-                        _vm._v("0")
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12 center" }, [
+        _c("h5", [_vm._v("General Inventory Status")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Male "), _c("i", { staticClass: "fas fa-mars" })])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Female "), _c("i", { staticClass: "fas fa-venus" })])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [
+          _vm._v("Total "),
+          _c("i", { staticClass: "fas fa-venus-mars" })
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12 center" }, [
+        _c("h5", [_vm._v("Monthly Feeding Status")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Breeder")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Growers")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Brooders")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12 center" }, [
+        _c("h5", [_vm._v("Monthly Egg Production")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Percent Fertility")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Percent Hatchability")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Percent Hen Day")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12 center" }, [
+        _c("h5", [_vm._v("Monthly Hatchery Status")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Total Eggs Collected")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Total Egg Weight")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Total Eggs Rejected")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12 center" }, [
+        _c("h5", [_vm._v("Mortality & Sales")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Brooders")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [_vm._v("Mortality")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [_vm._v("Sales")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Growers & Replacements")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [_vm._v("Mortality")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [_vm._v("Sales")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [_vm._v("Egg Sales")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h5", [_vm._v("Breeders")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [_vm._v("Mortality")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [_vm._v("Sales")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [_vm._v("Egg Sales")])
     ])
   }
 ]
@@ -67646,7 +67786,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-a5d11754", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-5381a686", module.exports)
   }
 }
 
@@ -78021,31 +78161,66 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addBreederPhenoMorpho: function addBreederPhenoMorpho() {
             var _this2 = this;
 
-            axios.post('breeder_add_phenomorpho', {
-                breeder_inventory_id: this.breeder,
-                tag: this.tag,
-                date_collected: this.customFormatter(this.date_collected),
-                gender: this.gender,
-                plummage_color: this.plummage_color,
-                plummage_pattern: this.plummage_pattern,
-                hackle_color: this.hackle_color,
-                hackle_pattern: this.hackle_pattern,
-                body_carriage: this.body_carriage,
-                comb_type: this.comb_type,
-                comb_color: this.comb_color,
-                earlobe_color: this.earlobe_color,
-                iris_color: this.iris_color,
-                beak_color: this.beak_color,
-                shank_color: this.shank_color,
-                skin_color: this.skin_color,
-                other_features: this.other_features,
-                height: this.height,
-                weight: this.weight,
-                body_length: this.body_length,
-                chest_circumference: this.chest_circumference,
-                wing_span: this.wing_span,
-                shank_length: this.shank_length
-            }).then(function (response) {
+            var param = {};
+            if (this.duck) {
+                param = {
+                    breeder_inventory_id: this.breeder,
+                    duck: this.duck,
+                    tag: this.tag,
+                    date_collected: this.customFormatter(this.date_collected),
+                    gender: this.gender,
+                    plummage_color: this.plummage_color,
+                    plummage_pattern: this.plummage_pattern,
+                    neck_feather: this.neck_feather,
+                    wing_feather: this.wing_feather,
+                    tail_feather: this.tail_feather,
+                    bill_color: this.bill_color,
+                    bill_shape: this.bill_shape,
+                    bean_color: this.bean_color,
+                    crest: this.crest,
+                    eye_color: this.eye_color,
+                    body_carriage: this.body_carriage,
+                    shank_color: this.shank_color,
+                    skin_color: this.skin_color,
+                    other_features: this.other_features,
+                    height: this.height,
+                    weight: this.weight,
+                    body_length: this.body_length,
+                    chest_circumference: this.chest_circumference,
+                    wing_span: this.wing_span,
+                    shank_length: this.shank_length,
+                    bill_length: this.bill_length,
+                    neck_length: this.neck_length
+                };
+            } else {
+                param = {
+                    breeder_inventory_id: this.breeder,
+                    duck: this.duck,
+                    tag: this.tag,
+                    date_collected: this.customFormatter(this.date_collected),
+                    gender: this.gender,
+                    plummage_color: this.plummage_color,
+                    plummage_pattern: this.plummage_pattern,
+                    hackle_color: this.hackle_color,
+                    hackle_pattern: this.hackle_pattern,
+                    body_carriage: this.body_carriage,
+                    comb_type: this.comb_type,
+                    comb_color: this.comb_color,
+                    earlobe_color: this.earlobe_color,
+                    iris_color: this.iris_color,
+                    beak_color: this.beak_color,
+                    shank_color: this.shank_color,
+                    skin_color: this.skin_color,
+                    other_features: this.other_features,
+                    height: this.height,
+                    weight: this.weight,
+                    body_length: this.body_length,
+                    chest_circumference: this.chest_circumference,
+                    wing_span: this.wing_span,
+                    shank_length: this.shank_length
+                };
+            }
+            axios.post('breeder_add_phenomorpho', param).then(function (response) {
                 if (response.data.error === undefined) {
                     _this2.tag = '';
                     _this2.date_collected = '';
@@ -78081,7 +78256,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.beak_color_others = false;
                     _this2.shank_color_others = false;
                     _this2.skin_color_others = false;
-
+                    _this2.duck = false;
+                    _this2.neck_feather = '';
+                    _this2.wing_feather = '';
+                    _this2.tail_feather = '';
+                    _this2.bill_color = '';
+                    _this2.bill_shape = '';
+                    _this2.bean_color = '';
+                    _this2.crest = '';
+                    _this2.eye_color = '';
+                    _this2.bill_length = '';
+                    _this2.neck_length = '';
+                    _this2.wing_feather_others = false;
+                    _this2.tail_feather_others = false;
+                    _this2.bill_color_others = false;
+                    _this2.bean_color_others = false;
+                    _this2.crest_others = false;
+                    _this2.eye_color_others = false;
                     Materialize.toast('Successfully added pheno and morpho data', 5000, 'green rounded');
                 } else {
                     Materialize.toast(response.data.error, 5000, 'red rounded');

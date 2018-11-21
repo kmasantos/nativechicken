@@ -1066,31 +1066,66 @@
                 });
             },
             addBreederPhenoMorpho : function () {
-                axios.post('breeder_add_phenomorpho', {
-                    breeder_inventory_id : this.breeder,
-                    tag : this.tag,
-                    date_collected : this.customFormatter(this.date_collected),
-                    gender : this.gender,
-                    plummage_color : this.plummage_color,
-                    plummage_pattern : this.plummage_pattern,
-                    hackle_color : this.hackle_color,
-                    hackle_pattern : this.hackle_pattern,
-                    body_carriage : this.body_carriage,
-                    comb_type : this.comb_type,
-                    comb_color : this.comb_color,
-                    earlobe_color : this.earlobe_color,
-                    iris_color : this.iris_color,
-                    beak_color : this.beak_color,
-                    shank_color : this.shank_color,
-                    skin_color : this.skin_color,
-                    other_features : this.other_features,
-                    height : this.height,
-                    weight : this.weight,
-                    body_length : this.body_length,
-                    chest_circumference : this.chest_circumference,
-                    wing_span : this.wing_span,
-                    shank_length : this.shank_length,
-                })
+                var param = {};
+                if(this.duck){
+                    param = {
+                        breeder_inventory_id : this.breeder,
+                        duck : this.duck,
+                        tag : this.tag,
+                        date_collected : this.customFormatter(this.date_collected),
+                        gender : this.gender,
+                        plummage_color : this.plummage_color,
+                        plummage_pattern : this.plummage_pattern,
+                        neck_feather : this.neck_feather,
+                        wing_feather : this.wing_feather,
+                        tail_feather : this.tail_feather,
+                        bill_color : this.bill_color,
+                        bill_shape : this.bill_shape,
+                        bean_color : this.bean_color,
+                        crest : this.crest,
+                        eye_color : this.eye_color,
+                        body_carriage : this.body_carriage,
+                        shank_color : this.shank_color,
+                        skin_color : this.skin_color,
+                        other_features : this.other_features,
+                        height : this.height,
+                        weight : this.weight,
+                        body_length : this.body_length,
+                        chest_circumference : this.chest_circumference,
+                        wing_span : this.wing_span,
+                        shank_length : this.shank_length,
+                        bill_length : this.bill_length,
+                        neck_length : this.neck_length,
+                    }
+                }else{
+                    param = {
+                        breeder_inventory_id : this.breeder,
+                        duck : this.duck,
+                        tag : this.tag,
+                        date_collected : this.customFormatter(this.date_collected),
+                        gender : this.gender,
+                        plummage_color : this.plummage_color,
+                        plummage_pattern : this.plummage_pattern,
+                        hackle_color : this.hackle_color,
+                        hackle_pattern : this.hackle_pattern,
+                        body_carriage : this.body_carriage,
+                        comb_type : this.comb_type,
+                        comb_color : this.comb_color,
+                        earlobe_color : this.earlobe_color,
+                        iris_color : this.iris_color,
+                        beak_color : this.beak_color,
+                        shank_color : this.shank_color,
+                        skin_color : this.skin_color,
+                        other_features : this.other_features,
+                        height : this.height,
+                        weight : this.weight,
+                        body_length : this.body_length,
+                        chest_circumference : this.chest_circumference,
+                        wing_span : this.wing_span,
+                        shank_length : this.shank_length,
+                    }
+                }
+                axios.post('breeder_add_phenomorpho', param)
                 .then(response => {
                     if(response.data.error === undefined){
                         this.tag = '';
@@ -1127,7 +1162,23 @@
                         this.beak_color_others = false;
                         this.shank_color_others = false;
                         this.skin_color_others = false;
-
+                        this.duck = false;
+                        this.neck_feather = '';
+                        this.wing_feather = '';
+                        this.tail_feather = '';
+                        this.bill_color = '';
+                        this.bill_shape = '';
+                        this.bean_color = '';
+                        this.crest = '';
+                        this.eye_color = '';
+                        this.bill_length = '';
+                        this.neck_length = '';
+                        this.wing_feather_others = false;
+                        this.tail_feather_others = false;
+                        this.bill_color_others = false;
+                        this.bean_color_others = false;
+                        this.crest_others = false;
+                        this.eye_color_others = false;
                         Materialize.toast('Successfully added pheno and morpho data', 5000, 'green rounded');
                     }else{
                         Materialize.toast(response.data.error, 5000, 'red rounded');

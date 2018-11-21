@@ -15,7 +15,7 @@ window.moment = require('moment');
  */
 
 // General Vue Components
-Vue.component('dashboard-component', require('./components/general_Dashboard.vue'));
+Vue.component('dashboard-component', require('./components/general/Dashboard.vue'));
 Vue.component('pen-component', require('./components/general/Pen.vue'));
 Vue.component('generation-line', require('./components/general/GenerationLine.vue'));
 Vue.component('family-record', require('./components/general/FamilyRecord.vue'));

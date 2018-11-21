@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use Auth;
 use Illuminate\Http\Request;
@@ -16,6 +17,13 @@ use App\Models\Replacement;
 use App\Models\ReplacementInventory;
 use App\Models\BrooderGrower;
 use App\Models\BrooderGrowerInventory;
+use App\Models\BreederFeeding;
+use App\Models\ReplacementFeeding;
+use App\Models\BrooderGrowerFeeding;
+use App\Models\HatcheryRecord;
+use App\Models\EggQuality;
+use App\Models\EggProduction;
+use App\Models\MortalitySale;
 
 class FarmController extends Controller
 {
@@ -40,7 +48,119 @@ class FarmController extends Controller
 
     public function getDashData()
     {
+        $now = Carbon::now()->toDateString();
+        $month_start = new Carbon('first day of this month');
+        $month_end = new Carbon('last day of this month');
+        $month_start = $month_start->toDateString();
+        $month_end = $month_end->toDateString();
+        $male = 0;
+        $female = 0;
+        $total = 0;
+        $breeder_feeding = 0;
+        $replacement_feeding = 0;
+        $brooder_feeding = 0;
+        $total_eggs_hatched = 0;
+        $total_eggs_set = 0;
+        $total_eggs_fertile = 0;
+        $percent_fertility = 0;
+        $percent_hatchability = 0;
+        $percent_hen_day = 0;
+        $eggs_collected = 0;
+        $total_egg_weight = 0;
+        $total_rejected = 0;
+        $breeder_mortality = 0;
+        $breeder_sales = 0;
+        $breeder_egg_sales = 0;
+        $replacement_mortality = 0;
+        $replacement_sales = 0;
+        $replacement_egg_sales = 0;
+        $brooder_mortality = 0;
+        $brooder_sales = 0;
 
+        $farm = Auth::user()->getFarm();
+        $generations = Generation::where('farm_id', $farm->id)->where('is_active', true)->get();
+        foreach($generations as $generation){
+            $lines = $generation->getLines();
+            foreach($lines as $line){
+                $families = Family::where('line_id', $line->id)->where('is_active', true)->get();
+                foreach($families as $family){
+                    $breeders = Breeder::where('family_id', $family->id)->get();
+                    foreach($breeders as $breeder){
+                        $inventories = BreederInventory::where('breeder_id', $breeder->id)->get();
+                        $male = $male + $inventories->sum('number_male');
+                        $female = $female + $inventories->sum('number_female');
+                        $total = $total + $inventories->sum('total');
+                        foreach($inventories as $inventory){
+                            $breeder_feeding = $breeder_feeding + BreederFeeding::where('breeder_inventory_id', $inventory->id)->whereBetween('date_collected', [$month_start, $month_end])->get()->sum('amount_offered');
+                            $total_eggs_set = $total_eggs_set + HatcheryRecord::where('breeder_inventory_id', $inventory->id)->whereBetween('date_eggs_set', [$month_start, $month_end])->get()->sum('number_eggs_set');
+                            $total_eggs_hatched = $total_eggs_hatched + HatcheryRecord::where('breeder_inventory_id', $inventory->id)->whereBetween('date_eggs_set', [$month_start, $month_end])->get()->sum('number_hatched');
+                            $total_eggs_fertile = $total_eggs_fertile + HatcheryRecord::where('breeder_inventory_id', $inventory->id)->whereBetween('date_eggs_set', [$month_start, $month_end])->get()->sum('number_fertile');
+                            $eggs_collected = $eggs_collected + EggProduction::where('breeder_inventory_id', $inventory->id)->whereBetween('date_collected', [$month_start, $month_end])->get()->sum('total_eggs_intact');
+                            $total_egg_weight = $total_egg_weight + EggProduction::where('breeder_inventory_id', $inventory->id)->whereBetween('date_collected', [$month_start, $month_end])->get()->sum('total_egg_weight');
+                            $total_rejected = $total_rejected + EggProduction::where('breeder_inventory_id', $inventory->id)->whereBetween('date_collected', [$month_start, $month_end])->get()->sum('total_rejects');
+                            $breeder_mortality = $breeder_mortality + MortalitySale::where('breeder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'died')->get()->sum('total');
+                            $breeder_sales = $breeder_sales + MortalitySale::where('breeder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'sold')->where('type', 'breeder')->get()->sum('total');
+                            $breeder_egg_sales = $breeder_egg_sales + MortalitySale::where('breeder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'sold')->where('type', 'egg')->get()->sum('total');
+                        }
+                    }
+                    $replacements = Replacement::where('family_id', $family->id)->get();
+                    foreach($replacements as $replacement){
+                        $inventories = BreederInventory::where('replacement_id', $replacement->id)->get();
+                        $male = $male + $inventories->sum('number_male');
+                        $female = $female + $inventories->sum('number_female');
+                        $total = $total + $inventories->sum('total');
+                        foreach($inventories as $inventory){
+                            $replacement_feeding = $replacement_feeding + ReplacementFeeding::where('replacement_inventory_id', $inventory->id)->whereBetween('date_collected', [$month_start, $month_end])->get()->sum('amount_offered');
+                            $replacement_mortality = $replacement_mortality + MortalitySale::where('replacement_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'died')->get()->sum('total');
+                            $replacement_sales = $replacement_sales + MortalitySale::where('replacement_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'sold')->where('type', 'replacement')->get()->sum('total');
+                            $replacement_egg_sales = $replacement_egg_sales + MortalitySale::where('replacement_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'sold')->where('type', 'egg')->get()->sum('total');
+                        }
+                    }
+                    $brooders = BrooderGrower::where('family_id', $family->id)->get();
+                    foreach($brooders as $brooder){
+                        $inventories = BreederInventory::where('replacement_id', $brooder->id)->get();
+                        $male = $male + $inventories->sum('number_male');
+                        $female = $female + $inventories->sum('number_female');
+                        $total = $total + $inventories->sum('total');
+                        foreach($inventories as $inventory){
+                            $brooder_feeding = $brooder_feeding + BrooderGrowerFeeding::where('broodergrower_inventory_id', $inventory->id)->whereBetween('date_collected', [$month_start, $month_end])->get()->sum('amount_offered');
+                            $brooder_mortality = $brooder_mortality + MortalitySale::where('brooder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'died')->get()->sum('total');
+                            $brooder_sales = $brooder_sales + MortalitySale::where('brooder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'sold')->where('type', 'brooder')->get()->sum('total');
+                        }
+                    }
+                }
+            }
+        }
+        if($total_eggs_set!=0){
+            $percent_fertility = $total_eggs_fertile/$total_eggs_set;
+        }
+        if($total_eggs_fertile!=0){
+            $percent_hatchability = $total_eggs_hatched/$total_eggs_fertile;
+        }
+        // $percent_hen_day = 0;
+        $collection = collect([
+            'male' => $male,
+            'female' => $female,
+            'total'=> $total,
+            'breeder_feeding' => $breeder_feeding,
+            'replacement_feeding'=> $replacement_feeding,
+            'brooder_feeding'=> $brooder_feeding,
+            'percent_fertility'=> $percent_fertility,
+            'percent_hatchability'=> $percent_hatchability,
+            'percent_hen_day'=> $percent_hen_day,
+            'eggs_collected'=> $eggs_collected,
+            'total_egg_weight'=> $total_egg_weight,
+            'total_rejected'=> $total_rejected,
+            'breeder_mortality' => $breeder_mortality,
+            'breeder_sales' => $breeder_sales,
+            'breeder_egg_sales' => $breeder_egg_sales,
+            'replacement_mortality' => $replacement_mortality,
+            'replacement_sales' => $replacement_sales,
+            'replacement_egg_sales' => $replacement_egg_sales,
+            'brooder_mortality' => $brooder_mortality,
+            'brooder_sales' => $brooder_sales,
+        ]);
+        return $collection;
     }
 
     public function cullGeneration($generation_id)
