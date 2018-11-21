@@ -102,7 +102,7 @@
                                         </div>
                                         <div class="col s12 m12 l12">
                                             <div class="row">
-                                                <label>Plummage Color</label>
+                                                <label>Plumage Color</label>
                                                 <div class="col s12 m12 l12">
                                                     <div class="row">
                                                         <div class="col s12 m4 l4">
@@ -156,7 +156,7 @@
 
                                         <div class="col s12 m12 l12">
                                             <div class="row">
-                                                <label>Plummage Pattern</label>
+                                                <label>Plumage Pattern</label>
                                                 <div class="col s12 m12 l12">
                                                     <div class="row">
                                                         <div class="col s12 m4 l4">
@@ -409,7 +409,7 @@
                                                     <div class="row">
                                                         <div class="col s12 m4 l4">
                                                             <input @change="earlobe_color_others=true" class="with-gap" v-model="earlobe_color" type="radio" id="earlobe_color_others_rad" value="Others" />
-                                                            <label for="earlobe_color_rad">Others</label>
+                                                            <label for="earlobe_color_others_rad">Others</label>
                                                         </div>
                                                     </div>
                                                 </div>

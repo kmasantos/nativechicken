@@ -369,7 +369,6 @@ class FarmController extends Controller
     public function getGenerations()
     {
         $generations = Generation::where('farm_id', Auth::user()->farm_id)
-        ->where('is_active', true)
         ->orderBy('numerical_generation', 'desc')
         ->paginate(10);
 
@@ -389,7 +388,7 @@ class FarmController extends Controller
      */
     public function showGenerationDetails($generation)
     {
-        $lines = Line::where('generation_id', $generation)->where('is_active', true)->orderBy('number', 'asc')->get();
+        $lines = Line::where('generation_id', $generation)->orderBy('number', 'asc')->get();
         return $lines;
     }
 
@@ -402,7 +401,6 @@ class FarmController extends Controller
     {
         $generations = Generation::where('farm_id', Auth::user()->farm_id)
         ->where('number', 'like', '%'.$search.'%')
-        ->where('is_active', true)
         ->orderBy('numerical_generation', 'desc')
         ->paginate(10);
         return $generations;

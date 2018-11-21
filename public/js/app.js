@@ -69112,6 +69112,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -69343,27 +69344,29 @@ var render = function() {
                               )
                             ]),
                             _vm._v(" "),
-                            _c("td", [
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "modal-trigger",
-                                  attrs: { href: "#cull_generation" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selected_gen = generation.id
-                                      _vm.selected_gen_number =
-                                        generation.number
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fas fa-times-circle"
-                                  })
-                                ]
-                              )
-                            ])
+                            generation.is_active
+                              ? _c("td", [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "modal-trigger",
+                                      attrs: { href: "#cull_generation" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.selected_gen = generation.id
+                                          _vm.selected_gen_number =
+                                            generation.number
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fas fa-times-circle"
+                                      })
+                                    ]
+                                  )
+                                ])
+                              : _c("td", [_vm._v("-")])
                           ])
                         })
                       )
@@ -77523,6 +77526,414 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -77535,6 +77946,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             records: {},
             records_length: 0,
             date_collected: '',
+            duck: false,
             tag: '',
             gender: '',
             plummage_color_others: false,
@@ -77563,12 +77975,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             skin_color: '',
             other_features: '',
 
+            neck_feather: '',
+            wing_feather_others: false,
+            wing_feather: '',
+            tail_feather_others: false,
+            tail_feather: '',
+            bill_color_others: false,
+            bill_color: '',
+            bill_shape: '',
+            bean_color_others: false,
+            bean_color: '',
+            crest_others: false,
+            crest: '',
+            eye_color_others: false,
+            eye_color: '',
+
             height: '',
             weight: '',
             body_length: '',
             chest_circumference: '',
             wing_span: '',
-            shank_length: ''
+            shank_length: '',
+
+            bill_length: '',
+            neck_length: ''
         };
     },
 
@@ -77848,6 +78278,74 @@ var render = function() {
                         [
                           _c("div", { attrs: { id: "pheno" } }, [
                             _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col s12 m6 l6" }, [
+                                _c(
+                                  "label",
+                                  { attrs: { for: "type_selector" } },
+                                  [_vm._v("Select Data to Input")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "switch",
+                                    attrs: { id: "type_selector" }
+                                  },
+                                  [
+                                    _c("label", [
+                                      _vm._v(
+                                        "\n                                                    Chicken\n                                                    "
+                                      ),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.duck,
+                                            expression: "duck"
+                                          }
+                                        ],
+                                        attrs: { type: "checkbox" },
+                                        domProps: {
+                                          checked: Array.isArray(_vm.duck)
+                                            ? _vm._i(_vm.duck, null) > -1
+                                            : _vm.duck
+                                        },
+                                        on: {
+                                          change: function($event) {
+                                            var $$a = _vm.duck,
+                                              $$el = $event.target,
+                                              $$c = $$el.checked ? true : false
+                                            if (Array.isArray($$a)) {
+                                              var $$v = null,
+                                                $$i = _vm._i($$a, $$v)
+                                              if ($$el.checked) {
+                                                $$i < 0 &&
+                                                  (_vm.duck = $$a.concat([$$v]))
+                                              } else {
+                                                $$i > -1 &&
+                                                  (_vm.duck = $$a
+                                                    .slice(0, $$i)
+                                                    .concat($$a.slice($$i + 1)))
+                                              }
+                                            } else {
+                                              _vm.duck = $$c
+                                            }
+                                          }
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("span", { staticClass: "lever" }),
+                                      _vm._v(
+                                        "\n                                                    Duck\n                                                    "
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row" }, [
                               _c(
                                 "div",
                                 { staticClass: "col s12 m6 l6" },
@@ -77993,3072 +78491,6990 @@ var render = function() {
                               ])
                             ]),
                             _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Plummage Color")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_color,
-                                          expression: "plummage_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_color_white",
-                                        value: "White"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_color,
-                                          "White"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_color = "White"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "plummage_color_white" }
-                                      },
-                                      [_vm._v("White")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_color,
-                                          expression: "plummage_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_color_black",
-                                        value: "Black"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_color,
-                                          "Black"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_color = "Black"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "plummage_color_black" }
-                                      },
-                                      [_vm._v("Black")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_color,
-                                          expression: "plummage_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_color_red",
-                                        value: "Red"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_color,
-                                          "Red"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_color = "Red"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "plummage_color_red" } },
-                                      [_vm._v("Red")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_color,
-                                          expression: "plummage_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_color_orange",
-                                        value: "Orange"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_color,
-                                          "Orange"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_color = "Orange"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "plummage_color_orange" }
-                                      },
-                                      [_vm._v("Orange")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_color,
-                                          expression: "plummage_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_color_brown",
-                                        value: "Brown"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_color,
-                                          "Brown"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_color = "Brown"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "plummage_color_brown" }
-                                      },
-                                      [_vm._v("Brown")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_color,
-                                          expression: "plummage_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_color_yellow",
-                                        value: "Yellow"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_color,
-                                          "Yellow"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_color = "Yellow"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "plummage_color_yellow" }
-                                      },
-                                      [_vm._v("Yellow")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_color,
-                                          expression: "plummage_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_color_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_color,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_color = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_color_others = true
-                                            _vm.plummage_color = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: {
-                                          for: "plummage_color_others_rad"
-                                        }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.plummage_color_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col s12 m6 l6 input-field"
-                                        },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "plummage_color_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.plummage_color,
-                                                expression: "plummage_color"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "plummage_color_others",
-                                              type: "text"
-                                            },
-                                            domProps: {
-                                              value: _vm.plummage_color
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.plummage_color =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Plummage Pattern")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_pattern,
-                                          expression: "plummage_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_pattern_plain",
-                                        value: "Plain"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_pattern,
-                                          "Plain"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_pattern = "Plain"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_pattern_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "plummage_pattern_plain" }
-                                      },
-                                      [_vm._v("Plain")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_pattern,
-                                          expression: "plummage_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_pattern_barred",
-                                        value: "Barred"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_pattern,
-                                          "Barred"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_pattern = "Barred"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_pattern_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: {
-                                          for: "plummage_pattern_barred"
-                                        }
-                                      },
-                                      [_vm._v("Barred")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_pattern,
-                                          expression: "plummage_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_pattern_wild",
-                                        value: "Wild Type"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_pattern,
-                                          "Wild Type"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_pattern = "Wild Type"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_pattern_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "plummage_pattern_wild" }
-                                      },
-                                      [_vm._v("Wild Type")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_pattern,
-                                          expression: "plummage_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_pattern_laced",
-                                        value: "Laced"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_pattern,
-                                          "Laced"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_pattern = "Laced"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_pattern_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "plummage_pattern_laced" }
-                                      },
-                                      [_vm._v("Laced")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_pattern,
-                                          expression: "plummage_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_pattern_mottled",
-                                        value: "Mottled"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_pattern,
-                                          "Mottled"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_pattern = "Mottled"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_pattern_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: {
-                                          for: "plummage_pattern_mottled"
-                                        }
-                                      },
-                                      [_vm._v("Mottled")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.plummage_pattern,
-                                          expression: "plummage_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "plummage_pattern_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.plummage_pattern,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.plummage_pattern = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.plummage_pattern_others = true
-                                            _vm.plummage_pattern = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: {
-                                          for: "plummage_pattern_others_rad"
-                                        }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.plummage_pattern_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col s12 m6 l6" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "plummage_pattern_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.plummage_pattern,
-                                                expression: "plummage_pattern"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "plummage_pattern_others",
-                                              type: "text"
-                                            },
-                                            domProps: {
-                                              value: _vm.plummage_pattern
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.plummage_pattern =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Hackle Color")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_color,
-                                          expression: "hackle_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_color_yellow",
-                                        value: "Yellow"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_color,
-                                          "Yellow"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_color = "Yellow"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "hackle_color_yellow" } },
-                                      [_vm._v("Yellow")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_color,
-                                          expression: "hackle_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_color_orange",
-                                        value: "Orange"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_color,
-                                          "Orange"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_color = "Orange"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "hackle_color_orange" } },
-                                      [_vm._v("Orange")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_color,
-                                          expression: "hackle_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_color_brown",
-                                        value: "Brown"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_color,
-                                          "Brown"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_color = "Brown"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "hackle_color_brown" } },
-                                      [_vm._v("Brown")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_color,
-                                          expression: "hackle_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_color_red",
-                                        value: "Red"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.hackle_color, "Red")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_color = "Red"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "hackle_color_red" } },
-                                      [_vm._v("Red")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_color,
-                                          expression: "hackle_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_color_black",
-                                        value: "Black"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_color,
-                                          "Black"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_color = "Black"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "hackle_color_black" } },
-                                      [_vm._v("Black")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_color,
-                                          expression: "hackle_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_color_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_color,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_color = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_color_others = true
-                                            _vm.hackle_color = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: {
-                                          for: "hackle_color_others_rad"
-                                        }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.hackle_color_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col s12 m6 l6 input-field"
-                                        },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "hackle_color_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.hackle_color,
-                                                expression: "hackle_color"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "hackle_color_others",
-                                              type: "text"
-                                            },
-                                            domProps: {
-                                              value: _vm.hackle_color
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.hackle_color =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Hackle Pattern")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m3 l3" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_pattern,
-                                          expression: "hackle_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_pattern_plain",
-                                        value: "Plain"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_pattern,
-                                          "Plain"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_pattern = "Plain"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_pattern_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "hackle_pattern_plain" }
-                                      },
-                                      [_vm._v("Plain")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m3 l3" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_pattern,
-                                          expression: "hackle_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_pattern_laced",
-                                        value: "Laced"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_pattern,
-                                          "Laced"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_pattern = "Laced"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_pattern_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "hackle_pattern_laced" }
-                                      },
-                                      [_vm._v("Laced")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m3 l3" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_pattern,
-                                          expression: "hackle_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_pattern_barred",
-                                        value: "Barred"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_pattern,
-                                          "Barred"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_pattern = "Barred"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_pattern_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "hackle_pattern_barred" }
-                                      },
-                                      [_vm._v("Barred")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m3 l3" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.hackle_pattern,
-                                          expression: "hackle_pattern"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "hackle_pattern_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.hackle_pattern,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.hackle_pattern = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.hackle_pattern_others = true
-                                            _vm.hackle_pattern = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: {
-                                          for: "hackle_pattern_others_rad"
-                                        }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.hackle_pattern_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col s12 m6 l6 input-field"
-                                        },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "hackle_pattern_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.hackle_pattern,
-                                                expression: "hackle_pattern"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "hackle_pattern_others",
-                                              type: "text"
-                                            },
-                                            domProps: {
-                                              value: _vm.hackle_pattern
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.hackle_pattern =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Body Carriage")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.body_carriage,
-                                          expression: "body_carriage"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "body_carriage_upright",
-                                        value: "Upright"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.body_carriage,
-                                          "Upright"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.body_carriage = "Upright"
-                                          },
-                                          function($event) {
-                                            _vm.body_carriage_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "body_carriage_upright" }
-                                      },
-                                      [_vm._v("Upright")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.body_carriage,
-                                          expression: "body_carriage"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "body_carriage_slight",
-                                        value: "Slight Upright"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.body_carriage,
-                                          "Slight Upright"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.body_carriage = "Slight Upright"
-                                          },
-                                          function($event) {
-                                            _vm.body_carriage_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "body_carriage_slight" }
-                                      },
-                                      [_vm._v("Slight Upright")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.body_carriage,
-                                          expression: "body_carriage"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "body_carriage_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.body_carriage,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.body_carriage = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.body_carriage_others = true
-                                            _vm.body_carriage = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: {
-                                          for: "body_carriage_others_rad"
-                                        }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.body_carriage_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col s12 m6 l6" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "body_carriage_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.body_carriage,
-                                                expression: "body_carriage"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "body_carriage_others",
-                                              type: "text"
-                                            },
-                                            domProps: {
-                                              value: _vm.body_carriage
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.body_carriage =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Comb Type")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.comb_type,
-                                          expression: "comb_type"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "comb_type_single",
-                                        value: "Single"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.comb_type, "Single")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.comb_type = "Single"
-                                          },
-                                          function($event) {
-                                            _vm.comb_type_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "comb_type_single" } },
-                                      [_vm._v("Single")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.comb_type,
-                                          expression: "comb_type"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "comb_type_pea",
-                                        value: "Pea"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.comb_type, "Pea")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.comb_type = "Pea"
-                                          },
-                                          function($event) {
-                                            _vm.comb_type_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "comb_type_pea" } },
-                                      [_vm._v("Pea")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.comb_type,
-                                          expression: "comb_type"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "comb_type_rose",
-                                        value: "Rose"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.comb_type, "Rose")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.comb_type = "Rose"
-                                          },
-                                          function($event) {
-                                            _vm.comb_type_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "comb_type_rose" } },
-                                      [_vm._v("Rose")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.comb_type,
-                                          expression: "comb_type"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "comb_type_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.comb_type, "Others")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.comb_type = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.comb_type_others = true
-                                            _vm.comb_type = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "comb_type_others_rad" }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.comb_type_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col s12 m6 l6" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: { for: "comb_type_others" }
-                                            },
-                                            [_vm._v("Others")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.comb_type,
-                                                expression: "comb_type"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "comb_type_others",
-                                              type: "text"
-                                            },
-                                            domProps: { value: _vm.comb_type },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.comb_type =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Comb Color")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.comb_color,
-                                          expression: "comb_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "comb_color_red",
-                                        value: "Red"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.comb_color, "Red")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.comb_color = "Red"
-                                          },
-                                          function($event) {
-                                            _vm.comb_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "comb_color_red" } },
-                                      [_vm._v("Red")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.comb_color,
-                                          expression: "comb_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "comb_color_pink",
-                                        value: "Pink"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.comb_color, "Pink")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.comb_color = "Pink"
-                                          },
-                                          function($event) {
-                                            _vm.comb_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "comb_color_pink" } },
-                                      [_vm._v("Pink")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.comb_color,
-                                          expression: "comb_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "comb_color_black",
-                                        value: "Black"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.comb_color, "Black")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.comb_color = "Black"
-                                          },
-                                          function($event) {
-                                            _vm.comb_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "comb_color_black" } },
-                                      [_vm._v("Black")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.comb_color,
-                                          expression: "comb_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "comb_color_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.comb_color,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.comb_color = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.comb_color_others = true
-                                            _vm.comb_color = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "comb_color_others_rad" }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.comb_color_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col s12 m6 l6" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "comb_color_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.comb_color,
-                                                expression: "comb_color"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "comb_color_others",
-                                              type: "text"
-                                            },
-                                            domProps: { value: _vm.comb_color },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.comb_color =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Earlobe Color")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.earlobe_color,
-                                          expression: "earlobe_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "earlobe_color_white",
-                                        value: "White"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.earlobe_color,
-                                          "White"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.earlobe_color = "White"
-                                          },
-                                          function($event) {
-                                            _vm.earlobe_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "earlobe_color_white" } },
-                                      [_vm._v("White")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.earlobe_color,
-                                          expression: "earlobe_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "earlobe_color_red",
-                                        value: "Red"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.earlobe_color,
-                                          "Red"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.earlobe_color = "Red"
-                                          },
-                                          function($event) {
-                                            _vm.earlobe_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "earlobe_color_red" } },
-                                      [_vm._v("Red")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.earlobe_color,
-                                          expression: "earlobe_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "earlobe_color_redwhwhite",
-                                        value: "Red-White"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.earlobe_color,
-                                          "Red-White"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.earlobe_color = "Red-White"
-                                          },
-                                          function($event) {
-                                            _vm.earlobe_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: {
-                                          for: "earlobe_color_redwhwhite"
-                                        }
-                                      },
-                                      [_vm._v("Red-White")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.earlobe_color,
-                                          expression: "earlobe_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "earlobe_color_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.earlobe_color,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.earlobe_color = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.earlobe_color_others = true
-                                            _vm.earlobe_color = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "earlobe_color_rad" } },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.earlobe_color_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _vm.earlobe_color_others
-                                        ? _c(
-                                            "div",
-                                            { staticClass: "col s12 m6 l6" },
-                                            [
-                                              _c(
-                                                "label",
+                            _vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Plumage Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
                                                 {
-                                                  staticClass: "active",
-                                                  attrs: {
-                                                    for: "earlobe_color_others"
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_dblack",
+                                                value: "Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color = "Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
                                                   }
-                                                },
-                                                [_vm._v("Others")]
-                                              ),
-                                              _vm._v(" "),
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_dblack"
+                                                }
+                                              },
+                                              [_vm._v("Black")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id:
+                                                  "plummage_color_dblackbrown",
+                                                value: "Black with Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Black with Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color =
+                                                      "Black with Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_color_dblackbrown"
+                                                }
+                                              },
+                                              [_vm._v("Black with Brown")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_dbrown",
+                                                value: "Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color = "Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_dbrown"
+                                                }
+                                              },
+                                              [_vm._v("Brown")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id:
+                                                  "plummage_color_dbrownblack",
+                                                value: "Brown with Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Brown with Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color =
+                                                      "Brown with Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_color_dbrownblack"
+                                                }
+                                              },
+                                              [_vm._v("Brown with Black")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_dothers",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color =
+                                                      "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = true
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_dothers"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.plummage_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "input-field col s12 m6 l6"
+                                              },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for:
+                                                        "plummage_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.plummage_color,
+                                                      expression:
+                                                        "plummage_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "plummage_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.plummage_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.plummage_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Plumage Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_white",
+                                                value: "White"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "White"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color = "White"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_white"
+                                                }
+                                              },
+                                              [_vm._v("White")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_black",
+                                                value: "Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color = "Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_black"
+                                                }
+                                              },
+                                              [_vm._v("Black")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_red",
+                                                value: "Red"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Red"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color = "Red"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_red"
+                                                }
+                                              },
+                                              [_vm._v("Red")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_orange",
+                                                value: "Orange"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Orange"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color =
+                                                      "Orange"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_orange"
+                                                }
+                                              },
+                                              [_vm._v("Orange")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_brown",
+                                                value: "Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color = "Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_brown"
+                                                }
+                                              },
+                                              [_vm._v("Brown")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_yellow",
+                                                value: "Yellow"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Yellow"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color =
+                                                      "Yellow"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_color_yellow"
+                                                }
+                                              },
+                                              [_vm._v("Yellow")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_color,
+                                                  expression: "plummage_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_color =
+                                                      "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_color_others = true
+                                                    _vm.plummage_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.plummage_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "col s12 m6 l6 input-field"
+                                              },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for:
+                                                        "plummage_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.plummage_color,
+                                                      expression:
+                                                        "plummage_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "plummage_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.plummage_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.plummage_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Plumage Pattern")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_pattern_ddusky",
+                                                value: "Dusky"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Dusky"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Dusky"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_pattern_ddusky"
+                                                }
+                                              },
+                                              [_vm._v("Dusky")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_pattern_dmallard",
+                                                value: "Mallard"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Mallard"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Mallard"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_pattern_dmallard"
+                                                }
+                                              },
+                                              [_vm._v("Mallard")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id:
+                                                  "plummage_pattern_dplainbrown",
+                                                value: "Plain Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Plain Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Plain Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_pattern_dplainbrown"
+                                                }
+                                              },
+                                              [_vm._v("Plain Brown")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_pattern_drunner",
+                                                value: "Runner"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Runner"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Runner"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_pattern_drunner"
+                                                }
+                                              },
+                                              [_vm._v("Runner")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id:
+                                                  "plummage_pattern_drunnermallard",
+                                                value: "Runner/Mallard"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Runner/Mallard"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Runner/Mallard"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_pattern_drunnermallard"
+                                                }
+                                              },
+                                              [_vm._v("Runner/Mallard")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id:
+                                                  "plummage_pattern_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = true
+                                                    _vm.plummage_pattern = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_pattern_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.plummage_pattern_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "input-field col s12 m6 l6"
+                                              },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for:
+                                                        "plummage_pattern_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value:
+                                                        _vm.plummage_pattern,
+                                                      expression:
+                                                        "plummage_pattern"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id:
+                                                      "plummage_pattern_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.plummage_pattern
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.plummage_pattern =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Plumage Pattern")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_pattern_plain",
+                                                value: "Plain"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Plain"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Plain"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_pattern_plain"
+                                                }
+                                              },
+                                              [_vm._v("Plain")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_pattern_barred",
+                                                value: "Barred"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Barred"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Barred"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_pattern_barred"
+                                                }
+                                              },
+                                              [_vm._v("Barred")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_pattern_wild",
+                                                value: "Wild Type"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Wild Type"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Wild Type"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_pattern_wild"
+                                                }
+                                              },
+                                              [_vm._v("Wild Type")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_pattern_laced",
+                                                value: "Laced"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Laced"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Laced"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "plummage_pattern_laced"
+                                                }
+                                              },
+                                              [_vm._v("Laced")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "plummage_pattern_mottled",
+                                                value: "Mottled"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Mottled"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Mottled"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_pattern_mottled"
+                                                }
+                                              },
+                                              [_vm._v("Mottled")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.plummage_pattern,
+                                                  expression: "plummage_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id:
+                                                  "plummage_pattern_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.plummage_pattern,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.plummage_pattern =
+                                                      "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.plummage_pattern_others = true
+                                                    _vm.plummage_pattern = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "plummage_pattern_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.plummage_pattern_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for:
+                                                        "plummage_pattern_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value:
+                                                        _vm.plummage_pattern,
+                                                      expression:
+                                                        "plummage_pattern"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id:
+                                                      "plummage_pattern_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.plummage_pattern
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.plummage_pattern =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Hackle Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_color,
+                                                  expression: "hackle_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_color_yellow",
+                                                value: "Yellow"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_color,
+                                                  "Yellow"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_color = "Yellow"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_color_yellow"
+                                                }
+                                              },
+                                              [_vm._v("Yellow")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_color,
+                                                  expression: "hackle_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_color_orange",
+                                                value: "Orange"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_color,
+                                                  "Orange"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_color = "Orange"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_color_orange"
+                                                }
+                                              },
+                                              [_vm._v("Orange")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_color,
+                                                  expression: "hackle_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_color_brown",
+                                                value: "Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_color,
+                                                  "Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_color = "Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_color_brown"
+                                                }
+                                              },
+                                              [_vm._v("Brown")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_color,
+                                                  expression: "hackle_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_color_red",
+                                                value: "Red"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_color,
+                                                  "Red"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_color = "Red"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_color_red"
+                                                }
+                                              },
+                                              [_vm._v("Red")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_color,
+                                                  expression: "hackle_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_color_black",
+                                                value: "Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_color,
+                                                  "Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_color = "Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_color_black"
+                                                }
+                                              },
+                                              [_vm._v("Black")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_color,
+                                                  expression: "hackle_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_color_others = true
+                                                    _vm.hackle_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.hackle_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "col s12 m6 l6 input-field"
+                                              },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "hackle_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.hackle_color,
+                                                      expression: "hackle_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "hackle_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.hackle_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.hackle_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Hackle Pattern")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m3 l3" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_pattern,
+                                                  expression: "hackle_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_pattern_plain",
+                                                value: "Plain"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_pattern,
+                                                  "Plain"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_pattern = "Plain"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_pattern_plain"
+                                                }
+                                              },
+                                              [_vm._v("Plain")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m3 l3" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_pattern,
+                                                  expression: "hackle_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_pattern_laced",
+                                                value: "Laced"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_pattern,
+                                                  "Laced"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_pattern = "Laced"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_pattern_laced"
+                                                }
+                                              },
+                                              [_vm._v("Laced")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m3 l3" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_pattern,
+                                                  expression: "hackle_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_pattern_barred",
+                                                value: "Barred"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_pattern,
+                                                  "Barred"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_pattern =
+                                                      "Barred"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_pattern_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "hackle_pattern_barred"
+                                                }
+                                              },
+                                              [_vm._v("Barred")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m3 l3" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.hackle_pattern,
+                                                  expression: "hackle_pattern"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "hackle_pattern_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.hackle_pattern,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.hackle_pattern =
+                                                      "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.hackle_pattern_others = true
+                                                    _vm.hackle_pattern = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "hackle_pattern_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.hackle_pattern_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "col s12 m6 l6 input-field"
+                                              },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for:
+                                                        "hackle_pattern_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.hackle_pattern,
+                                                      expression:
+                                                        "hackle_pattern"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "hackle_pattern_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.hackle_pattern
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.hackle_pattern =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Body Carriage")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.body_carriage,
+                                                  expression: "body_carriage"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "body_carriage_dhorizontal",
+                                                value: "Horizontal"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.body_carriage,
+                                                  "Horizontal"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.body_carriage =
+                                                      "Horizontal"
+                                                  },
+                                                  function($event) {
+                                                    _vm.body_carriage_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "body_carriage_dhorizontal"
+                                                }
+                                              },
+                                              [_vm._v("Horizontal")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.body_carriage,
+                                                  expression: "body_carriage"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "body_carriage_dslight",
+                                                value: "Slight Upright"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.body_carriage,
+                                                  "Slight Upright"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.body_carriage =
+                                                      "Slight Upright"
+                                                  },
+                                                  function($event) {
+                                                    _vm.body_carriage_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "body_carriage_dslight"
+                                                }
+                                              },
+                                              [_vm._v("Slight Upright")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.body_carriage,
+                                                  expression: "body_carriage"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "body_carriage_dupright",
+                                                value: "Upright"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.body_carriage,
+                                                  "Upright"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.body_carriage =
+                                                      "Upright"
+                                                  },
+                                                  function($event) {
+                                                    _vm.body_carriage_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "body_carriage_dupright"
+                                                }
+                                              },
+                                              [_vm._v("Upright")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.body_carriage,
+                                                  expression: "body_carriage"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "body_carriage_dothers_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.body_carriage,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.body_carriage = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.body_carriage_others = true
+                                                    _vm.body_carriage = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "body_carriage_dothers_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.body_carriage_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for:
+                                                        "body_carriage_dothers"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.body_carriage,
+                                                      expression:
+                                                        "body_carriage"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "body_carriage_dothers",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.body_carriage
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.body_carriage =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Body Carriage")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.body_carriage,
+                                                  expression: "body_carriage"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "body_carriage_upright",
+                                                value: "Upright"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.body_carriage,
+                                                  "Upright"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.body_carriage =
+                                                      "Upright"
+                                                  },
+                                                  function($event) {
+                                                    _vm.body_carriage_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "body_carriage_upright"
+                                                }
+                                              },
+                                              [_vm._v("Upright")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.body_carriage,
+                                                  expression: "body_carriage"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "body_carriage_slight",
+                                                value: "Slight Upright"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.body_carriage,
+                                                  "Slight Upright"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.body_carriage =
+                                                      "Slight Upright"
+                                                  },
+                                                  function($event) {
+                                                    _vm.body_carriage_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "body_carriage_slight"
+                                                }
+                                              },
+                                              [_vm._v("Slight Upright")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.body_carriage,
+                                                  expression: "body_carriage"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "body_carriage_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.body_carriage,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.body_carriage = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.body_carriage_others = true
+                                                    _vm.body_carriage = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "body_carriage_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.body_carriage_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for:
+                                                        "body_carriage_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.body_carriage,
+                                                      expression:
+                                                        "body_carriage"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "body_carriage_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.body_carriage
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.body_carriage =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Comb Type")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_type,
+                                                  expression: "comb_type"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "comb_type_single",
+                                                value: "Single"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.comb_type,
+                                                  "Single"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.comb_type = "Single"
+                                                  },
+                                                  function($event) {
+                                                    _vm.comb_type_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "comb_type_single"
+                                                }
+                                              },
+                                              [_vm._v("Single")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_type,
+                                                  expression: "comb_type"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "comb_type_pea",
+                                                value: "Pea"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.comb_type,
+                                                  "Pea"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.comb_type = "Pea"
+                                                  },
+                                                  function($event) {
+                                                    _vm.comb_type_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: { for: "comb_type_pea" }
+                                              },
+                                              [_vm._v("Pea")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_type,
+                                                  expression: "comb_type"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "comb_type_rose",
+                                                value: "Rose"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.comb_type,
+                                                  "Rose"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.comb_type = "Rose"
+                                                  },
+                                                  function($event) {
+                                                    _vm.comb_type_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: { for: "comb_type_rose" }
+                                              },
+                                              [_vm._v("Rose")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_type,
+                                                  expression: "comb_type"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "comb_type_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.comb_type,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.comb_type = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.comb_type_others = true
+                                                    _vm.comb_type = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "comb_type_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.comb_type_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "comb_type_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.comb_type,
+                                                      expression: "comb_type"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "comb_type_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.comb_type
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.comb_type =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Comb Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_color,
+                                                  expression: "comb_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "comb_color_red",
+                                                value: "Red"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.comb_color,
+                                                  "Red"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.comb_color = "Red"
+                                                  },
+                                                  function($event) {
+                                                    _vm.comb_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: { for: "comb_color_red" }
+                                              },
+                                              [_vm._v("Red")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_color,
+                                                  expression: "comb_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "comb_color_pink",
+                                                value: "Pink"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.comb_color,
+                                                  "Pink"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.comb_color = "Pink"
+                                                  },
+                                                  function($event) {
+                                                    _vm.comb_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "comb_color_pink"
+                                                }
+                                              },
+                                              [_vm._v("Pink")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_color,
+                                                  expression: "comb_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "comb_color_black",
+                                                value: "Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.comb_color,
+                                                  "Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.comb_color = "Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.comb_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "comb_color_black"
+                                                }
+                                              },
+                                              [_vm._v("Black")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.comb_color,
+                                                  expression: "comb_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "comb_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.comb_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.comb_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.comb_color_others = true
+                                                    _vm.comb_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "comb_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.comb_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "comb_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.comb_color,
+                                                      expression: "comb_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "comb_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.comb_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.comb_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Earlobe Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.earlobe_color,
+                                                  expression: "earlobe_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "earlobe_color_white",
+                                                value: "White"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.earlobe_color,
+                                                  "White"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.earlobe_color = "White"
+                                                  },
+                                                  function($event) {
+                                                    _vm.earlobe_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "earlobe_color_white"
+                                                }
+                                              },
+                                              [_vm._v("White")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.earlobe_color,
+                                                  expression: "earlobe_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "earlobe_color_red",
+                                                value: "Red"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.earlobe_color,
+                                                  "Red"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.earlobe_color = "Red"
+                                                  },
+                                                  function($event) {
+                                                    _vm.earlobe_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "earlobe_color_red"
+                                                }
+                                              },
+                                              [_vm._v("Red")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.earlobe_color,
+                                                  expression: "earlobe_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "earlobe_color_redwhwhite",
+                                                value: "Red-White"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.earlobe_color,
+                                                  "Red-White"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.earlobe_color =
+                                                      "Red-White"
+                                                  },
+                                                  function($event) {
+                                                    _vm.earlobe_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "earlobe_color_redwhwhite"
+                                                }
+                                              },
+                                              [_vm._v("Red-White")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.earlobe_color,
+                                                  expression: "earlobe_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "earlobe_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.earlobe_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.earlobe_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.earlobe_color_others = true
+                                                    _vm.earlobe_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "earlobe_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.earlobe_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _vm.earlobe_color_others
+                                              ? _c(
+                                                  "div",
+                                                  {
+                                                    staticClass: "col s12 m6 l6"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "label",
+                                                      {
+                                                        staticClass: "active",
+                                                        attrs: {
+                                                          for:
+                                                            "earlobe_color_others"
+                                                        }
+                                                      },
+                                                      [_vm._v("Others")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            _vm.earlobe_color,
+                                                          expression:
+                                                            "earlobe_color"
+                                                        }
+                                                      ],
+                                                      attrs: {
+                                                        id:
+                                                          "earlobe_color_others",
+                                                        type: "text"
+                                                      },
+                                                      domProps: {
+                                                        value: _vm.earlobe_color
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.earlobe_color =
+                                                            $event.target.value
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              : _vm._e()
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Iris Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.iris_color,
+                                                  expression: "iris_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "iris_color_red",
+                                                value: "Red"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.iris_color,
+                                                  "Red"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.iris_color = "Red"
+                                                  },
+                                                  function($event) {
+                                                    _vm.iris_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: { for: "iris_color_red" }
+                                              },
+                                              [_vm._v("Red")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.iris_color,
+                                                  expression: "iris_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "iris_color_orange",
+                                                value: "Orange"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.iris_color,
+                                                  "Orange"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.iris_color = "Orange"
+                                                  },
+                                                  function($event) {
+                                                    _vm.iris_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "iris_color_orange"
+                                                }
+                                              },
+                                              [_vm._v("Orange")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.iris_color,
+                                                  expression: "iris_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "iris_color_brown",
+                                                value: "Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.iris_color,
+                                                  "Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.iris_color = "Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.iris_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "iris_color_brown"
+                                                }
+                                              },
+                                              [_vm._v("Brown")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.iris_color,
+                                                  expression: "iris_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "iris_color_yellow",
+                                                value: "Yellow"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.iris_color,
+                                                  "Yellow"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.iris_color = "Yellow"
+                                                  },
+                                                  function($event) {
+                                                    _vm.iris_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "iris_color_yellow"
+                                                }
+                                              },
+                                              [_vm._v("Yellow")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.iris_color,
+                                                  expression: "iris_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "iris_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.iris_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.iris_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.iris_color_others = true
+                                                    _vm.iris_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "iris_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.iris_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "iris_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.iris_color,
+                                                      expression: "iris_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "iris_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.iris_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.iris_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Beak Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.beak_color,
+                                                  expression: "beak_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "beak_color_white",
+                                                value: "White"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.beak_color,
+                                                  "White"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.beak_color = "White"
+                                                  },
+                                                  function($event) {
+                                                    _vm.beak_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "beak_color_white"
+                                                }
+                                              },
+                                              [_vm._v("White")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.beak_color,
+                                                  expression: "beak_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "beak_color_black",
+                                                value: "Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.beak_color,
+                                                  "Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.beak_color = "Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.beak_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "beak_color_black"
+                                                }
+                                              },
+                                              [_vm._v("Black")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.beak_color,
+                                                  expression: "beak_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "beak_color_brown",
+                                                value: "Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.beak_color,
+                                                  "Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.beak_color = "Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.beak_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "beak_color_brown"
+                                                }
+                                              },
+                                              [_vm._v("Brown")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.beak_color,
+                                                  expression: "beak_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "beak_color_yellow",
+                                                value: "Yellow"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.beak_color,
+                                                  "Yellow"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.beak_color = "Yellow"
+                                                  },
+                                                  function($event) {
+                                                    _vm.beak_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "beak_color_yellow"
+                                                }
+                                              },
+                                              [_vm._v("Yellow")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.beak_color,
+                                                  expression: "beak_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "beak_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.beak_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.beak_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.beak_color_others = true
+                                                    _vm.beak_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "beak_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.beak_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "beak_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.beak_color,
+                                                      expression: "beak_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "beak_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.beak_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.beak_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Shank Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_dblack",
+                                                value: "Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_dblack"
+                                                }
+                                              },
+                                              [_vm._v("Black")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_dbrown",
+                                                value: "Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_dbrown"
+                                                }
+                                              },
+                                              [_vm._v("Brown")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_ddarkbrown",
+                                                value: "Dark Brown"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Dark Brown"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color =
+                                                      "Dark Brown"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_ddarkbrown"
+                                                }
+                                              },
+                                              [_vm._v("Dark Brown")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_ddarkorange",
+                                                value: "Dark Orange"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Dark Orange"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color =
+                                                      "Dark Orange"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_ddarkorange"
+                                                }
+                                              },
+                                              [_vm._v("Dark Orange")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_dorangeblack",
+                                                value: "Orange with Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Orange with Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color =
+                                                      "Orange with Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for:
+                                                    "shank_color_dorangeblack"
+                                                }
+                                              },
+                                              [_vm._v("Orange with Black")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_dothers_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = true
+                                                    _vm.shank_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_dothers_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.shank_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "shank_color_dothers"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.shank_color,
+                                                      expression: "shank_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "shank_color_dothers",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.shank_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.shank_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Shank Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_white",
+                                                value: "White"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "White"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "White"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_white"
+                                                }
+                                              },
+                                              [_vm._v("White")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_black",
+                                                value: "Black"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Black"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "Black"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_black"
+                                                }
+                                              },
+                                              [_vm._v("Black")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_yellow",
+                                                value: "Yellow"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Yellow"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "Yellow"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_yellow"
+                                                }
+                                              },
+                                              [_vm._v("Yellow")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_green",
+                                                value: "Green"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Green"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "Green"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_green"
+                                                }
+                                              },
+                                              [_vm._v("Green")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_grey",
+                                                value: "Grey"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Grey"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "Grey"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_grey"
+                                                }
+                                              },
+                                              [_vm._v("Grey")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.shank_color,
+                                                  expression: "shank_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "shank_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.shank_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.shank_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.shank_color_others = true
+                                                    _vm.shank_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "shank_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.shank_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "shank_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.shank_color,
+                                                      expression: "shank_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "shank_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.shank_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.shank_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Skin Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.skin_color,
+                                                  expression: "skin_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "skin_color_dwhite",
+                                                value: "White"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.skin_color,
+                                                  "White"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.skin_color = "White"
+                                                  },
+                                                  function($event) {
+                                                    _vm.skin_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "skin_color_dwhite"
+                                                }
+                                              },
+                                              [_vm._v("White")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.skin_color,
+                                                  expression: "skin_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "skin_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.skin_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.skin_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.skin_color_others = true
+                                                    _vm.skin_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "skin_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.skin_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "skin_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.skin_color,
+                                                      expression: "skin_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "skin_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.skin_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.skin_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.duck
+                              ? _c("div", { staticClass: "row" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col s12 m12 l12" },
+                                    [
+                                      _c("label", [_vm._v("Skin Color")]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.skin_color,
+                                                  expression: "skin_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "skin_color_white",
+                                                value: "White"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.skin_color,
+                                                  "White"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.skin_color = "White"
+                                                  },
+                                                  function($event) {
+                                                    _vm.skin_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "skin_color_white"
+                                                }
+                                              },
+                                              [_vm._v("White")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.skin_color,
+                                                  expression: "skin_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "skin_color_yellow",
+                                                value: "Yellow"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.skin_color,
+                                                  "Yellow"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.skin_color = "Yellow"
+                                                  },
+                                                  function($event) {
+                                                    _vm.skin_color_others = false
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "skin_color_yellow"
+                                                }
+                                              },
+                                              [_vm._v("Yellow")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col s12 m4 l4" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.skin_color,
+                                                  expression: "skin_color"
+                                                }
+                                              ],
+                                              staticClass: "with-gap",
+                                              attrs: {
+                                                type: "radio",
+                                                id: "skin_color_others_rad",
+                                                value: "Others"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.skin_color,
+                                                  "Others"
+                                                )
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    _vm.skin_color = "Others"
+                                                  },
+                                                  function($event) {
+                                                    _vm.skin_color_others = true
+                                                    _vm.skin_color = ""
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                attrs: {
+                                                  for: "skin_color_others_rad"
+                                                }
+                                              },
+                                              [_vm._v("Others")]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.skin_color_others == true
+                                        ? _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col s12 m6 l6" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass: "active",
+                                                    attrs: {
+                                                      for: "skin_color_others"
+                                                    }
+                                                  },
+                                                  [_vm._v("Others")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.skin_color,
+                                                      expression: "skin_color"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    id: "skin_color_others",
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.skin_color
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.skin_color =
+                                                        $event.target.value
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.duck
+                              ? _c("div", [
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col s12 m12 l12" },
+                                      [
+                                        _c("label", [
+                                          _vm._v("Neck Feather Markings")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
                                               _c("input", {
                                                 directives: [
                                                   {
                                                     name: "model",
                                                     rawName: "v-model",
-                                                    value: _vm.earlobe_color,
-                                                    expression: "earlobe_color"
+                                                    value: _vm.neck_feather,
+                                                    expression: "neck_feather"
                                                   }
                                                 ],
+                                                staticClass: "with-gap",
                                                 attrs: {
-                                                  id: "earlobe_color_others",
-                                                  type: "text"
+                                                  type: "radio",
+                                                  id: "neck_feather_plain",
+                                                  value: "Plain"
                                                 },
                                                 domProps: {
-                                                  value: _vm.earlobe_color
+                                                  checked: _vm._q(
+                                                    _vm.neck_feather,
+                                                    "Plain"
+                                                  )
                                                 },
                                                 on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.earlobe_color =
-                                                      $event.target.value
+                                                  change: function($event) {
+                                                    _vm.neck_feather = "Plain"
                                                   }
                                                 }
-                                              })
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "neck_feather_plain"
+                                                  }
+                                                },
+                                                [_vm._v("Plain")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.neck_feather,
+                                                    expression: "neck_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "neck_feather_bibsmall",
+                                                  value: "Bib-Small"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.neck_feather,
+                                                    "Bib-Small"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.neck_feather =
+                                                      "Bib-Small"
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "neck_feather_bibsmall"
+                                                  }
+                                                },
+                                                [_vm._v("With Bib (Small)")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.neck_feather,
+                                                    expression: "neck_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "neck_feather_bibmed",
+                                                  value: "Bib-Medium"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.neck_feather,
+                                                    "Bib-Medium"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.neck_feather =
+                                                      "Bib-Medium"
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "neck_feather_bibmed"
+                                                  }
+                                                },
+                                                [_vm._v("With Bib (Medium)")]
+                                              )
                                             ]
                                           )
-                                        : _vm._e()
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Iris Color")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.iris_color,
-                                          expression: "iris_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "iris_color_red",
-                                        value: "Red"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.iris_color, "Red")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.iris_color = "Red"
-                                          },
-                                          function($event) {
-                                            _vm.iris_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "iris_color_red" } },
-                                      [_vm._v("Red")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.iris_color,
-                                          expression: "iris_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "iris_color_orange",
-                                        value: "Orange"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.iris_color,
-                                          "Orange"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.iris_color = "Orange"
-                                          },
-                                          function($event) {
-                                            _vm.iris_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "iris_color_orange" } },
-                                      [_vm._v("Orange")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.iris_color,
-                                          expression: "iris_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "iris_color_brown",
-                                        value: "Brown"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.iris_color, "Brown")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.iris_color = "Brown"
-                                          },
-                                          function($event) {
-                                            _vm.iris_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "iris_color_brown" } },
-                                      [_vm._v("Brown")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.iris_color,
-                                          expression: "iris_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "iris_color_yellow",
-                                        value: "Yellow"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.iris_color,
-                                          "Yellow"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.iris_color = "Yellow"
-                                          },
-                                          function($event) {
-                                            _vm.iris_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "iris_color_yellow" } },
-                                      [_vm._v("Yellow")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.iris_color,
-                                          expression: "iris_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "iris_color_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.iris_color,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.iris_color = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.iris_color_others = true
-                                            _vm.iris_color = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "iris_color_others_rad" }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.iris_color_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col s12 m6 l6" },
-                                        [
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
                                           _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "iris_color_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.neck_feather,
+                                                    expression: "neck_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "neck_feather_biblarge",
+                                                  value: "Bib-Large"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.neck_feather,
+                                                    "Bib-Large"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.neck_feather =
+                                                      "Bib-Large"
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "neck_feather_biblarge"
+                                                  }
+                                                },
+                                                [_vm._v("With Bib (Large)")]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col s12 m12 l12" },
+                                      [
+                                        _c("label", [
+                                          _vm._v("Wing Feather Color")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.wing_feather,
+                                                    expression: "wing_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "wing_feather_black",
+                                                  value: "Black"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.wing_feather,
+                                                    "Black"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.wing_feather = "Black"
+                                                    },
+                                                    function($event) {
+                                                      _vm.wing_feather_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "wing_feather_black"
+                                                  }
+                                                },
+                                                [_vm._v("Black")]
+                                              )
+                                            ]
                                           ),
                                           _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.iris_color,
-                                                expression: "iris_color"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "iris_color_others",
-                                              type: "text"
-                                            },
-                                            domProps: { value: _vm.iris_color },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.iris_color =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Beak Color")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.beak_color,
-                                          expression: "beak_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "beak_color_white",
-                                        value: "White"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.beak_color, "White")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.beak_color = "White"
-                                          },
-                                          function($event) {
-                                            _vm.beak_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "beak_color_white" } },
-                                      [_vm._v("White")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.beak_color,
-                                          expression: "beak_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "beak_color_black",
-                                        value: "Black"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.beak_color, "Black")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.beak_color = "Black"
-                                          },
-                                          function($event) {
-                                            _vm.beak_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "beak_color_black" } },
-                                      [_vm._v("Black")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.beak_color,
-                                          expression: "beak_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "beak_color_brown",
-                                        value: "Brown"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.beak_color, "Brown")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.beak_color = "Brown"
-                                          },
-                                          function($event) {
-                                            _vm.beak_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "beak_color_brown" } },
-                                      [_vm._v("Brown")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.beak_color,
-                                          expression: "beak_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "beak_color_yellow",
-                                        value: "Yellow"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.beak_color,
-                                          "Yellow"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.beak_color = "Yellow"
-                                          },
-                                          function($event) {
-                                            _vm.beak_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "beak_color_yellow" } },
-                                      [_vm._v("Yellow")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.beak_color,
-                                          expression: "beak_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "beak_color_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.beak_color,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.beak_color = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.beak_color_others = true
-                                            _vm.beak_color = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "beak_color_others_rad" }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.beak_color_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col s12 m6 l6" },
-                                        [
                                           _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "beak_color_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.wing_feather,
+                                                    expression: "wing_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "wing_feather_blackbrown",
+                                                  value: "Black with Brown"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.wing_feather,
+                                                    "Black with Brown"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.wing_feather =
+                                                        "Black with Brown"
+                                                    },
+                                                    function($event) {
+                                                      _vm.wing_feather_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for:
+                                                      "wing_feather_blackbrown"
+                                                  }
+                                                },
+                                                [_vm._v("Black with Brown")]
+                                              )
+                                            ]
                                           ),
                                           _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.beak_color,
-                                                expression: "beak_color"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "beak_color_others",
-                                              type: "text"
-                                            },
-                                            domProps: { value: _vm.beak_color },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.beak_color =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Shank Color")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.shank_color,
-                                          expression: "shank_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "shank_color_white",
-                                        value: "White"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.shank_color,
-                                          "White"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.shank_color = "White"
-                                          },
-                                          function($event) {
-                                            _vm.shank_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "shank_color_white" } },
-                                      [_vm._v("White")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.shank_color,
-                                          expression: "shank_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "shank_color_black",
-                                        value: "Black"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.shank_color,
-                                          "Black"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.shank_color = "Black"
-                                          },
-                                          function($event) {
-                                            _vm.shank_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "shank_color_black" } },
-                                      [_vm._v("Black")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.shank_color,
-                                          expression: "shank_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "shank_color_yellow",
-                                        value: "Yellow"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.shank_color,
-                                          "Yellow"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.shank_color = "Yellow"
-                                          },
-                                          function($event) {
-                                            _vm.shank_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "shank_color_yellow" } },
-                                      [_vm._v("Yellow")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.shank_color,
-                                          expression: "shank_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "shank_color_green",
-                                        value: "Green"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.shank_color,
-                                          "Green"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.shank_color = "Green"
-                                          },
-                                          function($event) {
-                                            _vm.shank_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "shank_color_green" } },
-                                      [_vm._v("Green")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.shank_color,
-                                          expression: "shank_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "shank_color_grey",
-                                        value: "Grey"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.shank_color, "Grey")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.shank_color = "Grey"
-                                          },
-                                          function($event) {
-                                            _vm.shank_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "shank_color_grey" } },
-                                      [_vm._v("Grey")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.shank_color,
-                                          expression: "shank_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "shank_color_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.shank_color,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.shank_color = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.shank_color_others = true
-                                            _vm.shank_color = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "shank_color_others_rad" }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.shank_color_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col s12 m6 l6" },
-                                        [
                                           _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "shank_color_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.wing_feather,
+                                                    expression: "wing_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "wing_feather_blackwhite",
+                                                  value: "Black with White"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.wing_feather,
+                                                    "Black with White"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.wing_feather =
+                                                        "Black with White"
+                                                    },
+                                                    function($event) {
+                                                      _vm.wing_feather_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for:
+                                                      "wing_feather_blackwhite"
+                                                  }
+                                                },
+                                                [_vm._v("Black with White")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.wing_feather,
+                                                    expression: "wing_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "wing_feather_brown",
+                                                  value: "Brown"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.wing_feather,
+                                                    "Brown"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.wing_feather = "Brown"
+                                                    },
+                                                    function($event) {
+                                                      _vm.wing_feather_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "wing_feather_brown"
+                                                  }
+                                                },
+                                                [_vm._v("Brown")]
+                                              )
+                                            ]
                                           ),
                                           _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.shank_color,
-                                                expression: "shank_color"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "shank_color_others",
-                                              type: "text"
-                                            },
-                                            domProps: {
-                                              value: _vm.shank_color
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.shank_color =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col s12 m12 l12" }, [
-                                _c("label", [_vm._v("Skin Color")]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.skin_color,
-                                          expression: "skin_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "skin_color_white",
-                                        value: "White"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(_vm.skin_color, "White")
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.skin_color = "White"
-                                          },
-                                          function($event) {
-                                            _vm.skin_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "skin_color_white" } },
-                                      [_vm._v("White")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.skin_color,
-                                          expression: "skin_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "skin_color_yellow",
-                                        value: "Yellow"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.skin_color,
-                                          "Yellow"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.skin_color = "Yellow"
-                                          },
-                                          function($event) {
-                                            _vm.skin_color_others = false
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "skin_color_yellow" } },
-                                      [_vm._v("Yellow")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col s12 m4 l4" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.skin_color,
-                                          expression: "skin_color"
-                                        }
-                                      ],
-                                      staticClass: "with-gap",
-                                      attrs: {
-                                        type: "radio",
-                                        id: "skin_color_others_rad",
-                                        value: "Others"
-                                      },
-                                      domProps: {
-                                        checked: _vm._q(
-                                          _vm.skin_color,
-                                          "Others"
-                                        )
-                                      },
-                                      on: {
-                                        change: [
-                                          function($event) {
-                                            _vm.skin_color = "Others"
-                                          },
-                                          function($event) {
-                                            _vm.skin_color_others = true
-                                            _vm.skin_color = ""
-                                          }
-                                        ]
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        attrs: { for: "skin_color_others_rad" }
-                                      },
-                                      [_vm._v("Others")]
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm.skin_color_others == true
-                                  ? _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col s12 m6 l6" },
-                                        [
                                           _c(
-                                            "label",
-                                            {
-                                              staticClass: "active",
-                                              attrs: {
-                                                for: "skin_color_others"
-                                              }
-                                            },
-                                            [_vm._v("Others")]
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.wing_feather,
+                                                    expression: "wing_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "wing_feather_brownwhite",
+                                                  value: "Brown with White"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.wing_feather,
+                                                    "Brown with White"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.wing_feather =
+                                                        "Brown with White"
+                                                    },
+                                                    function($event) {
+                                                      _vm.wing_feather_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for:
+                                                      "wing_feather_brownwhite"
+                                                  }
+                                                },
+                                                [_vm._v("Brown with White")]
+                                              )
+                                            ]
                                           ),
                                           _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.skin_color,
-                                                expression: "skin_color"
-                                              }
-                                            ],
-                                            attrs: {
-                                              id: "skin_color_others",
-                                              type: "text"
-                                            },
-                                            domProps: { value: _vm.skin_color },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.wing_feather,
+                                                    expression: "wing_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "wing_feather_others_rad",
+                                                  value: "Others"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.wing_feather,
+                                                    "Others"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.wing_feather =
+                                                        "Others"
+                                                    },
+                                                    function($event) {
+                                                      _vm.wing_feather_others = true
+                                                      _vm.wing_feather = ""
+                                                    }
+                                                  ]
                                                 }
-                                                _vm.skin_color =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ]),
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for:
+                                                      "wing_feather_others_rad"
+                                                  }
+                                                },
+                                                [_vm._v("Others")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm.wing_feather_others == true
+                                          ? _c("div", { staticClass: "row" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "col s12 m6 l6"
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass: "active",
+                                                      attrs: {
+                                                        for:
+                                                          "wing_feather_others"
+                                                      }
+                                                    },
+                                                    [_vm._v("Others")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.wing_feather,
+                                                        expression:
+                                                          "wing_feather"
+                                                      }
+                                                    ],
+                                                    attrs: {
+                                                      id: "wing_feather_others",
+                                                      type: "text"
+                                                    },
+                                                    domProps: {
+                                                      value: _vm.wing_feather
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.wing_feather =
+                                                          $event.target.value
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col s12 m12 l12" },
+                                      [
+                                        _c("label", [
+                                          _vm._v("Tail Feather Color")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.tail_feather,
+                                                    expression: "tail_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "tail_feather_black",
+                                                  value: "Black"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.tail_feather,
+                                                    "Black"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.tail_feather = "Black"
+                                                    },
+                                                    function($event) {
+                                                      _vm.tail_feather_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "tail_feather_black"
+                                                  }
+                                                },
+                                                [_vm._v("Black")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.tail_feather,
+                                                    expression: "tail_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "tail_feather_brown",
+                                                  value: "Brown"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.tail_feather,
+                                                    "Brown"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.tail_feather = "Brown"
+                                                    },
+                                                    function($event) {
+                                                      _vm.tail_feather_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "tail_feather_brown"
+                                                  }
+                                                },
+                                                [_vm._v("Brown")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.tail_feather,
+                                                    expression: "tail_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "tail_feather_brownwhite",
+                                                  value: "Brown with White"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.tail_feather,
+                                                    "Brown with White"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.tail_feather =
+                                                        "Brown with White"
+                                                    },
+                                                    function($event) {
+                                                      _vm.tail_feather_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for:
+                                                      "tail_feather_brownwhite"
+                                                  }
+                                                },
+                                                [_vm._v("Brown with White")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.tail_feather,
+                                                    expression: "tail_feather"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "tail_feather_others_rad",
+                                                  value: "Others"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.tail_feather,
+                                                    "Others"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.tail_feather =
+                                                        "Others"
+                                                    },
+                                                    function($event) {
+                                                      _vm.tail_feather_others = true
+                                                      _vm.tail_feather = ""
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for:
+                                                      "tail_feather_others_rad"
+                                                  }
+                                                },
+                                                [_vm._v("Others")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm.tail_feather_others == true
+                                          ? _c("div", { staticClass: "row" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "col s12 m6 l6"
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass: "active",
+                                                      attrs: {
+                                                        for:
+                                                          "tail_feather_others"
+                                                      }
+                                                    },
+                                                    [_vm._v("Others")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.tail_feather,
+                                                        expression:
+                                                          "tail_feather"
+                                                      }
+                                                    ],
+                                                    attrs: {
+                                                      id: "tail_feather_others",
+                                                      type: "text"
+                                                    },
+                                                    domProps: {
+                                                      value: _vm.tail_feather
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.tail_feather =
+                                                          $event.target.value
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col s12 m12 l12" },
+                                      [
+                                        _c("label", [_vm._v("Bill Color")]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bill_color,
+                                                    expression: "bill_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bill_color_green",
+                                                  value: "Green"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bill_color,
+                                                    "Green"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.bill_color = "Green"
+                                                    },
+                                                    function($event) {
+                                                      _vm.bill_color_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bill_color_green"
+                                                  }
+                                                },
+                                                [_vm._v("Green")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bill_color,
+                                                    expression: "bill_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bill_color_black",
+                                                  value: "Black"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bill_color,
+                                                    "Black"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.bill_color = "Black"
+                                                    },
+                                                    function($event) {
+                                                      _vm.bill_color_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bill_color_black"
+                                                  }
+                                                },
+                                                [_vm._v("Black")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bill_color,
+                                                    expression: "bill_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bill_color_blackgray",
+                                                  value: "Black with Gray"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bill_color,
+                                                    "Black with Gray"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.bill_color =
+                                                        "Black with Gray"
+                                                    },
+                                                    function($event) {
+                                                      _vm.bill_color_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bill_color_blackgray"
+                                                  }
+                                                },
+                                                [_vm._v("Black with Gray")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bill_color,
+                                                    expression: "bill_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bill_color_others_rad",
+                                                  value: "Others"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bill_color,
+                                                    "Others"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.bill_color = "Others"
+                                                    },
+                                                    function($event) {
+                                                      _vm.bill_color_others = true
+                                                      _vm.bill_color = ""
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bill_color_others_rad"
+                                                  }
+                                                },
+                                                [_vm._v("Others")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm.bill_color_others == true
+                                          ? _c("div", { staticClass: "row" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "input-field col s12 m6 l6"
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass: "active",
+                                                      attrs: {
+                                                        for: "bill_color_others"
+                                                      }
+                                                    },
+                                                    [_vm._v("Others")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.bill_color,
+                                                        expression: "bill_color"
+                                                      }
+                                                    ],
+                                                    attrs: {
+                                                      id: "bill_color_others",
+                                                      type: "text"
+                                                    },
+                                                    domProps: {
+                                                      value: _vm.bill_color
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.bill_color =
+                                                          $event.target.value
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col s12 m12 l12" },
+                                      [
+                                        _c("label", [_vm._v("Bill Shape")]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bill_shape,
+                                                    expression: "bill_shape"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bill_shape_uniform",
+                                                  value: "Uniform"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bill_shape,
+                                                    "Uniform"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.bill_shape = "Uniform"
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bill_shape_uniform"
+                                                  }
+                                                },
+                                                [_vm._v("Uniform")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bill_shape,
+                                                    expression: "bill_shape"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bill_shape_saddle",
+                                                  value: "Saddle"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bill_shape,
+                                                    "Saddle"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.bill_shape = "Saddle"
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bill_shape_saddle"
+                                                  }
+                                                },
+                                                [_vm._v("Saddle")]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col s12 m12 l12" },
+                                      [
+                                        _c("label", [_vm._v("Bean Color")]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bean_color,
+                                                    expression: "bean_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bean_color_black",
+                                                  value: "Black"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bean_color,
+                                                    "Black"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.bean_color = "Black"
+                                                    },
+                                                    function($event) {
+                                                      _vm.bean_color_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bean_color_black"
+                                                  }
+                                                },
+                                                [_vm._v("Black")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bean_color,
+                                                    expression: "bean_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bean_color_grey",
+                                                  value: "Grey"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bean_color,
+                                                    "Grey"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.bean_color = "Grey"
+                                                    },
+                                                    function($event) {
+                                                      _vm.bean_color_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bean_color_grey"
+                                                  }
+                                                },
+                                                [_vm._v("Grey")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.bean_color,
+                                                    expression: "bean_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "bean_color_others_rad",
+                                                  value: "Others"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.bean_color,
+                                                    "Others"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.bean_color = "Others"
+                                                    },
+                                                    function($event) {
+                                                      _vm.bean_color_others = true
+                                                      _vm.bean_color = ""
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "bean_color_others_rad"
+                                                  }
+                                                },
+                                                [_vm._v("Others")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm.bean_color_others == true
+                                          ? _c("div", { staticClass: "row" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "input-field col s12 m6 l6"
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass: "active",
+                                                      attrs: {
+                                                        for: "bean_color_others"
+                                                      }
+                                                    },
+                                                    [_vm._v("Others")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.bean_color,
+                                                        expression: "bean_color"
+                                                      }
+                                                    ],
+                                                    attrs: {
+                                                      id: "bean_color_others",
+                                                      type: "text"
+                                                    },
+                                                    domProps: {
+                                                      value: _vm.bean_color
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.bean_color =
+                                                          $event.target.value
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col s12 m12 l12" },
+                                      [
+                                        _c("label", [
+                                          _vm._v("Presence of Crest")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.crest,
+                                                    expression: "crest"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "crest_yes",
+                                                  value: "Yes"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.crest,
+                                                    "Yes"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.crest = "Yes"
+                                                    },
+                                                    function($event) {
+                                                      _vm.crest_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                { attrs: { for: "crest_yes" } },
+                                                [_vm._v("Yes")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.crest,
+                                                    expression: "crest"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "crest_no",
+                                                  value: "No"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.crest,
+                                                    "No"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.crest = "No"
+                                                    },
+                                                    function($event) {
+                                                      _vm.crest_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                { attrs: { for: "crest_no" } },
+                                                [_vm._v("No")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.crest,
+                                                    expression: "crest"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "crest_others_rad",
+                                                  value: "Others"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.crest,
+                                                    "Others"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.crest = "Others"
+                                                    },
+                                                    function($event) {
+                                                      _vm.crest_others = true
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "crest_others_rad"
+                                                  }
+                                                },
+                                                [_vm._v("Others")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm.crest_others == true
+                                          ? _c("div", { staticClass: "row" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "input-field col s12 m6 l6"
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass: "active",
+                                                      attrs: {
+                                                        for: "crest_others"
+                                                      }
+                                                    },
+                                                    [_vm._v("Others")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.crest,
+                                                        expression: "crest"
+                                                      }
+                                                    ],
+                                                    attrs: {
+                                                      id: "crest_others",
+                                                      type: "text"
+                                                    },
+                                                    domProps: {
+                                                      value: _vm.crest
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.crest =
+                                                          $event.target.value
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col s12 m12 l12" },
+                                      [
+                                        _c("label", [_vm._v("Eye Color")]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.eye_color,
+                                                    expression: "eye_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "eye_color_black",
+                                                  value: "Black"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.eye_color,
+                                                    "Black"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.eye_color = "Black"
+                                                    },
+                                                    function($event) {
+                                                      _vm.eye_color_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "eye_color_black"
+                                                  }
+                                                },
+                                                [_vm._v("Black")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.eye_color,
+                                                    expression: "eye_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "eye_color_brown",
+                                                  value: "Brown"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.eye_color,
+                                                    "Brown"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.eye_color = "Brown"
+                                                    },
+                                                    function($event) {
+                                                      _vm.eye_color_others = false
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "eye_color_brown"
+                                                  }
+                                                },
+                                                [_vm._v("Brown")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col s12 m4 l4" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.eye_color,
+                                                    expression: "eye_color"
+                                                  }
+                                                ],
+                                                staticClass: "with-gap",
+                                                attrs: {
+                                                  type: "radio",
+                                                  id: "eye_color_others_rad",
+                                                  value: "Others"
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.eye_color,
+                                                    "Others"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      _vm.eye_color = "Others"
+                                                    },
+                                                    function($event) {
+                                                      _vm.eye_color_others = true
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "eye_color_others_rad"
+                                                  }
+                                                },
+                                                [_vm._v("Others")]
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm.eye_color_others == true
+                                          ? _c("div", { staticClass: "row" }, [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "input-field col s12 m6 l6"
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass: "active",
+                                                      attrs: {
+                                                        for: "eye_color_others"
+                                                      }
+                                                    },
+                                                    [_vm._v("Others")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.eye_color,
+                                                        expression: "eye_color"
+                                                      }
+                                                    ],
+                                                    attrs: {
+                                                      id: "eye_color_others",
+                                                      type: "text"
+                                                    },
+                                                    domProps: {
+                                                      value: _vm.eye_color
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.eye_color =
+                                                          $event.target.value
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              : _vm._e(),
                             _vm._v(" "),
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col s12 m6 l6" }, [
@@ -81368,7 +85784,113 @@ var render = function() {
                                       }
                                     })
                                   ])
-                                ])
+                                ]),
+                                _vm._v(" "),
+                                _vm.duck
+                                  ? _c("div", { staticClass: "row" }, [
+                                      _c(
+                                        "div",
+                                        { staticClass: "col s12 m6 l6" },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "bill_length" } },
+                                            [_vm._v("Bill Length (cm)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model.number",
+                                                value: _vm.bill_length,
+                                                expression: "bill_length",
+                                                modifiers: { number: true }
+                                              }
+                                            ],
+                                            staticClass: "validate",
+                                            attrs: {
+                                              id: "bill_length",
+                                              type: "number",
+                                              min: "0",
+                                              step: "0.001",
+                                              pattern: "^\\d*(\\.\\d{0,3})?$",
+                                              required: ""
+                                            },
+                                            domProps: {
+                                              value: _vm.bill_length
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.bill_length = _vm._n(
+                                                  $event.target.value
+                                                )
+                                              },
+                                              blur: function($event) {
+                                                _vm.$forceUpdate()
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.duck
+                                  ? _c("div", { staticClass: "row" }, [
+                                      _c(
+                                        "div",
+                                        { staticClass: "col s12 m6 l6" },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "neck_length" } },
+                                            [_vm._v("Neck Length (cm)")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model.number",
+                                                value: _vm.neck_length,
+                                                expression: "neck_length",
+                                                modifiers: { number: true }
+                                              }
+                                            ],
+                                            staticClass: "validate",
+                                            attrs: {
+                                              id: "neck_length",
+                                              type: "number",
+                                              min: "0",
+                                              step: "0.001",
+                                              pattern: "^\\d*(\\.\\d{0,3})?$",
+                                              required: ""
+                                            },
+                                            domProps: {
+                                              value: _vm.neck_length
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.neck_length = _vm._n(
+                                                  $event.target.value
+                                                )
+                                              },
+                                              blur: function($event) {
+                                                _vm.$forceUpdate()
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ])
+                                  : _vm._e()
                               ])
                             ])
                           ])
@@ -88661,7 +93183,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "col s12 m12 l12" }, [
                             _c("div", { staticClass: "row" }, [
-                              _c("label", [_vm._v("Plummage Color")]),
+                              _c("label", [_vm._v("Plumage Color")]),
                               _vm._v(" "),
                               _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
@@ -89033,7 +93555,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "col s12 m12 l12" }, [
                             _c("div", { staticClass: "row" }, [
-                              _c("label", [_vm._v("Plummage Pattern")]),
+                              _c("label", [_vm._v("Plumage Pattern")]),
                               _vm._v(" "),
                               _c("div", { staticClass: "col s12 m12 l12" }, [
                                 _c("div", { staticClass: "row" }, [
@@ -90764,7 +95286,11 @@ var render = function() {
                                     _vm._v(" "),
                                     _c(
                                       "label",
-                                      { attrs: { for: "earlobe_color_rad" } },
+                                      {
+                                        attrs: {
+                                          for: "earlobe_color_others_rad"
+                                        }
+                                      },
                                       [_vm._v("Others")]
                                     )
                                   ])

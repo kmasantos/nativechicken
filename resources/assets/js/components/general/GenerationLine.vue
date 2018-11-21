@@ -45,7 +45,8 @@
                                 <td v-if="generation.is_active">Active</td>
                                 <td v-else>Inactive</td>
                                 <td><a href="#details_modal" @click.prevent="viewDetails(generation.id);selected_generation_number=generation.number" class="modal-trigger"><i class="material-icons">details</i></a></td>
-                                <td><a href="#cull_generation" @click="selected_gen=generation.id;selected_gen_number=generation.number" class="modal-trigger"><i class="fas fa-times-circle"></i></a></td>
+                                <td v-if="generation.is_active"><a href="#cull_generation" @click="selected_gen=generation.id;selected_gen_number=generation.number" class="modal-trigger"><i class="fas fa-times-circle"></i></a></td>
+                                <td v-else>-</td>
                             </tr>
                         </tbody>
                     </table>
