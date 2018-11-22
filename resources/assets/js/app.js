@@ -19,7 +19,7 @@ Vue.component('dashboard-component', require('./components/general/Dashboard.vue
 Vue.component('pen-component', require('./components/general/Pen.vue'));
 Vue.component('generation-line', require('./components/general/GenerationLine.vue'));
 Vue.component('family-record', require('./components/general/FamilyRecord.vue'));
-
+Vue.component('farm-record', require('./components/general/FarmRecord.vue'));
 // Breeder Vue Components
 Vue.component('add-breeder', require('./components/breeders/Breeder.vue'));
 Vue.component('hatchery-record', require('./components/breeders/HatcheryRecordList.vue'));

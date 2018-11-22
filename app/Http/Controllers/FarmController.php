@@ -24,6 +24,8 @@ use App\Models\HatcheryRecord;
 use App\Models\EggQuality;
 use App\Models\EggProduction;
 use App\Models\MortalitySale;
+use App\Models\PhenoMorpho;
+use App\Models\PhenoMorphoValue;
 
 class FarmController extends Controller
 {
@@ -579,4 +581,98 @@ class FarmController extends Controller
         ->paginate(10);
         return $families;
     }
+
+    public function farmRecords()
+    {
+        return view('general.farm_records');
+    }
+
+    // public function getFarmSummary()
+    // {
+    //     $farm = Auth::user()->getFarm();
+    //     $breed = Breed::where('id', $farm->breedable_id)->first();
+    //     $gen_pheno = [];
+    //     $gen_morpho = [];
+    //     $mpheno = [];
+    //     $fpheno = [];
+    //     $mmorpho = [];
+    //     $fmorpho = [];
+    //     if($breed->animaltype_id == 1){
+    //         $plumage_color = array("White" => 0, "Black" => 0, "Red" => 0, "Orange" => 0, "Brown" => 0, "Yellow" => 0);
+    //         $plumage_pattern = array("Plain" => 0, "Barred" => 0, "Wild Type" => 0, "Laced" => 0, "Mottled" => 0);
+    //         $hackle_color = array("Yellow" => 0, "Orange" => 0, "Brown" => 0, "Red" => 0, "Black" => 0);
+    //         $hackle_pattern = array("Plain" => 0, "Laced" => 0, "Barred" => 0);
+    //         $body_carriage = array("Slight Upright" => 0, "Upright" => 0,);
+    //         $comb_type = array("Single" => 0, "Pea" => 0, "Rose" => 0,);
+    //         $comb_color = array("Red" => 0, "Pink" => 0, "Black" => 0,);
+    //         $earlobe_color = array("White" => 0, "Red" => 0, "Red-White" => 0,);
+    //         $iris_color = array("Red" => 0, "Orange" => 0, "Brown" => 0, "Yellow" => 0,);
+    //         $beak_color = array("White" => 0, "Black" => 0, "Brown" => 0, "Yellow" => 0,);
+    //         $shank_color = array("White" => 0, "Black" => 0, "Yellow" => 0, "Green" => 0, "Grey" => 0,);
+    //         $skin_color = array("White" => 0, "Yellow" => 0,);
+    //         $height = array();
+    //         $weight = array();
+    //         $body_length = array();
+    //         $chest_circumference = array();
+    //         $wing_span = array();
+    //         $shank_length = array();
+    //     }else{
+    //         $plumage_color = array("Black" => 0, "Black with Brown" => 0, "Brown" => 0, "Brown with Black" => 0);
+    //         $plumage_pattern = array("Dusky" => 0, "Mallard" => 0, "Plain Brown" => 0, "Runner" => 0, "Runner/Mallard" => 0,);
+    //         $body_carriage = array("Horizontal" => 0, "Slight Upright" => 0, "Upright" => 0,);
+    //         $shank_color = array("Black" => 0, "Brown" => 0, "Dark Brown" => 0, "Dark Orange" => 0, "Orange with Black" => 0,);
+    //         $skin_color = array("White" => 0);
+    //         $neck_feather = array("Plain" => 0, "Bib-Small" => 0, "Bib-Medium" => 0, "Bib-Large" => 0);
+    //         $wing_feather = array("Black" => 0, "Black with Brown" => 0, "Black with White" => 0, "Brown" => 0, "Brown with White" => 0);
+    //         $tail_feather = array("Black" => 0, "Brown" => 0, "Brown with White" => 0);
+    //         $bill_color = array("Green" => 0, "Black" => 0, "Black with Grey" => 0);
+    //         $bill_shape = array("Uniform" => 0, "Saddle" => 0);
+    //         $bean_color = array("Black" => 0, "Grey" => 0);
+    //         $crest = array("Yes" => 0, "No" => 0);
+    //         $eye_color = array("Black" => 0, "Brown" => 0);
+    //         $height = array();
+    //         $weight = array();
+    //         $body_length = array();
+    //         $chest_circumference = array();
+    //         $wing_span = array();
+    //         $shank_length = array();
+    //         $bill_length = array();
+    //         $neck_length = array();
+    //     }
+    //     $generations = Generation::where('farm_id', $farm->id)->where('is_active', true)->get();
+    //     foreach($generations as $generation){
+    //         $lines = $generation->getLines();
+    //         foreach($lines as $line){
+    //             $families = Family::where('line_id', $line->id)->where('is_active', true)->get();
+    //             foreach($families as $family){
+    //                 $breeders = Breeder::where('family_id', $family->id)->get();
+    //                 foreach($breeders as $breeder){
+    //                     $inventories = BreederInventory::where('breeder_id', $breeder->id)->get();
+    //                     foreach($inventories as $inventory){
+
+    //                     }
+    //                 }
+    //                 $replacements = Replacement::where('family_id', $family->id)->get();
+    //                 foreach($replacements as $replacement){
+    //                     $inventories = BreederInventory::where('replacement_id', $replacement->id)->get();
+    //                     foreach($inventories as $inventory){
+
+    //                     }
+    //                 }
+    //                 // $brooders = BrooderGrower::where('family_id', $family->id)->get();
+    //                 // foreach($brooders as $brooder){
+    //                 //     $inventories = BreederInventory::where('replacement_id', $brooder->id)->get();
+    //                 //     $male = $male + $inventories->sum('number_male');
+    //                 //     $female = $female + $inventories->sum('number_female');
+    //                 //     $total = $total + $inventories->sum('total');
+    //                 //     foreach($inventories as $inventory){
+    //                 //         $brooder_feeding = $brooder_feeding + BrooderGrowerFeeding::where('broodergrower_inventory_id', $inventory->id)->whereBetween('date_collected', [$month_start, $month_end])->get()->sum('amount_offered');
+    //                 //         $brooder_mortality = $brooder_mortality + MortalitySale::where('brooder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'died')->get()->sum('total');
+    //                 //         $brooder_sales = $brooder_sales + MortalitySale::where('brooder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'sold')->where('type', 'brooder')->get()->sum('total');
+    //                 //     }
+    //                 // }
+    //             }
+    //         }
+    //     }
+    // }
 }
