@@ -17,8 +17,13 @@ class CreatePhenoMorphoValuesTable extends Migration
             $table->increments('id');
             $table->enum('gender', ['male', 'female']);
             $table->string('tag')->nullabe();
-            $table->json('phenotypic');
-            $table->json('morphometric');
+            if ((DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME) == 'mysql') && version_compare(DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '5.7.8', 'ge')) {
+                $table->json('phenotypic');
+                $table->json('morphometric');
+            }else{
+                $table->text('phenotypic');
+                $table->text('morphometric');
+            }
             $table->date('date_collected');
         });
     }

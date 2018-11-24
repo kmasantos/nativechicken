@@ -55,12 +55,13 @@
                                     </div>
                                 </div>
                                 <div class="card-action center-align">
-                                    <a href="javascript:void(0)" @click="breeder_feeding = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-utensils"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_mortality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
+                                    <a href="#additional_breeder" @click="breeder_additional = breeder.inventory_id; selected_additional_tag=breeder.breeder_tag;" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add Breeder to Family"><i class="fas fa-exchange-alt"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_feeding = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-utensils"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_mortality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -341,6 +342,51 @@
                 <a @click="cullBreeder" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
             </div>
         </div>
+
+        <div id="additional_breeder" class="modal modal-fixed-footer">
+            <form v-on:submit.prevent="addAdditionalBreeder" method="post">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h5>Add Breeders to {{selected_additional_tag}}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <label>Get Breeders from</label>
+                                    <div class="switch">
+                                        <label>
+                                            Outside System
+                                            <input type="checkbox" v-model="add_within">
+                                            <span class="lever"></span>
+                                            Within System
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <input v-model="add_male" placeholder="Male to add" id="add_male" type="number" min=0 class="validate">
+                                    <label for="add_male">Male</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <input v-model="add_female" placeholder="Female to add" id="add_female" type="number" min=0 class="validate">
+                                    <label for="add_female">Female</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button href="javascript:void(0)" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
+                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                </div>
+            </form>
+        </div>
     </div>
 
 </template>
@@ -401,6 +447,12 @@
                 breeder_phenomorpho : null,
                 breeder_delete : null,
                 breeder_mortality : null,
+
+                breeder_additional : '',
+                selected_additional_tag : '',
+                add_within : false,
+                add_male : 0,
+                add_female : 0,
             }
         },
         methods : {
@@ -409,8 +461,8 @@
                 this.fetchGeneration();
                 this.fetchPens();
             },
-            getBreederList : function () {
-                axios.get('breeder_list')
+            getBreederList : function (page = 1) {
+                axios.get('breeder_list?page=' + page)
                 .then(response => {
                     this.breeders = response.data;
                     this.breeders_length = this.breeders.data.length;
@@ -577,6 +629,28 @@
                     Materialize.toast('Failed to cull breeder', 5000, 'red rounded');
                 });
                 this.initialize();
+            },
+            addAdditionalBreeder : function () {
+                axios.post('add_breeder_additional', {
+                    inventory_id : this.breeder_additional,
+                    within : this.add_within,
+                    number_male: this.add_male,
+                    number_female: this.add_female,
+                })
+                .then(response => {
+                    if(response.data.error == undefined){
+                        this.add_within = false;
+                        this.add_male = 0;
+                        this.add_female = 0;
+                        Materialize.toast('Successfully added breeder', 5000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
+                    }
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to add breeder', 5000, 'red rounded');
+                });
+                this.getBreederList();
             },
             customFormatter : function (date) {
                 var formatted = moment(date).format('YYYY-MM-DD')

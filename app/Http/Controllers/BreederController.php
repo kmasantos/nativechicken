@@ -500,7 +500,33 @@ class BreederController extends Controller
                 'shank_length' => 'required',
                 'bill_length'  => 'required',
                 'neck_length'  => 'required',
-            ]);
+                ]);
+
+                $pheno = collect([
+                    $request->plummage_color,
+                    $request->plummage_pattern,
+                    $request->neck_feather,
+                    $request->wing_feather,
+                    $request->tail_feather,
+                    $request->bill_color,
+                    $request->bill_shape,
+                    $request->bean_color,
+                    $request->crest,
+                    $request->eye_color,
+                    $request->body_carriage,
+                    $request->shank_color,
+                    $request->skin_color
+                ]);
+                $morpho = collect([
+                    $request->height,
+                    $request->weight,
+                    $request->body_length,
+                    $request->chest_circumference,
+                    $request->wing_span,
+                    $request->shank_length,
+                    $request->bill_length,
+                    $request->neck_length
+                ]);
         }else{
             $request->validate([
                 'breeder_inventory_id' => 'required',
@@ -526,31 +552,30 @@ class BreederController extends Controller
                 'wing_span' => 'required',
                 'shank_length' => 'required',
             ]);
+
+            $pheno = collect([
+                $request->plummage_color,
+                $request->plummage_pattern,
+                $request->hackle_color,
+                $request->hackle_pattern,
+                $request->body_carriage,
+                $request->comb_type,
+                $request->comb_color,
+                $request->earlobe_color,
+                $request->iris_color,
+                $request->beak_color,
+                $request->shank_color,
+                $request->skin_color
+            ]);
+            $morpho = collect([
+                $request->height,
+                $request->weight,
+                $request->body_length,
+                $request->chest_circumference,
+                $request->wing_span,
+                $request->shank_length
+            ]);
         }
-
-        $pheno = collect([
-            $request->plummage_color,
-            $request->plummage_pattern,
-            $request->hackle_color,
-            $request->hackle_pattern,
-            $request->body_carriage,
-            $request->comb_type,
-            $request->comb_color,
-            $request->earlobe_color,
-            $request->iris_color,
-            $request->beak_color,
-            $request->shank_color,
-            $request->skin_color
-        ]);
-
-        $morpho = collect([
-            $request->height,
-            $request->weight,
-            $request->body_length,
-            $request->chest_circumference,
-            $request->wing_span,
-            $request->shank_length
-        ]);
 
         $phenomorphovalues = new PhenoMorphoValue;
         $phenomorphovalues->tag = $request->tag;
@@ -583,7 +608,7 @@ class BreederController extends Controller
     {
         $breeder_inventory = BreederInventory::where('id', $request->breeder_id)->firstOrFail();
         if($request->male > $breeder_inventory->number_male || $request->female > $breeder_inventory->number_female){
-            return response()->json( ['error'=>'Input too quantity is too large for the inventory'] );
+            return response()->json( ['error'=>'Input quantity is too large for the inventory'] );
         }
 
         $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
@@ -629,7 +654,7 @@ class BreederController extends Controller
     {
         $breeder_inventory = BreederInventory::where('id', $request->breeder_id)->firstOrFail();
         if($request->male > $breeder_inventory->number_male || $request->female > $breeder_inventory->number_female){
-            return response()->json( ['error'=>'Input too quantity is too large for the inventory'] );
+            return response()->json( ['error'=>'Input quantity is too large for the inventory'] );
         }
 
         $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
@@ -711,24 +736,60 @@ class BreederController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Culled breeders']);
     }
 
-    public function editFeedingRecord()
+    public function editFeedingRecord(Request $request)
     {
-
+        $edit = BreederFeeding::where('id', $request->record_id)->firstOrFail();
+        if($request->date_collected != null){
+            $edit->date_collected = $request->date_collected;
+        }
+        if($request->amount_offered != null){
+            $edit->amount_offered = $request->amount_offered;
+        }
+        if($request->amount_refused != null) {
+            $edit->amount_refused = $request->amount_refused;
+        }
+        if($request->remarks != null){
+            $edit->remarks = $request->remarks;
+        }
+        $edit->save();
+        return response()->json(['status' => 'success', 'message' => 'Feeding record edited']);
     }
 
-    public function editEggQualityRecord ()
+    public function editEggQualityRecord (Request $request)
     {
-
+        $edit = EggQuality::where('id', $request->record_id)->firstOrFail();
+        if($request->egg_quality_at) $edit->egg_quality_at = $request->egg_quality_at;
+        if($request->weight) $edit->weight = $request->weight;
+        if($request->color) $edit->color = $request->color;
+        if($request->shape) $edit->shape = $request->shape;
+        if($request->length) $edit->length = $request->length;
+        if($request->width) $edit->width = $request->width;
+        if($request->albumen_height) $edit->albumen_height = $request->albumen_height;
+        if($request->albumen_weight) $edit->albumen_weight = $request->albumen_weight;
+        if($request->yolk_weight) $edit->yolk_weight = $request->yolk_weight;
+        if($request->yolk_color) $edit->yolk_color = $request->yolk_color;
+        if($request->shell_weight) $edit->shell_weight = $request->shell_weight;
+        if($request->thickness_top) $edit->thickness_top = $request->thickness_top;
+        if($request->thickness_mid) $edit->thickness_mid = $request->thickness_mid;
+        if($request->thickness_bot) $edit->thickness_bot = $request->thickness_bot;
+        $edit->save();
+        return response()->json(['status' => 'success', 'message' => 'Egg quality record edited']);
     }
 
+    /**
+     * TODO : Workaround for editing hatchery record with brooder record
+     */
     public function editHatcheryRecord ()
     {
 
     }
 
-    public function deletePhenoMorphoRecord ()
+    public function deletePhenoMorphoRecord ($record_id)
     {
-
+        $record = PhenoMorpho::where('id', $record_id)->firstOrFail();
+        $record_value = PhenoMorphoValue::where('id', $record->values_id)->firstOrFail();
+        $record->delete();
+        $record_value->delete();
     }
 
     public function breederInventoryPage()
@@ -736,6 +797,85 @@ class BreederController extends Controller
         return view('chicken.breeder.breeder_inventory');
     }
 
+    /**
+     * TODO : Add animals to breeder when mortality occured
+     */
+    public function addAdditionalBreeder(Request $request)
+    {
+        $now = Carbon::now();
+        $breeder_inventory = BreederInventory::where('id', $request->inventory_id)->firstOrFail();
+        $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
+        $breeder = Breeder::where('id', $breeder_inventory->breeder_id)->firstOrFail();
+
+        if($breeder_pen->total_capacity < $breeder_pen->current_capacity + ($request->number_male + $request->number_female)){
+            return response()->json( ['error'=>'Input quantity is too large for the breeder inventory'] );
+        }
+
+        if($request->within){
+            $replacement = Replacement::where('family_id', $breeder->family_id)->firstOrFail();
+            $replacement_inventory = ReplacementInventory::where('replacement_id', $replacement->id)
+                                ->where('batching_date', $breeder_inventory->batching_date)
+                                ->firstOrFail();
+            $replacement_pen = Pen::where('id', $replacement_inventory->pen_id)->firstOrFail();
+            if($replacment_pen->total_capacity < $replacement_pen->current_capacity + ($request->number_male + $request->number_female)){
+                return response()->json( ['error'=>'Input quantity is too large for the replacment inventory'] );
+            }
+            $replacement_pen->current_capacity = $replacement_pen->current_capacity - ($request->number_male + $request->number_female);
+            $breeder_pen->current_capacity = $breeder_pen->current_capacity + ($request->number_male + $request->number_female);
+            $replacement_inventory->number_male = $replacement_inventory->number_male - $request->number_male;
+            $replacement_inventory->number_female = $replacement_inventory->number_female - $request->number_female;
+            $replacement_inventory->total = $replacement_inventory->total - ($request->number_male + $request->number_female);
+            $breeder_inventory->number_male = $breeder_inventory->number_male + $request->number_male;
+            $breeder_inventory->number_female = $breeder_inventory->number_female + $request->number_female;
+            $breeder_inventory->total = $breeder_inventory->total + ($request->number_male + $request->number_female);
+            $movement = new AnimalMovement;
+            $movement->date = $now->toDateString();
+            $movement->family_id = $breeder->id;
+            $movement->tag = $replacement_inventory->replacement_tag;
+            $movement->previous_pen_id = $replacement_pen->id;
+            $movement->current_pen_id = $breeder_pen->id;
+            $movement->previous_type = "replacement";
+            $movement->current_type = "breeder";
+            $movement->activity = "replace";
+            $movement->number_male = $request->number_male;
+            $movement->number_female = $request->number_female;
+            $movement->number_total = $request->number_male + $request->number_female;
+            $movement->remarks = "within system";
+
+            $replacement_inventory->save();
+            $replacement_pen->save();
+            $breeder_inventory->save();
+            $breeder_pen->save();
+            $movement->save();
+            return response()->json(['status' => 'success', 'message' => 'Breeders added']);
+        }
+        else{
+            $breeder_pen->current_capacity = $breeder_pen->current_capacity + ($request->number_male + $request->number_female);
+
+            $breeder_inventory->number_male = $breeder_inventory->number_male + $request->number_male;
+            $breeder_inventory->number_female = $breeder_inventory->number_female + $request->number_female;
+            $breeder_inventory->total = $breeder_inventory->total + ($request->number_male + $request->number_female);
+
+            $movement = new AnimalMovement;
+            $movement->date = $now->toDateString();
+            $movement->family_id = $breeder->id;
+            $movement->tag = null;
+            $movement->previous_pen_id = null;
+            $movement->current_pen_id = $breeder_pen->id;
+            $movement->previous_type = null;
+            $movement->current_type = "breeder";
+            $movement->activity = "replace";
+            $movement->number_male = $request->number_male;
+            $movement->number_female = $request->number_female;
+            $movement->number_total = $request->number_male + $request->number_female;
+            $movement->remarks = "outside system";
+
+            $breeder_inventory->save();
+            $breeder_pen->save();
+            $movement->save();
+            return response()->json(['status' => 'success', 'message' => 'Breeders added']);
+        }
+    }
     /*
     ** Helper methods for this controller
     */
