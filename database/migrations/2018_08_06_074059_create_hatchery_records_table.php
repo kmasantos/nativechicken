@@ -21,7 +21,7 @@ class CreateHatcheryRecordsTable extends Migration
             $table->integer('number_eggs_set')->nullable();
             $table->integer('week_of_lay')->nullable();
             $table->integer('number_fertile')->nullable();
-            $table->integer('number_hatched')->nullablle();
+            $table->integer('number_hatched')->nullable();
             $table->date('date_hatched')->nullable();
         });
 

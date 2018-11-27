@@ -74039,6 +74039,68 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -74062,7 +74124,9 @@ var moment = __webpack_require__(0);
             number_fertile: '',
             number_hatched: '',
             date_hatched: '',
-            selected_brooder_pen: ''
+            selected_brooder_pen: '',
+
+            selected_hatchery_record: ''
         };
     },
 
@@ -74107,12 +74171,26 @@ var moment = __webpack_require__(0);
                 broodergrower_pen_id: this.selected_brooder_pen
             }).then(function (response) {
                 if (response.data.error == undefined) {
-                    _this3.date_eggs_set = '', _this3.number_eggs_set = '', _this3.number_fertile = '', _this3.number_hatched = '', _this3.date_hatched = '', _this3.selected_brooder_pen = '', Materialize.toast('Successfully added hatchery record', 3000, 'green rounded');
+                    _this3.date_eggs_set = '', _this3.number_eggs_set = '', _this3.number_fertile = '', _this3.number_hatched = '', _this3.date_hatched = '', _this3.selected_brooder_pen = '', Materialize.toast('Successfully added hatchery record', 5000, 'green rounded');
                 } else {
-                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
                 }
             }).catch(function (error) {
-                Materialize.toast('Failed to add hatchery record', 3000, 'rounded');
+                Materialize.toast('Failed to add hatchery record', 5000, 'red rounded');
+            });
+            this.fetchHatcheryRecord();
+        },
+        updateHatcheryRecord: function updateHatcheryRecord(record) {
+            console.log(record);
+        },
+        deleteHatcheryRecord: function deleteHatcheryRecord() {
+            var _this4 = this;
+
+            axios.delete('delete_hatchery/' + this.selected_hatchery_record.id).then(function (response) {
+                _this4.selected_hatchery_record = '';
+                Materialize.toast('Successfully deleted hatchery record', 5000, 'green rounded');
+            }).catch(function (error) {
+                Materialize.toast('Failed to delete hatchery record', 5000, 'red rounded');
             });
             this.fetchHatcheryRecord();
         },
@@ -74126,7 +74204,14 @@ var moment = __webpack_require__(0);
     beforeCreate: function beforeCreate() {
         $('.tooltipped').tooltip('remove');
     },
-    mounted: function mounted() {},
+    mounted: function mounted() {
+        $('#delete_hatchery').modal({
+            dismissible: false
+        });
+        $('#update_modal').modal({
+            dismissible: false
+        });
+    },
     created: function created() {
         this.initialize();
     },
@@ -74145,7 +74230,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col s12 m12 m12" }, [
-      _c("div", { staticClass: "card-panel" }, [
+      _c("div", { staticClass: "card-panel blue-grey lighten-5" }, [
         _c(
           "div",
           {
@@ -74239,6 +74324,8 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", [_vm._v("-")]),
                               _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
                               _c("td", [_vm._v("-")])
                             ])
                           : _vm._l(_vm.hatchery_records.data, function(
@@ -74273,7 +74360,41 @@ var render = function() {
                                   _vm._v(_vm._s(hatchery.number_hatched))
                                 ]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v("-")])
+                                _c("td", [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "modal-trigger",
+                                      attrs: { href: "#update_modal" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.selected_hatchery_record = hatchery
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "far fa-edit" })]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "modal-trigger",
+                                      attrs: { href: "#delete_hatchery" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.selected_hatchery_record = hatchery
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "far fa-trash-alt"
+                                      })
+                                    ]
+                                  )
+                                ])
                               ])
                             })
                       ],
@@ -74341,6 +74462,8 @@ var render = function() {
                   )
                 ])
               ]),
+              _vm._v(" "),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "form",
@@ -74600,8 +74723,112 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(1)
+                  _vm._m(2)
                 ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(3),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal modal-fixed-footer",
+            attrs: { id: "delete_hatchery" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(4),
+              _vm._v(" "),
+              _c("div", { staticClass: "row valign-wrapper" }, [
+                _vm._m(5),
+                _vm._v(" "),
+                _c("div", { staticClass: "col s10 m10 l10" }, [
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c("blockquote", [
+                    _c("span", [
+                      _vm._v(
+                        "Date Set : " +
+                          _vm._s(_vm.selected_hatchery_record.date_eggs_set)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Quantity : " +
+                          _vm._s(_vm.selected_hatchery_record.number_eggs_set)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Age in Weeks : " +
+                          _vm._s(_vm.selected_hatchery_record.week_of_lay)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "No. Fertile : " +
+                          _vm._s(_vm.selected_hatchery_record.number_fertile)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Date Hatched : " +
+                          _vm._s(_vm.selected_hatchery_record.date_hatched)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "No. Hatched : " +
+                          _vm._s(_vm.selected_hatchery_record.number_hatched)
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(7),
+                  _vm._v(" "),
+                  _vm._m(8)
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.deleteHatcheryRecord()
+                    }
+                  }
+                },
+                [_vm._v("Yes")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" }
+                },
+                [_vm._v("No")]
               )
             ])
           ]
@@ -74621,7 +74848,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Quantity")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Week of Lay")]),
+        _c("th", [_vm._v("Age in Weeks")]),
         _vm._v(" "),
         _c("th", [_vm._v("No. Fertile")]),
         _vm._v(" "),
@@ -74629,7 +74856,41 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("No. Hatched")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Update Record")])
+        _c("th", [_vm._v("Update")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Delete")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row valign-wrapper orange lighten-4" }, [
+      _c("div", { staticClass: "col s1 m1 l1 center-align" }, [
+        _c("p", [
+          _c("span", [
+            _c("h5", [_c("i", { staticClass: "fas fa-exclamation-circle" })])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col s11 m11 l11" }, [
+        _c("p", [
+          _c("span", [
+            _vm._v(
+              "Adding complete data in the hatchery record automatically generates "
+            ),
+            _c("strong", [_vm._v("Generation")]),
+            _vm._v(", "),
+            _c("strong", [_vm._v("Line")]),
+            _vm._v(", "),
+            _c("strong", [_vm._v("Family")]),
+            _vm._v(" and "),
+            _c("strong", [_vm._v("Brooder")]),
+            _vm._v(" record")
+          ])
+        ])
       ])
     ])
   },
@@ -74648,6 +74909,101 @@ var staticRenderFns = [
           [_vm._v("Add")]
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal modal-fixed-footer",
+        attrs: { id: "update_modal" }
+      },
+      [
+        _c("div", { staticClass: "modal-content" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col s12 m12 l12" }, [
+              _c("h4", [_vm._v("Update Record")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col s12 m12 l12" })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-footer" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "modal-action modal-close waves-effect waves-green btn-flat ",
+              attrs: { href: "#!" }
+            },
+            [_vm._v("Submit")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass:
+                "modal-action modal-close waves-effect waves-green btn-flat ",
+              attrs: { href: "#!" }
+            },
+            [_vm._v("Close")]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Delete Record")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s2 m2 l2 red-text center-align" }, [
+      _c("h4", [_c("i", { staticClass: "fas fa-exclamation-triangle" })])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Are you sure you want to "),
+      _c("strong", [_vm._v("Delete")]),
+      _vm._v(" this hatchery record?")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("Irreversible")]),
+      _vm._v(".")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("i", { staticClass: "fas fa-asterisk" }),
+      _vm._v(" "),
+      _c("i", [_vm._v("This will cause a change in your Brooder data")])
     ])
   }
 ]
@@ -78696,10 +79052,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         $('.tooltipped').tooltip('remove');
     },
     created: function created() {
-        $('.tooltipped').tooltip({ delay: 50 });
         this.initialize();
     },
-    destroyed: function destroyed() {},
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
+    },
     mounted: function mounted() {
         $('#breeder_phenomorpho').modal({
             dismissible: false
@@ -78809,10 +79166,10 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row center" }, [
+        _c("div", { staticClass: "row" }, [
           _c(
             "div",
-            { staticClass: "col s12 m12 l12" },
+            { staticClass: "col s12 m12 l12 center" },
             [
               _c("pagination", {
                 attrs: { data: _vm.records },
@@ -87018,10 +87375,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         $('.tooltipped').tooltip('remove');
     },
     created: function created() {
-        $('.tooltipped').tooltip({ delay: 50 });
         this.getMortalitySale();
     },
-    destroyed: function destroyed() {},
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip({ delay: 50 });
+    },
     mounted: function mounted() {
         $('#mortality').modal({
             dismissible: false

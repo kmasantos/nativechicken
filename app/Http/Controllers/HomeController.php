@@ -16,13 +16,15 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+
     /**
      * Show the application dashboard.
-     *
+     * TODO Redirect to different view if admin is logged in
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('home');
+        // Farm landing page
+        return view('general.dashboard');
     }
 }

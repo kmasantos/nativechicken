@@ -365,11 +365,10 @@
             $('.tooltipped').tooltip('remove');
         },
         created () {
-            $('.tooltipped').tooltip({delay: 50});
             this.getMortalitySale();
         },
         destroyed () {
-
+            $('.tooltipped').tooltip({delay: 50});
         },
         mounted () {
             $('#mortality').modal({

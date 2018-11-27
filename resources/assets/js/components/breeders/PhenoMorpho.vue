@@ -44,8 +44,8 @@
                         </table>
                     </div>
                 </div>
-                <div class="row center">
-                    <div class="col s12 m12 l12">
+                <div class="row">
+                    <div class="col s12 m12 l12 center">
                         <pagination :data="records" @pagination-change-page="getBreederPhenoMorpho"></pagination>
                     </div>
                 </div>
@@ -1203,11 +1203,10 @@
             $('.tooltipped').tooltip('remove');
         },
         created () {
-            $('.tooltipped').tooltip({delay: 50});
             this.initialize();
         },
         destroyed () {
-
+            $('.tooltipped').tooltip({delay: 50});
         },
         mounted () {
             $('#breeder_phenomorpho').modal({

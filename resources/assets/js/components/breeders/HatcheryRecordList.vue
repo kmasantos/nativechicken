@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col s12 m12 m12">
-            <div class="card-panel">
+            <div class="card-panel blue-grey lighten-5">
                 <!-- Hatchery List -->
                 <div class="row valign-wrapper" v-show="hide_record==false">
                     <div class="col s6 m6 l6">
@@ -22,16 +22,18 @@
                                     <tr>
                                         <th>Date Set</th>
                                         <th>Quantity</th>
-                                        <th>Week of Lay</th>
+                                        <th>Age in Weeks</th>
                                         <th>No. Fertile</th>
                                         <th>Date Hatched</th>
                                         <th>No. Hatched</th>
-                                        <th>Update Record</th>
+                                        <th>Update</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr v-if="hatchery_records_length === 0">
+                                        <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
@@ -49,7 +51,8 @@
                                         <td v-if="hatchery.date_hatched==null">N/A</td>
                                         <td v-else>{{hatchery.date_hatched}}</td>
                                         <td>{{hatchery.number_hatched}}</td>
-                                        <td>-</td>
+                                        <td><a @click="selected_hatchery_record = hatchery" href="#update_modal" class="modal-trigger"><i class="far fa-edit"></i></a></td>
+                                        <td><a @click="selected_hatchery_record = hatchery" href="#delete_hatchery" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -71,6 +74,14 @@
                             </div>
                             <div class="col s3 m3 l3 center-align">
                                 <a @click="add_record=null; hide_record=false" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
+                            </div>
+                        </div>
+                        <div class="row valign-wrapper orange lighten-4">
+                            <div class="col s1 m1 l1 center-align">
+                                <p><span><h5><i class="fas fa-exclamation-circle"></i></h5></span> </p>
+                            </div>
+                            <div class="col s11 m11 l11">
+                                <p><span>Adding complete data in the hatchery record automatically generates <strong>Generation</strong>, <strong>Line</strong>, <strong>Family</strong> and <strong>Brooder</strong> record</span></p>
                             </div>
                         </div>
                         <form action="" v-on:submit.prevent="addHatcheryRecord">
@@ -122,6 +133,57 @@
                         </form>
                     </div>
                 </div>
+
+                <div id="update_modal" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h4>Update Record</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+                    </div>
+                </div>
+
+                <div id="delete_hatchery" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h4>Delete Record</h4>
+                            </div>
+                        </div>
+                        <div class="row valign-wrapper">
+                            <div class="col s2 m2 l2 red-text center-align">
+                                <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                            </div>
+                            <div class="col s10 m10 l10">
+                                <p>Are you sure you want to <strong>Delete</strong> this hatchery record?</p>
+                                <blockquote>
+                                    <span>Date Set : {{selected_hatchery_record.date_eggs_set}}</span><br>
+                                    <span>Quantity : {{selected_hatchery_record.number_eggs_set}}</span><br>
+                                    <span>Age in Weeks : {{selected_hatchery_record.week_of_lay}}</span><br>
+                                    <span>No. Fertile : {{selected_hatchery_record.number_fertile}}</span><br>
+                                    <span>Date Hatched : {{selected_hatchery_record.date_hatched}}</span><br>
+                                    <span>No. Hatched : {{selected_hatchery_record.number_hatched}}</span>
+                                </blockquote>
+                                <p>This action is <strong>Irreversible</strong>.</p>
+                                <p><i class="fas fa-asterisk"></i> <i>This will cause a change in your Brooder data</i></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a @click.prevent="deleteHatcheryRecord()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -153,6 +215,8 @@
                 number_hatched : '',
                 date_hatched : '',
                 selected_brooder_pen : '',
+
+                selected_hatchery_record : '',
             }
         },
         methods : {
@@ -198,13 +262,27 @@
                         this.number_hatched = '',
                         this.date_hatched = '',
                         this.selected_brooder_pen = '',
-                        Materialize.toast('Successfully added hatchery record', 3000, 'green rounded');
+                        Materialize.toast('Successfully added hatchery record', 5000, 'green rounded');
                     }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
                 })
                 .catch(error => {
-                    Materialize.toast('Failed to add hatchery record', 3000, 'rounded');
+                    Materialize.toast('Failed to add hatchery record', 5000, 'red rounded');
+                });
+                this.fetchHatcheryRecord();
+            },
+            updateHatcheryRecord : function (record) {
+                console.log(record);
+            },
+            deleteHatcheryRecord : function () {
+                axios.delete('delete_hatchery/' + this.selected_hatchery_record.id)
+                .then(response => {
+                    this.selected_hatchery_record = '';
+                    Materialize.toast('Successfully deleted hatchery record', 5000, 'green rounded');
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to delete hatchery record', 5000, 'red rounded');
                 });
                 this.fetchHatcheryRecord();
             },
@@ -219,7 +297,12 @@
             $('.tooltipped').tooltip('remove');
         },
         mounted() {
-
+            $('#delete_hatchery').modal({
+                dismissible : false,
+            });
+            $('#update_modal').modal({
+                dismissible : false,
+            });
         },
         created (){
             this.initialize();
