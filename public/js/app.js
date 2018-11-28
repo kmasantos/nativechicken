@@ -74101,6 +74101,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -74126,7 +74180,13 @@ var moment = __webpack_require__(0);
             date_hatched: '',
             selected_brooder_pen: '',
 
-            selected_hatchery_record: ''
+            selected_hatchery_record: '',
+            edit_date_eggs_set: '',
+            edit_number_eggs_set: '',
+            edit_number_fertile: '',
+            edit_number_hatched: '',
+            edit_date_hatched: '',
+            edit_selected_brooder_pen: ''
         };
     },
 
@@ -74180,19 +74240,53 @@ var moment = __webpack_require__(0);
             });
             this.fetchHatcheryRecord();
         },
-        updateHatcheryRecord: function updateHatcheryRecord(record) {
-            console.log(record);
-        },
-        deleteHatcheryRecord: function deleteHatcheryRecord() {
+        updateHatcheryRecord: function updateHatcheryRecord() {
             var _this4 = this;
 
-            axios.delete('delete_hatchery/' + this.selected_hatchery_record.id).then(function (response) {
-                _this4.selected_hatchery_record = '';
+            axios.patch('breeder_edit_hatchery', {
+                selected_record_id: this.selected_hatchery_record.id,
+                date_eggs_set: this.customFormatter(this.edit_date_eggs_set),
+                number_eggs_set: this.edit_number_eggs_set,
+                number_fertile: this.edit_number_fertile,
+                number_hatched: this.edit_number_hatched,
+                date_hatched: this.customFormatter(this.edit_date_hatched),
+                broodergrower_pen_id: this.edit_selected_brooder_pen
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this4.selected_hatchery_record = '';
+                    _this4.edit_date_eggs_set = '';
+                    _this4.edit_number_eggs_set = '';
+                    _this4.edit_number_fertile = '';
+                    _this4.edit_number_hatched = '';
+                    _this4.edit_date_hatched = '';
+                    _this4.edit_selected_brooder_pen = '';
+                    Materialize.toast('Successfully updated hatchery record', 5000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to update hatchery record', 5000, 'red rounded');
+            });
+            this.fetchHatcheryRecord();
+        },
+        deleteHatcheryRecord: function deleteHatcheryRecord() {
+            var _this5 = this;
+
+            axios.delete('breeder_delete_hatchery/' + this.selected_hatchery_record.id).then(function (response) {
+                _this5.selected_hatchery_record = '';
                 Materialize.toast('Successfully deleted hatchery record', 5000, 'green rounded');
             }).catch(function (error) {
                 Materialize.toast('Failed to delete hatchery record', 5000, 'red rounded');
             });
             this.fetchHatcheryRecord();
+        },
+        setEditForm: function setEditForm() {
+            this.edit_date_eggs_set = this.selected_hatchery_record.date_eggs_set;
+            this.edit_number_eggs_set = this.selected_hatchery_record.number_eggs_set;
+            this.edit_number_fertile = this.selected_hatchery_record.number_fertile;
+            this.edit_number_hatched = this.selected_hatchery_record.number_hatched;
+            this.edit_date_hatched = this.selected_hatchery_record.date_hatched;
+            this.edit_selected_brooder_pen = this.selected_hatchery_record.selected_brooder_pen;
         },
         customFormatter: function customFormatter(date) {
             return moment(date).format('YYYY-MM-DD');
@@ -74346,9 +74440,11 @@ var render = function() {
                                       _vm._v(_vm._s(hatchery.week_of_lay))
                                     ]),
                                 _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(_vm._s(hatchery.number_fertile))
-                                ]),
+                                hatchery.number_fertile == null
+                                  ? _c("td", [_vm._v("N/A")])
+                                  : _c("td", [
+                                      _vm._v(_vm._s(hatchery.number_fertile))
+                                    ]),
                                 _vm._v(" "),
                                 hatchery.date_hatched == null
                                   ? _c("td", [_vm._v("N/A")])
@@ -74356,25 +74452,35 @@ var render = function() {
                                       _vm._v(_vm._s(hatchery.date_hatched))
                                     ]),
                                 _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(_vm._s(hatchery.number_hatched))
-                                ]),
+                                hatchery.number_hatched == null
+                                  ? _c("td", [_vm._v("N/A")])
+                                  : _c("td", [
+                                      _vm._v(_vm._s(hatchery.number_hatched))
+                                    ]),
                                 _vm._v(" "),
-                                _c("td", [
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "modal-trigger",
-                                      attrs: { href: "#update_modal" },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.selected_hatchery_record = hatchery
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "far fa-edit" })]
-                                  )
-                                ]),
+                                hatchery.number_hatched != null &&
+                                hatchery.date_hatched != null
+                                  ? _c("td", [_vm._v("-")])
+                                  : _c("td", [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "modal-trigger",
+                                          attrs: { href: "#update_modal" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.selected_hatchery_record = hatchery
+                                              _vm.setEditForm()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "far fa-edit"
+                                          })
+                                        ]
+                                      )
+                                    ]),
                                 _vm._v(" "),
                                 _c("td", [
                                   _c(
@@ -74468,7 +74574,6 @@ var render = function() {
               _c(
                 "form",
                 {
-                  attrs: { action: "" },
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
@@ -74730,7 +74835,305 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _vm._m(3),
+        _c(
+          "div",
+          {
+            staticClass: "modal modal-fixed-footer",
+            attrs: { id: "update_modal" }
+          },
+          [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.updateHatcheryRecord($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("h4", [
+                        _vm._v(
+                          "Update Hatchery Record | " + _vm._s(_vm.breeder_tag)
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s6 m6 l6" },
+                          [
+                            _c("label", { attrs: { for: "date_set" } }, [
+                              _vm._v("Date Eggs Set")
+                            ]),
+                            _vm._v(" "),
+                            _c("datepicker", {
+                              attrs: {
+                                placeholder: "Date when eggs are set",
+                                id: "date_set",
+                                format: _vm.customFormatter(
+                                  _vm.edit_date_eggs_set
+                                )
+                              },
+                              model: {
+                                value: _vm.edit_date_eggs_set,
+                                callback: function($$v) {
+                                  _vm.edit_date_eggs_set = $$v
+                                },
+                                expression: "edit_date_eggs_set"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s6 m6 l6" }, [
+                          _c("label", { attrs: { for: "eggs_set" } }, [
+                            _vm._v("Number of Eggs Set")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.number",
+                                value: _vm.edit_number_eggs_set,
+                                expression: "edit_number_eggs_set",
+                                modifiers: { number: true }
+                              }
+                            ],
+                            staticClass: "validate",
+                            attrs: {
+                              placeholder: "Number of eggs set",
+                              id: "eggs_set",
+                              type: "number",
+                              min: "0",
+                              oninput: "this.value = Math.abs(this.value)"
+                            },
+                            domProps: { value: _vm.edit_number_eggs_set },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.edit_number_eggs_set = _vm._n(
+                                  $event.target.value
+                                )
+                              },
+                              blur: function($event) {
+                                _vm.$forceUpdate()
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s6 m6 l6" }, [
+                          _c("label", { attrs: { for: "number_fertile" } }, [
+                            _vm._v("Number of Eggs Fertile")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.number",
+                                value: _vm.edit_number_fertile,
+                                expression: "edit_number_fertile",
+                                modifiers: { number: true }
+                              }
+                            ],
+                            staticClass: "validate",
+                            attrs: {
+                              placeholder: "Number of eggs that are fertile",
+                              id: "number_fertile",
+                              type: "number",
+                              min: "0",
+                              oninput: "this.value = Math.abs(this.value)"
+                            },
+                            domProps: { value: _vm.edit_number_fertile },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.edit_number_fertile = _vm._n(
+                                  $event.target.value
+                                )
+                              },
+                              blur: function($event) {
+                                _vm.$forceUpdate()
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s6 m6 l6" }, [
+                          _c("label", { attrs: { for: "number_hatched" } }, [
+                            _vm._v("Number of Eggs Hatched")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.number",
+                                value: _vm.edit_number_hatched,
+                                expression: "edit_number_hatched",
+                                modifiers: { number: true }
+                              }
+                            ],
+                            staticClass: "validate",
+                            attrs: {
+                              placeholder: "Number of eggs that hatched",
+                              id: "number_hatched",
+                              type: "number",
+                              min: "0",
+                              oninput: "this.value = Math.abs(this.value)"
+                            },
+                            domProps: { value: _vm.edit_number_hatched },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.edit_number_hatched = _vm._n(
+                                  $event.target.value
+                                )
+                              },
+                              blur: function($event) {
+                                _vm.$forceUpdate()
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col s6 m6 l6" },
+                          [
+                            _c("label", { attrs: { for: "date_hatched " } }, [
+                              _vm._v("Date Eggs Hatched")
+                            ]),
+                            _vm._v(" "),
+                            _c("datepicker", {
+                              attrs: {
+                                placeholder: "Date when eggs hatched",
+                                id: "date_hatched",
+                                format: _vm.customFormatter(
+                                  _vm.edit_date_hatched
+                                )
+                              },
+                              model: {
+                                value: _vm.edit_date_hatched,
+                                callback: function($$v) {
+                                  _vm.edit_date_hatched = $$v
+                                },
+                                expression: "edit_date_hatched "
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12 m6 l6" }, [
+                          _c("label", [_vm._v("Place to brooder pen")]),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.edit_selected_brooder_pen,
+                                  expression: "edit_selected_brooder_pen"
+                                }
+                              ],
+                              staticClass: "browser-default",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.edit_selected_brooder_pen = $event.target
+                                    .multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            [
+                              _vm.brooder_pens_length == 0
+                                ? _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("No brooder pens available")]
+                                  )
+                                : _c(
+                                    "option",
+                                    {
+                                      attrs: {
+                                        value: "",
+                                        disabled: "",
+                                        selected: ""
+                                      }
+                                    },
+                                    [_vm._v("Choose your option")]
+                                  ),
+                              _vm._v(" "),
+                              _vm._l(_vm.brooder_pens, function(pen) {
+                                return _c(
+                                  "option",
+                                  { key: pen.id, domProps: { value: pen.id } },
+                                  [_vm._v(_vm._s(pen.number))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(4)
+              ]
+            )
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",
@@ -74740,13 +75143,13 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(4),
+              _vm._m(5),
               _vm._v(" "),
               _c("div", { staticClass: "row valign-wrapper" }, [
-                _vm._m(5),
+                _vm._m(6),
                 _vm._v(" "),
                 _c("div", { staticClass: "col s10 m10 l10" }, [
-                  _vm._m(6),
+                  _vm._m(7),
                   _vm._v(" "),
                   _c("blockquote", [
                     _c("span", [
@@ -74797,9 +75200,9 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(7),
+                  _vm._m(8),
                   _vm._v(" "),
-                  _vm._m(8)
+                  _vm._m(9)
                 ])
               ])
             ]),
@@ -74888,8 +75291,25 @@ var staticRenderFns = [
             _c("strong", [_vm._v("Family")]),
             _vm._v(" and "),
             _c("strong", [_vm._v("Brooder")]),
-            _vm._v(" record")
+            _vm._v(" record.")
           ])
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _c("span", [
+            _c("i", { staticClass: "fas fa-asterisk" }),
+            _vm._v(
+              " You can submit this form without supplying all the data which you can edit in the records list."
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v("(Required Data : "),
+          _c("strong", [_vm._v("Date Eggs Set")]),
+          _vm._v(", "),
+          _c("strong", [_vm._v("Number of Eggs Set")]),
+          _vm._v(")")
         ])
       ])
     ])
@@ -74915,48 +75335,59 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal modal-fixed-footer",
-        attrs: { id: "update_modal" }
-      },
-      [
-        _c("div", { staticClass: "modal-content" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col s12 m12 l12" }, [
-              _c("h4", [_vm._v("Update Record")])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col s12 m12 l12" })
+    return _c("div", { staticClass: "row valign-wrapper orange lighten-4" }, [
+      _c("div", { staticClass: "col s1 m1 l1 center-align" }, [
+        _c("p", [
+          _c("span", [
+            _c("h5", [_c("i", { staticClass: "fas fa-exclamation-circle" })])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-footer" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "modal-action modal-close waves-effect waves-green btn-flat ",
-              attrs: { href: "#!" }
-            },
-            [_vm._v("Submit")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass:
-                "modal-action modal-close waves-effect waves-green btn-flat ",
-              attrs: { href: "#!" }
-            },
-            [_vm._v("Close")]
-          )
         ])
-      ]
-    )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col s11 m11 l11" }, [
+        _c("p", [
+          _c("span", [
+            _vm._v(
+              "Adding complete data in the hatchery record automatically generates "
+            ),
+            _c("strong", [_vm._v("Generation")]),
+            _vm._v(", "),
+            _c("strong", [_vm._v("Line")]),
+            _vm._v(", "),
+            _c("strong", [_vm._v("Family")]),
+            _vm._v(" and "),
+            _c("strong", [_vm._v("Brooder")]),
+            _vm._v(" record")
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "javascript:void(0)", type: "submit" }
+        },
+        [_vm._v("Submit")]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-green btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
   },
   function() {
     var _vm = this
@@ -76052,7 +76483,7 @@ var render = function() {
       _c("div", { staticClass: "card-panel" }, [
         _c("div", { staticClass: "row valign-wrapper" }, [
           _c("div", { staticClass: "col s6 m6 l7" }, [
-            _c("h5", [_vm._v(_vm._s(_vm.breeder_tag) + " Feeding Records")])
+            _c("h5", [_vm._v("Feeding Records | " + _vm._s(_vm.breeder_tag))])
           ]),
           _vm._v(" "),
           _vm._m(0),
@@ -76158,7 +76589,7 @@ var render = function() {
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col s12 m12 l12" }, [
                       _c("h4", [
-                        _vm._v(_vm._s(_vm.breeder_tag) + " Feeding Records")
+                        _vm._v("Feeding Records | " + _vm._s(_vm.breeder_tag))
                       ])
                     ])
                   ]),
@@ -76817,7 +77248,9 @@ var render = function() {
       _c("div", { staticClass: "card-panel" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col s6 m6 l6" }, [
-            _c("h5", [_vm._v(_vm._s(_vm.breeder_tag) + " Egg Quality Records")])
+            _c("h5", [
+              _vm._v("Egg Quality Records | " + _vm._s(_vm.breeder_tag))
+            ])
           ]),
           _vm._v(" "),
           _vm._m(0),
@@ -76966,7 +77399,7 @@ var render = function() {
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col s12 m12 l12" }, [
                       _c("h4", [
-                        _vm._v(_vm._s(_vm.breeder_tag) + " Egg Quality")
+                        _vm._v("Egg Quality | " + _vm._s(_vm.breeder_tag))
                       ])
                     ])
                   ]),
@@ -79079,7 +79512,7 @@ var render = function() {
         _c("div", { staticClass: "row valign-wrapper" }, [
           _c("div", { staticClass: "col s6 m6 l6" }, [
             _c("h5", [
-              _vm._v(_vm._s(_vm.breeder_tag) + " Phenotypic & Morphometric")
+              _vm._v("Phenotypic & Morphometric | " + _vm._s(_vm.breeder_tag))
             ])
           ]),
           _vm._v(" "),
@@ -87253,6 +87686,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -87401,7 +87838,7 @@ var render = function() {
       _c("div", { staticClass: "card-panel" }, [
         _c("div", { staticClass: "row valign-wrapper" }, [
           _c("div", { staticClass: "col s6 m6 l6" }, [
-            _c("h5", [_vm._v(_vm._s(_vm.breeder_tag) + " Mortality & Sales")])
+            _c("h5", [_vm._v("Mortality & Sales | " + _vm._s(_vm.breeder_tag))])
           ]),
           _vm._v(" "),
           _vm._m(0),
@@ -87448,6 +87885,8 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v("-")]),
                           _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
                           _c("td", [_vm._v("-")])
                         ])
                       : _vm._e(),
@@ -87478,7 +87917,11 @@ var render = function() {
                         _vm._v(" "),
                         record.reason == null
                           ? _c("td", [_vm._v("-")])
-                          : _c("td", [_vm._v(_vm._s(record.reason))])
+                          : _c("td", [_vm._v(_vm._s(record.reason))]),
+                        _vm._v(" "),
+                        record.remarks == null
+                          ? _c("td", [_vm._v("-")])
+                          : _c("td", [_vm._v(_vm._s(record.remarks))])
                       ])
                     })
                   ],
@@ -87498,7 +87941,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col s12 m12 l12" }, [
                 _c("h4", [
-                  _vm._v(_vm._s(_vm.breeder_tag) + " Mortality & Sales")
+                  _vm._v("Mortality & Sales | " + _vm._s(_vm.breeder_tag))
                 ])
               ])
             ]),
@@ -88279,7 +88722,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Price")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Reason")])
+        _c("th", [_vm._v("Reason")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Remarks")])
       ])
     ])
   },

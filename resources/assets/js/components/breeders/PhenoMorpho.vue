@@ -4,7 +4,7 @@
             <div class="card-panel">
                 <div class="row valign-wrapper">
                     <div class="col s6 m6 l6">
-                        <h5>{{breeder_tag}} Phenotypic & Morphometric</h5>
+                        <h5>Phenotypic & Morphometric | {{breeder_tag}}</h5>
                     </div>
                     <div class="col s3 m3 l3 center">
                         <a class="waves-effect waves-green btn-flat green-text modal-trigger" href="#breeder_phenomorpho"><i class="fas fa-plus-circle left"></i>Add</a>

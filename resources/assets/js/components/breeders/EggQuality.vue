@@ -4,7 +4,7 @@
             <div class="card-panel">
                 <div class="row">
                     <div class="col s6 m6 l6">
-                        <h5>{{breeder_tag}} Egg Quality Records</h5>
+                        <h5>Egg Quality Records | {{breeder_tag}}</h5>
                     </div>
                     <div class="col s3 m3 l3 right-align">
                         <a href="#eggquality" class="waves-effect waves-green btn-flat green-text modal-trigger"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -84,7 +84,7 @@
                         <div class="modal-content">
                             <div class="row">
                                 <div class="col s12 m12 l12">
-                                    <h4>{{breeder_tag}} Egg Quality</h4>
+                                    <h4>Egg Quality | {{breeder_tag}}</h4>
                                 </div>
                             </div>
                             <div class="row">

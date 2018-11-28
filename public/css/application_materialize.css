@@ -69,6 +69,12 @@ ul.breadcrumb li a:hover {
     overflow: visible;
 }
 
+#update_modal {
+    width: 80% !important ;
+    height: 100% !important;
+    overflow: visible;
+}
+
 #add_breeder_modal {
     width: 90% !important ;
     height: 100% !important;

@@ -291,8 +291,6 @@ class BreederController extends Controller
             'breeder_inventory_id' => 'required',
             'date_eggs_set' => 'required',
             'number_eggs_set' => 'required',
-            'number_fertile' => 'required',
-            'number_hatched' => 'required',
         ]);
 
         $inventory = BreederInventory::where('id', $request->breeder_inventory_id)->firstOrFail();
@@ -412,6 +410,172 @@ class BreederController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Hatchery record added']);
     }
 
+    public function editHatcheryRecord (Request $request)
+    {
+        $record = HatcheryRecord::where('id', $request->selected_record_id)->firstOrFail();
+        $inventory = BreederInventory::where('id', $record->breeder_inventory_id)->firstOrFail();
+        if($request->date_hatched != null && $request->number_hatched != null && $request->broodergrower_pen_id != null){
+            $brooder_pen = Pen::where('id', $request->broodergrower_pen_id)->firstOrFail();
+            if($brooder_pen->total_capacity < $brooder_pen->current_capacity + $request->number_hatched){
+                return response()->json( ['error'=>'Brooder pen does not have enough space for the chicks'] );
+            }
+            $brooder_pen->current_capacity = $brooder_pen->current_capacity + $request->number_hatched;
+
+            $record->date_eggs_set = $request->date_eggs_set;
+            $record->number_eggs_set = $request->number_eggs_set;
+            if($inventory->batching_date != null){
+                $record->week_of_lay = Carbon::parse($inventory->batching_date)->diffInWeeks(Carbon::parse($request->date_eggs_set));
+            }else{
+                $record->week_of_lay = null;
+            }
+            $record->number_fertile = $request->number_fertile;
+            $record->number_hatched = $request->number_hatched;
+            $record->date_hatched = $request->date_hatched;
+            $record->batching_date = Carbon::createFromFormat('Y-m-d', $request->date_hatched)->subWeeks(Auth::user()->getFarm()->batching_week)->toDateString();
+
+            $breeder = Breeder::where('id', $inventory->breeder_id)->firstOrFail();
+
+            $breeder_gen = $breeder->getGeneration();
+            $breeder_line = $breeder->getLine();
+            $breeder_family = $breeder->getFamily();
+            // Check generation existence
+            $check_generation = Generation::where('numerical_generation', $breeder_gen->numerical_generation+1)->first();
+            if($check_generation == null){
+                $check_generation = new Generation;
+                $check_generation->farm_id = Auth::user()->farm_id;
+                $check_generation->number = str_pad($breeder_gen->numerical_generation+1, 4, '0', STR_PAD_LEFT);;
+                $check_generation->numerical_generation = $breeder_gen->numerical_generation+1;
+                $check_generation->is_active = true;
+                $check_generation->save();
+            }
+            // Check for line existence
+            $check_line = Line::where('number', $breeder_line->number)->where('generation_id', $check_generation->id)->first();
+            if($check_line == null){
+                $check_line = new Line;
+                $check_line->number = $breeder_line->number;
+                $check_line->generation_id = $check_generation->id;
+                $check_line->is_active = true;
+                $check_line->save();
+            }
+            // Check family existence
+            $check_family = Family::where('number', $breeder_family->number)->where('line_id', $check_line->id)->first();
+            if($check_family == null){
+                $check_family = new Family;
+                $check_family->number = $breeder_family->number;
+                $check_family->line_id = $check_line->id;
+                $check_family->is_active = true;
+                $check_family->save();
+            }
+
+            $code = Auth::user()->getFarm()->code;
+            $timestamp = Carbon::now()->timestamp;
+            $random = random_bytes(1);
+            $tag = $code.bin2hex($random).$timestamp;
+
+            $brooder_record = BrooderGrower::where('family_id', $check_family->id)->first();
+            if($brooder_record==null){
+                $new_brooder = new BrooderGrower;
+                $new_brooder->family_id = $check_family->id;
+                $new_brooder->date_added = $request->date_hatched;
+                $new_brooder->save();
+
+                $new_brooder_inventory = new BrooderGrowerInventory;
+                $new_brooder_inventory->broodergrower_id = $new_brooder->id;
+                $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
+                $new_brooder_inventory->broodergrower_tag = $tag;
+                $new_brooder_inventory->batching_date = $record->batching_date;
+                $new_brooder_inventory->number_male = null;
+                $new_brooder_inventory->number_female = null;
+                $new_brooder_inventory->total = $record->number_hatched;
+                $new_brooder_inventory->last_update = $record->date_hatched;
+                $new_brooder_inventory->save();
+            }else{
+                $new_brooder_inventory = new BrooderGrowerInventory;
+                $new_brooder_inventory->broodergrower_id = $brooder_record->id;
+                $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
+                $new_brooder_inventory->broodergrower_tag = $tag;
+                $new_brooder_inventory->batching_date = $record->batching_date;
+                $new_brooder_inventory->number_male = null;
+                $new_brooder_inventory->number_female = null;
+                $new_brooder_inventory->total = $record->number_hatched;
+                $new_brooder_inventory->last_update = $record->date_hatched;
+                $new_brooder_inventory->save();
+            }
+
+            $brooder_movement = new AnimalMovement;
+            $brooder_movement->date = $record->date_hatched;
+            $brooder_movement->family_id = $breeder->family_id;
+            $brooder_movement->tag = $tag;
+            $brooder_movement->previous_pen_id = null;
+            $brooder_movement->current_pen_id = $brooder_pen->id;
+            $brooder_movement->previous_type = 'egg';
+            $brooder_movement->current_type = 'broodersgrowers';
+            $brooder_movement->activity = 'transfer';
+            $brooder_movement->number_male = null;
+            $brooder_movement->number_female = null;
+            $brooder_movement->number_total = $request->number_hatched;
+            $brooder_movement->remarks = 'within system';
+            $brooder_movement->save();
+
+            $brooder_pen->save();
+            $record->save();
+            return response()->json(['status' => 'success', 'message' => 'Hatchery record updated']);
+        }else{
+            $record->date_eggs_set = $request->date_eggs_set;
+            $record->number_eggs_set = $request->number_eggs_set;
+            if($inventory->batching_date != null){
+                $record->week_of_lay = Carbon::parse($inventory->batching_date)->diffInWeeks(Carbon::parse($request->date_eggs_set));
+            }else{
+                $record->week_of_lay = null;
+            }
+            $record->number_fertile = $request->number_fertile;
+            $record->number_hatched = $request->number_hatched;
+            if($request->date_hatched === null){
+                $record->date_hatched = null;
+            }
+            $record->save();
+            return response()->json(['status' => 'success', 'message' => 'Hatchery record updated']);
+        }
+    }
+
+    public function deleteHatcheryRecord ($record_id)
+    {
+        $hatchery_record = HatcheryRecord::where('id', $record_id)->firstOrFail();
+        if($hatchery_record->number_hatched == null){
+            $hatchery_record->delete();
+            return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted']);
+        }else{
+            $breeder_inventory = BreederInventory::where('breeder_id', $hatchery_record->breeder_inventory_id)->firstOrFail();
+            $breeder = Breeder::where('id', $breeder_inventory->breeder_id)->first();
+            $breeder_family = Family::where('id', $breeder->family_id)->firstOrFail();
+            $breeder_line = Line::where('id', $breeder_family->line_id)->firstOrFail();
+            $breeder_generation = Generation::where('id', $breeder_line->generation_id)->firstOrFail();
+            $brooder_generation = Generation::where('farm_id', Auth::user()->farm_id)->where('numerical_generation', $breeder_generation->numerical_generation + 1)->firstOrFail();
+            $brooder_line = Line::where('generation_id', $brooder_generation->id)->where('number', $breeder_line->number)->firstOrFail();
+            $brooder_family = Family::where('line_id', $brooder_line->id)->where('number', $breeder_family->number)->firstOrFail();
+            $brooder_grower = BrooderGrower::where('family_id', $brooder_family->id)->first();
+            $brooder_inventory = BrooderGrowerInventory::where('broodergrower_id', $brooder_grower->id)
+                                ->where('batching_date', $hatchery_record->batching_date)
+                                ->where('last_update', $hatchery_record->date_hatched)
+                                ->first();
+            $animal_movement = AnimalMovement::where('tag', $brooder_inventory->broodergrower_tag)
+                                ->where('date', $hatchery_record->date_hatched)
+                                ->where('previous_type', 'egg')
+                                ->where('remarks', 'within system')
+                                ->first();
+            $brooder_pen = Pen::where('id', $brooder_inventory->pen_id)->first();
+            $brooder_pen->current_capacity = $brooder_pen->current_capacity - $brooder_inventory->total;
+            $brooder_pen->save();
+
+            $animal_movement->delete();
+            $hatchery_record->delete();
+            $brooder_inventory->delete();
+            if(BrooderGrowerInventory::where('broodergrower_id', $brooder_grower->id)->count() == 0){
+                $brooder_grower->delete();
+            }
+            return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted and brooder record updated']);
+        }
+    }
 
     public function dailyRecordPage()
     {
@@ -774,53 +938,6 @@ class BreederController extends Controller
         if($request->thickness_bot) $edit->thickness_bot = $request->thickness_bot;
         $edit->save();
         return response()->json(['status' => 'success', 'message' => 'Egg quality record edited']);
-    }
-
-    /**
-     * TODO : Workaround for editing hatchery record with brooder record
-     */
-    public function editHatcheryRecord ()
-    {
-
-    }
-
-    public function deleteHatcheryRecord ($record_id)
-    {
-        $hatchery_record = HatcheryRecord::where('id', $record_id)->firstOrFail();
-        if($hatchery_record->number_hatched == null){
-            $hatchery_record->delete();
-            return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted']);
-        }else{
-            $breeder_inventory = BreederInventory::where('breeder_id', $hatchery_record->breeder_inventory_id)->firstOrFail();
-            $breeder = Breeder::where('id', $breeder_inventory->breeder_id)->first();
-            $breeder_family = Family::where('id', $breeder->family_id)->firstOrFail();
-            $breeder_line = Line::where('id', $breeder_family->line_id)->firstOrFail();
-            $breeder_generation = Generation::where('id', $breeder_line->generation_id)->firstOrFail();
-            $brooder_generation = Generation::where('farm_id', Auth::user()->farm_id)->where('numerical_generation', $breeder_generation->numerical_generation + 1)->firstOrFail();
-            $brooder_line = Line::where('generation_id', $brooder_generation->id)->where('number', $breeder_line->number)->firstOrFail();
-            $brooder_family = Family::where('line_id', $brooder_line->id)->where('number', $breeder_family->number)->firstOrFail();
-            $brooder_grower = BrooderGrower::where('family_id', $brooder_family->id)->first();
-            $brooder_inventory = BrooderGrowerInventory::where('broodergrower_id', $brooder_grower->id)
-                                ->where('batching_date', $hatchery_record->batching_date)
-                                ->where('last_update', $hatchery_record->date_hatched)
-                                ->first();
-            $animal_movement = AnimalMovement::where('tag', $brooder_inventory->broodergrower_tag)
-                                ->where('date', $hatchery_record->date_hatched)
-                                ->where('previous_type', 'egg')
-                                ->where('remarks', 'within system')
-                                ->first();
-            $brooder_pen = Pen::where('id', $brooder_inventory->pen_id)->first();
-            $brooder_pen->current_capacity = $brooder_pen->current_capacity - $brooder_inventory->total;
-            $brooder_pen->save();
-
-            $animal_movement->delete();
-            $hatchery_record->delete();
-            $brooder_inventory->delete();
-            if(BrooderGrowerInventory::where('broodergrower_id', $brooder_grower->id)->count() == 0){
-                $brooder_grower->delete();
-            }
-            return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted and brooder record updated']);
-        }
     }
 
     public function deletePhenoMorphoRecord ($record_id)
