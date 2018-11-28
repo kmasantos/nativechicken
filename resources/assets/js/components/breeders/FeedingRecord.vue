@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col s12 m12 m12">
-            <div class="card-panel">
+            <div class="card-panel blue-grey lighten-5">
                 <div class="row valign-wrapper">
                     <div class="col s6 m6 l7">
                         <h5>Feeding Records | {{breeder_tag}}</h5>
@@ -23,7 +23,7 @@
                                     <th>Offered(g)</th>
                                     <th>Refused(g)</th>
                                     <th>Remarks</th>
-                                    <th>Edit</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
 
@@ -43,7 +43,7 @@
                                     <td>{{feeding.amount_refused}}</td>
                                     <td v-if="feeding.remarks == null">None</td>
                                     <td v-else>{{feeding.remarks}}</td>
-                                    <td>-</td>
+                                    <td><a @click="selected_feeding_record = feeding" href="#delete_feeding" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -97,6 +97,37 @@
                         </div>
                     </form>
                 </div>
+
+                <div id="delete_feeding" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h4>Delete Record</h4>
+                            </div>
+                        </div>
+                        <div class="row valign-wrapper">
+                            <div class="col s2 m2 l2 red-text center-align">
+                                <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                            </div>
+                            <div class="col s10 m10 l10">
+                                <p>Are you sure you want to <strong>Delete</strong> this feeding record?</p>
+                                <blockquote>
+                                    <span>Date : {{selected_feeding_record.date_collected}}</span><br>
+                                    <span>Tag : {{selected_feeding_record.breeder_tag}}</span><br>
+                                    <span>Offered(g) : {{selected_feeding_record.amount_offered}}</span><br>
+                                    <span>Refused(g) : {{selected_feeding_record.amount_refused}}</span><br>
+                                    <span>Remarks : {{selected_feeding_record.remarks}}</span><br>
+                                </blockquote>
+                                <p>This action is <strong>Irreversible</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a @click.prevent="deleteFeedingRecord" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -121,6 +152,7 @@
                 offered : '',
                 refused : '',
                 remarks : '',
+                selected_feeding_record : '',
             }
         },
         methods : {
@@ -151,15 +183,26 @@
                         this.offered = '';
                         this.refused = '';
                         this.remarks = '';
-                        Materialize.toast('Successfully added feeding record', 3000, 'green rounded');
+                        Materialize.toast('Successfully added feeding record', 5000, 'green rounded');
                     }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
                 })
                 .catch(error => {
-                    Materialize.toast('Failed to add feeding record', 3000, 'red rounded');
+                    Materialize.toast('Failed to add feeding record', 5000, 'red rounded');
                 });
                 this.initialize();
+            },
+            deleteFeedingRecord : function () {
+                axios.delete('breeder_delete_feeding/' + this.selected_feeding_record.id)
+                .then(response => {
+                    this.selected_feeding_record = '';
+                    Materialize.toast('Successfully deleted feeding record', 5000, 'green rounded');
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to delete feeding record', 5000, 'red rounded');
+                });
+                this.fetchFeedingRecord();
             },
             customFormatter : function (date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
@@ -175,6 +218,10 @@
             $('#feeding').modal({
                 dismissible : false,
             });
+            $('#delete_feeding').modal({
+                dismissible : false,
+            });
+
         },
         created() {
             this.initialize();

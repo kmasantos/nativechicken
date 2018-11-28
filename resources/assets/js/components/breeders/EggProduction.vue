@@ -23,10 +23,11 @@
                                         <th>Date</th>
                                         <th>Total Intact</th>
                                         <th>Total Weight</th>
+                                        <th>Average Weight</th>
                                         <th>Broken</th>
                                         <th>Rejected</th>
                                         <th>Remarks</th>
-                                        <th>Edit</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
 
@@ -39,15 +40,17 @@
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
+                                        <td>-</td>
                                     </tr>
-                                    <tr v-else v-for="prod in eggprod.data" :key="prod.id">
+                                    <tr v-else v-for="prod in eggprod.data" :key="prod.eggprod_id">
                                         <td>{{prod.date_collected}}</td>
                                         <td>{{prod.total_eggs_intact}}</td>
                                         <td>{{prod.total_egg_weight}}</td>
+                                        <td>{{(prod.total_egg_weight/prod.total_eggs_intact).toFixed(3)}}</td>
                                         <td>{{prod.total_broken}}</td>
                                         <td>{{prod.total_rejects}}</td>
                                         <td>{{prod.remarks}}</td>
-                                        <td>-</td>
+                                        <td><a @click="selected_eggprod_record = prod" href="#delete_eggprod" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -116,6 +119,38 @@
                         </form>
                     </div>
                 </div>
+
+                <div id="delete_eggprod" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h4>Delete Record</h4>
+                            </div>
+                        </div>
+                        <div class="row valign-wrapper">
+                            <div class="col s2 m2 l2 red-text center-align">
+                                <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                            </div>
+                            <div class="col s10 m10 l10">
+                                <p>Are you sure you want to <strong>Delete</strong> this egg production record?</p>
+                                <blockquote>
+                                    <span>Date : {{selected_eggprod_record.date_collected}}</span><br>
+                                    <span>Total Intact : {{selected_eggprod_record.total_eggs_intact}}</span><br>
+                                    <span>Total Weight : {{selected_eggprod_record.total_egg_weight}}</span><br>
+                                    <span>Broken : {{selected_eggprod_record.total_broken}}</span><br>
+                                    <span>Rejected : {{selected_eggprod_record.total_rejects}}</span><br>
+                                    <span>Remarks : {{selected_eggprod_record.remarks}}</span><br>
+                                </blockquote>
+                                <p>This action is <strong>Irreversible</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a @click.prevent="deleteFeedingRecord" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -147,6 +182,8 @@
                 add_record : null,
                 selected_record : null,
                 hide_record : false,
+
+                selected_eggprod_record : '',
             }
         },
         methods : {
@@ -181,16 +218,27 @@
                         this.total_broken = '';
                         this.total_rejects = '';
                         this.remarks = '';
-                        Materialize.toast('Successfully added egg production record', 3000, 'green rounded');
+                        Materialize.toast('Successfully added egg production record', 5000, 'green rounded');
                     }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
 
                 })
                 .catch(error => {
-                    Materialize.toast('Failed to add egg production record', 3000, 'red rounded');
+                    Materialize.toast('Failed to add egg production record', 5000, 'red rounded');
                 });
                 this.initialize();
+            },
+            deleteFeedingRecord : function () {
+                axios.delete('breeder_delete_eggprod/' + this.selected_eggprod_record.eggprod_id)
+                .then(response => {
+                    this.selected_eggprod_record = '';
+                    Materialize.toast('Successfully deleted egg production record', 5000, 'green rounded');
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to delete egg production record', 5000, 'red rounded');
+                });
+                this.fetchEggProductionRecord();
             },
             dateFormatter : function (date) {
                 return moment(date).format('YYYY-MM-DD');
@@ -208,6 +256,11 @@
         destroyed () {
             $('.tooltipped').tooltip({delay: 50});
         },
+        mounted () {
+            $('#delete_eggprod').modal({
+                dismissible : false,
+            });
+        }
 
     }
 </script>

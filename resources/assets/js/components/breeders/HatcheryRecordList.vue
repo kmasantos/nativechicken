@@ -153,6 +153,8 @@
                                 </div>
                                 <div class="col s11 m11 l11">
                                     <p><span>Adding complete data in the hatchery record automatically generates <strong>Generation</strong>, <strong>Line</strong>, <strong>Family</strong> and <strong>Brooder</strong> record</span></p>
+                                    <p><span><i class="fas fa-asterisk"></i> You can submit this form without supplying all the data which you can edit in the records list.</span></p>
+                                    <p>(Required Data : <strong>Date Eggs Set</strong>, <strong>Number of Eggs Set</strong>)</p>
                                 </div>
                             </div>
                             <div class="row">

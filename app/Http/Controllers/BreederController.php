@@ -249,6 +249,7 @@ class BreederController extends Controller
         $eggprod = EggProduction::
         leftjoin('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
         ->where('egg_productions.breeder_inventory_id', $breeder_id)
+        ->select('egg_productions.*', 'breeder_inventories.*', 'breeder_inventories.id as inventory_id', 'egg_productions.id as eggprod_id')
         ->orderBy('date_collected', 'desc')->paginate(10);
         return $eggprod;
     }
@@ -273,6 +274,13 @@ class BreederController extends Controller
         $eggprod->remarks = $request->remarks;
         $eggprod->save();
         return response()->json(['status' => 'success', 'message' => 'Egg production added']);
+    }
+
+    public function deleteEggProduction ($record_id)
+    {
+        $record = EggProduction::where('id', $record_id)->firstOrFail();
+        $record->delete();
+        return response()->json(['status' => 'success', 'message' => 'Egg Production record deleted']);
     }
 
     /**
@@ -577,11 +585,6 @@ class BreederController extends Controller
         }
     }
 
-    public function dailyRecordPage()
-    {
-        return view('chicken.breeder.daily_record');
-    }
-
     public function hatcheryRecordPage()
     {
         return view('chicken.breeder.hatchery_record');
@@ -765,9 +768,6 @@ class BreederController extends Controller
         return $record;
     }
 
-    /**
-     * TODO Add these functions
-     */
     public function addMortality (Request $request)
     {
         $breeder_inventory = BreederInventory::where('id', $request->breeder_id)->firstOrFail();
@@ -919,6 +919,13 @@ class BreederController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Feeding record edited']);
     }
 
+    public function deleteFeedingRecord ($record_id)
+    {
+        $record = BreederFeeding::where('id', $record_id)->firstOrFail();
+        $record->delete();
+        return response()->json(['status' => 'success', 'message' => 'Feeding record deleted']);
+    }
+
     public function editEggQualityRecord (Request $request)
     {
         $edit = EggQuality::where('id', $request->record_id)->firstOrFail();
@@ -938,6 +945,15 @@ class BreederController extends Controller
         if($request->thickness_bot) $edit->thickness_bot = $request->thickness_bot;
         $edit->save();
         return response()->json(['status' => 'success', 'message' => 'Egg quality record edited']);
+    }
+
+
+
+    public function deleteEggQuality($record_id)
+    {
+        $record = EggQuality::where('id', $record_id)->firstOrFail();
+        $record->delete();
+        return response()->json(['status' => 'success', 'message' => 'Egg Quality record deleted']);
     }
 
     public function deletePhenoMorphoRecord ($record_id)

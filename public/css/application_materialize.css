@@ -63,10 +63,19 @@ ul.breadcrumb li a:hover {
     width: 55% !important;
 }
 
+#delete_feeding{
+    height: 650px;
+    width: 55% !important;
+}
+
 #breeder_phenomorpho {
     width: 90% !important ;
     height: 100% !important;
     overflow: visible;
+}
+
+#feeding{
+    width: 80% !important ;
 }
 
 #update_modal {

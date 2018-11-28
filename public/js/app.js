@@ -74155,6 +74155,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -75359,6 +75361,23 @@ var staticRenderFns = [
             _c("strong", [_vm._v("Brooder")]),
             _vm._v(" record")
           ])
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _c("span", [
+            _c("i", { staticClass: "fas fa-asterisk" }),
+            _vm._v(
+              " You can submit this form without supplying all the data which you can edit in the records list."
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v("(Required Data : "),
+          _c("strong", [_vm._v("Date Eggs Set")]),
+          _vm._v(", "),
+          _c("strong", [_vm._v("Number of Eggs Set")]),
+          _vm._v(")")
         ])
       ])
     ])
@@ -75624,6 +75643,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -75649,7 +75703,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             add_record: null,
             selected_record: null,
-            hide_record: false
+            hide_record: false,
+
+            selected_eggprod_record: ''
         };
     },
 
@@ -75688,14 +75744,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.total_broken = '';
                     _this2.total_rejects = '';
                     _this2.remarks = '';
-                    Materialize.toast('Successfully added egg production record', 3000, 'green rounded');
+                    Materialize.toast('Successfully added egg production record', 5000, 'green rounded');
                 } else {
-                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
                 }
             }).catch(function (error) {
-                Materialize.toast('Failed to add egg production record', 3000, 'red rounded');
+                Materialize.toast('Failed to add egg production record', 5000, 'red rounded');
             });
             this.initialize();
+        },
+        deleteFeedingRecord: function deleteFeedingRecord() {
+            var _this3 = this;
+
+            axios.delete('breeder_delete_eggprod/' + this.selected_eggprod_record.eggprod_id).then(function (response) {
+                _this3.selected_eggprod_record = '';
+                Materialize.toast('Successfully deleted egg production record', 5000, 'green rounded');
+            }).catch(function (error) {
+                Materialize.toast('Failed to delete egg production record', 5000, 'red rounded');
+            });
+            this.fetchEggProductionRecord();
         },
         dateFormatter: function dateFormatter(date) {
             return moment(date).format('YYYY-MM-DD');
@@ -75712,6 +75779,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     destroyed: function destroyed() {
         $('.tooltipped').tooltip({ delay: 50 });
+    },
+    mounted: function mounted() {
+        $('#delete_eggprod').modal({
+            dismissible: false
+        });
     }
 });
 
@@ -75819,10 +75891,12 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", [_vm._v("-")]),
                               _vm._v(" "),
+                              _c("td", [_vm._v("-")]),
+                              _vm._v(" "),
                               _c("td", [_vm._v("-")])
                             ])
                           : _vm._l(_vm.eggprod.data, function(prod) {
-                              return _c("tr", { key: prod.id }, [
+                              return _c("tr", { key: prod.eggprod_id }, [
                                 _c("td", [_vm._v(_vm._s(prod.date_collected))]),
                                 _vm._v(" "),
                                 _c("td", [
@@ -75833,13 +75907,42 @@ var render = function() {
                                   _vm._v(_vm._s(prod.total_egg_weight))
                                 ]),
                                 _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(
+                                      (
+                                        prod.total_egg_weight /
+                                        prod.total_eggs_intact
+                                      ).toFixed(3)
+                                    )
+                                  )
+                                ]),
+                                _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(prod.total_broken))]),
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(prod.total_rejects))]),
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(prod.remarks))]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v("-")])
+                                _c("td", [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "modal-trigger",
+                                      attrs: { href: "#delete_eggprod" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.selected_eggprod_record = prod
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "far fa-trash-alt"
+                                      })
+                                    ]
+                                  )
+                                ])
                               ])
                             })
                       ],
@@ -76174,6 +76277,107 @@ var render = function() {
               )
             ])
           ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal modal-fixed-footer",
+            attrs: { id: "delete_eggprod" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "row valign-wrapper" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("div", { staticClass: "col s10 m10 l10" }, [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c("blockquote", [
+                    _c("span", [
+                      _vm._v(
+                        "Date : " +
+                          _vm._s(_vm.selected_eggprod_record.date_collected)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Total Intact : " +
+                          _vm._s(_vm.selected_eggprod_record.total_eggs_intact)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Total Weight : " +
+                          _vm._s(_vm.selected_eggprod_record.total_egg_weight)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Broken : " +
+                          _vm._s(_vm.selected_eggprod_record.total_broken)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Rejected : " +
+                          _vm._s(_vm.selected_eggprod_record.total_rejects)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Remarks : " +
+                          _vm._s(_vm.selected_eggprod_record.remarks)
+                      )
+                    ]),
+                    _c("br")
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(5)
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteFeedingRecord($event)
+                    }
+                  }
+                },
+                [_vm._v("Yes")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" }
+                },
+                [_vm._v("No")]
+              )
+            ])
+          ]
         )
       ])
     ])
@@ -76192,13 +76396,15 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Total Weight")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Average Weight")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Broken")]),
         _vm._v(" "),
         _c("th", [_vm._v("Rejected")]),
         _vm._v(" "),
         _c("th", [_vm._v("Remarks")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Edit")])
+        _c("th", [_vm._v("Delete")])
       ])
     ])
   },
@@ -76217,6 +76423,44 @@ var staticRenderFns = [
           [_vm._v("Submit")]
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Delete Record")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s2 m2 l2 red-text center-align" }, [
+      _c("h4", [_c("i", { staticClass: "fas fa-exclamation-triangle" })])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Are you sure you want to "),
+      _c("strong", [_vm._v("Delete")]),
+      _vm._v(" this egg production record?")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("Irreversible")]),
+      _vm._v(".")
     ])
   }
 ]
@@ -76387,6 +76631,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -76403,7 +76678,8 @@ var moment = __webpack_require__(0);
             date_collected: '',
             offered: '',
             refused: '',
-            remarks: ''
+            remarks: '',
+            selected_feeding_record: ''
         };
     },
 
@@ -76438,14 +76714,25 @@ var moment = __webpack_require__(0);
                     _this2.offered = '';
                     _this2.refused = '';
                     _this2.remarks = '';
-                    Materialize.toast('Successfully added feeding record', 3000, 'green rounded');
+                    Materialize.toast('Successfully added feeding record', 5000, 'green rounded');
                 } else {
-                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
                 }
             }).catch(function (error) {
-                Materialize.toast('Failed to add feeding record', 3000, 'red rounded');
+                Materialize.toast('Failed to add feeding record', 5000, 'red rounded');
             });
             this.initialize();
+        },
+        deleteFeedingRecord: function deleteFeedingRecord() {
+            var _this3 = this;
+
+            axios.delete('breeder_delete_feeding/' + this.selected_feeding_record.id).then(function (response) {
+                _this3.selected_feeding_record = '';
+                Materialize.toast('Successfully deleted feeding record', 5000, 'green rounded');
+            }).catch(function (error) {
+                Materialize.toast('Failed to delete feeding record', 5000, 'red rounded');
+            });
+            this.fetchFeedingRecord();
         },
         customFormatter: function customFormatter(date_added) {
             return moment(date_added).format('YYYY-MM-DD');
@@ -76459,6 +76746,9 @@ var moment = __webpack_require__(0);
     },
     mounted: function mounted() {
         $('#feeding').modal({
+            dismissible: false
+        });
+        $('#delete_feeding').modal({
             dismissible: false
         });
     },
@@ -76480,7 +76770,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col s12 m12 m12" }, [
-      _c("div", { staticClass: "card-panel" }, [
+      _c("div", { staticClass: "card-panel blue-grey lighten-5" }, [
         _c("div", { staticClass: "row valign-wrapper" }, [
           _c("div", { staticClass: "col s6 m6 l7" }, [
             _c("h5", [_vm._v("Feeding Records | " + _vm._s(_vm.breeder_tag))])
@@ -76544,7 +76834,21 @@ var render = function() {
                           ? _c("td", [_vm._v("None")])
                           : _c("td", [_vm._v(_vm._s(feeding.remarks))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v("-")])
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "modal-trigger",
+                              attrs: { href: "#delete_feeding" },
+                              on: {
+                                click: function($event) {
+                                  _vm.selected_feeding_record = feeding
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "far fa-trash-alt" })]
+                          )
+                        ])
                       ])
                     })
                   ],
@@ -76773,6 +77077,99 @@ var render = function() {
               ]
             )
           ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal modal-fixed-footer",
+            attrs: { id: "delete_feeding" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "row valign-wrapper" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("div", { staticClass: "col s10 m10 l10" }, [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c("blockquote", [
+                    _c("span", [
+                      _vm._v(
+                        "Date : " +
+                          _vm._s(_vm.selected_feeding_record.date_collected)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Tag : " +
+                          _vm._s(_vm.selected_feeding_record.breeder_tag)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Offered(g) : " +
+                          _vm._s(_vm.selected_feeding_record.amount_offered)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Refused(g) : " +
+                          _vm._s(_vm.selected_feeding_record.amount_refused)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Remarks : " +
+                          _vm._s(_vm.selected_feeding_record.remarks)
+                      )
+                    ]),
+                    _c("br")
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(6)
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteFeedingRecord($event)
+                    }
+                  }
+                },
+                [_vm._v("Yes")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" }
+                },
+                [_vm._v("No")]
+              )
+            ])
+          ]
         )
       ])
     ])
@@ -76811,7 +77208,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Remarks")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Edit")])
+        _c("th", [_vm._v("Delete")])
       ])
     ])
   },
@@ -76839,6 +77236,44 @@ var staticRenderFns = [
         },
         [_vm._v("Submit")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Delete Record")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s2 m2 l2 red-text center-align" }, [
+      _c("h4", [_c("i", { staticClass: "fas fa-exclamation-triangle" })])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Are you sure you want to "),
+      _c("strong", [_vm._v("Delete")]),
+      _vm._v(" this feeding record?")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("Irreversible")]),
+      _vm._v(".")
     ])
   }
 ]

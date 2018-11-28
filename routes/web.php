@@ -49,7 +49,6 @@ Route::group(['middleware' => ['web']], function ()
 
         Route::get('add_breeder', ['as' => 'farm.chicken.breeder.add_breeder', 'uses' => 'BreederController@addBreederPage']);
 
-        Route::get('daily_record', ['as' => 'farm.chicken.breeder.daily_record', 'uses' => 'BreederController@dailyRecordPage']);
         Route::get('hatchery_record', ['as' => 'farm.chicken.breeder.hatchery_record', 'uses' => 'BreederController@hatcheryRecordPage']);
         Route::get('egg_quality', ['as' => 'farm.chicken.breeder.egg_quality', 'uses' => 'BreederController@eggQualityPage']);
         Route::get('breeder_inventory', ['as' => 'farm.chicken.breeder.breeder_inventory', 'uses' => 'BreederController@breederInventoryPage']);
@@ -119,6 +118,9 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_breeder_additional', 'BreederController@addAdditionalBreeder');
         Route::delete('breeder_delete_hatchery/{record_id}', 'BreederController@deleteHatcheryRecord');
         Route::patch('breeder_edit_hatchery', 'BreederController@editHatcheryRecord');
+        Route::delete('breeder_delete_feeding/{record_id}', 'BreederController@deleteFeedingRecord');
+        Route::delete('breeder_delete_eggquality/{record_id}', 'BreederController@deleteEggQuality');
+        Route::delete('breeder_delete_eggprod/{record_id}', 'BreederController@deleteEggProduction');
         /**
          * *New Axios Routes for Replacement
          */
