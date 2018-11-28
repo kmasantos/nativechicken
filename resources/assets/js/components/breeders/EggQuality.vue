@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col s12 m12 m12">
-            <div class="card-panel">
+            <div class="card-panel blue-grey lighten-5">
                 <div class="row">
                     <div class="col s6 m6 l6">
                         <h5>Egg Quality Records | {{breeder_tag}}</h5>
@@ -18,21 +18,22 @@
                         <table class="responsive-table centered bordered highlight">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Week</th>
-                                    <th>Wt</th>
-                                    <th>C</th>
-                                    <th>S</th>
-                                    <th>L</th>
-                                    <th>Wd</th>
-                                    <th>AH</th>
-                                    <th>AW</th>
-                                    <th>YW</th>
-                                    <th>YColor</th>
-                                    <th>SW</th>
-                                    <th>TT</th>
-                                    <th>MT</th>
-                                    <th>BT</th>
+                                    <th class="tooltipped" data-tooltip="Date Collected">Date</th>
+                                    <th class="tooltipped" data-tooltip="Collected at Week">Week</th>
+                                    <th class="tooltipped" data-tooltip="Weight">Wt</th>
+                                    <th class="tooltipped" data-tooltip="Color">C</th>
+                                    <th class="tooltipped" data-tooltip="Shape">S</th>
+                                    <th class="tooltipped" data-tooltip="Length">L</th>
+                                    <th class="tooltipped" data-tooltip="Width">Wd</th>
+                                    <th class="tooltipped" data-tooltip="Albumen Height">AH</th>
+                                    <th class="tooltipped" data-tooltip="Albumen Weight">AW</th>
+                                    <th class="tooltipped" data-tooltip="Yolk Weight">YW</th>
+                                    <th class="tooltipped" data-tooltip="Yolk Color">YC</th>
+                                    <th class="tooltipped" data-tooltip="Shell Weight">SW</th>
+                                    <th class="tooltipped" data-tooltip="Top Shell Thickness">TT</th>
+                                    <th class="tooltipped" data-tooltip="Middle Shell Thickness">MT</th>
+                                    <th class="tooltipped" data-tooltip="Bottom Shell Thickness">BT</th>
+                                    <th class="tooltipped" data-tooltip="Delete"><i class="far fa-trash-alt"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,23 +53,38 @@
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
+                                    <td>-</td>
                                 </tr>
-                                <tr v-else v-for="qualities in eggqualities.data" :key="qualities.id">
+                                <tr v-else v-for="qualities in eggqualities.data" :key="qualities.qual_id">
                                     <td>{{qualities.date_collected}}</td>
                                     <td>{{qualities.egg_quality_at}}</td>
-                                    <td>{{qualities.weight}}</td>
-                                    <td>{{qualities.color}}</td>
-                                    <td>{{qualities.shape}}</td>
-                                    <td>{{qualities.length}}</td>
-                                    <td>{{qualities.width}}</td>
-                                    <td>{{qualities.albumen_height}}</td>
-                                    <td>{{qualities.albumen_weight}}</td>
-                                    <td>{{qualities.yolk_weight}}</td>
-                                    <td>{{qualities.yolk_color}}</td>
-                                    <td>{{qualities.shell_weight}}</td>
-                                    <td>{{qualities.thickness_top}}</td>
-                                    <td>{{qualities.thickness_mid}}</td>
-                                    <td>{{qualities.thickness_bot}}</td>
+                                    <td v-if="qualities.weight == null">-</td>
+                                    <td v-else>{{qualities.weight.toFixed(3)}}</td>
+                                    <td v-if="qualities.color == null">-</td>
+                                    <td v-else>{{qualities.color}}</td>
+                                    <td v-if="qualities.shape == null">-</td>
+                                    <td v-else>{{qualities.shape}}</td>
+                                    <td v-if="qualities.length == null">-</td>
+                                    <td v-else>{{qualities.length.toFixed(3)}}</td>
+                                    <td v-if="qualities.width == null">-</td>
+                                    <td v-else>{{qualities.width.toFixed(3)}}</td>
+                                    <td v-if="qualities.albumen_height == null">-</td>
+                                    <td v-else>{{qualities.albumen_height.toFixed(3)}}</td>
+                                    <td v-if="qualities.albumen_weight == null">-</td>
+                                    <td v-else>{{qualities.albumen_weight.toFixed(3)}}</td>
+                                    <td v-if="qualities.yolk_weight == null">-</td>
+                                    <td v-else>{{qualities.yolk_weight.toFixed(3)}}</td>
+                                    <td v-if="qualities.yolk_color == null">-</td>
+                                    <td v-else>{{qualities.yolk_color}}</td>
+                                    <td v-if="qualities.shell_weight == null">-</td>
+                                    <td v-else>{{qualities.shell_weight.toFixed(3)}}</td>
+                                    <td v-if="qualities.thickness_top == null">-</td>
+                                    <td v-else>{{qualities.thickness_top.toFixed(3)}}</td>
+                                    <td v-if="qualities.thickness_mid == null">-</td>
+                                    <td v-else>{{qualities.thickness_mid.toFixed(3)}}</td>
+                                    <td v-if="qualities.thickness_bot == null">-</td>
+                                    <td v-else>{{qualities.thickness_bot.toFixed(3)}}</td>
+                                    <td><a @click="selected_eggqual_record = qualities" href="#delete_eggqual" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -205,6 +221,47 @@
                         </div>
                     </form>
                 </div>
+
+                <div id="delete_eggqual" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h4>Delete Record</h4>
+                            </div>
+                        </div>
+                        <div class="row valign-wrapper">
+                            <div class="col s2 m2 l2 red-text center-align">
+                                <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                            </div>
+                            <div class="col s10 m10 l10">
+                                <p>Are you sure you want to <strong>Delete</strong> this egg quality record?</p>
+                                <blockquote>
+                                    <span>Date Collected : {{selected_eggqual_record.date_collected}}</span><br>
+                                    <span>Collected at Week : {{selected_eggqual_record.egg_quality_at}}</span><br>
+                                    <span>Egg Weight : {{selected_eggqual_record.weight}}</span><br>
+                                    <span>Egg Color : {{selected_eggqual_record.color}}</span><br>
+                                    <span>Egg Shape : {{selected_eggqual_record.shape}}</span><br>
+                                    <span>Length : {{selected_eggqual_record.length}}</span><br>
+                                    <span>Width : {{selected_eggqual_record.width}}</span><br>
+                                    <span>Albumen Height : {{selected_eggqual_record.albumen_height}}</span><br>
+                                    <span>Albumen Weight : {{selected_eggqual_record.albumen_weight}}</span><br>
+                                    <span>Yolk Weight : {{selected_eggqual_record.yolk_weight}}</span><br>
+                                    <span>Yolk Color : {{selected_eggqual_record.yolk_color}}</span><br>
+                                    <span>Shell Weight : {{selected_eggqual_record.shell_weight}}</span><br>
+                                    <span>Shell Thickness Top : {{selected_eggqual_record.thickness_top}}</span><br>
+                                    <span>Shell Thickness Middle : {{selected_eggqual_record.thickness_mid}}</span><br>
+                                    <span>Shell Thickness Bottom : {{selected_eggqual_record.thickness_bot}}</span><br>
+                                </blockquote>
+                                <p>This action is <strong>Irreversible</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a @click.prevent="deleteEggQualityRecord" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -242,6 +299,8 @@
                 thickness_top : '',
                 thickness_mid : '',
                 thickness_bot : '',
+
+                selected_eggqual_record : '',
             }
         },
         methods : {
@@ -305,6 +364,17 @@
                 });
                 this.initialize();
             },
+            deleteEggQualityRecord : function () {
+                axios.delete('breeder_delete_eggquality/' + this.selected_eggqual_record.qual_id)
+                .then(response => {
+                    this.selected_eggqual_record = '';
+                    Materialize.toast('Successfully deleted egg quality record', 5000, 'green rounded');
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to delete egg quality record', 5000, 'red rounded');
+                });
+                this.fetchEggQualityRecord();
+            },
             customFormatter : function (date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
             },
@@ -319,11 +389,19 @@
             $('#eggquality').modal({
                 dismissible : false,
             });
+            $('#delete_eggqual').modal({
+                dismissible : false,
+            });
+            $('.tooltipped').tooltip({
+                delay: 50,
+                position: "top",
+            });
         },
         created() {
             this.initialize();
         },
         destroyed () {
+            $('.tooltipped').tooltip('remove');
             $('.tooltipped').tooltip({delay: 50});
         },
     }

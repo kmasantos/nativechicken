@@ -596,6 +596,7 @@ class BreederController extends Controller
         leftJoin('breeder_inventories', 'breeder_inventories.id', 'egg_qualities.breeder_inventory_id')
         ->leftJoin('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
         ->where('egg_qualities.breeder_inventory_id', $breeder_inventory)
+        ->select('breeder_inventories.*', 'egg_qualities.*', 'egg_qualities.id as qual_id', 'breeder_inventories.id as inv_id')
         ->orderBy('egg_qualities.date_collected', 'desc')->paginate(10);
         return $qualities;
     }

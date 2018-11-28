@@ -75797,7 +75797,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col s12 m12 l12" }, [
-      _c("div", { staticClass: "card-panel" }, [
+      _c("div", { staticClass: "card-panel blue-grey lighten-5" }, [
         _c(
           "div",
           {
@@ -77552,6 +77552,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -77581,7 +77638,9 @@ var moment = __webpack_require__(0);
             shell_weight: '',
             thickness_top: '',
             thickness_mid: '',
-            thickness_bot: ''
+            thickness_bot: '',
+
+            selected_eggqual_record: ''
         };
     },
 
@@ -77647,6 +77706,17 @@ var moment = __webpack_require__(0);
             });
             this.initialize();
         },
+        deleteEggQualityRecord: function deleteEggQualityRecord() {
+            var _this3 = this;
+
+            axios.delete('breeder_delete_eggquality/' + this.selected_eggqual_record.qual_id).then(function (response) {
+                _this3.selected_eggqual_record = '';
+                Materialize.toast('Successfully deleted egg quality record', 5000, 'green rounded');
+            }).catch(function (error) {
+                Materialize.toast('Failed to delete egg quality record', 5000, 'red rounded');
+            });
+            this.fetchEggQualityRecord();
+        },
         customFormatter: function customFormatter(date_added) {
             return moment(date_added).format('YYYY-MM-DD');
         },
@@ -77661,11 +77731,19 @@ var moment = __webpack_require__(0);
         $('#eggquality').modal({
             dismissible: false
         });
+        $('#delete_eggqual').modal({
+            dismissible: false
+        });
+        $('.tooltipped').tooltip({
+            delay: 50,
+            position: "top"
+        });
     },
     created: function created() {
         this.initialize();
     },
     destroyed: function destroyed() {
+        $('.tooltipped').tooltip('remove');
         $('.tooltipped').tooltip({ delay: 50 });
     }
 });
@@ -77680,7 +77758,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col s12 m12 m12" }, [
-      _c("div", { staticClass: "card-panel" }, [
+      _c("div", { staticClass: "card-panel blue-grey lighten-5" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col s6 m6 l6" }, [
             _c("h5", [
@@ -77746,10 +77824,12 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v("-")]),
                           _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
                           _c("td", [_vm._v("-")])
                         ])
                       : _vm._l(_vm.eggqualities.data, function(qualities) {
-                          return _c("tr", { key: qualities.id }, [
+                          return _c("tr", { key: qualities.qual_id }, [
                             _c("td", [
                               _vm._v(_vm._s(qualities.date_collected))
                             ]),
@@ -77758,35 +77838,109 @@ var render = function() {
                               _vm._v(_vm._s(qualities.egg_quality_at))
                             ]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.weight))]),
+                            qualities.weight == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(_vm._s(qualities.weight.toFixed(3)))
+                                ]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.color))]),
+                            qualities.color == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [_vm._v(_vm._s(qualities.color))]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.shape))]),
+                            qualities.shape == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [_vm._v(_vm._s(qualities.shape))]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.length))]),
+                            qualities.length == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(_vm._s(qualities.length.toFixed(3)))
+                                ]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.width))]),
+                            qualities.width == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(_vm._s(qualities.width.toFixed(3)))
+                                ]),
+                            _vm._v(" "),
+                            qualities.albumen_height == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(
+                                    _vm._s(qualities.albumen_height.toFixed(3))
+                                  )
+                                ]),
+                            _vm._v(" "),
+                            qualities.albumen_weight == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(
+                                    _vm._s(qualities.albumen_weight.toFixed(3))
+                                  )
+                                ]),
+                            _vm._v(" "),
+                            qualities.yolk_weight == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(
+                                    _vm._s(qualities.yolk_weight.toFixed(3))
+                                  )
+                                ]),
+                            _vm._v(" "),
+                            qualities.yolk_color == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(_vm._s(qualities.yolk_color))
+                                ]),
+                            _vm._v(" "),
+                            qualities.shell_weight == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(
+                                    _vm._s(qualities.shell_weight.toFixed(3))
+                                  )
+                                ]),
+                            _vm._v(" "),
+                            qualities.thickness_top == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(
+                                    _vm._s(qualities.thickness_top.toFixed(3))
+                                  )
+                                ]),
+                            _vm._v(" "),
+                            qualities.thickness_mid == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(
+                                    _vm._s(qualities.thickness_mid.toFixed(3))
+                                  )
+                                ]),
+                            _vm._v(" "),
+                            qualities.thickness_bot == null
+                              ? _c("td", [_vm._v("-")])
+                              : _c("td", [
+                                  _vm._v(
+                                    _vm._s(qualities.thickness_bot.toFixed(3))
+                                  )
+                                ]),
                             _vm._v(" "),
                             _c("td", [
-                              _vm._v(_vm._s(qualities.albumen_height))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(qualities.albumen_weight))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.yolk_weight))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.yolk_color))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.shell_weight))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.thickness_top))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.thickness_mid))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(qualities.thickness_bot))])
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "modal-trigger",
+                                  attrs: { href: "#delete_eggqual" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selected_eggqual_record = qualities
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "far fa-trash-alt" })]
+                              )
+                            ])
                           ])
                         })
                   ],
@@ -78565,6 +78719,177 @@ var render = function() {
               ]
             )
           ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal modal-fixed-footer",
+            attrs: { id: "delete_eggqual" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "row valign-wrapper" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("div", { staticClass: "col s10 m10 l10" }, [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c("blockquote", [
+                    _c("span", [
+                      _vm._v(
+                        "Date Collected : " +
+                          _vm._s(_vm.selected_eggqual_record.date_collected)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Collected at Week : " +
+                          _vm._s(_vm.selected_eggqual_record.egg_quality_at)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Egg Weight : " +
+                          _vm._s(_vm.selected_eggqual_record.weight)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Egg Color : " +
+                          _vm._s(_vm.selected_eggqual_record.color)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Egg Shape : " +
+                          _vm._s(_vm.selected_eggqual_record.shape)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Length : " + _vm._s(_vm.selected_eggqual_record.length)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Width : " + _vm._s(_vm.selected_eggqual_record.width)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Albumen Height : " +
+                          _vm._s(_vm.selected_eggqual_record.albumen_height)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Albumen Weight : " +
+                          _vm._s(_vm.selected_eggqual_record.albumen_weight)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Yolk Weight : " +
+                          _vm._s(_vm.selected_eggqual_record.yolk_weight)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Yolk Color : " +
+                          _vm._s(_vm.selected_eggqual_record.yolk_color)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Shell Weight : " +
+                          _vm._s(_vm.selected_eggqual_record.shell_weight)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Shell Thickness Top : " +
+                          _vm._s(_vm.selected_eggqual_record.thickness_top)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Shell Thickness Middle : " +
+                          _vm._s(_vm.selected_eggqual_record.thickness_mid)
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "Shell Thickness Bottom : " +
+                          _vm._s(_vm.selected_eggqual_record.thickness_bot)
+                      )
+                    ]),
+                    _c("br")
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(6)
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteEggQualityRecord($event)
+                    }
+                  }
+                },
+                [_vm._v("Yes")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" }
+                },
+                [_vm._v("No")]
+              )
+            ])
+          ]
         )
       ])
     ])
@@ -78593,35 +78918,131 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Date")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Date Collected" }
+          },
+          [_vm._v("Date")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("Week")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Collected at Week" }
+          },
+          [_vm._v("Week")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("Wt")]),
+        _c(
+          "th",
+          { staticClass: "tooltipped", attrs: { "data-tooltip": "Weight" } },
+          [_vm._v("Wt")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("C")]),
+        _c(
+          "th",
+          { staticClass: "tooltipped", attrs: { "data-tooltip": "Color" } },
+          [_vm._v("C")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("S")]),
+        _c(
+          "th",
+          { staticClass: "tooltipped", attrs: { "data-tooltip": "Shape" } },
+          [_vm._v("S")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("L")]),
+        _c(
+          "th",
+          { staticClass: "tooltipped", attrs: { "data-tooltip": "Length" } },
+          [_vm._v("L")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("Wd")]),
+        _c(
+          "th",
+          { staticClass: "tooltipped", attrs: { "data-tooltip": "Width" } },
+          [_vm._v("Wd")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("AH")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Albumen Height" }
+          },
+          [_vm._v("AH")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("AW")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Albumen Weight" }
+          },
+          [_vm._v("AW")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("YW")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Yolk Weight" }
+          },
+          [_vm._v("YW")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("YColor")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Yolk Color" }
+          },
+          [_vm._v("YC")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("SW")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Shell Weight" }
+          },
+          [_vm._v("SW")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("TT")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Top Shell Thickness" }
+          },
+          [_vm._v("TT")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("MT")]),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Middle Shell Thickness" }
+          },
+          [_vm._v("MT")]
+        ),
         _vm._v(" "),
-        _c("th", [_vm._v("BT")])
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Bottom Shell Thickness" }
+          },
+          [_vm._v("BT")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "tooltipped", attrs: { "data-tooltip": "Delete" } },
+          [_c("i", { staticClass: "far fa-trash-alt" })]
+        )
       ])
     ])
   },
@@ -78649,6 +79070,44 @@ var staticRenderFns = [
         },
         [_vm._v("Submit")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Delete Record")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s2 m2 l2 red-text center-align" }, [
+      _c("h4", [_c("i", { staticClass: "fas fa-exclamation-triangle" })])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Are you sure you want to "),
+      _c("strong", [_vm._v("Delete")]),
+      _vm._v(" this egg quality record?")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("Irreversible")]),
+      _vm._v(".")
     ])
   }
 ]
@@ -79943,7 +80402,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col s12 m12 l12" }, [
-      _c("div", { staticClass: "card-panel" }, [
+      _c("div", { staticClass: "card-panel blue-grey lighten-5" }, [
         _c("div", { staticClass: "row valign-wrapper" }, [
           _c("div", { staticClass: "col s6 m6 l6" }, [
             _c("h5", [
@@ -88270,7 +88729,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col s12 m12 l12" }, [
-      _c("div", { staticClass: "card-panel" }, [
+      _c("div", { staticClass: "card-panel blue-grey lighten-5" }, [
         _c("div", { staticClass: "row valign-wrapper" }, [
           _c("div", { staticClass: "col s6 m6 l6" }, [
             _c("h5", [_vm._v("Mortality & Sales | " + _vm._s(_vm.breeder_tag))])

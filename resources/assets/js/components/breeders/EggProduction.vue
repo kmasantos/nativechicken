@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col s12 m12 l12">
-            <div class="card-panel">
+            <div class="card-panel blue-grey lighten-5">
                 <!-- Egg Production Record -->
                 <div class="row" v-show="hide_record==false">
                     <div class="col s6 m6 l6">
