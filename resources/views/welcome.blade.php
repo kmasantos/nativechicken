@@ -79,7 +79,7 @@
             <div class="content">
                 <div class="row">
                     <div class="col s12 m12 l12" >
-                            <img id="login_logo" src="images/logo-default.png" alt="Native Animals">
+                            <img id="login_logo" src="https://image.ibb.co/nqiNCA/logo-default.png" alt="PAB-IS PH">
                     </div>
                 </div>
                 <div class="links">

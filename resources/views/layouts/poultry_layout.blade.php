@@ -22,7 +22,7 @@
                 <div class="background blue-grey">
 
                 </div>
-                <img class="circle" src="/images/farmer.png">
+                <img class="circle" src="https://image.ibb.co/jdbaXA/farmer.png" alt="farmer">
                 <span class="white-text name">{{Auth::user()->name}}</span>
                 <span class="white-text email">{{Auth::user()->email}}</span>
             </div>
@@ -104,7 +104,7 @@
     <nav class="blue-grey">
         <div class="nav-wrapper">
             <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only"><i class="material-icons">menu</i></a>
-            <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="/images/logo-poultry.png" height="60px" width="150px"/ ></a>
+            <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo"eight="60px" width="150px"/ ></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{{route('farm.index')}}"><i class="material-icons">account_circle</i></a></li>
                 <li><a href="{{route('farm.test')}}"><i class="material-icons">notification_important</i></a></li>
