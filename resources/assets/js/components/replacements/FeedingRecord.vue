@@ -23,6 +23,7 @@
                                     <th>Offered(g)</th>
                                     <th>Refused(g)</th>
                                     <th>Remarks</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
 
@@ -38,10 +39,11 @@
                                 <tr v-for="feeding in feedings.data" :key="feeding.feeding_id">
                                     <td>{{feeding.date_collected}}</td>
                                     <td>{{feeding.replacement_tag}}</td>
-                                    <td>{{feeding.amount_offered}}</td>
-                                    <td>{{feeding.amount_refused}}</td>
+                                    <td>{{feeding.amount_offered.toFixed(3)}}</td>
+                                    <td>{{feeding.amount_refused.toFixed(3)}}</td>
                                     <td v-if="feeding.remarks == null">None</td>
                                     <td v-else>{{feeding.remarks}}</td>
+                                    <td><a @click.prevent="selected_feeding_record = feeding.feeding_id;selectFeedingRecords()" class="modal-trigger" href="#delete_feeding"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -57,7 +59,7 @@
                         <div class="modal-content">
                             <div class="row">
                                 <div class="col s12 m12 l12">
-                                    <h4>{{feed_pen_number}} Feeding Records</h4>
+                                    <h4>Feeding Records | {{feed_pen_number}}</h4>
                                 </div>
                             </div>
                             <div class="row">
@@ -95,7 +97,51 @@
                         </div>
                     </form>
                 </div>
+                <div id="delete_feeding" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h4>Delete Record</h4>
+                            </div>
+                        </div>
+                        <div class="row valign-wrapper">
+                            <div class="col s2 m2 l2 red-text center-align">
+                                <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                            </div>
+                            <div class="col s10 m10 l10">
+                                <p>Are you sure you want to <strong>Delete</strong> this feeding record?</p>
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Tag</th>
+                                            <th>Offered(g)</th>
+                                            <th>Refused(g)</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                    </thead>
 
+                                    <tbody>
+                                        <tr v-for="selected_record in selected_records.data" :key="selected_record.record_id">
+                                            <td>{{selected_record.date_collected}}</td>
+                                            <td>{{selected_record.replacement_tag}}</td>
+                                            <td>{{selected_record.amount_offered.toFixed(3)}}</td>
+                                            <td>{{selected_record.amount_refused.toFixed(3)}}</td>
+                                            <td v-if="selected_record.remarks == null">None</td>
+                                            <td v-else>{{selected_record.remarks}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="center-align"><pagination :data="selected_records" @pagination-change-page="selectFeedingRecords"></pagination></p>
+                                <p>This action is <strong>Irreversible</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a @click.prevent="deleteFeedingRecords" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -120,6 +166,8 @@
                 offered : '',
                 refused : '',
                 remarks : '',
+                selected_feeding_record : '',
+                selected_records : {},
             }
         },
         methods : {
@@ -150,15 +198,34 @@
                         this.offered = '';
                         this.refused = '';
                         this.remarks = '';
-                        Materialize.toast('Successfully added feeding record', 3000, 'green rounded');
+                        Materialize.toast('Successfully added feeding record', 5000, 'green rounded');
                     }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
                 })
                 .catch(error => {
-                    Materialize.toast('Failed to add feeding record', 3000, 'red rounded');
+                    Materialize.toast('Failed to add feeding record', 5000, 'red rounded');
                 });
                 this.initialize();
+            },
+            deleteFeedingRecords : function () {
+                axios.delete('replacement_delete_feedrecords/'+this.selected_feeding_record)
+                .then(response => {
+                    Materialize.toast('Successfully deleted feeding record', 5000, 'green rounded');
+                })
+                .catch(function (error) {
+                    Materialize.toast('Failed to delete feeding record', 5000, 'red rounded');
+                });
+                this.fetchFeedingRecord();
+                this.selected_feeding_record = '';
+            },
+            selectFeedingRecords : function (page = 1) {
+                axios.get('replacement_select_feedrecords/'+this.selected_feeding_record+'?page='+page)
+                .then(response => {
+                    this.selected_records = response.data;
+                })
+                .catch(function (error) {
+                });
             },
             customFormatter : function (date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
@@ -172,6 +239,9 @@
         },
         mounted() {
             $('#feeding').modal({
+                dismissible : false,
+            });
+            $('#delete_feeding').modal({
                 dismissible : false,
             });
         },

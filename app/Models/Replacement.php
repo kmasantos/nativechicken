@@ -56,4 +56,5 @@ class Replacement extends Model
         $family = Family::where('id', $this->family_id)->first();
         return $family;
     }
+
 }

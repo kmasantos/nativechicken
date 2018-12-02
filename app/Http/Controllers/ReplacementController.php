@@ -299,12 +299,47 @@ class ReplacementController extends Controller
     public function fetchFeedingRecords($pen_id)
     {
         $feedingrecords = ReplacementFeeding::
-        leftJoin('replacement_inventories', 'replacement_feedings.replacement_inventory_id', 'replacement_inventories.id')
-        ->select('replacement_feedings.*', 'replacement_inventories.*', 'replacement_inventories.id as inventory_id', 'replacement_feedings.id as feeding_id')
-        ->where('replacement_inventories.pen_id', $pen_id)
-        ->orderBy('replacement_feedings.date_collected', 'desc')
-        ->paginate(10);
+            leftJoin('replacement_inventories', 'replacement_feedings.replacement_inventory_id', 'replacement_inventories.id')
+            ->select('replacement_feedings.*', 'replacement_inventories.*', 'replacement_inventories.id as inventory_id', 'replacement_feedings.id as feeding_id')
+            ->where('replacement_inventories.pen_id', $pen_id)
+            ->orderBy('replacement_feedings.date_collected', 'desc')
+            ->paginate(10);
         return $feedingrecords;
+    }
+
+    public function selectFeedingRecords ($record)
+    {
+        $selected = ReplacementFeeding::where('id', $record)->firstOrFail();
+        $selected_inventory = ReplacementInventory::where('id', $selected->replacement_inventory_id)->firstOrFail();
+        $selected_pen = Pen::where('id', $selected_inventory->pen_id)->firstOrFail();
+
+        $selected_records = ReplacementFeeding::where('replacement_feedings.date_collected', $selected->date_collected)
+                            ->leftJoin('replacement_inventories', 'replacement_inventories.id', 'replacement_feedings.replacement_inventory_id')
+                            ->where('replacement_inventories.pen_id', $selected_inventory->pen_id)
+                            ->select('replacement_feedings.*', 'replacement_inventories.*',
+                                    'replacement_inventories.id as inventory_id', 'replacement_feedings.id as record_id')
+                            ->paginate(10);
+        return $selected_records;
+    }
+
+    public function deleteFeedingRecord ($record)
+    {
+        $selected = ReplacementFeeding::where('id', $record)->firstOrFail();
+        $selected_inventory = ReplacementInventory::where('id', $selected->replacement_inventory_id)->firstOrFail();
+        $selected_pen = Pen::where('id', $selected_inventory->pen_id)->firstOrFail();
+
+        $selected_records = ReplacementFeeding::where('replacement_feedings.date_collected', $selected->date_collected)
+                            ->leftJoin('replacement_inventories', 'replacement_inventories.id', 'replacement_feedings.replacement_inventory_id')
+                            ->where('replacement_inventories.pen_id', $selected_inventory->pen_id)
+                            ->select('replacement_feedings.*', 'replacement_inventories.*',
+                                    'replacement_inventories.id as inventory_id', 'replacement_feedings.id as record_id')
+                            ->get();
+
+        foreach ($selected_records as $selected_record) {
+            $delete = ReplacementFeeding::where('id', $selected_record->record_id)->firstOrFail();
+            $delete->delete();
+        }
+        return response()->json(['status' => 'success', 'message' => 'Feeding records deleted']);
     }
 
     public function getPhenoMorphoInventory($pen_id)

@@ -93752,6 +93752,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component('pagination', __webpack_require__(4));
@@ -93768,7 +93814,9 @@ var moment = __webpack_require__(0);
             feed_record_collected: '',
             offered: '',
             refused: '',
-            remarks: ''
+            remarks: '',
+            selected_feeding_record: '',
+            selected_records: {}
         };
     },
 
@@ -93803,14 +93851,32 @@ var moment = __webpack_require__(0);
                     _this2.offered = '';
                     _this2.refused = '';
                     _this2.remarks = '';
-                    Materialize.toast('Successfully added feeding record', 3000, 'green rounded');
+                    Materialize.toast('Successfully added feeding record', 5000, 'green rounded');
                 } else {
-                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
                 }
             }).catch(function (error) {
-                Materialize.toast('Failed to add feeding record', 3000, 'red rounded');
+                Materialize.toast('Failed to add feeding record', 5000, 'red rounded');
             });
             this.initialize();
+        },
+        deleteFeedingRecords: function deleteFeedingRecords() {
+            axios.delete('replacement_delete_feedrecords/' + this.selected_feeding_record).then(function (response) {
+                Materialize.toast('Successfully deleted feeding record', 5000, 'green rounded');
+            }).catch(function (error) {
+                Materialize.toast('Failed to delete feeding record', 5000, 'red rounded');
+            });
+            this.fetchFeedingRecord();
+            this.selected_feeding_record = '';
+        },
+        selectFeedingRecords: function selectFeedingRecords() {
+            var _this3 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('replacement_select_feedrecords/' + this.selected_feeding_record + '?page=' + page).then(function (response) {
+                _this3.selected_records = response.data;
+            }).catch(function (error) {});
         },
         customFormatter: function customFormatter(date_added) {
             return moment(date_added).format('YYYY-MM-DD');
@@ -93824,6 +93890,9 @@ var moment = __webpack_require__(0);
     },
     mounted: function mounted() {
         $('#feeding').modal({
+            dismissible: false
+        });
+        $('#delete_feeding').modal({
             dismissible: false
         });
     },
@@ -93901,13 +93970,36 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(feeding.replacement_tag))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(feeding.amount_offered))]),
+                        _c("td", [
+                          _vm._v(_vm._s(feeding.amount_offered.toFixed(3)))
+                        ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(feeding.amount_refused))]),
+                        _c("td", [
+                          _vm._v(_vm._s(feeding.amount_refused.toFixed(3)))
+                        ]),
                         _vm._v(" "),
                         feeding.remarks == null
                           ? _c("td", [_vm._v("None")])
-                          : _c("td", [_vm._v(_vm._s(feeding.remarks))])
+                          : _c("td", [_vm._v(_vm._s(feeding.remarks))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "modal-trigger",
+                              attrs: { href: "#delete_feeding" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.selected_feeding_record =
+                                    feeding.feeding_id
+                                  _vm.selectFeedingRecords()
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "far fa-trash-alt" })]
+                          )
+                        ])
                       ])
                     })
                   ],
@@ -93952,7 +94044,9 @@ var render = function() {
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col s12 m12 l12" }, [
                       _c("h4", [
-                        _vm._v(_vm._s(_vm.feed_pen_number) + " Feeding Records")
+                        _vm._v(
+                          "Feeding Records | " + _vm._s(_vm.feed_pen_number)
+                        )
                       ])
                     ])
                   ]),
@@ -94136,6 +94230,110 @@ var render = function() {
               ]
             )
           ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal modal-fixed-footer",
+            attrs: { id: "delete_feeding" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "row valign-wrapper" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("div", { staticClass: "col s10 m10 l10" }, [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "bordered responsive-table" }, [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.selected_records.data, function(
+                        selected_record
+                      ) {
+                        return _c("tr", { key: selected_record.record_id }, [
+                          _c("td", [
+                            _vm._v(_vm._s(selected_record.date_collected))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(selected_record.replacement_tag))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(selected_record.amount_offered.toFixed(3))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(selected_record.amount_refused.toFixed(3))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          selected_record.remarks == null
+                            ? _c("td", [_vm._v("None")])
+                            : _c("td", [
+                                _vm._v(_vm._s(selected_record.remarks))
+                              ])
+                        ])
+                      })
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    { staticClass: "center-align" },
+                    [
+                      _c("pagination", {
+                        attrs: { data: _vm.selected_records },
+                        on: {
+                          "pagination-change-page": _vm.selectFeedingRecords
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm._m(7)
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteFeedingRecords($event)
+                    }
+                  }
+                },
+                [_vm._v("Yes")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "modal-action modal-close waves-effect waves-grey btn-flat",
+                  attrs: { href: "javascript:void(0)" }
+                },
+                [_vm._v("No")]
+              )
+            ])
+          ]
         )
       ])
     ])
@@ -94172,7 +94370,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Refused(g)")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Remarks")])
+        _c("th", [_vm._v("Remarks")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Delete")])
       ])
     ])
   },
@@ -94200,6 +94400,62 @@ var staticRenderFns = [
         },
         [_vm._v("Submit")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Delete Record")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s2 m2 l2 red-text center-align" }, [
+      _c("h4", [_c("i", { staticClass: "fas fa-exclamation-triangle" })])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Are you sure you want to "),
+      _c("strong", [_vm._v("Delete")]),
+      _vm._v(" this feeding record?")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tag")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Offered(g)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Refused(g)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Remarks")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("Irreversible")]),
+      _vm._v(".")
     ])
   }
 ]

@@ -26,7 +26,7 @@
                         <div class="card-content">
                             <div class="row valign-wrapper">
                                 <div class="col s12 m12 l12 center">
-                                    <img class="responsive-img circle" src="/images/farmer.png" height="100px" width="200px">
+                                    <img class="responsive-img circle" src="https://image.ibb.co/jdbaXA/farmer.png" height="100px" width="200px">
                                 </div>
                             </div>
                             <div class="row">
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-        
+
             <div class="modal-footer">
                 <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</button>
             </div>
