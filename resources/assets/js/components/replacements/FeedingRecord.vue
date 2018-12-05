@@ -4,7 +4,7 @@
             <div class="card-panel">
                 <div class="row valign-wrapper">
                     <div class="col s6 m6 l7">
-                        <h5>{{feed_pen_number}} Feeding Records</h5>
+                        <h5>Feeding Records | Pen {{feed_pen_number}}</h5>
                     </div>
                     <div class="col s3 m3 l3 right-align">
                         <a href="#feeding" class="waves-effect waves-green btn-flat green-text modal-trigger"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -110,7 +110,7 @@
                             </div>
                             <div class="col s10 m10 l10">
                                 <p>Are you sure you want to <strong>Delete</strong> this feeding record?</p>
-                                <table class="bordered responsive-table">
+                                <table class="bordered responsive-table centered">
                                     <thead>
                                         <tr>
                                             <th>Date</th>

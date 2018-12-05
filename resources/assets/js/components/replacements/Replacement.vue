@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div v-if="inventory_pen==null&&feeding_pen==null&&phenomorpho_pen==null">
+            <div v-if="inventory_pen==null&&feeding_pen==null&&phenomorpho_pen==null&&growth_pen==null">
                 <div class="row valign-wrapper">
                     <div class="col s12 m9 l9 valign">
                         <label for="search">Search</label>
@@ -57,6 +57,7 @@
                                                 <i class="fas fa-utensils"></i>
                                             </a>
                                             <a v-if="replacement_pen.current_capacity>0" @click="phenomorpho_pen=replacement_pen.id; phenomorpho_number=replacement_pen.number" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
+                                            <a v-if="replacement_pen.current_capacity>0" @click="growth_pen=replacement_pen.id; growth_number=replacement_pen.number" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Growth Records"><i class="fas fa-balance-scale"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -102,6 +103,9 @@
             </div>
             <div v-if="phenomorpho_pen!=null">
                 <phenomorpho-replacement :phenomorpho_pen_id="phenomorpho_pen" :phenomorpho_pen_number="phenomorpho_number" v-on:close_phenomorpho="phenomorpho_pen=null;phenomorpho_number=null"></phenomorpho-replacement>
+            </div>
+            <div v-if="growth_pen!=null">
+                <growthrecord-replacement :growth_pen_id="growth_pen" :growth_pen_number="growth_number" v-on:close_growth="growth_pen=null;growth_number=null"></growthrecord-replacement>
             </div>
             <!-- Modals -->
             <div id="add_modal" class="modal modal-fixed-footer">
@@ -257,7 +261,10 @@
                 feeding_pen : null,
                 feeding_number : null,
                 phenomorpho_pen : null,
-                phenomorpho_number : null
+                phenomorpho_number : null,
+                growth_pen : null,
+                growth_number : null,
+
             }
         },
         methods : {
@@ -385,14 +392,13 @@
                 return moment(date_added).format('YYYY-MM-DD');
             }
         },
-        mounted () {
-
-        },
         created () {
             this.initialize();
-
-        }
-
+            $('.tooltipped').tooltip({delay: 50});
+        },
+        destroyed () {
+            $('.tooltipped').tooltip('remove');
+        },
     }
 </script>
 

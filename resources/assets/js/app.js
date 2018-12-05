@@ -20,6 +20,7 @@ Vue.component('pen-component', require('./components/general/Pen.vue'));
 Vue.component('generation-line', require('./components/general/GenerationLine.vue'));
 Vue.component('family-record', require('./components/general/FamilyRecord.vue'));
 Vue.component('farm-record', require('./components/general/FarmRecord.vue'));
+
 // Breeder Vue Components
 Vue.component('add-breeder', require('./components/breeders/Breeder.vue'));
 Vue.component('hatchery-record', require('./components/breeders/HatcheryRecordList.vue'));
@@ -34,7 +35,7 @@ Vue.component('add-replacement', require('./components/replacements/Replacement.
 Vue.component('inventory-replacement', require('./components/replacements/Inventory.vue'));
 Vue.component('feeding-replacement', require('./components/replacements/FeedingRecord.vue'));
 Vue.component('phenomorpho-replacement', require('./components/replacements/PhenoMorpho.vue'));
-
+Vue.component('growthrecord-replacement', require('./components/replacements/GrowthRecord.vue'));
 
 // Brooder & Grower Vue Components
 Vue.component('add-broodergrower', require('./components/broodersgrowers/BrooderGrower.vue'));

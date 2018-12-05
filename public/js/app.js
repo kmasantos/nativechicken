@@ -33156,7 +33156,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(140);
-module.exports = __webpack_require__(232);
+module.exports = __webpack_require__(235);
 
 
 /***/ }),
@@ -33185,6 +33185,7 @@ Vue.component('pen-component', __webpack_require__(170));
 Vue.component('generation-line', __webpack_require__(173));
 Vue.component('family-record', __webpack_require__(176));
 Vue.component('farm-record', __webpack_require__(179));
+
 // Breeder Vue Components
 Vue.component('add-breeder', __webpack_require__(182));
 Vue.component('hatchery-record', __webpack_require__(185));
@@ -33199,12 +33200,13 @@ Vue.component('add-replacement', __webpack_require__(203));
 Vue.component('inventory-replacement', __webpack_require__(211));
 Vue.component('feeding-replacement', __webpack_require__(214));
 Vue.component('phenomorpho-replacement', __webpack_require__(217));
+Vue.component('growthrecord-replacement', __webpack_require__(220));
 
 // Brooder & Grower Vue Components
-Vue.component('add-broodergrower', __webpack_require__(220));
-Vue.component('inventory-broodergrower', __webpack_require__(223));
-Vue.component('feedingrecord-broodergrower', __webpack_require__(226));
-Vue.component('growthrecord-broodergrower', __webpack_require__(229));
+Vue.component('add-broodergrower', __webpack_require__(223));
+Vue.component('inventory-broodergrower', __webpack_require__(226));
+Vue.component('feedingrecord-broodergrower', __webpack_require__(229));
+Vue.component('growthrecord-broodergrower', __webpack_require__(232));
 
 /**
  ** Others
@@ -90418,6 +90420,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 var moment = __webpack_require__(0);
@@ -90461,7 +90467,10 @@ Vue.component('pagination', __webpack_require__(4));
             feeding_pen: null,
             feeding_number: null,
             phenomorpho_pen: null,
-            phenomorpho_number: null
+            phenomorpho_number: null,
+            growth_pen: null,
+            growth_number: null
+
         };
     },
 
@@ -90594,9 +90603,12 @@ Vue.component('pagination', __webpack_require__(4));
             return moment(date_added).format('YYYY-MM-DD');
         }
     },
-    mounted: function mounted() {},
     created: function created() {
         this.initialize();
+        $('.tooltipped').tooltip({ delay: 50 });
+    },
+    destroyed: function destroyed() {
+        $('.tooltipped').tooltip('remove');
     }
 });
 
@@ -90616,7 +90628,8 @@ var render = function() {
       _vm._v(" "),
       _vm.inventory_pen == null &&
       _vm.feeding_pen == null &&
-      _vm.phenomorpho_pen == null
+      _vm.phenomorpho_pen == null &&
+      _vm.growth_pen == null
         ? _c("div", [
             _c("div", { staticClass: "row valign-wrapper" }, [
               _c("div", { staticClass: "col s12 m9 l9 valign" }, [
@@ -90881,6 +90894,38 @@ var render = function() {
                                                     })
                                                   ]
                                                 )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            replacement_pen.current_capacity > 0
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticClass:
+                                                      "black-text tooltipped",
+                                                    attrs: {
+                                                      href:
+                                                        "javascript:void(0)",
+                                                      "data-position": "bottom",
+                                                      "data-delay": "50",
+                                                      "data-tooltip":
+                                                        "Open Growth Records"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.growth_pen =
+                                                          replacement_pen.id
+                                                        _vm.growth_number =
+                                                          replacement_pen.number
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass:
+                                                        "fas fa-balance-scale"
+                                                    })
+                                                  ]
+                                                )
                                               : _vm._e()
                                           ]
                                         )
@@ -90977,6 +91022,27 @@ var render = function() {
                   close_phenomorpho: function($event) {
                     _vm.phenomorpho_pen = null
                     _vm.phenomorpho_number = null
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.growth_pen != null
+        ? _c(
+            "div",
+            [
+              _c("growthrecord-replacement", {
+                attrs: {
+                  growth_pen_id: _vm.growth_pen,
+                  growth_pen_number: _vm.growth_number
+                },
+                on: {
+                  close_growth: function($event) {
+                    _vm.growth_pen = null
+                    _vm.growth_number = null
                   }
                 }
               })
@@ -92282,9 +92348,7 @@ var render = function() {
       _c("div", { staticClass: "card-panel" }, [
         _c("div", { staticClass: "row valign-wrapper" }, [
           _c("div", { staticClass: "col s8 m8 l8" }, [
-            _c("h5", [
-              _vm._v("Pen " + _vm._s(_vm.inv_pen_number) + " Inventory")
-            ])
+            _c("h5", [_vm._v("Inventory | Pen " + _vm._s(_vm.inv_pen_number))])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col s4 m4 l4 right-align" }, [
@@ -93917,7 +93981,9 @@ var render = function() {
       _c("div", { staticClass: "card-panel" }, [
         _c("div", { staticClass: "row valign-wrapper" }, [
           _c("div", { staticClass: "col s6 m6 l7" }, [
-            _c("h5", [_vm._v(_vm._s(_vm.feed_pen_number) + " Feeding Records")])
+            _c("h5", [
+              _vm._v("Feeding Records | Pen " + _vm._s(_vm.feed_pen_number))
+            ])
           ]),
           _vm._v(" "),
           _vm._m(0),
@@ -94248,44 +94314,52 @@ var render = function() {
                 _c("div", { staticClass: "col s10 m10 l10" }, [
                   _vm._m(5),
                   _vm._v(" "),
-                  _c("table", { staticClass: "bordered responsive-table" }, [
-                    _vm._m(6),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.selected_records.data, function(
-                        selected_record
-                      ) {
-                        return _c("tr", { key: selected_record.record_id }, [
-                          _c("td", [
-                            _vm._v(_vm._s(selected_record.date_collected))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(_vm._s(selected_record.replacement_tag))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(selected_record.amount_offered.toFixed(3))
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(selected_record.amount_refused.toFixed(3))
-                            )
-                          ]),
-                          _vm._v(" "),
-                          selected_record.remarks == null
-                            ? _c("td", [_vm._v("None")])
-                            : _c("td", [
-                                _vm._v(_vm._s(selected_record.remarks))
-                              ])
-                        ])
-                      })
-                    )
-                  ]),
+                  _c(
+                    "table",
+                    { staticClass: "bordered responsive-table centered" },
+                    [
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.selected_records.data, function(
+                          selected_record
+                        ) {
+                          return _c("tr", { key: selected_record.record_id }, [
+                            _c("td", [
+                              _vm._v(_vm._s(selected_record.date_collected))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(selected_record.replacement_tag))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(
+                                  selected_record.amount_offered.toFixed(3)
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(
+                                  selected_record.amount_refused.toFixed(3)
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            selected_record.remarks == null
+                              ? _c("td", [_vm._v("None")])
+                              : _c("td", [
+                                  _vm._v(_vm._s(selected_record.remarks))
+                                ])
+                          ])
+                        })
+                      )
+                    ]
+                  ),
                   _vm._v(" "),
                   _c(
                     "p",
@@ -95416,8 +95490,8 @@ var render = function() {
           _c("div", { staticClass: "col s8 m8 l8" }, [
             _c("h5", [
               _vm._v(
-                _vm._s(_vm.phenomorpho_pen_number) +
-                  " Phenotypic & Morphometric Data"
+                "Phenotypic & Morphometric Data | Pen " +
+                  _vm._s(_vm.phenomorpho_pen_number)
               )
             ])
           ]),
@@ -99494,6 +99568,1247 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+Component.options.__file = "resources/assets/js/components/replacements/GrowthRecord.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0e2442bf", Component.options)
+  } else {
+    hotAPI.reload("data-v-0e2442bf", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 221 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+var _components$props$dat;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+Vue.component('pagination', __webpack_require__(4));
+var moment = __webpack_require__(0);
+/* harmony default export */ __webpack_exports__["default"] = (_components$props$dat = {
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
+    props: ['growth_pen_id', 'growth_pen_number'],
+    data: function data() {
+        return {
+            growths: {},
+            growths_length: 0,
+            others: false,
+            collection_day: '',
+            date_added: '',
+            male_weight: '',
+            female_weight: '',
+            selected_growth_record: '',
+
+            selected_records: {}
+
+        };
+    },
+
+    methods: {
+        fetchGrowthRecord: function fetchGrowthRecord() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('replacement_fetch_growthrecord/' + this.growth_pen_id + '?page=' + page).then(function (response) {
+                _this.growths = response.data;
+                _this.growths_length = _this.growths.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        addGrowthRecord: function addGrowthRecord() {
+            var _this2 = this;
+
+            axios.post('add_replacement_growth', {
+                pen_id: this.growth_pen_id,
+                collection_day: this.collection_day,
+                date_collected: this.customFormatter(this.date_added),
+                male_weight: this.male_weight,
+                female_weight: this.female_weight
+            }).then(function (response) {
+                if (response.data.error == undefined) {
+                    _this2.others = false;
+                    _this2.collection_day = '';
+                    _this2.date_added = '';
+                    _this2.male_weight = '';
+                    _this2.female_weight = '';
+                    Materialize.toast('Successfully added growth record', 5000, 'green rounded');
+                } else {
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
+                }
+            }).catch(function (error) {
+                Materialize.toast('Failed to add growth record', 5000, 'red rounded');
+            });
+            this.fetchGrowthRecord();
+        },
+        selectGrowthRecords: function selectGrowthRecords() {
+            var _this3 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('replacement_select_growthrecords/' + this.selected_growth_record + '?page=' + page).then(function (response) {
+                _this3.selected_records = response.data;
+            }).catch(function (error) {});
+        },
+        deleteGrowthRecord: function deleteGrowthRecord() {
+            axios.delete('replacement_delete_growthrecords/' + this.selected_growth_record).then(function (response) {
+                Materialize.toast('Successfully deleted growth records', 5000, 'green rounded');
+            }).catch(function (error) {
+                Materialize.toast('Failed to delete growth records', 5000, 'red rounded');
+            });
+            this.fetchGrowthRecord();
+            this.selected_growth_record = '';
+        },
+        customFormatter: function customFormatter(date) {
+            return moment(date).format('YYYY-MM-DD');
+        },
+        closeGrowth: function closeGrowth() {
+            this.$emit('close_growth', null);
+        }
+    },
+    mounted: function mounted() {},
+    beforeCreate: function beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    }
+}, _defineProperty(_components$props$dat, 'mounted', function mounted() {
+    $('.tooltipped').tooltip({
+        delay: 50,
+        position: "top"
+    });
+    $('#growth').modal({
+        dismissible: false
+    });
+    $('#delete_growth').modal({
+        dismissible: false
+    });
+}), _defineProperty(_components$props$dat, 'created', function created() {
+    this.fetchGrowthRecord();
+}), _defineProperty(_components$props$dat, 'destroyed', function destroyed() {
+    $('.tooltipped').tooltip({ delay: 50 });
+}), _components$props$dat);
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col s12 m12 l12" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _c("div", { staticClass: "row valign-wrapper" }, [
+          _c("div", { staticClass: "col s6 m6 l7" }, [
+            _c("h5", [
+              _vm._v("Growth Records | Pen " + _vm._s(_vm.growth_pen_number))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col s3 m3 l3 center-align" }, [
+            _c(
+              "a",
+              {
+                staticClass: "waves-effect waves-red btn-flat red-text",
+                on: { click: _vm.closeGrowth }
+              },
+              [
+                _c("i", { staticClass: "far fa-times-circle left" }),
+                _vm._v("Close")
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m12 l12" }, [
+            _c(
+              "table",
+              { staticClass: "responsive-table bordered highlight centered" },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm.growths_length == 0
+                      ? _c("tr", [
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("-")])
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.growths.data, function(growth) {
+                      return _c("tr", { key: growth.growth_id }, [
+                        _c("td", [_vm._v(_vm._s(growth.date_collected))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(growth.collection_day))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(growth.replacement_tag))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(growth.male_quantity))]),
+                        _vm._v(" "),
+                        growth.male_weight !== null
+                          ? _c("td", [
+                              _vm._v(_vm._s(growth.male_weight.toFixed(3)))
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(growth.female_quantity))]),
+                        _vm._v(" "),
+                        growth.female_weight !== null
+                          ? _c("td", [
+                              _vm._v(_vm._s(growth.female_weight.toFixed(3)))
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(growth.total_quantity))]),
+                        _vm._v(" "),
+                        growth.total_weight !== null
+                          ? _c("td", [
+                              _vm._v(_vm._s(growth.total_weight.toFixed(3)))
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "modal-trigger",
+                              attrs: { href: "#delete_growth" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.selected_growth_record = growth.growth_id
+                                  _vm.selectGrowthRecords()
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "far fa-trash-alt" })]
+                          )
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row center" }, [
+          _c(
+            "div",
+            { staticClass: "col s12 m12 l12" },
+            [
+              _c("pagination", {
+                attrs: { data: _vm.growths },
+                on: { "pagination-change-page": _vm.fetchGrowthRecord }
+              })
+            ],
+            1
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "modal modal-fixed-footer", attrs: { id: "growth" } },
+        [
+          _c(
+            "form",
+            {
+              attrs: { method: "post" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.addGrowthRecord($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 m12 l12" }, [
+                    _c("h4", [
+                      _vm._v("Growth Record | " + _vm._s(_vm.growth_pen_number))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "collection_day" } }, [
+                  _vm._v("Collection Day")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "row", attrs: { id: "collection_day" } },
+                  [
+                    _c("div", { staticClass: "col s12 m12 l12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.collection_day,
+                            expression: "collection_day",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: {
+                          name: "collection_day",
+                          type: "radio",
+                          id: "day45",
+                          value: "45"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.collection_day, _vm._n("45"))
+                        },
+                        on: {
+                          change: [
+                            function($event) {
+                              _vm.collection_day = _vm._n("45")
+                            },
+                            function($event) {
+                              _vm.others = false
+                            }
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "day45" } }, [
+                        _vm._v("Day 45")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.collection_day,
+                            expression: "collection_day",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: {
+                          name: "collection_day",
+                          type: "radio",
+                          id: "day75",
+                          value: "75"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.collection_day, _vm._n("75"))
+                        },
+                        on: {
+                          change: [
+                            function($event) {
+                              _vm.collection_day = _vm._n("75")
+                            },
+                            function($event) {
+                              _vm.others = false
+                            }
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "day75" } }, [
+                        _vm._v("Day 75")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.collection_day,
+                            expression: "collection_day",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: {
+                          name: "collection_day",
+                          type: "radio",
+                          id: "day100",
+                          value: "100"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.collection_day, _vm._n("100"))
+                        },
+                        on: {
+                          change: [
+                            function($event) {
+                              _vm.collection_day = _vm._n("100")
+                            },
+                            function($event) {
+                              _vm.others = false
+                            }
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "day100" } }, [
+                        _vm._v("Day 100")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.collection_day,
+                            expression: "collection_day",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "with-gap",
+                        attrs: {
+                          name: "collection_day",
+                          type: "radio",
+                          id: "dayothers"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.collection_day, _vm._n(null))
+                        },
+                        on: {
+                          change: [
+                            function($event) {
+                              _vm.collection_day = _vm._n(null)
+                            },
+                            function($event) {
+                              _vm.others = true
+                            }
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "dayothers" } }, [
+                        _vm._v("Others")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.others
+                      ? _c("div", { staticClass: "col s12 m6 l6" }, [
+                          _c("label", { attrs: { for: "other_day" } }),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.number",
+                                value: _vm.collection_day,
+                                expression: "collection_day",
+                                modifiers: { number: true }
+                              }
+                            ],
+                            staticClass: "validate",
+                            attrs: {
+                              id: "other_day",
+                              placeholder: "Input collection day",
+                              type: "number",
+                              min: "21",
+                              pattern: "[0-9]+"
+                            },
+                            domProps: { value: _vm.collection_day },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.collection_day = _vm._n($event.target.value)
+                              },
+                              blur: function($event) {
+                                _vm.$forceUpdate()
+                              }
+                            }
+                          })
+                        ])
+                      : _vm._e()
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col s12 m6 l6" },
+                    [
+                      _c("label", { attrs: { for: "date_added" } }, [
+                        _vm._v("Date Collected")
+                      ]),
+                      _vm._v(" "),
+                      _c("datepicker", {
+                        attrs: {
+                          id: "date_added",
+                          format: _vm.customFormatter
+                        },
+                        model: {
+                          value: _vm.date_added,
+                          callback: function($$v) {
+                            _vm.date_added = $$v
+                          },
+                          expression: "date_added"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.number",
+                          value: _vm.male_weight,
+                          expression: "male_weight",
+                          modifiers: { number: true }
+                        }
+                      ],
+                      staticClass: "validate",
+                      attrs: {
+                        placeholder: "Total weight of all males (kg)",
+                        id: "male_weight",
+                        type: "number",
+                        min: "0",
+                        step: "0.001",
+                        pattern: "^\\d*(\\.\\d{0,3})?$"
+                      },
+                      domProps: { value: _vm.male_weight },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.male_weight = _vm._n($event.target.value)
+                        },
+                        blur: function($event) {
+                          _vm.$forceUpdate()
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      { staticClass: "active", attrs: { for: "male_weight" } },
+                      [_vm._v("Male Weight")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col s12 s6 m6 input-field" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.number",
+                          value: _vm.female_weight,
+                          expression: "female_weight",
+                          modifiers: { number: true }
+                        }
+                      ],
+                      staticClass: "validate",
+                      attrs: {
+                        placeholder: "Total weight of all females (kg)",
+                        id: "female_weight",
+                        type: "number",
+                        min: "0",
+                        step: "0.001",
+                        pattern: "^\\d*(\\.\\d{0,3})?$"
+                      },
+                      domProps: { value: _vm.female_weight },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.female_weight = _vm._n($event.target.value)
+                        },
+                        blur: function($event) {
+                          _vm.$forceUpdate()
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "active",
+                        attrs: { for: "female_weight" }
+                      },
+                      [_vm._v("Female Weight")]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(2)
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal modal-fixed-footer",
+          attrs: { id: "delete_growth" }
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "row valign-wrapper" }, [
+              _vm._m(4),
+              _vm._v(" "),
+              _c("div", { staticClass: "col s10 m10 l10" }, [
+                _vm._m(5),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  { staticClass: "bordered responsive-table centered" },
+                  [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.selected_records.data, function(
+                        selected_record
+                      ) {
+                        return _c(
+                          "tr",
+                          { key: selected_record.sel_growth_id },
+                          [
+                            _c("td", [
+                              _vm._v(_vm._s(selected_record.date_collected))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(selected_record.collection_day))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(selected_record.replacement_tag))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(selected_record.male_quantity))
+                            ]),
+                            _vm._v(" "),
+                            selected_record.male_weight !== null
+                              ? _c("td", [
+                                  _vm._v(
+                                    _vm._s(
+                                      selected_record.male_weight.toFixed(3)
+                                    )
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(selected_record.female_quantity))
+                            ]),
+                            _vm._v(" "),
+                            selected_record.female_weight !== null
+                              ? _c("td", [
+                                  _vm._v(
+                                    _vm._s(
+                                      selected_record.female_weight.toFixed(3)
+                                    )
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(selected_record.total_quantity))
+                            ]),
+                            _vm._v(" "),
+                            selected_record.total_weight !== null
+                              ? _c("td", [
+                                  _vm._v(
+                                    _vm._s(
+                                      selected_record.total_weight.toFixed(3)
+                                    )
+                                  )
+                                ])
+                              : _vm._e()
+                          ]
+                        )
+                      })
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "center-align" },
+                  [
+                    _c("pagination", {
+                      attrs: { data: _vm.selected_records },
+                      on: { "pagination-change-page": _vm.selectGrowthRecords }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm._m(7)
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "modal-action modal-close waves-effect waves-grey btn-flat",
+                attrs: { href: "javascript:void(0)" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.deleteGrowthRecord($event)
+                  }
+                }
+              },
+              [_vm._v("Yes")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass:
+                  "modal-action modal-close waves-effect waves-grey btn-flat",
+                attrs: { href: "javascript:void(0)" }
+              },
+              [_vm._v("No")]
+            )
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s3 m3 l3 right-align" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "waves-effect waves-green btn-flat green-text modal-trigger",
+          attrs: { href: "#growth" }
+        },
+        [_c("i", { staticClass: "fas fa-plus-circle left" }), _vm._v("Add")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Date Collected" }
+          },
+          [_c("i", { staticClass: "far fa-calendar" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Collection Day" }
+          },
+          [_c("i", { staticClass: "far fa-clock" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Inventory Code" }
+          },
+          [_c("i", { staticClass: "fas fa-tag" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Male Quantity" }
+          },
+          [_c("i", { staticClass: "fas fa-mars" }), _vm._v(" Q")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Male Weight" }
+          },
+          [_c("i", { staticClass: "fas fa-mars" }), _vm._v(" W")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Female Quantity" }
+          },
+          [_c("i", { staticClass: "fas fa-venus" }), _vm._v(" Q")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Female Weight" }
+          },
+          [_c("i", { staticClass: "fas fa-venus" }), _vm._v(" W")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Total Quantity" }
+          },
+          [_c("i", { staticClass: "fas fa-venus-mars" }), _vm._v(" Q")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Total Weight" }
+          },
+          [_c("i", { staticClass: "fas fa-venus-mars" }), _vm._v(" W")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "tooltipped", attrs: { "data-tooltip": "Delete" } },
+          [_c("i", { staticClass: "far fa-trash-alt" })]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-grey btn-flat",
+          attrs: { href: "javascript:void(0)" }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "modal-action modal-close waves-effect waves-grey btn-flat",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Submit")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s12 m12 l12" }, [
+        _c("h4", [_vm._v("Delete Record")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s2 m2 l2 red-text center-align" }, [
+      _c("h4", [_c("i", { staticClass: "fas fa-exclamation-triangle" })])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Are you sure you want to "),
+      _c("strong", [_vm._v("Delete")]),
+      _vm._v(" this growth records?")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Date Collected" }
+          },
+          [_c("i", { staticClass: "far fa-calendar" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Collection Day" }
+          },
+          [_c("i", { staticClass: "far fa-clock" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Inventory Code" }
+          },
+          [_c("i", { staticClass: "fas fa-tag" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Male Quantity" }
+          },
+          [_c("i", { staticClass: "fas fa-mars" }), _vm._v(" Q")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Male Weight" }
+          },
+          [_c("i", { staticClass: "fas fa-mars" }), _vm._v(" W")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Female Quantity" }
+          },
+          [_c("i", { staticClass: "fas fa-venus" }), _vm._v(" Q")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Female Weight" }
+          },
+          [_c("i", { staticClass: "fas fa-venus" }), _vm._v(" W")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Total Quantity" }
+          },
+          [_c("i", { staticClass: "fas fa-venus-mars" }), _vm._v(" Q")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "tooltipped",
+            attrs: { "data-tooltip": "Total Weight" }
+          },
+          [_c("i", { staticClass: "fas fa-venus-mars" }), _vm._v(" W")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("This action is "),
+      _c("strong", [_vm._v("Irreversible")]),
+      _vm._v(".")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0e2442bf", module.exports)
+  }
+}
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(224)
+/* template */
+var __vue_template__ = __webpack_require__(225)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
 Component.options.__file = "resources/assets/js/components/broodersgrowers/BrooderGrower.vue"
 
 /* hot reload */
@@ -99516,7 +100831,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 221 */
+/* 224 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -99818,7 +101133,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 222 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -100572,15 +101887,15 @@ if (false) {
 }
 
 /***/ }),
-/* 223 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(224)
+var __vue_script__ = __webpack_require__(227)
 /* template */
-var __vue_template__ = __webpack_require__(225)
+var __vue_template__ = __webpack_require__(228)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -100619,7 +101934,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 224 */
+/* 227 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -101150,7 +102465,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 225 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -102540,15 +103855,15 @@ if (false) {
 }
 
 /***/ }),
-/* 226 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(227)
+var __vue_script__ = __webpack_require__(230)
 /* template */
-var __vue_template__ = __webpack_require__(228)
+var __vue_template__ = __webpack_require__(231)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -102587,7 +103902,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 227 */
+/* 230 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102782,7 +104097,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 228 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -103163,15 +104478,15 @@ if (false) {
 }
 
 /***/ }),
-/* 229 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(230)
+var __vue_script__ = __webpack_require__(233)
 /* template */
-var __vue_template__ = __webpack_require__(231)
+var __vue_template__ = __webpack_require__(234)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -103210,7 +104525,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 230 */
+/* 233 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -103469,7 +104784,7 @@ var moment = __webpack_require__(0);
 });
 
 /***/ }),
-/* 231 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -103554,7 +104869,9 @@ var render = function() {
                             _vm._v(" "),
                             growth.male_weight == null
                               ? _c("td", [_vm._v("-")])
-                              : _c("td", [_vm._v(_vm._s(growth.male_weight))]),
+                              : _c("td", [
+                                  _vm._v(_vm._s(growth.male_weight.toFixed(3)))
+                                ]),
                             _vm._v(" "),
                             growth.female_quantity == null
                               ? _c("td", [_vm._v("-")])
@@ -103565,12 +104882,16 @@ var render = function() {
                             growth.female_weight == null
                               ? _c("td", [_vm._v("-")])
                               : _c("td", [
-                                  _vm._v(_vm._s(growth.female_weight))
+                                  _vm._v(
+                                    _vm._s(growth.female_weight.toFixed(3))
+                                  )
                                 ]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(growth.total_quantity))]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(growth.total_weight))]),
+                            _c("td", [
+                              _vm._v(_vm._s(growth.total_weight.toFixed(3)))
+                            ]),
                             _vm._v(" "),
                             _c("td", [_vm._v("-")])
                           ])
@@ -104109,7 +105430,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Male Weight")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Weight")]),
+        _c("th", [_vm._v("Female")]),
         _vm._v(" "),
         _c("th", [_vm._v("Female Weight")]),
         _vm._v(" "),
@@ -104158,7 +105479,7 @@ if (false) {
 }
 
 /***/ }),
-/* 232 */
+/* 235 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

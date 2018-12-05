@@ -203,6 +203,7 @@ class BrooderGrowerController extends Controller
         ->select('brooder_grower_growths.*', 'brooder_grower_inventories.*', 'brooder_grower_inventories.id as inventory_id')
         ->orderBy('date_collected', 'desc')
         ->paginate(10);
+        dd($growthrecords);
         return $growthrecords;
     }
 

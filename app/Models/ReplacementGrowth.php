@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BrooderGrowerGrowth extends Model
+class ReplacementGrowth extends Model
 {
     public $timestamps = false;
-	/**
+    /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'brooder_grower_growths';
+    protected $table = 'replacement_growths';
     /**
      * The attributes that are mass assignable.
      *
@@ -23,9 +23,9 @@ class BrooderGrowerGrowth extends Model
         'female_quantity', 'female_weight', 'total_quantity', 'total_weight'
     ];
 
-    public function brooder_inventories()
+    public function replacement_inventories()
     {
-        return $this->belongsTo(BrooderGrowerInventory::class);
+        return $this->belongsTo(ReplacementInventory::class);
     }
 
 }

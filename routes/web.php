@@ -144,7 +144,10 @@ Route::group(['middleware' => ['web']], function ()
         Route::delete('cull_replacement/{inventory_id}', 'ReplacementController@cullReplacement');
         Route::get('replacement_select_feedrecords/{record}', 'ReplacementController@selectFeedingRecords');
         Route::delete('replacement_delete_feedrecords/{record}', 'ReplacementController@deleteFeedingRecord');
-
+        Route::get('replacement_fetch_growthrecord/{pen_id}', 'ReplacementController@fetchGrowthRecord');
+        Route::post('add_replacement_growth', 'ReplacementController@addGrowthRecord');
+        Route::get('replacement_select_growthrecords/{record}', 'ReplacementController@selectGrowthRecords');
+        Route::delete('replacement_delete_growthrecords/{record}', 'ReplacementController@deleteGrowthRecord');
         /**
          * !Old Routes, delete when replaced
          */

@@ -23,7 +23,7 @@
                                     <th>Tag</th>
                                     <th>Male</th>
                                     <th>Male Weight</th>
-                                    <th>Weight</th>
+                                    <th>Female</th>
                                     <th>Female Weight</th>
                                     <th>Total</th>
                                     <th>Total Weight</th>
@@ -51,13 +51,13 @@
                                     <td v-if="growth.male_quantity==null">-</td>
                                     <td v-else>{{growth.male_quantity}}</td>
                                     <td v-if="growth.male_weight==null">-</td>
-                                    <td v-else>{{growth.male_weight}}</td>
+                                    <td v-else>{{growth.male_weight.toFixed(3)}}</td>
                                     <td v-if="growth.female_quantity==null">-</td>
                                     <td v-else>{{growth.female_quantity}}</td>
                                     <td v-if="growth.female_weight==null">-</td>
-                                    <td v-else>{{growth.female_weight}}</td>
+                                    <td v-else>{{growth.female_weight.toFixed(3)}}</td>
                                     <td>{{growth.total_quantity}}</td>
-                                    <td>{{growth.total_weight}}</td>
+                                    <td>{{growth.total_weight.toFixed(3)}}</td>
                                     <td>-</td>
                                 </tr>
                             </tbody>

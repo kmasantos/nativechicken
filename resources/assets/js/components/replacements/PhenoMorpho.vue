@@ -4,7 +4,7 @@
             <div class="card-panel">
                 <div class="row valign-wrapper">
                     <div class="col s8 m8 l8">
-                        <h5>{{phenomorpho_pen_number}} Phenotypic & Morphometric Data</h5>
+                        <h5>Phenotypic & Morphometric Data | Pen {{phenomorpho_pen_number}}</h5>
                     </div>
                     <div class="col s4 m4 l4 right-align">
                         <a v-on:click="closePhenoMorpho" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
