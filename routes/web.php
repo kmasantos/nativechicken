@@ -148,6 +148,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_replacement_growth', 'ReplacementController@addGrowthRecord');
         Route::get('replacement_select_growthrecords/{record}', 'ReplacementController@selectGrowthRecords');
         Route::delete('replacement_delete_growthrecords/{record}', 'ReplacementController@deleteGrowthRecord');
+        Route::delete('replacement_delete_phenomorphorecords/{record}', 'ReplacementController@deletePhenoMorphoRecord');
         /**
          * !Old Routes, delete when replaced
          */

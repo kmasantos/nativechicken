@@ -96,6 +96,29 @@ ul.breadcrumb li a:hover {
     overflow: visible;
 }
 
+#pheno_morpho {
+    width: 90% !important ;
+    height: 100% !important;
+    overflow: visible;
+}
+
+#add_modal {
+    width: 90% !important ;
+    height: 100% !important;
+    overflow: visible;
+}
+
+#view {
+    width: 90% !important ;
+    height: 100% !important;
+    overflow: visible;
+}
+
+#delete_phenomorpho {
+    height: 650px;
+    width: 55% !important;
+}
+
 .white-label {
     color: white;
 }

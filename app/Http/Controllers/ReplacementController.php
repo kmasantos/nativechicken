@@ -207,54 +207,110 @@ class ReplacementController extends Controller
      */
     public function addPhenoMorpho(Request $request)
     {
-        $request->validate([
-            'replacement_inventory_id' => 'required',
-            'tag' => 'required',
-            'date_collected' => 'required',
-            'gender' => 'required',
-            'plummage_color' => 'required',
-            'plummage_pattern' => 'required',
-            'hackle_color' => 'required',
-            'hackle_pattern' => 'required',
-            'body_carriage' => 'required',
-            'comb_type' => 'required',
-            'comb_color' => 'required',
-            'earlobe_color' => 'required',
-            'iris_color' => 'required',
-            'beak_color' => 'required',
-            'shank_color' => 'required',
-            'skin_color' => 'required',
-            'height' => 'required',
-            'weight' => 'required',
-            'body_length' => 'required',
-            'chest_circumference' => 'required',
-            'wing_span' => 'required',
-            'shank_length' => 'required'
-        ]);
+        if($request->duck){
+            $request->validate([
+                'replacement_inventory_id' => 'required',
+                'tag' => 'required',
+                'date_collected' => 'required',
+                'gender' => 'required',
+                'plummage_color' => 'required',
+                'plummage_pattern' => 'required',
+                'neck_feather' => 'required',
+                'wing_feather' => 'required',
+                'tail_feather' => 'required',
+                'bill_color' => 'required',
+                'bill_shape' => 'required',
+                'bean_color' => 'required',
+                'crest' => 'required',
+                'eye_color' => 'required',
+                'body_carriage' => 'required',
+                'shank_color' => 'required',
+                'skin_color' => 'required',
+                'height' => 'required',
+                'weight' => 'required',
+                'body_length' => 'required',
+                'chest_circumference' => 'required',
+                'wing_span' => 'required',
+                'shank_length' => 'required',
+                'bill_length'  => 'required',
+                'neck_length'  => 'required',
+            ]);
 
-        $pheno = collect([
-            $request->plummage_color,
-            $request->plummage_pattern,
-            $request->hackle_color,
-            $request->hackle_pattern,
-            $request->body_carriage,
-            $request->comb_type,
-            $request->comb_color,
-            $request->earlobe_color,
-            $request->iris_color,
-            $request->beak_color,
-            $request->shank_color,
-            $request->skin_color
-        ]);
+            $pheno = collect([
+                $request->plummage_color,
+                $request->plummage_pattern,
+                $request->neck_feather,
+                $request->wing_feather,
+                $request->tail_feather,
+                $request->bill_color,
+                $request->bill_shape,
+                $request->bean_color,
+                $request->crest,
+                $request->eye_color,
+                $request->body_carriage,
+                $request->shank_color,
+                $request->skin_color
+            ]);
+            $morpho = collect([
+                $request->height,
+                $request->weight,
+                $request->body_length,
+                $request->chest_circumference,
+                $request->wing_span,
+                $request->shank_length,
+                $request->bill_length,
+                $request->neck_length
+            ]);
+        }else{
+            $request->validate([
+                'replacement_inventory_id' => 'required',
+                'tag' => 'required',
+                'date_collected' => 'required',
+                'gender' => 'required',
+                'plummage_color' => 'required',
+                'plummage_pattern' => 'required',
+                'hackle_color' => 'required',
+                'hackle_pattern' => 'required',
+                'body_carriage' => 'required',
+                'comb_type' => 'required',
+                'comb_color' => 'required',
+                'earlobe_color' => 'required',
+                'iris_color' => 'required',
+                'beak_color' => 'required',
+                'shank_color' => 'required',
+                'skin_color' => 'required',
+                'height' => 'required',
+                'weight' => 'required',
+                'body_length' => 'required',
+                'chest_circumference' => 'required',
+                'wing_span' => 'required',
+                'shank_length' => 'required'
+            ]);
 
-        $morpho = collect([
-            $request->height,
-            $request->weight,
-            $request->body_length,
-            $request->chest_circumference,
-            $request->wing_span,
-            $request->shank_length
-        ]);
+            $pheno = collect([
+                $request->plummage_color,
+                $request->plummage_pattern,
+                $request->hackle_color,
+                $request->hackle_pattern,
+                $request->body_carriage,
+                $request->comb_type,
+                $request->comb_color,
+                $request->earlobe_color,
+                $request->iris_color,
+                $request->beak_color,
+                $request->shank_color,
+                $request->skin_color
+            ]);
+
+            $morpho = collect([
+                $request->height,
+                $request->weight,
+                $request->body_length,
+                $request->chest_circumference,
+                $request->wing_span,
+                $request->shank_length
+            ]);
+        }
 
         $phenomorphovalues = new PhenoMorphoValue;
         $phenomorphovalues->tag = $request->tag;
@@ -432,7 +488,6 @@ class ReplacementController extends Controller
         $replacements = ReplacementInventory::where('pen_id', $pen_id)
         ->leftJoin('replacements', 'replacement_inventories.replacement_id', 'replacements.id')
         ->leftJoin('families', 'replacements.family_id', 'families.id')
-        ->leftJoin('pheno_morphos', 'replacement_inventories.id', 'pheno_morphos.replacement_inventory_id')
         ->select('replacement_inventories.*', 'replacements.*', 'families.number as fam_number',
         'families.id as fam_id', 'replacements.id as rep_id', 'replacement_inventories.id as inv_id')
         ->orderBy('replacement_inventories.last_update', 'asc')
@@ -444,10 +499,21 @@ class ReplacementController extends Controller
     {
         $list = PhenoMorpho::
         leftjoin('pheno_morpho_values', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
-        ->select('pheno_morphos.*', 'pheno_morpho_values.*', 'pheno_morpho_values.id as values_id')
+        ->select('pheno_morphos.id as pheno_morpho_id', 'pheno_morpho_values.id as values_id', 'pheno_morphos.replacement_inventory_id',
+        'pheno_morpho_values.gender', 'pheno_morpho_values.tag', 'pheno_morpho_values.phenotypic',
+        'pheno_morpho_values.morphometric', 'pheno_morpho_values.date_collected')
         ->where('pheno_morphos.replacement_inventory_id', $inventory_id)
         ->paginate(10);
         return $list;
+    }
+
+    public function deletePhenoMorphoRecord ($record)
+    {
+        $pheno_morpho_value = PhenoMorphoValue::where('id', $record)->firstOrFail();
+        $pheno_morpho = PhenoMorpho::where('values_id', $pheno_morpho_value->id)->firstOrFail();
+        $pheno_morpho->delete();
+        $pheno_morpho_value->delete();
+        return response()->json(['status' => 'success', 'message' => 'Pheno & Morpho record deleted']);
     }
 
     public function getMortalitySale ($inventory_id)

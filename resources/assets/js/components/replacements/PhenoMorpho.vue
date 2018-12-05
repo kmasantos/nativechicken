@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col s12 m12 l12">
-            <div class="card-panel">
+            <div class="card-panel blue-grey lighten-5">
                 <div class="row valign-wrapper">
                     <div class="col s8 m8 l8">
                         <h5>Phenotypic & Morphometric Data | Pen {{phenomorpho_pen_number}}</h5>
@@ -15,11 +15,12 @@
                         <table class="responsive-table bordered highlight centered">
                             <thead>
                                 <tr>
-                                    <th>Tag</th>
+                                    <th>Inventory Code</th>
                                     <th>Male</th>
                                     <th>Female</th>
-                                    <th>Pheno & Morpho Data</th>
-                                    <th>Add Pheno & Morpho</th>
+                                    <th>View</th>
+                                    <th>Add</th>
+
                                 </tr>
                             </thead>
 
@@ -56,8 +57,19 @@
                             <h4>Phenotypic & Morphometric | {{selected_inventory_tag}}</h4>
                         </div>
                     </div>
+                    <div class="divider"></div>
                     <div class="row">
                         <div class="col s12 m12 l12">
+                            <div class="row valign-wrapper orange lighten-4">
+                                <div class="col s1 m1 l1 center-align">
+                                    <h4><i class="fas fa-exclamation-circle"></i></h4>
+                                </div>
+                                <div class="col s11 m11 l11">
+                                    <p>Click <strong>Phenotypic</strong> tab to display the phenotypic data form.</p>
+                                    <p>Click <strong>Morphometric</strong> tab to display the morphometric data form.</p>
+                                    <p>Complete Phenotypic and Morphometric Data before submitting the form.</p>
+                                </div>
+                            </div>
                             <form v-on:submit.prevent="addPhenoMorpho" method="POST">
                                 <div class="row">
                                     <div class="col s12 m12 l12">
@@ -67,6 +79,21 @@
                                     </ul>
                                     </div>
                                     <div id="pheno" class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12">
+                                            <div class="row">
+                                                <div class="col s12 m6 l6">
+                                                    <label for="type_selector">Select Data to Input</label>
+                                                    <div id="type_selector" class="switch">
+                                                        <label>
+                                                        Chicken
+                                                        <input type="checkbox" v-model="duck">
+                                                        <span class="lever"></span>
+                                                        Duck
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col s12 m12 l12">
                                             <div class="row">
                                                 <div class="col s12 m6 l6">
@@ -100,7 +127,44 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="duck">
+                                            <div class="row">
+                                                <label>Plumage Color</label>
+                                                <div class="col s12 m12 l12">
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_color_others=false" class="with-gap" v-model="plummage_color" type="radio" id="plummage_color_dblack" value="Black"/>
+                                                            <label for="plummage_color_dblack">Black</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_color_others=false" class="with-gap" v-model="plummage_color" type="radio" id="plummage_color_dblackbrown" value="Black with Brown"/>
+                                                            <label for="plummage_color_dblackbrown">Black with Brown</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_color_others=false" class="with-gap" v-model="plummage_color" type="radio" id="plummage_color_dbrown" value="Brown"/>
+                                                            <label for="plummage_color_dbrown">Brown</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_color_others=false" class="with-gap" v-model="plummage_color" type="radio" id="plummage_color_dbrownblack" value="Brown with Black"/>
+                                                            <label for="plummage_color_dbrownblack">Brown with Black</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_color_others=true" class="with-gap" v-model="plummage_color" type="radio" id="plummage_color_dothers" value="Others"/>
+                                                            <label for="plummage_color_dothers">Others</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" v-if="plummage_color_others==true">
+                                                        <div class="input-field col s12 m6 l6">
+                                                            <label class="active" for="plummage_color_others">Others</label>
+                                                            <input v-model="plummage_color" id="plummage_color_others" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Plumage Color</label>
                                                 <div class="col s12 m12 l12">
@@ -153,8 +217,48 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="duck">
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <label>Plumage Pattern</label>
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_pattern_others=false" class="with-gap" v-model="plummage_pattern" type="radio" id="plummage_pattern_ddusky" value="Dusky" />
+                                                            <label for="plummage_pattern_ddusky">Dusky</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_pattern_others=false" class="with-gap" v-model="plummage_pattern" type="radio" id="plummage_pattern_dmallard" value="Mallard" />
+                                                            <label for="plummage_pattern_dmallard">Mallard</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_pattern_others=false" class="with-gap" v-model="plummage_pattern" type="radio" id="plummage_pattern_dplainbrown" value="Plain Brown" />
+                                                            <label for="plummage_pattern_dplainbrown">Plain Brown</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_pattern_others=false" class="with-gap" v-model="plummage_pattern" type="radio" id="plummage_pattern_drunner" value="Runner" />
+                                                            <label for="plummage_pattern_drunner">Runner</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_pattern_others=false" class="with-gap" v-model="plummage_pattern" type="radio" id="plummage_pattern_drunnermallard" value="Runner/Mallard" />
+                                                            <label for="plummage_pattern_drunnermallard">Runner/Mallard</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="plummage_pattern_others=true; plummage_pattern=''" class="with-gap" v-model="plummage_pattern" type="radio" id="plummage_pattern_others_rad" value="Others" />
+                                                            <label for="plummage_pattern_others_rad">Others</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" v-if="plummage_pattern_others==true">
+                                                        <div class="input-field col s12 m6 l6">
+                                                            <label class="active" for="plummage_pattern_others">Others</label>
+                                                            <input v-model="plummage_pattern" id="plummage_pattern_others" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Plumage Pattern</label>
                                                 <div class="col s12 m12 l12">
@@ -200,7 +304,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Hackle Color</label>
                                                 <div class="col s12 m12 l12">
@@ -246,7 +350,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Hackle Pattern</label>
                                                 <div class="col s12 m12 l12">
@@ -268,12 +372,6 @@
                                                             <label for="hackle_pattern_others_rad">Others</label>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col s12 m4 l4">
-                                                            <input @change="hackle_pattern_others=true" class="with-gap" v-model="hackle_pattern" type="radio" id="hackle_type_others_rad" value="Others" />
-                                                            <label for="hackle_type_others_rad">Others</label>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                                 <div class="col s12 m12 l12" v-if="hackle_pattern_others">
                                                     <div class="row">
@@ -285,8 +383,40 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="duck">
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <label>Body Carriage</label>
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="body_carriage_others=false" class="with-gap" v-model="body_carriage" type="radio" id="body_carriage_dhorizontal" value="Horizontal" />
+                                                            <label for="body_carriage_dhorizontal">Horizontal</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="body_carriage_others=false" class="with-gap" v-model="body_carriage" type="radio" id="body_carriage_dslight" value="Slight Upright" />
+                                                            <label for="body_carriage_dslight">Slight Upright</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="body_carriage_others=false" class="with-gap" v-model="body_carriage" type="radio" id="body_carriage_dupright" value="Upright" />
+                                                            <label for="body_carriage_dupright">Upright</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="body_carriage_others=true; body_carriage=''" class="with-gap" v-model="body_carriage" type="radio" id="body_carriage_dothers_rad" value="Others" />
+                                                            <label for="body_carriage_dothers_rad">Others</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" v-if="body_carriage_others==true">
+                                                        <div class="col s12 m6 l6">
+                                                            <label class="active" for="body_carriage_dothers">Others</label>
+                                                            <input v-model="body_carriage" id="body_carriage_dothers" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Body Carriage</label>
                                                 <div class="col s12 m12 l12">
@@ -316,7 +446,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Comb Type</label>
                                                 <div class="col s12 m12 l12">
@@ -352,7 +482,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Comb Color</label>
                                                 <div class="col s12 m12 l12">
@@ -388,7 +518,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Earlobe Color</label>
                                                 <div class="col s12 m12 l12">
@@ -424,7 +554,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Iris Color</label>
                                                 <div class="col s12 m12 l12">
@@ -464,7 +594,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Beak Color</label>
                                                 <div class="col s12 m12 l12">
@@ -503,8 +633,48 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="duck">
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <label>Shank Color</label>
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="shank_color_others=false" class="with-gap" v-model="shank_color" type="radio" id="shank_color_dblack" value="Black" />
+                                                            <label for="shank_color_dblack">Black</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="shank_color_others=false" class="with-gap" v-model="shank_color" type="radio" id="shank_color_dbrown" value="Brown" />
+                                                            <label for="shank_color_dbrown">Brown</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="shank_color_others=false" class="with-gap" v-model="shank_color" type="radio" id="shank_color_ddarkbrown" value="Dark Brown" />
+                                                            <label for="shank_color_ddarkbrown">Dark Brown</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="shank_color_others=false" class="with-gap" v-model="shank_color" type="radio" id="shank_color_ddarkorange" value="Dark Orange" />
+                                                            <label for="shank_color_ddarkorange">Dark Orange</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="shank_color_others=false" class="with-gap" v-model="shank_color" type="radio" id="shank_color_dorangeblack" value="Orange with Black" />
+                                                            <label for="shank_color_dorangeblack">Orange with Black</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="shank_color_others=true; shank_color=''" class="with-gap" v-model="shank_color" type="radio" id="shank_color_dothers_rad" value="Others" />
+                                                            <label for="shank_color_dothers_rad">Others</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" v-if="shank_color_others==true">
+                                                        <div class="col s12 m6 l6">
+                                                            <label class="active" for="shank_color_dothers">Others</label>
+                                                            <input v-model="shank_color" id="shank_color_dothers" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Shank Color</label>
                                                 <div class="col s12 m12 l12">
@@ -547,8 +717,30 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col s12 m12 l12">
+                                        <div class="col s12 m12 l12" v-if="duck">
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <label>Skin Color</label>
+                                                    <div class="row">
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="skin_color_others=false" class="with-gap" v-model="skin_color" type="radio" id="skin_color_dwhite" value="White" />
+                                                            <label for="skin_color_dwhite">White</label>
+                                                        </div>
+                                                        <div class="col s12 m4 l4">
+                                                            <input @change="skin_color_others=true; skin_color=''" class="with-gap" v-model="skin_color" type="radio" id="skin_color_others_rad" value="Others" />
+                                                            <label for="skin_color_others_rad">Others</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" v-if="skin_color_others==true">
+                                                        <div class="col s12 m6 l6">
+                                                            <label class="active" for="skin_color_others">Others</label>
+                                                            <input v-model="skin_color" id="skin_color_others" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m12 l12" v-if="!duck">
                                             <div class="row">
                                                 <label>Skin Color</label>
                                                 <div class="col s12 m12 l12">
@@ -577,7 +769,240 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <div v-if="duck">
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12">
+                                                        <label>Neck Feather Markings</label>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input class="with-gap" v-model="neck_feather" type="radio" id="neck_feather_plain" value="Plain" />
+                                                                <label for="neck_feather_plain">Plain</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input class="with-gap" v-model="neck_feather" type="radio" id="neck_feather_bibsmall" value="Bib-Small" />
+                                                                <label for="neck_feather_bibsmall">With Bib (Small)</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input class="with-gap" v-model="neck_feather" type="radio" id="neck_feather_bibmed" value="Bib-Medium" />
+                                                                <label for="neck_feather_bibmed">With Bib (Medium)</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input class="with-gap" v-model="neck_feather" type="radio" id="neck_feather_biblarge" value="Bib-Large" />
+                                                                <label for="neck_feather_biblarge">With Bib (Large)</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12">
+                                                        <label>Wing Feather Color</label>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="wing_feather_others=false" class="with-gap" v-model="wing_feather" type="radio" id="wing_feather_black" value="Black" />
+                                                                <label for="wing_feather_black">Black</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="wing_feather_others=false" class="with-gap" v-model="wing_feather" type="radio" id="wing_feather_blackbrown" value="Black with Brown" />
+                                                                <label for="wing_feather_blackbrown">Black with Brown</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="wing_feather_others=false" class="with-gap" v-model="wing_feather" type="radio" id="wing_feather_blackwhite" value="Black with White" />
+                                                                <label for="wing_feather_blackwhite">Black with White</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="wing_feather_others=false" class="with-gap" v-model="wing_feather" type="radio" id="wing_feather_brown" value="Brown" />
+                                                                <label for="wing_feather_brown">Brown</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="wing_feather_others=false" class="with-gap" v-model="wing_feather" type="radio" id="wing_feather_brownwhite" value="Brown with White" />
+                                                                <label for="wing_feather_brownwhite">Brown with White</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="wing_feather_others=true; wing_feather=''" class="with-gap" v-model="wing_feather" type="radio" id="wing_feather_others_rad" value="Others" />
+                                                                <label for="wing_feather_others_rad">Others</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" v-if="wing_feather_others==true">
+                                                            <div class="col s12 m6 l6">
+                                                                <label class="active" for="wing_feather_others">Others</label>
+                                                                <input v-model="wing_feather" id="wing_feather_others" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12">
+                                                        <label>Tail Feather Color</label>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="tail_feather_others=false" class="with-gap" v-model="tail_feather" type="radio" id="tail_feather_black" value="Black" />
+                                                                <label for="tail_feather_black">Black</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="tail_feather_others=false" class="with-gap" v-model="tail_feather" type="radio" id="tail_feather_brown" value="Brown" />
+                                                                <label for="tail_feather_brown">Brown</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="tail_feather_others=false" class="with-gap" v-model="tail_feather" type="radio" id="tail_feather_brownwhite" value="Brown with White" />
+                                                                <label for="tail_feather_brownwhite">Brown with White</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="tail_feather_others=true; tail_feather=''" class="with-gap" v-model="tail_feather" type="radio" id="tail_feather_others_rad" value="Others" />
+                                                                <label for="tail_feather_others_rad">Others</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" v-if="tail_feather_others==true">
+                                                            <div class="col s12 m6 l6">
+                                                                <label class="active" for="tail_feather_others">Others</label>
+                                                                <input v-model="tail_feather" id="tail_feather_others" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12">
+                                                        <label>Bill Color</label>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="bill_color_others=false" class="with-gap" v-model="bill_color" type="radio" id="bill_color_green" value="Green" />
+                                                                <label for="bill_color_green">Green</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="bill_color_others=false" class="with-gap" v-model="bill_color" type="radio" id="bill_color_black" value="Black" />
+                                                                <label for="bill_color_black">Black</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="bill_color_others=false" class="with-gap" v-model="bill_color" type="radio" id="bill_color_blackgray" value="Black with Gray" />
+                                                                <label for="bill_color_blackgray">Black with Gray</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="bill_color_others=true; bill_color=''" class="with-gap" v-model="bill_color" type="radio" id="bill_color_others_rad" value="Others" />
+                                                                <label for="bill_color_others_rad">Others</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" v-if="bill_color_others==true">
+                                                            <div class="input-field col s12 m6 l6">
+                                                                <label class="active" for="bill_color_others">Others</label>
+                                                                <input v-model="bill_color" id="bill_color_others" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12">
+                                                        <label>Bill Shape</label>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input class="with-gap" v-model="bill_shape" type="radio" id="bill_shape_uniform" value="Uniform" />
+                                                                <label for="bill_shape_uniform">Uniform</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input class="with-gap" v-model="bill_shape" type="radio" id="bill_shape_saddle" value="Saddle" />
+                                                                <label for="bill_shape_saddle">Saddle</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12">
+                                                        <label>Bean Color</label>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="bean_color_others=false" class="with-gap" v-model="bean_color" type="radio" id="bean_color_black" value="Black" />
+                                                                <label for="bean_color_black">Black</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="bean_color_others=false" class="with-gap" v-model="bean_color" type="radio" id="bean_color_grey" value="Grey" />
+                                                                <label for="bean_color_grey">Grey</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="bean_color_others=true; bean_color=''" class="with-gap" v-model="bean_color" type="radio" id="bean_color_others_rad" value="Others" />
+                                                                <label for="bean_color_others_rad">Others</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" v-if="bean_color_others==true">
+                                                            <div class="input-field col s12 m6 l6">
+                                                                <label class="active" for="bean_color_others">Others</label>
+                                                                <input v-model="bean_color" id="bean_color_others" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12">
+                                                        <label>Presence of Crest</label>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="crest_others=false" class="with-gap" v-model="crest" type="radio" id="crest_yes" value="Yes" />
+                                                                <label for="crest_yes">Yes</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="crest_others=false" class="with-gap" v-model="crest" type="radio" id="crest_no" value="No" />
+                                                                <label for="crest_no">No</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="crest_others=true" class="with-gap" v-model="crest" type="radio" id="crest_others_rad" value="Others" />
+                                                                <label for="crest_others_rad">Others</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" v-if="crest_others==true">
+                                                            <div class="input-field col s12 m6 l6">
+                                                                <label class="active" for="crest_others">Others</label>
+                                                                <input v-model="crest" id="crest_others" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12">
+                                                        <label>Eye Color</label>
+                                                        <div class="row">
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="eye_color_others=false" class="with-gap" v-model="eye_color" type="radio" id="eye_color_black" value="Black" />
+                                                                <label for="eye_color_black">Black</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="eye_color_others=false" class="with-gap" v-model="eye_color" type="radio" id="eye_color_brown" value="Brown" />
+                                                                <label for="eye_color_brown">Brown</label>
+                                                            </div>
+                                                            <div class="col s12 m4 l4">
+                                                                <input @change="eye_color_others=true" class="with-gap" v-model="eye_color" type="radio" id="eye_color_others_rad" value="Others" />
+                                                                <label for="eye_color_others_rad">Others</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" v-if="eye_color_others==true">
+                                                            <div class="input-field col s12 m6 l6">
+                                                                <label class="active" for="eye_color_others">Others</label>
+                                                                <input v-model="eye_color" id="eye_color_others" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col s12 m12 l12">
                                             <div class="row">
                                                 <div class="col s12 m12 l12">
@@ -630,6 +1055,18 @@
                                                         <input id="shank_length" type="number" class="validate" v-model.number="shank_length" min=0 step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
                                                     </div>
                                                 </div>
+                                                <div class="row" v-if="duck">
+                                                    <div class="col s12 m6 l6">
+                                                        <label for="bill_length">Bill Length (cm)</label>
+                                                        <input id="bill_length" type="number" class="validate" v-model.number="bill_length" min=0 step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row" v-if="duck">
+                                                    <div class="col s12 m6 l6">
+                                                        <label for="neck_length">Neck Length (cm)</label>
+                                                        <input id="neck_length" type="number" class="validate" v-model.number="neck_length" min=0 step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row center">
@@ -660,16 +1097,18 @@
                             <table class="responsive-table bordered highlight centered">
                                 <thead>
                                     <tr>
-                                        <th>Tag</th>
+                                        <th>Registry Tag/ID</th>
                                         <th>Gender</th>
                                         <th>Pheno</th>
                                         <th>Morpho</th>
                                         <th>Date Collected</th>
+                                        <th><i class="far fa-trash-alt"></i></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr v-if="phenomorpho_values_length == 0">
+                                        <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
@@ -682,6 +1121,7 @@
                                         <td>{{value.phenotypic.substring(1, value.phenotypic .length-1)}}</td>
                                         <td>{{value.morphometric.substring(1, value.morphometric .length-1)}}</td>
                                         <td>{{value.date_collected}}</td>
+                                        <td><a @click="selected_record = value;openDeleteModal()" href="#delete_phenomorpho" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -689,12 +1129,42 @@
                     </div>
                     <div class="row center">
                         <div class="col s12 m12 l12">
-                            <pagination :data="inventories" @pagination-change-page="fetchPhenoMorphoInventory"></pagination>
+                            <pagination :data="phenomorpho_values" @pagination-change-page="fetchPhenoMorphoList"></pagination>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+                </div>
+            </div>
+
+            <div id="delete_phenomorpho" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h4>Delete Record</h4>
+                        </div>
+                    </div>
+                    <div class="row valign-wrapper">
+                        <div class="col s2 m2 l2 red-text center-align">
+                            <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                        </div>
+                        <div class="col s10 m10 l10">
+                            <p>Are you sure you want to <strong>Delete</strong> this Phenotypic & Morphometric record?</p>
+                            <blockquote>
+                                <span>Registry Tag/ID : {{selected_record.tag}}</span><br>
+                                <span>Gender : {{selected_record.gender}}</span><br>
+                                <span>Pheno : {{selected_record.phenotypic}}</span><br>
+                                <span>Morpho : {{selected_record.morphometric}}</span><br>
+                                <span>Date Collected : {{selected_record.date_collected}}</span><br>
+                            </blockquote>
+                            <p>This action is <strong>Irreversible</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a @click.prevent="deletePhenoMorphoData()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
                 </div>
             </div>
 
@@ -718,6 +1188,7 @@ export default {
             inventories_length : 0,
             selected_inventory_id : '',
             selected_inventory_tag: '',
+            duck : false,
 
             date_collected : '',
             tag : '',
@@ -756,8 +1227,28 @@ export default {
             wing_span : '',
             shank_length : '',
 
+            neck_feather : '',
+            wing_feather_others : false,
+            wing_feather : '',
+            tail_feather_others : false,
+            tail_feather : '',
+            bill_color_others : false,
+            bill_color : '',
+            bill_shape : '',
+            bean_color_others : false,
+            bean_color : '',
+            crest_others : false,
+            crest : '',
+            eye_color_others : false,
+            eye_color : '',
+
+            bill_length : '',
+            neck_length : '',
+
             phenomorpho_values : {},
             phenomorpho_values_length : 0,
+
+            selected_record : {},
         }
     },
     methods : {
@@ -785,34 +1276,68 @@ export default {
             });
         },
         addPhenoMorpho : function () {
-            axios.post('add_replacement_phenomorpho', {
-                replacement_inventory_id : this.selected_inventory_id,
-                tag : this.tag,
-                date_collected : this.customFormatter(this.date_collected),
-                gender : this.gender,
-                plummage_color : this.plummage_color,
-                plummage_pattern : this.plummage_pattern,
-                hackle_color : this.hackle_color,
-                hackle_pattern : this.hackle_pattern,
-                body_carriage : this.body_carriage,
-                comb_type : this.comb_type,
-                comb_color : this.comb_color,
-                earlobe_color : this.earlobe_color,
-                iris_color : this.iris_color,
-                beak_color : this.beak_color,
-                shank_color : this.shank_color,
-                skin_color : this.skin_color,
-                other_features : this.other_features,
-                height : this.height,
-                weight : this.weight,
-                body_length : this.body_length,
-                chest_circumference : this.chest_circumference,
-                wing_span : this.wing_span,
-                shank_length : this.shank_length,
-            })
+            var param = {};
+            if(this.duck){
+                param = {
+                    replacement_inventory_id : this.selected_inventory_id,
+                    duck : this.duck,
+                    tag : this.tag,
+                    date_collected : this.customFormatter(this.date_collected),
+                    gender : this.gender,
+                    plummage_color : this.plummage_color,
+                    plummage_pattern : this.plummage_pattern,
+                    neck_feather : this.neck_feather,
+                    wing_feather : this.wing_feather,
+                    tail_feather : this.tail_feather,
+                    bill_color : this.bill_color,
+                    bill_shape : this.bill_shape,
+                    bean_color : this.bean_color,
+                    crest : this.crest,
+                    eye_color : this.eye_color,
+                    body_carriage : this.body_carriage,
+                    shank_color : this.shank_color,
+                    skin_color : this.skin_color,
+                    other_features : this.other_features,
+                    height : this.height,
+                    weight : this.weight,
+                    body_length : this.body_length,
+                    chest_circumference : this.chest_circumference,
+                    wing_span : this.wing_span,
+                    shank_length : this.shank_length,
+                    bill_length : this.bill_length,
+                    neck_length : this.neck_length,
+                }
+            }else{
+                param = {
+                    replacement_inventory_id : this.selected_inventory_id,
+                    duck : this.duck,
+                    tag : this.tag,
+                    date_collected : this.customFormatter(this.date_collected),
+                    gender : this.gender,
+                    plummage_color : this.plummage_color,
+                    plummage_pattern : this.plummage_pattern,
+                    hackle_color : this.hackle_color,
+                    hackle_pattern : this.hackle_pattern,
+                    body_carriage : this.body_carriage,
+                    comb_type : this.comb_type,
+                    comb_color : this.comb_color,
+                    earlobe_color : this.earlobe_color,
+                    iris_color : this.iris_color,
+                    beak_color : this.beak_color,
+                    shank_color : this.shank_color,
+                    skin_color : this.skin_color,
+                    other_features : this.other_features,
+                    height : this.height,
+                    weight : this.weight,
+                    body_length : this.body_length,
+                    chest_circumference : this.chest_circumference,
+                    wing_span : this.wing_span,
+                    shank_length : this.shank_length,
+                }
+            }
+            axios.post('add_replacement_phenomorpho', param)
             .then(response => {
                 if(response.data.error == undefined){
-                    this.selected_inventory_id = '';
                     this.tag = '';
                     this.date_collected = '';
                     this.gender = '';
@@ -835,6 +1360,17 @@ export default {
                     this.chest_circumference = '';
                     this.wing_span = '';
                     this.shank_length = '';
+                    this.neck_feather = '';
+                    this.wing_feather = '';
+                    this.tail_feather = '';
+                    this.bill_color = '';
+                    this.bill_shape = '';
+                    this.bean_color = '';
+                    this.crest = '';
+                    this.eye_color = '';
+                    this.bill_length  = '';
+                    this.neck_length  = '';
+                    this.duck = false;
                     Materialize.toast('Successfully added pheno and morpho data', 3000, 'green rounded');
                 }else{
                     Materialize.toast(response.data.error, 3000, 'red rounded');
@@ -843,6 +1379,21 @@ export default {
             .catch(error => {
                 Materialize.toast(error, 3000, 'red rounded');
             });
+        },
+        openDeleteModal : function () {
+            $('#view').modal('close');
+        },
+        deletePhenoMorphoData : function () {
+            axios.delete('replacement_delete_phenomorphorecords/'+this.selected_record.values_id)
+            .then(response => {
+                Materialize.toast('Successfully deleted pheno & morpho record', 5000, 'green rounded');
+            })
+            .catch(function (error) {
+                Materialize.toast('Failed to delete pheno & morpho', 5000, 'red rounded');
+            });
+            this.selected_record = {};
+            this.fetchPhenoMorphoList();
+             $('#view').modal('open');
         },
         customFormatter : function(date_added) {
             return moment(date_added).format('YYYY-MM-DD');
@@ -865,6 +1416,9 @@ export default {
             dismissible : false,
         });
         $('#view').modal({
+            dismissible : false,
+        });
+        $('#delete_phenomorpho').modal({
             dismissible : false,
         });
         $('ul.tabs').tabs();
