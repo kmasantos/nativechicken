@@ -104,7 +104,7 @@ class BreederController extends Controller
             $movement_replacement_male->number_male = $request->number_male;
             $movement_replacement_male->number_female = 0;
             $movement_replacement_male->number_total = $request->number_male;
-            $movement_replacement_male->remarks = "within";
+            $movement_replacement_male->remarks = "within system";
 
             $movement_replacement_female = new AnimalMovement;
             $movement_replacement_female->date = $request->date_added;
