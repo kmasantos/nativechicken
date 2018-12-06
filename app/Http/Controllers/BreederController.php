@@ -88,9 +88,9 @@ class BreederController extends Controller
 
             // Update Pens
             $male_replacement_pen = Pen::where('id', $male_inventory->pen_id)->firstOrFail();
-            $male_replacement_pen->current_capacity = $male_replacement_pen->current_capacity + $request->number_male;
+            $male_replacement_pen->current_capacity = $male_replacement_pen->current_capacity - $request->number_male;
             $female_replacement_pen = Pen::where('id', $female_inventory->pen_id)->firstOrFail();
-            $female_replacement_pen->current_capacity = $female_replacement_pen->current_capacity + $request->number_female;
+            $female_replacement_pen->current_capacity = $female_replacement_pen->current_capacity - $request->number_female;
             // Animal Movements
             $movement_replacement_male = new AnimalMovement;
             $movement_replacement_male->date = $request->date_added;
