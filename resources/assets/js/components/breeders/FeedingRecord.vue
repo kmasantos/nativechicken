@@ -194,7 +194,7 @@
                 this.initialize();
             },
             deleteFeedingRecord : function () {
-                axios.delete('breeder_delete_feeding/' + this.selected_feeding_record.id)
+                axios.delete('breeder_delete_feeding/' + this.selected_feeding_record.feeding_id)
                 .then(response => {
                     this.selected_feeding_record = '';
                     Materialize.toast('Successfully deleted feeding record', 5000, 'green rounded');

@@ -222,6 +222,7 @@ class BreederController extends Controller
     {
         $records = BreederFeeding::
         leftjoin('breeder_inventories', 'breeder_inventories.id', 'breeder_feedings.breeder_inventory_id')
+        ->select('breeder_inventories.*', 'breeder_feedings.*', 'breeder_feedings.id as feeding_id')
         ->where('breeder_feedings.breeder_inventory_id', $breeder_id)->orderBy('date_collected', 'desc')->paginate(10);
         return $records;
     }

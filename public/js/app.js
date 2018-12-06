@@ -76728,7 +76728,7 @@ var moment = __webpack_require__(0);
         deleteFeedingRecord: function deleteFeedingRecord() {
             var _this3 = this;
 
-            axios.delete('breeder_delete_feeding/' + this.selected_feeding_record.id).then(function (response) {
+            axios.delete('breeder_delete_feeding/' + this.selected_feeding_record.feeding_id).then(function (response) {
                 _this3.selected_feeding_record = '';
                 Materialize.toast('Successfully deleted feeding record', 5000, 'green rounded');
             }).catch(function (error) {
