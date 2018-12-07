@@ -18,15 +18,17 @@
                         <table class="bordered highlight responsive-table centered">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Gender</th>
-                                    <th>Tag</th>
-                                    <th>Phenotypic</th>
-                                    <th>Morphometric</th>
+                                    <th class="tooltipped" data-tooltip="Date Data Collected"><i class="far fa-calendar"></i></th>
+                                    <th class="tooltipped" data-tooltip="Gender"><i class="fas fa-venus-mars"></i></th>
+                                    <th class="tooltipped" data-tooltip="Wingband ID"><i class="fas fa-tag"></i></th>
+                                    <th class="tooltipped" data-tooltip="Phenotypic Data"><i class="fas fa-eye"></i></th>
+                                    <th class="tooltipped" data-tooltip="Morphometric Data"><i class="fas fa-sort-numeric-down"></i></th>
+                                    <th class="tooltipped" data-tooltip="Delete Record"><i class="far fa-trash-alt"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-if="records_length == 0">
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
@@ -39,6 +41,7 @@
                                     <td>{{record.tag}}</td>
                                     <td>{{record.phenotypic.substring(1, record.phenotypic. length-1)}}</td>
                                     <td>{{record.morphometric.substring(1, record.morphometric. length-1)}}</td>
+                                    <td><a @click="selected_record = record" href="#delete_phenomorpho" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -977,6 +980,37 @@
                     </div>
                 </form>
             </div>
+
+            <div id="delete_phenomorpho" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h4>Delete Record</h4>
+                        </div>
+                    </div>
+                    <div class="row valign-wrapper">
+                        <div class="col s2 m2 l2 red-text center-align">
+                            <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                        </div>
+                        <div class="col s10 m10 l10">
+                            <p>Are you sure you want to <strong>Delete</strong> this Phenotypic & Morphometric record?</p>
+                            <blockquote>
+                                <span>Registry Tag/ID : {{selected_record.tag}}</span><br>
+                                <span>Gender : {{selected_record.gender}}</span><br>
+                                <span>Pheno : {{selected_record.phenotypic}}</span><br>
+                                <span>Morpho : {{selected_record.morphometric}}</span><br>
+                                <span>Date Collected : {{selected_record.date_collected}}</span><br>
+                            </blockquote>
+                            <p>This action is <strong>Irreversible</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a @click.prevent="deletePhenoMorphoData()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
@@ -1049,6 +1083,8 @@
 
                 bill_length : '',
                 neck_length : '',
+
+                selected_record : '',
             }
         },
         methods : {
@@ -1185,8 +1221,19 @@
                     }
                 })
                 .catch(error => {
-                    Materialize.toast(error, 5000, 'red rounded');
+                    Materialize.toast(error.errors, 5000, 'red rounded');
                 });
+                this.initialize();
+            },
+            deletePhenoMorphoData : function () {
+                axios.delete('breeder_delete_phenomorphorecords/'+this.selected_record.values_id)
+                .then(response => {
+                    Materialize.toast('Successfully deleted pheno & morpho record', 5000, 'green rounded');
+                })
+                .catch(function (error) {
+                    Materialize.toast('Failed to delete pheno & morpho', 5000, 'red rounded');
+                });
+                this.selected_record = {};
                 this.initialize();
             },
             customFormatter : function (date_added) {
@@ -1212,7 +1259,11 @@
             $('#breeder_phenomorpho').modal({
                 dismissible : false,
             });
+            $('#delete_phenomorpho').modal({
+                dismissible : false,
+            });
             $('ul.tabs').tabs();
+            $('.tooltipped').tooltip({delay: 50, position: 'top'});
         },
 
     }

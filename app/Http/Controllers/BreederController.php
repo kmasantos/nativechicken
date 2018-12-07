@@ -964,6 +964,7 @@ class BreederController extends Controller
         $record_value = PhenoMorphoValue::where('id', $record->values_id)->firstOrFail();
         $record->delete();
         $record_value->delete();
+        return response()->json(['status' => 'success', 'message' => 'Pheno & Morpho record deleted']);
     }
 
     public function breederInventoryPage()

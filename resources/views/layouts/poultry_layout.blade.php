@@ -5,6 +5,7 @@
     <link href="{{ URL::asset('https://fonts.googleapis.com/icon?family=Material+Icons') }}" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="/thirdparty/fontawesome-free-5.0.4/web-fonts-with-css/css/fontawesome-all.min.css">
+    <link type="text/css" rel="stylesheet" href="/thirdparty/fontawesome-free-5.0.4/svg-with-js/css/fa-svg-with-js.css">
     <link type="text/css" rel="stylesheet" href="/thirdparty/materialize/css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/application_materialize.css"  media="screen,projection"/>
     @yield('customcss')

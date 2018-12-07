@@ -121,6 +121,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::delete('breeder_delete_feeding/{record_id}', 'BreederController@deleteFeedingRecord');
         Route::delete('breeder_delete_eggquality/{record_id}', 'BreederController@deleteEggQuality');
         Route::delete('breeder_delete_eggprod/{record_id}', 'BreederController@deleteEggProduction');
+        Route::delete('breeder_delete_phenomorphorecords/{record}', 'ReplacementController@deletePhenoMorphoRecord');
         /**
          * *New Axios Routes for Replacement
          */

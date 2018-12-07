@@ -53,7 +53,6 @@ class ReplacementController extends Controller
     }
 
     /**
-     * ! Refactor fetching of replacement list to show pen
      * TODO Delete if needed
      */
     public function getReplacementList()
