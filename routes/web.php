@@ -121,7 +121,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::delete('breeder_delete_feeding/{record_id}', 'BreederController@deleteFeedingRecord');
         Route::delete('breeder_delete_eggquality/{record_id}', 'BreederController@deleteEggQuality');
         Route::delete('breeder_delete_eggprod/{record_id}', 'BreederController@deleteEggProduction');
-        Route::delete('breeder_delete_phenomorphorecords/{record}', 'ReplacementController@deletePhenoMorphoRecord');
+        Route::delete('breeder_delete_phenomorphorecords/{record}', 'BreederController@deletePhenoMorphoRecord');
         /**
          * *New Axios Routes for Replacement
          */
@@ -175,6 +175,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('brooder_sale', 'BrooderGrowerController@addSale');
         Route::post('brooder_egg_sale', 'BrooderGrowerController@addEggSale');
         Route::delete('cull_brooder/{inventory_id}', 'BrooderGrowerController@cullBrooder');
+        Route::get('brooder_select_growthrecords/{record}', 'BrooderGrowerController@selectGrowthRecords');
+        Route::delete('brooder_delete_growthrecords/{record}', 'BrooderGrowerController@deleteGrowthRecord');
     });
     // Admin Routes
     Route::group(['prefix' => 'admin'], function()

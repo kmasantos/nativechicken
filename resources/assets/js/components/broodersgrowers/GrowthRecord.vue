@@ -18,16 +18,16 @@
                         <table class="responsive-table bordered highlight centered">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Collection Day</th>
-                                    <th>Tag</th>
-                                    <th>Male</th>
-                                    <th>Male Weight</th>
-                                    <th>Female</th>
-                                    <th>Female Weight</th>
-                                    <th>Total</th>
-                                    <th>Total Weight</th>
-                                    <th>Edit</th>
+                                    <th class="tooltipped" data-tooltip="Date Collected"><i class="far fa-calendar"></i></th>
+                                    <th class="tooltipped" data-tooltip="Collection Day"><i class="far fa-clock"></i></th>
+                                    <th class="tooltipped" data-tooltip="Inventory Code"><i class="fas fa-tag"></i></th>
+                                    <th class="tooltipped" data-tooltip="Male"><i class="fas fa-mars"></i></th>
+                                    <th class="tooltipped" data-tooltip="Male Weight"><i class="fas fa-mars"></i> Weight</th>
+                                    <th class="tooltipped" data-tooltip="Female"><i class="fas fa-venus"></i></th>
+                                    <th class="tooltipped" data-tooltip="Female Weight"><i class="fas fa-venus"></i> Weight</th>
+                                    <th class="tooltipped" data-tooltip="Total"><i class="fas fa-venus-mars"></i></th>
+                                    <th class="tooltipped" data-tooltip="Total Weight"><i class="fas fa-venus-mars"></i> Weight</th>
+                                    <th class="tooltipped" data-tooltip="Delete Record"><i class="far fa-trash-alt"></i></th>
                                 </tr>
                             </thead>
 
@@ -44,7 +44,7 @@
                                     <td>-</td>
                                     <td>-</td>
                                 </tr>
-                                <tr v-else v-for="growth in growth_records.data" :key="growth.id">
+                                <tr v-else v-for="growth in growth_records.data" :key="growth.growth_id">
                                     <td>{{growth.date_collected}}</td>
                                     <td>{{growth.collection_day}}</td>
                                     <td>{{growth.broodergrower_tag}}</td>
@@ -58,7 +58,7 @@
                                     <td v-else>{{growth.female_weight.toFixed(3)}}</td>
                                     <td>{{growth.total_quantity}}</td>
                                     <td>{{growth.total_weight.toFixed(3)}}</td>
-                                    <td>-</td>
+                                    <td><a @click.prevent="selected_growth_record = growth.growth_id;selectGrowthRecords()" href="#delete_growth" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -85,12 +85,6 @@
                                 <label for="day0">Day 0</label>
                                 <input v-model.number="collection_day" class="with-gap" name="group1" type="radio" id="day21" value=21 />
                                 <label for="day21">Day 21</label>
-                                <input v-model.number="collection_day" class="with-gap" name="group1" type="radio" id="day45" value=45 />
-                                <label for="day45">Day 45</label>
-                                <input v-model.number="collection_day" class="with-gap" name="group1" type="radio" id="day75" value=75 />
-                                <label for="day75">Day 75</label>
-                                <input v-model.number="collection_day" class="with-gap" name="group1" type="radio" id="day100" value=100 />
-                                <label for="day100">Day 100</label>
                             </div>
                             <div class="col s12 m12 l12">
                                 <label for="others">Input Other Day</label>
@@ -104,7 +98,7 @@
                                 </div>
                             </div>
                             <div class="col s12 m6 l6" v-if="others==true">
-                                <input v-model.number="collection_day" placeholder="Input collection day" type="number" min="0">
+                                <input v-model.number="collection_day" placeholder="Input collection day bwetween 0 and 21 days" class="validate" type="number" min=0 max=21 pattern="[0-21]">
                             </div>
                         </div>
                         <div class="row">
@@ -153,6 +147,64 @@
                     </div>
                 </form>
             </div>
+            <div id="delete_growth" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h4>Delete Record</h4>
+                        </div>
+                    </div>
+                    <div class="row valign-wrapper">
+                        <div class="col s2 m2 l2 red-text center-align">
+                            <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                        </div>
+                        <div class="col s10 m10 l10">
+                            <p>Are you sure you want to <strong>Delete</strong> this growth records?</p>
+                            <table class="bordered responsive-table centered">
+                                <thead>
+                                    <tr>
+                                        <th class="tooltipped" data-tooltip="Date Collected"><i class="far fa-calendar"></i></th>
+                                        <th class="tooltipped" data-tooltip="Collection Day"><i class="far fa-clock"></i></th>
+                                        <th class="tooltipped" data-tooltip="Inventory Code"><i class="fas fa-tag"></i></th>
+                                        <th class="tooltipped" data-tooltip="Male Quantity"><i class="fas fa-mars"></i> Q</th>
+                                        <th class="tooltipped" data-tooltip="Male Weight"><i class="fas fa-mars"></i> W</th>
+                                        <th class="tooltipped" data-tooltip="Female Quantity"><i class="fas fa-venus"></i> Q</th>
+                                        <th class="tooltipped" data-tooltip="Female Weight"><i class="fas fa-venus"></i> W</th>
+                                        <th class="tooltipped" data-tooltip="Total Quantity"><i class="fas fa-venus-mars"></i> Q</th>
+                                        <th class="tooltipped" data-tooltip="Total Weight"><i class="fas fa-venus-mars"></i> W</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr v-for="selected_record in selected_records.data" :key="selected_record.sel_growth_id">
+                                        <td>{{selected_record.date_collected}}</td>
+                                        <td>{{selected_record.collection_day}}</td>
+                                        <td>{{selected_record.broodergrower_tag}}</td>
+                                        <td v-if="selected_record.male_quantity===null">-</td>
+                                        <td v-else>{{selected_record.male_quantity}}</td>
+                                        <td v-if="selected_record.male_weight===null">-</td>
+                                        <td v-else>{{selected_record.male_weight.toFixed(3)}}</td>
+                                        <td v-if="selected_record.female_quantity===null">-</td>
+                                        <td v-else>{{selected_record.female_quantity}}</td>
+                                        <td v-if="selected_record.female_weight===null">-</td>
+                                        <td v-else>{{selected_record.female_weight.toFixed(3)}}</td>
+                                        <td v-if="selected_record.total_quantity === null">-</td>
+                                        <td v-else>{{selected_record.total_quantity}}</td>
+                                        <td v-if="selected_record.total_weight === null">-</td>
+                                        <td v-else>{{selected_record.total_weight.toFixed(3)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="center-align"><pagination :data="selected_records" @pagination-change-page="selectGrowthRecords"></pagination></p>
+                            <p>This action is <strong>Irreversible</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a @click.prevent="deleteGrowthRecord" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -179,6 +231,9 @@ export default {
             total_weight : '',
             male_weight : '',
             female_weight : '',
+
+            selected_growth_record : '',
+            selected_records : {}
         }
     },
     methods : {
@@ -225,6 +280,25 @@ export default {
             });
             this.initialize();
         },
+        selectGrowthRecords : function (page = 1) {
+            axios.get('brooder_select_growthrecords/'+this.selected_growth_record+'?page='+page)
+            .then(response => {
+                this.selected_records = response.data;
+            })
+            .catch(function (error) {
+            });
+        },
+        deleteGrowthRecord : function () {
+            axios.delete('brooder_delete_growthrecords/'+this.selected_growth_record)
+            .then(response => {
+                Materialize.toast('Successfully deleted growth records', 5000, 'green rounded');
+            })
+            .catch(function (error) {
+                Materialize.toast('Failed to delete growth records', 5000, 'red rounded');
+            });
+            this.initialize();
+            this.selected_growth_record = '';
+        },
         customFormatter : function (date_added) {
         return moment(date_added).format('YYYY-MM-DD');
         },
@@ -239,6 +313,14 @@ export default {
         $('#growth').modal({
             dismissible : false,
         });
+        $('.tooltipped').tooltip({
+            delay: 50,
+            position:"top"
+        });
+        $('#delete_growth').modal({
+            dismissible : false,
+        });
+
     },
     created() {
         this.initialize();

@@ -200,15 +200,18 @@ class BrooderGrowerController extends Controller
         $growthrecords = BrooderGrowerGrowth::
         leftJoin('brooder_grower_inventories', 'brooder_grower_growths.broodergrower_inventory_id', 'brooder_grower_inventories.id')
         ->where('brooder_grower_inventories.pen_id', $pen_id)
-        ->select('brooder_grower_growths.*', 'brooder_grower_inventories.*', 'brooder_grower_inventories.id as inventory_id')
+        ->select('brooder_grower_growths.*', 'brooder_grower_inventories.*', 'brooder_grower_inventories.id as inventory_id',
+        'brooder_grower_growths.id as growth_id')
         ->orderBy('date_collected', 'desc')
         ->paginate(10);
-        dd($growthrecords);
         return $growthrecords;
     }
 
     public function addGrowthRecord(Request $request)
     {
+        if($request->collection_day > 21){
+            return response()->json(['error' => 'Collection day should not exceed 21 days']);
+        }
         $invalid = false;
         $pen = Pen::where('id', $request->pen_id)->first();
         $inventories = BrooderGrowerInventory::where('pen_id', $request->pen_id)->get();
@@ -268,6 +271,42 @@ class BrooderGrowerController extends Controller
             }
             return response()->json(['status' => 'success', 'message' => 'Growth Records added']);
         }
+    }
+
+    public function selectGrowthRecords ($record)
+    {
+        $selected = BrooderGrowerGrowth::where('id', $record)->firstOrFail();
+        $selected_inventory = BrooderGrowerInventory::where('id', $selected->broodergrower_inventory_id)->firstOrFail();
+        $selected_pen = Pen::where('id', $selected_inventory->pen_id)->firstOrFail();
+
+        $selected_records = BrooderGrowerGrowth::where('brooder_grower_growths.date_collected', $selected->date_collected)
+                            ->where('brooder_grower_growths.collection_day', $selected->collection_day)
+                            ->leftJoin('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_growths.broodergrower_inventory_id')
+                            ->where('brooder_grower_inventories.pen_id', $selected_inventory->pen_id)
+                            ->select('brooder_grower_growths.*', 'brooder_grower_inventories.*',
+                                    'brooder_grower_inventories.id as sel_inventory_id', 'brooder_grower_growths.id as sel_growth_id')
+                            ->paginate(10);
+        return $selected_records;
+    }
+
+    public function deleteGrowthRecord ($record)
+    {
+        $selected = BrooderGrowerGrowth::where('id', $record)->firstOrFail();
+        $selected_inventory = BrooderGrowerInventory::where('id', $selected->broodergrower_inventory_id)->firstOrFail();
+        $selected_pen = Pen::where('id', $selected_inventory->pen_id)->firstOrFail();
+
+        $selected_records = BrooderGrowerGrowth::where('brooder_grower_growths.date_collected', $selected->date_collected)
+                            ->where('brooder_grower_growths.collection_day', $selected->collection_day)
+                            ->leftJoin('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_growths.broodergrower_inventory_id')
+                            ->where('brooder_grower_inventories.pen_id', $selected_inventory->pen_id)
+                            ->select('brooder_grower_growths.*', 'brooder_grower_inventories.*',
+                                    'brooder_grower_inventories.id as sel_inventory_id', 'brooder_grower_growths.id as sel_growth_id')
+                            ->get();
+        foreach ($selected_records as $record) {
+            $delete = BrooderGrowerGrowth::where('id', $record->sel_growth_id)->firstOrFail();
+            $delete->delete();
+        }
+        return response()->json(['status' => 'success', 'message' => 'Growth record deleted']);
     }
 
     public function getMortalitySale ($inventory_id)
