@@ -1,7 +1,7 @@
 <template>
         <div class="row">
             <div class="col s12 m12 l12">
-                <div class="card-panel">
+                <div class="card-panel blue-grey lighten-5">
                     <div class="row valign-wrapper">
                         <div class="col s8 m8 l8">
                             <h5>Pen {{inv_pen_number}} Inventory</h5>
@@ -15,7 +15,7 @@
                             <table class="responsive-table bordered highlight centered">
                                 <thead>
                                     <tr>
-                                        <th>Tag</th>
+                                        <th>Inventory Code</th>
                                         <th>Fam</th>
                                         <th>Line</th>
                                         <th>Gen</th>
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <!-- pagination -->
-                    <div class="row">
+                    <div class="row center">
                         <div class="col s12 m12 l12">
                             <pagination :data="inventories" @pagination-change-page="fetchPenInventory"></pagination>
                         </div>

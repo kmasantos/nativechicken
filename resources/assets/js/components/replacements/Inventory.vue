@@ -15,7 +15,7 @@
                             <table class="responsive-table bordered highlight centered">
                                 <thead>
                                     <tr>
-                                        <th>Tag</th>
+                                        <th>Inventory Code</th>
                                         <th>Fam</th>
                                         <th>Line</th>
                                         <th>Gen</th>
