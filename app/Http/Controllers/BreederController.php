@@ -550,7 +550,7 @@ class BreederController extends Controller
     public function deleteHatcheryRecord ($record_id)
     {
         $hatchery_record = HatcheryRecord::where('id', $record_id)->firstOrFail();
-        if($hatchery_record->number_hatched == null){
+        if($hatchery_record->number_hatched == null ||$hatchery_record->number_hatched === 0){
             $hatchery_record->delete();
             return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted']);
         }else{
@@ -558,8 +558,8 @@ class BreederController extends Controller
             $breeder = Breeder::where('id', $breeder_inventory->breeder_id)->first();
             $breeder_family = Family::where('id', $breeder->family_id)->firstOrFail();
             $breeder_line = Line::where('id', $breeder_family->line_id)->firstOrFail();
-            $breeder_generation = Generation::where('id', $breeder_line->generation_id)->firstOrFail();
-            $brooder_generation = Generation::where('farm_id', Auth::user()->farm_id)->where('numerical_generation', $breeder_generation->numerical_generation + 1)->firstOrFail();
+            $breeder_generation = Generation::where('id', $breeder_line->generation_id)->first();
+            $brooder_generation = Generation::where('farm_id', $breeder_generation->farm_id)->where('numerical_generation', $breeder_generation->numerical_generation + 1)->first();
             $brooder_line = Line::where('generation_id', $brooder_generation->id)->where('number', $breeder_line->number)->firstOrFail();
             $brooder_family = Family::where('line_id', $brooder_line->id)->where('number', $breeder_family->number)->firstOrFail();
             $brooder_grower = BrooderGrower::where('family_id', $brooder_family->id)->first();
