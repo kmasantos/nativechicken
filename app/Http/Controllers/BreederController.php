@@ -579,11 +579,12 @@ class BreederController extends Controller
             $animal_movement->delete();
             $hatchery_record->delete();
             $brooder_inventory->delete();
-            if(BrooderGrowerInventory::where('broodergrower_id', $brooder_grower->id)->count() == 0){
+            if(BrooderGrowerInventory::where('broodergrower_id', $brooder_grower->id)->count() === 0){
                 $brooder_grower->delete();
             }
             return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted and brooder record updated']);
         }
+
     }
 
     public function hatcheryRecordPage()

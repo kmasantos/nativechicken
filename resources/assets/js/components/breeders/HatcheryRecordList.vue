@@ -364,9 +364,8 @@
                 this.fetchHatcheryRecord();
             },
             deleteHatcheryRecord : function () {
-                axios.delete('breeder_delete_hatchery/' + this.selected_hatchery_record.id)
+                axios.delete('breeder_delete_hatchery/' + JSON.stringify(this.selected_hatchery_record.id))
                 .then(response => {
-                    this.selected_hatchery_record = '';
                     Materialize.toast('Successfully deleted hatchery record', 5000, 'green rounded');
                 })
                 .catch(error => {
