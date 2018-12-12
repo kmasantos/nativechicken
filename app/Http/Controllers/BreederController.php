@@ -587,9 +587,13 @@ class BreederController extends Controller
 
     // }
 
-    public function deleteHatcheryRecord ($record_id)
+    public function deleteHatcheryRecord (Request $request)
     {
-        $hatchery_record = HatcheryRecord::find($record_id);
+
+        $request->validate([
+            'delete_record' => 'required'
+        ]);
+        $hatchery_record = HatcheryRecord::find($request->delete_record);
         if($hatchery_record->number_hatched === 0 || $hatchery_record->number_hatched === null){
             $hatchery_record->delete();
             return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted']);
@@ -623,7 +627,7 @@ class BreederController extends Controller
             if(BrooderGrowerInventory::where('broodergrower_id', $brooder->id)->count() === 0){
                 $brooder->delete();
             }
-            return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted and brooder record updated']);
+            return response()->json(['status' => 'success', 'message' => 'Hatchery Record updated']);
         }
     }
 

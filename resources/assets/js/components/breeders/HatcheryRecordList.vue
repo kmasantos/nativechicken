@@ -367,9 +367,12 @@
                 this.fetchHatcheryRecord();
             },
             deleteHatcheryRecord : function () {
-                axios.delete('breeder_delete_hatcheryrecord/'+this.selected_hatchery_record.id)
+                axios.post('breeder_delete_hatcheryrecord', {
+                    delete_record : this.selected_hatchery_record.id
+                })
                 .then(response => {
                     Materialize.toast('Successfully deleted hatchery record', 5000, 'green rounded');
+                    this.selected_hatchery_record = '';
                 })
                 .catch(error => {
                     Materialize.toast('Failed to delete hatchery record', 5000, 'red rounded');
