@@ -7,11 +7,14 @@
                     <div class="col s6 m6 l6">
                         <h5>Hatchery Record | {{breeder_tag}}</h5>
                     </div>
-                    <div class="col s3 m3 l3 right-align">
-                        <a @click="add_record=true; hide_record=true" class="waves-effect waves-green btn-flat green-text"><i class="fas fa-plus-circle left"></i>Add</a>
+                    <div class="col s2 m2 l2">
+                        <a class="waves-effect waves-orange btn-flat tooltipped orange-text" data-tooltip="Flush All Hatchery Record"><i class="fas fa-ban center"></i></a>
                     </div>
-                    <div class="col s3 m3 l3 center-align">
-                        <a v-on:click="closeHatcheryRecords" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
+                    <div class="col s2 m2 l2">
+                        <a @click="add_record=true; hide_record=true" class="waves-effect waves-green btn-flat tooltipped green-text" data-tooltip="Add Hatchery Record"><i class="fas fa-plus-circle center"></i></a>
+                    </div>
+                    <div class="col s2 m2 l2">
+                        <a v-on:click="closeHatcheryRecords" class="waves-effect waves-red btn-flat tooltipped red-text" data-tooltip="Close Hatchery Record"><i class="far fa-times-circle center"></i></a>
                     </div>
                 </div>
                 <div v-show="hide_record==false">
@@ -236,7 +239,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a @click.prevent="deleteHatcheryRecord()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                        <a @click.prevent="deleteHatcheryRecord" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
                         <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
                     </div>
                 </div>
@@ -364,7 +367,7 @@
                 this.fetchHatcheryRecord();
             },
             deleteHatcheryRecord : function () {
-                axios.delete('breeder_delete_hatchery/' + JSON.stringify(this.selected_hatchery_record.id))
+                axios.delete('breeder_delete_hatcheryrecord/'+this.selected_hatchery_record.id)
                 .then(response => {
                     Materialize.toast('Successfully deleted hatchery record', 5000, 'green rounded');
                 })
@@ -381,10 +384,14 @@
                 this.edit_date_hatched = this.selected_hatchery_record.date_hatched;
                 this.edit_selected_brooder_pen = this.selected_hatchery_record.selected_brooder_pen;
             },
+            flushHatchery : function () {
+
+            },
             customFormatter : function (date) {
                 return moment(date).format('YYYY-MM-DD');
             },
             closeHatcheryRecords: function () {
+                $('.tooltipped').tooltip('remove');
                 this.$emit('close_record', null)
             }
         },
@@ -395,8 +402,13 @@
             $('#delete_hatchery').modal({
                 dismissible : false,
             });
+
             $('#update_modal').modal({
                 dismissible : false,
+            });
+            $('.tooltipped').tooltip({
+                delay: 50,
+                position : "bottom"
             });
         },
         created (){
