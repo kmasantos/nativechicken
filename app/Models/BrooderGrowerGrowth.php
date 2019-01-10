@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class BrooderGrowerGrowth extends Model
 {
+    use LogsActivity;
+
     public $timestamps = false;
 	/**
      * The database table used by the model.
@@ -22,6 +25,9 @@ class BrooderGrowerGrowth extends Model
         'collection_day', 'date_collected', 'male_quantity', 'male_weight',
         'female_quantity', 'female_weight', 'total_quantity', 'total_weight'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'brooder_growths';
 
     public function brooder_inventories()
     {

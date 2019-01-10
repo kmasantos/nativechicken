@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class EggQuality extends Model
 {
+    use LogsActivity;
+
     public $timestamps = false;
 	/**
      * The database table used by the model.
@@ -25,6 +28,9 @@ class EggQuality extends Model
         'thickness_mid', 'thickness_bot'
     ];
 
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'egg_qualities';
+    
     public function breeders()
     {
         return $this->belongsTo(Breeder::class);

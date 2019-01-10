@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class EggProduction extends Model
 {
+    use LogsActivity;
+
     public $timestamps = false;
 	/**
      * The database table used by the model.
@@ -22,6 +25,9 @@ class EggProduction extends Model
         'date_collected', 'total_eggs_intact', 'total_egg_weight', 'total_broken', 
         'total_rejects', 'remarks'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'egg_productions';
 
     public function breeders()
     {

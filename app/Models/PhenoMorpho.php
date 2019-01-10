@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class PhenoMorpho extends Model
 {
+    use LogsActivity;
+
     public $timestamps = false;
 	/**
      * The database table used by the model.
@@ -21,6 +24,9 @@ class PhenoMorpho extends Model
     protected $fillable = [
         'replacement_inventory_id', 'breeder_inventory_id', 'values_id'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'pheno_morphos';
 
     public function replacement_inventories()
     {

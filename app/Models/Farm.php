@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Farm extends Model
 {
+    use LogsActivity;
+
     public $timestamps = false;
 	/**
      * The database table used by the model.
@@ -22,6 +25,9 @@ class Farm extends Model
         'name', 'code', 'address', 'batching_week'
     ];
     
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'farms';
+
     public function users()
     {
     	return $this->belongsToMany(User::class);

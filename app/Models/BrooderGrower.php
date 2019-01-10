@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class BrooderGrower extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+
     public $timestamps = false;
     protected $dates = ['deleted_at'];
 	/**
@@ -24,6 +27,9 @@ class BrooderGrower extends Model
     protected $fillable = [
         'batching_date', 'date_added'
     ];
+    
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'brooders';
 
     public function families()
     {

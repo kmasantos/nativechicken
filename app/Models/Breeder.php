@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Breeder extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+
     public $timestamps = false;
     protected $dates = ['deleted_at'];
 	/**
@@ -24,6 +27,9 @@ class Breeder extends Model
     protected $fillable = [
         'date_added'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'breeders';
 
     public function families()
     {

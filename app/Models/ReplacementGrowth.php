@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+
 
 class ReplacementGrowth extends Model
 {
+    use LogsActivity;
+
     public $timestamps = false;
     /**
      * The database table used by the model.
@@ -22,6 +26,9 @@ class ReplacementGrowth extends Model
         'collection_day', 'date_collected', 'male_quantity', 'male_weight',
         'female_quantity', 'female_weight', 'total_quantity', 'total_weight'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'replacement_growths';
 
     public function replacement_inventories()
     {

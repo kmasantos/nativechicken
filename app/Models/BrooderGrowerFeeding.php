@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class BrooderGrowerFeeding extends Model
 {
+    use LogsActivity;
+
     public $timestamps = false;
 	/**
      * The database table used by the model.
@@ -21,6 +24,9 @@ class BrooderGrowerFeeding extends Model
     protected $fillable = [
         'date_collected', 'amount_offered', 'amount_refused', 'remarks'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'brooder_feedings';
 
     public function brooder_growers()
     {

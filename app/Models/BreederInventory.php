@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class BreederInventory extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+
     public $timestamps = false;
     protected $dates = ['deleted_at'];
+    
 	/**
      * The database table used by the model.
      *
@@ -24,6 +28,9 @@ class BreederInventory extends Model
     protected $fillable = [
         'date_removed', 'number_male', 'number_female', 'total', 'activity', 'reason'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'breeder_inventories';
 
     public function breeders()
     {

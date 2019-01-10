@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class PhenoMorphoValue extends Model
 {
+    use LogsActivity;
+
     public $timestamps = false;
 	/**
      * The database table used by the model.
@@ -21,6 +24,9 @@ class PhenoMorphoValue extends Model
     protected $fillable = [
         'gender', 'tag', 'phenotypic', 'morphometric', 'date_collected'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'pheno_morpho_values';
 
     public function pheno_morpho_values()
     {

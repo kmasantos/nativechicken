@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class BrooderGrowerInventory extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+
     public $timestamps = false;
     protected $dates = ['deleted_at'];
 	/**
@@ -24,6 +27,10 @@ class BrooderGrowerInventory extends Model
     protected $fillable = [
         'number_male', 'number_female', 'total', 'activity', 'date'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'brooder_inventories';
+
 
     public function brooder_growers()
     {

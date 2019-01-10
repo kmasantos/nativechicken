@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Pen extends Model
 {
+    use LogsActivity;
+
     // use Searchable;
     public $timestamps = false;
 	/**
@@ -24,6 +27,9 @@ class Pen extends Model
         'number', 'type', 'total_capacity', 'current_capacity', 'is_active'
     ];
     
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'pens';
+
     public function breeder_inventories()
     {
         return $this->hasMany(BreederInventory::class);

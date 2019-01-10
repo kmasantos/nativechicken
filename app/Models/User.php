@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
+    use LogsActivity;
 
     public $timestamps = false;
 
@@ -21,6 +23,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'last_seen'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logName = 'users';
 
     /**
      * The attributes that should be hidden for arrays.
