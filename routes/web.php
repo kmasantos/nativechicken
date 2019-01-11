@@ -160,7 +160,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('add_broodergrower_growth', 'BrooderGrowerController@addGrowthRecord');
 
         /**
-         * *New Axios Routes for Brooders and Growers
+         * *New Axios Routes for Brooders
          */
         Route::get('broodergrower_fetch_generation','BrooderGrowerController@fetchGenerations');
         Route::get('broodergrower_fetch_lines/{generation_id}','BrooderGrowerController@fetchLines');
@@ -177,6 +177,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::delete('cull_brooder/{inventory_id}', 'BrooderGrowerController@cullBrooder');
         Route::get('brooder_select_growthrecords/{record}', 'BrooderGrowerController@selectGrowthRecords');
         Route::delete('brooder_delete_growthrecords/{record}', 'BrooderGrowerController@deleteGrowthRecord');
+        Route::get('brooder_select_feedingrecords/{record}', 'BrooderGrowerController@selectFeedingRecords');
+        Route::delete('brooder_delete_feedingrecords/{record}', 'BrooderGrowerController@deleteFeedingRecord');
     });
     // Admin Routes
     Route::group(['prefix' => 'admin'], function()

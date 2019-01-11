@@ -176,7 +176,7 @@
                                             <select class="browser-default" v-model="selected_brooder">
                                                 <option value="" disabled selected>Select Brooder</option>
                                                 <option value="" disabled v-if="brooders_length==0">No Families</option>
-                                                <option v-else v-for="brooder in brooders" :key="brooder.inv_id" v-bind:value="brooder.inv_id">Brooder: {{brooder.broodergrower_tag}} | Pen: {{brooder.number}}</option>
+                                                <option v-else v-for="brooder in brooders" :key="brooder.inv_id" v-bind:value="brooder.inv_id">Brooder: {{brooder.broodergrower_tag}} | Pen: {{brooder.number}} | Batch : {{brooder.batching_date}}</option>
                                             </select>
                                         </div>
                                     </div>

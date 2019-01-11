@@ -23,7 +23,7 @@
                                     <th>Offered(g)</th>
                                     <th>Refused(g)</th>
                                     <th>Remarks</th>
-                                    <th>Edit</th>
+                                    <th><i class="far fa-trash-alt"></i></th>
                                 </tr>
                             </thead>
 
@@ -36,14 +36,14 @@
                                     <td>-</td>
                                     <td>-</td>
                                 </tr>
-                                <tr v-for="feeding in feedings.data" :key="feeding.id">
+                                <tr v-for="feeding in feedings.data" :key="feeding.record_id">
                                     <td>{{feeding.date_collected}}</td>
                                     <td>{{feeding.broodergrower_tag}}</td>
                                     <td>{{feeding.amount_offered}}</td>
                                     <td>{{feeding.amount_refused}}</td>
                                     <td v-if="feeding.remarks == null">None</td>
                                     <td v-else>{{feeding.remarks}}</td>
-                                    <td>-</td>
+                                    <td><a @click.prevent="selected_feeding_record = feeding.record_id;selectFeedingRecords()" href="#delete_feeding" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -97,6 +97,53 @@
                         </div>
                     </form>
                 </div>
+                <div id="delete_feeding" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h4>Delete Record</h4>
+                            </div>
+                        </div>
+                        <div class="row valign-wrapper">
+                            <div class="col s2 m2 l2 red-text center-align">
+                                <h4><i class="fas fa-exclamation-triangle"></i></h4>
+                            </div>
+                            <div class="col s10 m10 l10">
+                                <p>Are you sure you want to <strong>Delete</strong> this feeding records?</p>
+                                <table class="bordered responsive-table centered">
+                                    <thead>
+                                        <tr>
+                                            <th class="tooltipped" data-tooltip="Date Collected"><i class="far fa-calendar"></i></th>
+                                            <th class="tooltipped" data-tooltip="Inventory Code"><i class="fas fa-tag"></i></th>
+                                            <th class="tooltipped" data-tooltip="Amount Offered">Offered (g)</th>
+                                            <th class="tooltipped" data-tooltip="Amount Refused">Refused (g)</th>
+                                            <th class="tooltipped" data-tooltip="Remarks">Remarks</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr v-for="selected_record in selected_records.data" :key="selected_record.sel_feeding_id">
+                                            <td>{{selected_record.date_collected}}</td>
+                                            <td>{{selected_record.broodergrower_tag}}</td>
+                                            <td v-if="selected_record.amount_offered===null">-</td>
+                                            <td v-else>{{selected_record.amount_offered.toFixed(3)}}</td>
+                                            <td v-if="selected_record.amount_refused===null">-</td>
+                                            <td v-else>{{selected_record.amount_refused.toFixed(3)}}</td>
+                                            <td v-if="selected_record.remarks===null">-</td>
+                                            <td v-else>{{selected_record.remarks}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="center-align"><pagination :data="selected_records" @pagination-change-page="selectFeedingRecords"></pagination></p>
+                                <p>This action is <strong>Irreversible</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <a @click.prevent="deleteFeedingRecord" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                </div>
+            </div>
 
             </div>
         </div>
@@ -122,6 +169,9 @@
                 offered : '',
                 refused : '',
                 remarks : '',
+                
+                selected_feeding_record : '',
+                selected_records : {},
             }
         },
         methods : {
@@ -162,6 +212,25 @@
                 });
                 this.initialize();
             },
+            selectFeedingRecords : function (page = 1) {
+                axios.get('brooder_select_feedingrecords/'+this.selected_feeding_record+'?page='+page)
+                .then(response => {
+                    this.selected_records = response.data;
+                })
+                .catch(function (error) {
+                });
+            },
+            deleteFeedingRecord : function () {
+                axios.delete('brooder_delete_feedingrecords/'+this.selected_feeding_record)
+                .then(response => {
+                    Materialize.toast('Successfully deleted feeding records', 5000, 'green rounded');
+                })
+                .catch(function (error) {
+                    Materialize.toast('Failed to delete feeding records', 5000, 'red rounded');
+                });
+                this.initialize();
+                this.selected_feeding_record = '';
+            },
             customFormatter : function (date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
             },
@@ -174,6 +243,13 @@
         },
         mounted() {
             $('#feeding').modal({
+                dismissible : false,
+            });
+            $('.tooltipped').tooltip({
+                delay: 50,
+                position:"top"
+            });
+            $('#delete_feeding').modal({
                 dismissible : false,
             });
         },
