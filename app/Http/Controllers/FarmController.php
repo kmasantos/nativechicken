@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Auth;
 use Illuminate\Http\Request;
@@ -585,6 +586,22 @@ class FarmController extends Controller
     public function farmRecords()
     {
         return view('general.farm_records');
+    }
+    
+    public function generationSummary() 
+    {
+        // summary across generations
+
+    }
+    
+    public function familySummary($generation) 
+    {
+        // summary for families per eneration
+        try{
+        $generation = Generation::withTrashed()->findOrFail($generation);
+        }catch(Exception $e){
+            dd(get_class_methods($e));
+        }
     }
 
     // public function getFarmSummary()

@@ -286,7 +286,7 @@ class BreederController extends Controller
 
     /**
      * TODO Modify Hatchery Parameter for later user
-     */
+    */
 
     public function getHatcheryParameter($breeder_inventoy)
     {
@@ -294,14 +294,140 @@ class BreederController extends Controller
         return $hatchery_records;
     }
 
-    public function addHatcheryParameter(Request $request)
+    // public function addHatcheryParameter(Request $request)
+    // {
+    //     $request->validate([
+    //         'breeder_inventory_id' => 'required',
+    //         'date_eggs_set' => 'required',
+    //         'number_eggs_set' => 'required',
+    //     ]);
+
+    //     $inventory = BreederInventory::where('id', $request->breeder_inventory_id)->firstOrFail();
+    //     $hatchery = new HatcheryRecord;
+    //     $hatchery->breeder_inventory_id = $request->breeder_inventory_id;
+    //     $hatchery->date_eggs_set = $request->date_eggs_set;
+    //     $hatchery->number_eggs_set = $request->number_eggs_set;
+    //     if($inventory->batching_date != null){
+    //         $hatchery->week_of_lay = Carbon::parse($inventory->batching_date)->diffInWeeks(Carbon::parse($request->date_eggs_set));
+    //     }else{
+    //         $hatchery->week_of_lay = null;
+    //     }
+    //     $hatchery->number_fertile = $request->number_fertile;
+    //     $hatchery->number_hatched = $request->number_hatched;
+
+
+    //     if($request->number_hatched == 0){
+    //         $hatchery->date_hatched = null;
+    //         $hatchery->batching_date = null;
+    //         $hatchery->save();
+    //         return response()->json(['status' => 'success', 'message' => 'Hatchery record added']);
+    //     }
+    //     $hatchery->date_hatched = $request->date_hatched;
+    //     $hatchery->batching_date = Carbon::createFromFormat('Y-m-d', $request->date_hatched)->subWeeks(Auth::user()->getFarm()->batching_week)->toDateString();
+
+    //     $brooder_pen = Pen::where('id', $request->broodergrower_pen_id)->firstOrFail();
+    //     if($brooder_pen->total_capacity < ($brooder_pen->current_capacity + $request->number_hatched)){
+    //         return response()->json( ['error'=>'Brooder pen does not have enough space for the chicks'] );
+    //     }
+    //     $breeder = Breeder::where('id', $inventory->breeder_id)->firstOrFail();
+
+    //     $breeder_gen = $breeder->getGeneration();
+    //     $breeder_line = $breeder->getLine();
+    //     $breeder_family = $breeder->getFamily();
+    //     // Check generation existence
+    //     $check_generation = Generation::where('numerical_generation', $breeder_gen->numerical_generation+1)->first();
+    //     if($check_generation == null){
+    //         $check_generation = new Generation;
+    //         $check_generation->farm_id = Auth::user()->farm_id;
+    //         $check_generation->number = str_pad($breeder_gen->numerical_generation+1, 4, '0', STR_PAD_LEFT);;
+    //         $check_generation->numerical_generation = $breeder_gen->numerical_generation+1;
+    //         $check_generation->is_active = true;
+    //         $check_generation->save();
+    //     }
+    //     // Check for line existence
+    //     $check_line = Line::where('number', $breeder_line->number)->where('generation_id', $check_generation->id)->first();
+    //     if($check_line == null){
+    //         $check_line = new Line;
+    //         $check_line->number = $breeder_line->number;
+    //         $check_line->generation_id = $check_generation->id;
+    //         $check_line->is_active = true;
+    //         $check_line->save();
+    //     }
+    //     // Check family existence
+    //     $check_family = Family::where('number', $breeder_family->number)->where('line_id', $check_line->id)->first();
+    //     if($check_family == null){
+    //         $check_family = new Family;
+    //         $check_family->number = $breeder_family->number;
+    //         $check_family->line_id = $check_line->id;
+    //         $check_family->is_active = true;
+    //         $check_family->save();
+    //     }
+
+    //     $code = Auth::user()->getFarm()->code;
+    //     $timestamp = Carbon::now()->timestamp;
+    //     $random = random_bytes(1);
+    //     $tag = $code.bin2hex($random).$timestamp;
+
+    //     $brooder_record = BrooderGrower::where('family_id', $check_family->id)->first();
+    //     if($brooder_record==null){
+    //         $new_brooder = new BrooderGrower;
+    //         $new_brooder->family_id = $check_family->id;
+    //         $new_brooder->date_added = $request->date_hatched;
+    //         $new_brooder->save();
+
+    //         $new_brooder_inventory = new BrooderGrowerInventory;
+    //         $new_brooder_inventory->broodergrower_id = $new_brooder->id;
+    //         $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
+    //         $new_brooder_inventory->broodergrower_tag = $tag;
+    //         $new_brooder_inventory->batching_date = $hatchery->batching_date;
+    //         $new_brooder_inventory->number_male = null;
+    //         $new_brooder_inventory->number_female = null;
+    //         $new_brooder_inventory->total = $hatchery->number_hatched;
+    //         $new_brooder_inventory->last_update = $hatchery->date_hatched;
+    //         $new_brooder_inventory->save();
+    //     }else{
+    //         $new_brooder_inventory = new BrooderGrowerInventory;
+    //         $new_brooder_inventory->broodergrower_id = $brooder_record->id;
+    //         $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
+    //         $new_brooder_inventory->broodergrower_tag = $tag;
+    //         $new_brooder_inventory->batching_date = $hatchery->batching_date;
+    //         $new_brooder_inventory->number_male = null;
+    //         $new_brooder_inventory->number_female = null;
+    //         $new_brooder_inventory->total = $hatchery->number_hatched;
+    //         $new_brooder_inventory->last_update = $hatchery->date_hatched;
+    //         $new_brooder_inventory->save();
+    //     }
+    //     $brooder_pen->current_capacity = $brooder_pen->current_capacity + $request->number_hatched;
+
+    //     $brooder_movement = new AnimalMovement;
+    //     $brooder_movement->date = $hatchery->date_hatched;
+    //     $brooder_movement->family_id = $breeder->family_id;
+    //     $brooder_movement->tag = $tag;
+    //     $brooder_movement->previous_pen_id = null;
+    //     $brooder_movement->current_pen_id = $brooder_pen->id;
+    //     $brooder_movement->previous_type = 'egg';
+    //     $brooder_movement->current_type = 'broodersgrowers';
+    //     $brooder_movement->activity = 'transfer';
+    //     $brooder_movement->number_male = null;
+    //     $brooder_movement->number_female = null;
+    //     $brooder_movement->number_total = $request->number_hatched;
+    //     $brooder_movement->remarks = 'within system';
+    //     $brooder_movement->save();
+
+    //     $brooder_pen->save();
+    //     $hatchery->save();
+    //     return response()->json(['status' => 'success', 'message' => 'Hatchery record added']);
+    // }
+
+    
+    public function addHatcheryParameter(Request $request) 
     {
         $request->validate([
             'breeder_inventory_id' => 'required',
             'date_eggs_set' => 'required',
             'number_eggs_set' => 'required',
+            'include' => 'required'
         ]);
-
         $inventory = BreederInventory::where('id', $request->breeder_inventory_id)->firstOrFail();
         $hatchery = new HatcheryRecord;
         $hatchery->breeder_inventory_id = $request->breeder_inventory_id;
@@ -314,8 +440,6 @@ class BreederController extends Controller
         }
         $hatchery->number_fertile = $request->number_fertile;
         $hatchery->number_hatched = $request->number_hatched;
-
-
         if($request->number_hatched == 0){
             $hatchery->date_hatched = null;
             $hatchery->batching_date = null;
@@ -324,99 +448,74 @@ class BreederController extends Controller
         }
         $hatchery->date_hatched = $request->date_hatched;
         $hatchery->batching_date = Carbon::createFromFormat('Y-m-d', $request->date_hatched)->subWeeks(Auth::user()->getFarm()->batching_week)->toDateString();
+        if($request->include){
+            if($request->family != null){
+                $brooder_pen = Pen::where('id', $request->broodergrower_pen_id)->firstOrFail();
+                if($brooder_pen->total_capacity < ($brooder_pen->current_capacity + $request->number_hatched)){
+                    return response()->json( ['error'=>'Brooder pen does not have enough space for the chicks'] );
+                }
+                
+                $code = Auth::user()->getFarm()->code;
+                $timestamp = Carbon::now()->timestamp;
+                $random = random_bytes(1);
+                $tag = $code.bin2hex($random).$timestamp;
 
-        $brooder_pen = Pen::where('id', $request->broodergrower_pen_id)->firstOrFail();
-        if($brooder_pen->total_capacity < ($brooder_pen->current_capacity + $request->number_hatched)){
-            return response()->json( ['error'=>'Brooder pen does not have enough space for the chicks'] );
-        }
-        $breeder = Breeder::where('id', $inventory->breeder_id)->firstOrFail();
+                $brooder_record = BrooderGrower::where('family_id', $request->family)->first();
+                if($brooder_record==null){
+                    $new_brooder = new BrooderGrower;
+                    $new_brooder->family_id = $request->family;
+                    $new_brooder->date_added = $request->date_hatched;
+                    $new_brooder->save();
 
-        $breeder_gen = $breeder->getGeneration();
-        $breeder_line = $breeder->getLine();
-        $breeder_family = $breeder->getFamily();
-        // Check generation existence
-        $check_generation = Generation::where('numerical_generation', $breeder_gen->numerical_generation+1)->first();
-        if($check_generation == null){
-            $check_generation = new Generation;
-            $check_generation->farm_id = Auth::user()->farm_id;
-            $check_generation->number = str_pad($breeder_gen->numerical_generation+1, 4, '0', STR_PAD_LEFT);;
-            $check_generation->numerical_generation = $breeder_gen->numerical_generation+1;
-            $check_generation->is_active = true;
-            $check_generation->save();
-        }
-        // Check for line existence
-        $check_line = Line::where('number', $breeder_line->number)->where('generation_id', $check_generation->id)->first();
-        if($check_line == null){
-            $check_line = new Line;
-            $check_line->number = $breeder_line->number;
-            $check_line->generation_id = $check_generation->id;
-            $check_line->is_active = true;
-            $check_line->save();
-        }
-        // Check family existence
-        $check_family = Family::where('number', $breeder_family->number)->where('line_id', $check_line->id)->first();
-        if($check_family == null){
-            $check_family = new Family;
-            $check_family->number = $breeder_family->number;
-            $check_family->line_id = $check_line->id;
-            $check_family->is_active = true;
-            $check_family->save();
-        }
+                    $new_brooder_inventory = new BrooderGrowerInventory;
+                    $new_brooder_inventory->broodergrower_id = $new_brooder->id;
+                    $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
+                    $new_brooder_inventory->broodergrower_tag = $tag;
+                    $new_brooder_inventory->batching_date = $hatchery->batching_date;
+                    $new_brooder_inventory->number_male = null;
+                    $new_brooder_inventory->number_female = null;
+                    $new_brooder_inventory->total = $hatchery->number_hatched;
+                    $new_brooder_inventory->last_update = $hatchery->date_hatched;
+                    $new_brooder_inventory->save();
+                }else{
+                    $new_brooder_inventory = new BrooderGrowerInventory;
+                    $new_brooder_inventory->broodergrower_id = $brooder_record->id;
+                    $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
+                    $new_brooder_inventory->broodergrower_tag = $tag;
+                    $new_brooder_inventory->batching_date = $hatchery->batching_date;
+                    $new_brooder_inventory->number_male = null;
+                    $new_brooder_inventory->number_female = null;
+                    $new_brooder_inventory->total = $hatchery->number_hatched;
+                    $new_brooder_inventory->last_update = $hatchery->date_hatched;
+                    $new_brooder_inventory->save();
+                }
+                $brooder_pen->current_capacity = $brooder_pen->current_capacity + $request->number_hatched;
 
-        $code = Auth::user()->getFarm()->code;
-        $timestamp = Carbon::now()->timestamp;
-        $random = random_bytes(1);
-        $tag = $code.bin2hex($random).$timestamp;
+                $brooder_movement = new AnimalMovement;
+                $brooder_movement->date = $hatchery->date_hatched;
+                $brooder_movement->family_id = $request->family;
+                $brooder_movement->tag = $tag;
+                $brooder_movement->previous_pen_id = null;
+                $brooder_movement->current_pen_id = $brooder_pen->id;
+                $brooder_movement->previous_type = 'egg';
+                $brooder_movement->current_type = 'broodersgrowers';
+                $brooder_movement->activity = 'transfer';
+                $brooder_movement->number_male = null;
+                $brooder_movement->number_female = null;
+                $brooder_movement->number_total = $request->number_hatched;
+                $brooder_movement->remarks = 'within system';
+                $brooder_movement->save();
 
-        $brooder_record = BrooderGrower::where('family_id', $check_family->id)->first();
-        if($brooder_record==null){
-            $new_brooder = new BrooderGrower;
-            $new_brooder->family_id = $check_family->id;
-            $new_brooder->date_added = $request->date_hatched;
-            $new_brooder->save();
-
-            $new_brooder_inventory = new BrooderGrowerInventory;
-            $new_brooder_inventory->broodergrower_id = $new_brooder->id;
-            $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
-            $new_brooder_inventory->broodergrower_tag = $tag;
-            $new_brooder_inventory->batching_date = $hatchery->batching_date;
-            $new_brooder_inventory->number_male = null;
-            $new_brooder_inventory->number_female = null;
-            $new_brooder_inventory->total = $hatchery->number_hatched;
-            $new_brooder_inventory->last_update = $hatchery->date_hatched;
-            $new_brooder_inventory->save();
+                $brooder_pen->save();
+                $hatchery->save();
+                return response()->json(['status' => 'success', 'message' => 'Hatchery record added']);
+            }else{
+                return response()->json( ['error'=>'Generation, Line and Family is required'] );
+            }
         }else{
-            $new_brooder_inventory = new BrooderGrowerInventory;
-            $new_brooder_inventory->broodergrower_id = $brooder_record->id;
-            $new_brooder_inventory->pen_id = $request->broodergrower_pen_id;
-            $new_brooder_inventory->broodergrower_tag = $tag;
-            $new_brooder_inventory->batching_date = $hatchery->batching_date;
-            $new_brooder_inventory->number_male = null;
-            $new_brooder_inventory->number_female = null;
-            $new_brooder_inventory->total = $hatchery->number_hatched;
-            $new_brooder_inventory->last_update = $hatchery->date_hatched;
-            $new_brooder_inventory->save();
+            $hatchery->save();
+            return response()->json(['status' => 'success', 'message' => 'Hatchery record added']);
         }
-        $brooder_pen->current_capacity = $brooder_pen->current_capacity + $request->number_hatched;
-
-        $brooder_movement = new AnimalMovement;
-        $brooder_movement->date = $hatchery->date_hatched;
-        $brooder_movement->family_id = $breeder->family_id;
-        $brooder_movement->tag = $tag;
-        $brooder_movement->previous_pen_id = null;
-        $brooder_movement->current_pen_id = $brooder_pen->id;
-        $brooder_movement->previous_type = 'egg';
-        $brooder_movement->current_type = 'broodersgrowers';
-        $brooder_movement->activity = 'transfer';
-        $brooder_movement->number_male = null;
-        $brooder_movement->number_female = null;
-        $brooder_movement->number_total = $request->number_hatched;
-        $brooder_movement->remarks = 'within system';
-        $brooder_movement->save();
-
-        $brooder_pen->save();
-        $hatchery->save();
-        return response()->json(['status' => 'success', 'message' => 'Hatchery record added']);
     }
 
     public function editHatcheryRecord (Request $request)
@@ -1157,4 +1256,20 @@ class BreederController extends Controller
         $replacement = Replacement::where('family_id', $family_id)->first();
         return $replacement->getInventories();
     }
+
+    public function fetchNewGenerations ($inventory) 
+    {
+        $breeder_inventory = BreederInventory::findOrFail($inventory);
+        $breeder = Breeder::findOrFail($breeder_inventory->breeder_id);
+        $generation = $breeder->getGeneration();
+        $gen_list = Generation::where('farm_id', Auth::user()->farm_id)->where('numerical_generation', '>', $generation->numerical_generation)->get();
+        return $gen_list;
+    }
+
+    // public function fetchNewLines ($selected) 
+    // {
+    //     $generation = Generation::findOrFail($selected);
+    //     $line = Line::where('is_active', true)->where('generation_id', $generation->id)->get();
+    //     return $line;
+    // }
 }

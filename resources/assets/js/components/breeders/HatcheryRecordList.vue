@@ -124,15 +124,55 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 m6 l6">
-                                    <label>Place to brooder pen</label>
-                                    <select v-model="selected_brooder_pen" class="browser-default">
-                                        <option v-if="brooder_pens_length == 0" value="" disabled selected>No brooder pens available</option>
-                                        <option v-else value="" disabled selected>Choose your option</option>
-                                        <option v-for="pen in brooder_pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>
-                                    </select>
+                                <div class="col s12 m12 l12">
+                                    <label for="include">Include as Brooder in System</label>
+                                    <div class="switch" id="include">
+                                        <label>
+                                            No
+                                            <input v-model="include_brooder" type="checkbox">
+                                            <span class="lever"></span>
+                                            Yes
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
+                            <div v-show="include_brooder==true">
+                                <div class="row">
+                                    <div class="input-field col s12 m6 l6">
+                                        <label for="choose_generations" class="active">Generation</label>
+                                        <v-select @input="selectLine" v-model="selected_generation" label="number" :options="generations" id="choose_generations">
+                                            <i slot="spinner" class="icon icon-spinner"></i>
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12 m6 l6">
+                                        <label for="choose_line" class="active">Line</label>
+                                        <v-select @input="selectFamily" v-model="selected_line" resetOnOptionsChange label="number" :options="lines" id="choose_line">
+                                            <i slot="spinner" class="icon icon-spinner"></i>
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12 m6 l6">
+                                        <label for="choose_family" class="active">Family</label>
+                                        <v-select v-model="selected_family" resetOnOptionsChange label="number" :options="families" id="choose_family">
+                                            <i slot="spinner" class="icon icon-spinner"></i>
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m6 l6">
+                                        <label>Place to brooder pen</label>
+                                        <select v-model="selected_brooder_pen" class="browser-default">
+                                            <option v-if="brooder_pens_length == 0" value="" disabled selected>No brooder pens available</option>
+                                            <option v-else value="" disabled selected>Choose your option</option>
+                                            <option v-for="pen in brooder_pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="row center">
                                 <div class="col s12 m12 l12">
                                     <button class="btn waves-effect waves-light blue-grey" type="submit" name="action">Add</button>
@@ -274,6 +314,14 @@
                 number_hatched : '',
                 date_hatched : '',
                 selected_brooder_pen : '',
+                include_brooder : false,
+                generations : [],
+                lines : [],
+                families : [],
+                line_length : 0,
+                selected_generation : '',
+                selected_line : '',
+                selected_family : '',
 
                 selected_hatchery_record : '',
                 edit_date_eggs_set : '',
@@ -288,6 +336,7 @@
             initialize () {
                 this.fetchHatcheryRecord();
                 this.fetchBrooderPen();
+                this.fetchNewGeneration();
             },
             fetchHatcheryRecord : function(page = 1) {
                 axios.get('breeder_hatchery/'+this.breeder+'?page='+page)
@@ -309,6 +358,37 @@
                     console.log(error);
                 });
             },
+            fetchNewGeneration : function () {
+                axios.get('breeder_hatchery_generation/' + this.breeder)
+                .then(response => {
+                    this.generations = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            },
+            selectLine : function () {
+                if(this.selected_generation != null){
+                    axios.get('breeder_fetch_line/'+this.selected_generation.id)
+                    .then(response => {
+                        this.lines = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            },
+            selectFamily : function () {
+                if(this.selected_line != null){
+                    axios.get('breeder_fetch_families/'+this.selected_line.id)
+                    .then(response => {
+                        this.families = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            },
             addHatcheryRecord : function () {
                 axios.post('breeder_add_hatchery', {
                     breeder_inventory_id : this.breeder,
@@ -318,15 +398,19 @@
                     number_hatched : this.number_hatched,
                     date_hatched : this.customFormatter(this.date_hatched),
                     broodergrower_pen_id : this.selected_brooder_pen,
+                    include : this.include_brooder,
+                    family : this.selected_family.id,
                 })
                 .then(response => {
                     if(response.data.error == undefined){
-                        this.date_eggs_set = '',
-                        this.number_eggs_set = '',
-                        this.number_fertile = '',
-                        this.number_hatched = '',
-                        this.date_hatched = '',
-                        this.selected_brooder_pen = '',
+                        this.date_eggs_set = '';
+                        this.number_eggs_set = '';
+                        this.number_fertile = '';
+                        this.number_hatched = '';
+                        this.date_hatched = '';
+                        this.selected_brooder_pen = '';
+                        this.include_brooder = false;
+                        this.selected_family = '';
                         Materialize.toast('Successfully added hatchery record', 5000, 'green rounded');
                     }else{
                         Materialize.toast(response.data.error, 5000, 'red rounded');

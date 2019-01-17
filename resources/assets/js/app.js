@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 window.moment = require('moment');
 import vSelect from 'vue-select';
+
 Vue.component('v-select', vSelect);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -49,7 +50,6 @@ Vue.component('growthrecord-broodergrower', require('./components/broodersgrower
  ** Others
  **/
 Vue.component('pagination', require('laravel-vue-pagination'));
-
 const app = new Vue({
     el: '#app',
 });
