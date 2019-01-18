@@ -11,7 +11,7 @@
                         <a class="waves-effect waves-orange btn-flat tooltipped orange-text" data-tooltip="Flush All Hatchery Record"><i class="fas fa-ban center"></i></a>
                     </div>
                     <div class="col s2 m2 l2">
-                        <a @click="add_record=true; hide_record=true" class="waves-effect waves-green btn-flat tooltipped green-text" data-tooltip="Add Hatchery Record"><i class="fas fa-plus-circle center"></i></a>
+                        <a @click="add_record=true; hide_record=true, update_record=false" class="waves-effect waves-green btn-flat tooltipped green-text" data-tooltip="Add Hatchery Record"><i class="fas fa-plus-circle center"></i></a>
                     </div>
                     <div class="col s2 m2 l2">
                         <a v-on:click="closeHatcheryRecords" class="waves-effect waves-red btn-flat tooltipped red-text" data-tooltip="Close Hatchery Record"><i class="far fa-times-circle center"></i></a>
@@ -57,7 +57,7 @@
                                         <td v-if="hatchery.number_hatched==null">N/A</td>
                                         <td v-else>{{hatchery.number_hatched}}</td>
                                         <td v-if="hatchery.number_hatched != null && hatchery.date_hatched!=null">-</td>
-                                        <td v-else><a @click="selected_hatchery_record = hatchery; setEditForm()" href="#update_modal" class="modal-trigger"><i class="far fa-edit"></i></a></td>
+                                        <td v-else><a @click="selected_hatchery_record = hatchery; update_record=true; setEditForm(); add_record=false" href="#update_modal" class="modal-trigger"><i class="far fa-edit"></i></a></td>
                                         <td><a @click="selected_hatchery_record = hatchery" href="#delete_hatchery" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                     </tr>
                                 </tbody>
@@ -72,14 +72,14 @@
                 </div>
 
                 <!-- Hatchery Form -->
-                <div class="row" v-show="add_record!=null">
+                <div class="row" v-show="add_record!=false">
                     <div class="col s12 m12 l12">
                         <div class="row valign-wrapper">
                             <div class="col s9 m19 l9">
                                 <h5>Add Hatchery Record | {{breeder_tag}}</h5>
                             </div>
                             <div class="col s3 m3 l3 center-align">
-                                <a @click="add_record=null; hide_record=false" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
+                                <a @click="add_record=false; hide_record=false; selected_generation=null; selected_line=null; selected_family=null; include_brooder=false" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
                             </div>
                         </div>
                         <div class="row valign-wrapper orange lighten-4">
@@ -120,7 +120,7 @@
                             <div class="row">
                                 <div class="col s6 m6 l6">
                                     <label for="date_hatched ">Date Eggs Hatched</label>
-                                    <datepicker placeholder="Date when eggs hatched" id="date_hatched" :format="customFormatter(date_hatched)" v-model="date_hatched "></datepicker>
+                                    <datepicker placeholder="Date when eggs hatched" id="date_hatched" :format="customFormatter(date_hatched)" v-model="date_hatched"></datepicker>
                                 </div>
                             </div>
                             <div class="row">
@@ -136,7 +136,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-show="include_brooder==true">
+                            <div v-show="include_brooder==true && add_record==true">
                                 <div class="row">
                                     <div class="input-field col s12 m6 l6">
                                         <label for="choose_generations" class="active">Generation</label>
@@ -229,17 +229,56 @@
                                     <div class="row">
                                         <div class="col s6 m6 l6">
                                             <label for="date_hatched ">Date Eggs Hatched</label>
-                                            <datepicker placeholder="Date when eggs hatched" id="date_hatched" :format="customFormatter(edit_date_hatched)" v-model="edit_date_hatched "></datepicker>
+                                            <datepicker placeholder="Date when eggs hatched" id="date_hatched" :format="customFormatter(edit_date_hatched)" v-model="edit_date_hatched"></datepicker>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col s12 m6 l6">
-                                            <label>Place to brooder pen</label>
-                                            <select v-model="edit_selected_brooder_pen" class="browser-default">
-                                                <option v-if="brooder_pens_length == 0" value="" disabled selected>No brooder pens available</option>
-                                                <option v-else value="" disabled selected>Choose your option</option>
-                                                <option v-for="pen in brooder_pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>
-                                            </select>
+                                        <div class="col s12 m12 l12">
+                                            <label for="include">Include as Brooder in System</label>
+                                            <div class="switch" id="include">
+                                                <label>
+                                                    No
+                                                    <input v-model="updateinclude_brooder" type="checkbox">
+                                                    <span class="lever"></span>
+                                                    Yes
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-show="updateinclude_brooder==true && update_record==true">
+                                        <div class="row">
+                                            <div class="input-field col s12 m6 l6">
+                                                <label for="choose_generations" class="active">Generation</label>
+                                                <v-select @input="selectLine" v-model="selected_generation" label="number" :options="generations" id="choose_generations">
+                                                    <i slot="spinner" class="icon icon-spinner"></i>
+                                                </v-select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m6 l6">
+                                                <label for="choose_line" class="active">Line</label>
+                                                <v-select @input="selectFamily" v-model="selected_line" resetOnOptionsChange label="number" :options="lines" id="choose_line">
+                                                    <i slot="spinner" class="icon icon-spinner"></i>
+                                                </v-select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m6 l6">
+                                                <label for="choose_family" class="active">Family</label>
+                                                <v-select v-model="selected_family" resetOnOptionsChange label="number" :options="families" id="choose_family">
+                                                    <i slot="spinner" class="icon icon-spinner"></i>
+                                                </v-select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m6 l6">
+                                                <label>Place to brooder pen</label>
+                                                <select v-model="selected_brooder_pen" class="browser-default">
+                                                    <option v-if="brooder_pens_length == 0" value="" disabled selected>No brooder pens available</option>
+                                                    <option v-else value="" disabled selected>Choose your option</option>
+                                                    <option v-for="pen in brooder_pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +286,7 @@
                         </div>
                         <div class="modal-footer">
                             <button href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat" type="submit">Submit</button>
-                            <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                            <a @click="selected_generation=null; selected_line=null; selected_family=null; update_record=false; updateinclude_brooder=false" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
                         </div>
                     </form>
                 </div>
@@ -305,7 +344,7 @@
                 brooder_pens_length : 0,
                 hatchery_records : {},
                 hatchery_records_length : 0,
-                add_record : null,
+                add_record : false,
                 selected_record : null,
                 hide_record : false,
                 date_eggs_set : '',
@@ -319,10 +358,11 @@
                 lines : [],
                 families : [],
                 line_length : 0,
-                selected_generation : '',
-                selected_line : '',
-                selected_family : '',
-
+                selected_generation : null,
+                selected_line : null,
+                selected_family : null,
+                
+                update_record : false,
                 selected_hatchery_record : '',
                 edit_date_eggs_set : '',
                 edit_number_eggs_set : '',
@@ -330,13 +370,18 @@
                 edit_number_hatched : '',
                 edit_date_hatched : '',
                 edit_selected_brooder_pen : '',
+                updateinclude_brooder : false,
+
             }
         },
         methods : {
             initialize () {
                 this.fetchHatcheryRecord();
                 this.fetchBrooderPen();
-                this.fetchNewGeneration();
+                if(this.add_record != null || this.update_record != false){
+                    this.fetchNewGeneration();
+                }
+                
             },
             fetchHatcheryRecord : function(page = 1) {
                 axios.get('breeder_hatchery/'+this.breeder+'?page='+page)
@@ -390,17 +435,32 @@
                 }
             },
             addHatcheryRecord : function () {
-                axios.post('breeder_add_hatchery', {
-                    breeder_inventory_id : this.breeder,
-                    date_eggs_set : this.customFormatter(this.date_eggs_set),
-                    number_eggs_set : this.number_eggs_set,
-                    number_fertile : this.number_fertile,
-                    number_hatched : this.number_hatched,
-                    date_hatched : this.customFormatter(this.date_hatched),
-                    broodergrower_pen_id : this.selected_brooder_pen,
-                    include : this.include_brooder,
-                    family : this.selected_family.id,
-                })
+                var record = {};
+                if(this.include_brooder){
+                    record = {
+                        breeder_inventory_id : this.breeder,
+                        date_eggs_set : this.customFormatter(this.date_eggs_set),
+                        number_eggs_set : this.number_eggs_set,
+                        number_fertile : this.number_fertile,
+                        number_hatched : this.number_hatched,
+                        date_hatched : this.customFormatter(this.date_hatched),
+                        broodergrower_pen_id : this.selected_brooder_pen,
+                        include : this.include_brooder,
+                        family : this.selected_family.id,
+                    };
+                }else{
+                    record = {
+                        breeder_inventory_id : this.breeder,
+                        date_eggs_set : this.customFormatter(this.date_eggs_set),
+                        number_eggs_set : this.number_eggs_set,
+                        number_fertile : this.number_fertile,
+                        number_hatched : this.number_hatched,
+                        date_hatched : this.customFormatter(this.date_hatched),
+                        broodergrower_pen_id : this.selected_brooder_pen,
+                        include : this.include_brooder,
+                    };
+                }
+                axios.post('breeder_add_hatchery', record)
                 .then(response => {
                     if(response.data.error == undefined){
                         this.date_eggs_set = '';
@@ -422,15 +482,32 @@
                 this.fetchHatcheryRecord();
             },
             updateHatcheryRecord : function () {
-                axios.patch('breeder_edit_hatchery', {
-                    selected_record_id : this.selected_hatchery_record.id,
-                    date_eggs_set : this.customFormatter(this.edit_date_eggs_set),
-                    number_eggs_set : this.edit_number_eggs_set,
-                    number_fertile : this.edit_number_fertile,
-                    number_hatched : this.edit_number_hatched,
-                    date_hatched : this.customFormatter(this.edit_date_hatched),
-                    broodergrower_pen_id : this.edit_selected_brooder_pen,
-                })
+                var record = {};
+                if(this.updateinclude_brooder){
+                    record = {
+                        selected_record_id : this.selected_hatchery_record.id,
+                        date_eggs_set : this.customFormatter(this.edit_date_eggs_set),
+                        number_eggs_set : this.edit_number_eggs_set,
+                        number_fertile : this.edit_number_fertile,
+                        number_hatched : this.edit_number_hatched,
+                        date_hatched : this.customFormatter(this.edit_date_hatched),
+                        broodergrower_pen_id : this.edit_selected_brooder_pen,
+                        include : this.updateinclude_brooder,
+                        family : this.selected_family.id,
+                    };
+                }else{
+                    record = {
+                        selected_record_id : this.selected_hatchery_record.id,
+                        date_eggs_set : this.customFormatter(this.edit_date_eggs_set),
+                        number_eggs_set : this.edit_number_eggs_set,
+                        number_fertile : this.edit_number_fertile,
+                        number_hatched : this.edit_number_hatched,
+                        date_hatched : this.customFormatter(this.edit_date_hatched),
+                        broodergrower_pen_id : this.edit_selected_brooder_pen,
+                        include : this.updateinclude_brooder,
+                    };
+                }
+                axios.patch('breeder_edit_hatchery', record)
                 .then(response => {
                     if(response.data.error == undefined){
                         this.selected_hatchery_record = '';
@@ -440,6 +517,8 @@
                         this.edit_number_hatched = '';
                         this.edit_date_hatched = '';
                         this.edit_selected_brooder_pen = '';
+                        this.updateinclude_brooder = false;
+                        this.updateselected_family = '';
                         Materialize.toast('Successfully updated hatchery record', 5000, 'green rounded');
                     }else{
                         Materialize.toast(response.data.error, 5000, 'red rounded');
