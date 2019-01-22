@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BreederFeeding extends Model
 {
+    use SoftDeletes;
     use LogsActivity;
 
     public $timestamps = false;
+    protected $dates = ['deleted_at'];
     
 	/**
      * The database table used by the model.

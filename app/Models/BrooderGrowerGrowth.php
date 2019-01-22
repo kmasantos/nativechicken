@@ -8,7 +8,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class BrooderGrowerGrowth extends Model
 {
     use LogsActivity;
+    use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
     public $timestamps = false;
 	/**
      * The database table used by the model.

@@ -82,13 +82,13 @@
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                        <a href="{{route('farm.farm_records')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">assessment</i>Farm Records</a>
-                        {{-- <div class="collapsible-body">
+                        <a href="javascript:void(0)" class="collapsible-header" class="waves-effect"><i class="material-icons">assessment</i>Farm Records</a>
+                         <div class="collapsible-body">
                             <ul>
-                                <li><a href="#!">Generation</a></li>
-                                <li><a href="#!">Family</a></li>
+                                <li><a href="javascript:void(0)">Generation</a></li>
+                                <li><a href="{{route('farm.farm_records')}}">Family</a></li>
                             </ul>
-                        </div> --}}
+                        </div> 
                     </li>
                 </ul>
             </li>

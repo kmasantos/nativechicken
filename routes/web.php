@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('farm_settings', ['as' => 'farm.farm_settings', 'uses' => 'FarmController@getFarmSettingPage']);
         Route::put('farm_settings_edit', ['as' => 'farm.farm_settings_edit', 'uses' => 'FarmController@editFarmSetting']);
         Route::get('farm_records', ['as' => 'farm.farm_records', 'uses' => 'FarmController@farmRecords']);
+        
         // Breeder Routes
         Route::get('generation',['as' => 'farm.chicken.breeder.generation', 'uses' => 'BreederController@getGenerationsPage']);
         Route::post('generation_add',['as' => 'farm.chicken.breeder.generation_add', 'uses' => 'BreederController@addGeneration']);
@@ -85,6 +86,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('search_family/{search}', 'FarmController@searchFamily');
         Route::get('get_dashboard_data', 'FarmController@getDashData');
         Route::patch('cull_generation/{generation_id}', 'FarmController@cullGeneration');
+        Route::get('family_summary/{generation_id}', 'FarmController@familySummary');
+        Route::get('family_pheno_summary/{generation_id}', 'FarmController@getPhenoFamilySummary');
 
         // Breeder Axios Routes
         Route::get('breeder_list', 'BreederController@getBreederList');

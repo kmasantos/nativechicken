@@ -596,12 +596,98 @@ class FarmController extends Controller
     
     public function familySummary($generation) 
     {
-        // summary for families per eneration
-        try{
-        $generation = Generation::withTrashed()->findOrFail($generation);
-        }catch(Exception $e){
-            dd(get_class_methods($e));
+        // summary for families per generation
+        $breeders = Generation::join('lines', 'lines.generation_id', 'generations.id')
+        ->where('generations.id', $generation)
+        ->join('families', 'families.line_id', 'lines.id')
+        ->join('breeders', 'families.id', 'breeders.family_id')
+        ->join('breeder_inventories', 'breeders.id', 'breeder_inventories.breeder_id')
+        ->join('pheno_morphos', 'pheno_morphos.breeder_inventory_id', 'breeder_inventories.id')
+        ->join('pheno_morpho_values', 'pheno_morpho_values.id', 'pheno_morphos.values_id')
+        ->withTrashed()->get();
+        
+        $replacements = Generation::join('lines', 'lines.generation_id', 'generations.id')
+        ->where('generations.id', $generation)
+        ->join('families', 'families.line_id', 'lines.id')
+        ->join('replacements', 'families.id', 'replacements.family_id')
+        ->join('replacement_inventories', 'replacements.id', 'replacement_inventories.replacement_id')
+        ->join('pheno_morphos', 'pheno_morphos.replacement_inventory_id', 'replacement_inventories.id')
+        ->join('pheno_morpho_values', 'pheno_morpho_values.id', 'pheno_morphos.values_id')
+        ->withTrashed()->get();
+        dd($breeders);
+    }
+
+    public function getPhenoFamilySummary($generation)
+    {
+        $breeders = Generation::join('lines', 'lines.generation_id', 'generations.id')
+        ->where('generations.id', $generation)
+        ->join('families', 'families.line_id', 'lines.id')
+        ->join('breeders', 'families.id', 'breeders.family_id')
+        ->join('breeder_inventories', 'breeders.id', 'breeder_inventories.breeder_id')
+        ->join('pheno_morphos', 'pheno_morphos.breeder_inventory_id', 'breeder_inventories.id')
+        ->join('pheno_morpho_values', 'pheno_morpho_values.id', 'pheno_morphos.values_id')
+        ->select('lines.number as line_number', 'families.number as family_number', 
+                'pheno_morpho_values.phenotypic as pheno_values', 'pheno_morpho_values.morphometric as morpho_values',
+                'pheno_morpho_values.gender as gender')
+        ->withTrashed()->get();
+        
+        $replacements = Generation::join('lines', 'lines.generation_id', 'generations.id')
+        ->where('generations.id', $generation)
+        ->join('families', 'families.line_id', 'lines.id')
+        ->join('replacements', 'families.id', 'replacements.family_id')
+        ->join('replacement_inventories', 'replacements.id', 'replacement_inventories.replacement_id')
+        ->join('pheno_morphos', 'pheno_morphos.replacement_inventory_id', 'replacement_inventories.id')
+        ->join('pheno_morpho_values', 'pheno_morpho_values.id', 'pheno_morphos.values_id')
+        ->select('lines.number as line_number', 'families.number as family_number', 
+                'pheno_morpho_values.phenotypic as pheno_values', 'pheno_morpho_values.morphometric as morpho_values',
+                'pheno_morpho_values.gender as gender')
+        ->withTrashed()->get();
+
+        $male = [];
+        $female = [];
+        
+        foreach($breeders as $breeder) {
+            if($breeder->gender == "male"){
+                if(array_key_exists($breeder->family_number, $male)){
+                    array_push($male[$breeder->family_number], $breeder->pheno_values);
+                }else{
+                    $male[$breeder->family_number] = array();
+                    array_push($male[$breeder->family_number], $breeder->pheno_values);
+                }
+            }else{
+                if(array_key_exists($breeder->family_number, $female)){
+                    array_push($female[$breeder->family_number], $breeder->pheno_values);
+                }else{
+                    $female[$breeder->family_number] = array();
+                    array_push($female[$breeder->family_number], $breeder->pheno_values);
+                }
+            }
+        } 
+
+        foreach($replacements as $replacement) {
+            if($replacement->gender == "male"){
+                if(array_key_exists($replacement->family_number, $male)){
+                    array_push($male[$replacement->family_number], $replacement->pheno_values);
+                }else{
+                    $male[$replacement->family_number] = array();
+                    array_push($male[$replacement->family_number], $replacement->pheno_values);
+                }
+            }else{
+                if(array_key_exists($replacement->family_number, $female)){
+                    array_push($female[$replacement->family_number], $replacement->pheno_values);
+                }else{
+                    $female[$replacement->family_number] = array();
+                    array_push($female[$replacement->family_number], $replacement->pheno_values);
+                }
+            }
         }
+
+        dd($male);
+    }
+
+    public function getMorphoFamilySummary()
+    {
+        
     }
 
     // public function getFarmSummary()

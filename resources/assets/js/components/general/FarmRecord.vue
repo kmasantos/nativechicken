@@ -2,16 +2,17 @@
     <div class="row">
         <div class="col s12 m12 l12">
             <div class="card-panel white">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <label for="generation_select">Select Generation</label>
+                        <v-select :options="['foo','bar']" id="generation_select"></v-select>
+                    </div>
+                </div>
                 <h5>Phenotypic Values</h5>
                 <div class="divider"></div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <v-select :options="['foo','bar']"></v-select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <table class="bordered highlight responsive-table">
+                        <table class="bordered highlight responsive-table centered">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -40,9 +41,31 @@
                         </table>
                     </div>
                 </div>
+                <h5>Morphometric Values</h5>
+                <div class="divider"></div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        
+                        <table class="bordered highlight responsive-table centered">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Minimum</th>
+                                    <th>Maximum</th>
+                                    <th>Average</th>
+                                    <th>Standard Deviation</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
