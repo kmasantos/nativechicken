@@ -731,8 +731,8 @@ class BreederController extends Controller
         $eggqual->date_collected = $request->date_collected;
         $eggqual->egg_quality_at = $request->egg_quality_at;
         $eggqual->weight = $request->egg_weight;
-        $eggqual->color = $request->egg_color;
-        $eggqual->shape = $request->egg_shape;
+        $eggqual->color = ucfirst($request->egg_color);
+        $eggqual->shape = ucfirst($request->egg_shape);
         $eggqual->length = $request->egg_length;
         $eggqual->width = $request->egg_width;
         $eggqual->albumen_height = $request->albumen_height;

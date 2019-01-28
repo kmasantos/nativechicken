@@ -649,17 +649,17 @@ class FarmController extends Controller
         foreach($breeders as $breeder) {
             if($breeder->gender == "male"){
                 if(array_key_exists($breeder->family_number, $male)){
-                    array_push($male[$breeder->family_number], $breeder->pheno_values);
+                    array_push($male[$breeder->family_number], json_decode($breeder->pheno_values, true));
                 }else{
                     $male[$breeder->family_number] = array();
-                    array_push($male[$breeder->family_number], $breeder->pheno_values);
+                    array_push($male[$breeder->family_number], json_decode($breeder->pheno_values, true));
                 }
             }else{
                 if(array_key_exists($breeder->family_number, $female)){
-                    array_push($female[$breeder->family_number], $breeder->pheno_values);
+                    array_push($female[$breeder->family_number], json_decode($breeder->pheno_values, true));
                 }else{
                     $female[$breeder->family_number] = array();
-                    array_push($female[$breeder->family_number], $breeder->pheno_values);
+                    array_push($female[$breeder->family_number], json_decode($breeder->pheno_values, true));
                 }
             }
         } 
@@ -667,22 +667,130 @@ class FarmController extends Controller
         foreach($replacements as $replacement) {
             if($replacement->gender == "male"){
                 if(array_key_exists($replacement->family_number, $male)){
-                    array_push($male[$replacement->family_number], $replacement->pheno_values);
+                    array_push($male[$replacement->family_number], json_decode($replacement->pheno_values, true));
                 }else{
                     $male[$replacement->family_number] = array();
-                    array_push($male[$replacement->family_number], $replacement->pheno_values);
+                    array_push($male[$replacement->family_number], json_decode($replacement->pheno_values, true));
                 }
             }else{
                 if(array_key_exists($replacement->family_number, $female)){
-                    array_push($female[$replacement->family_number], $replacement->pheno_values);
+                    array_push($female[$replacement->family_number], json_decode($replacement->pheno_values, true));
                 }else{
                     $female[$replacement->family_number] = array();
-                    array_push($female[$replacement->family_number], $replacement->pheno_values);
+                    array_push($female[$replacement->family_number], json_decode($replacement->pheno_values, true));
                 }
             }
         }
+        if(Auth::user()->getAnimalType() == 1){
+            $props = [];
+            $plumage_color = [];
+            $plumage_pattern = [];
+            $hackle_color = [];
+            $hackle_pattern = [];
+            $body_carriage = [];
+            $comb_type = [];
+            $comb_color = [];
+            $earlobe_color = [];
+            $iris_color = [];
+            $beak_color = [];
+            $shank_color = [];
+            $skin_color = [];
+            
+            foreach($male as $member) {
+                foreach ($member as $pheno) {
+                    if(array_key_exists(ucfirst($pheno[0]) ,$plumage_color)){
+                        $plumage_color[ucfirst($pheno[0])]++;
+                    }else{
+                        $plumage_color[ucfirst($pheno[0])] = 1;
+                    }
 
-        dd($male);
+                    if(array_key_exists(ucfirst($pheno[1]) ,$plumage_pattern)){
+                        $plumage_pattern[ucfirst($pheno[1])]++;
+                    }else{
+                        $plumage_pattern[ucfirst($pheno[1])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[2]) ,$hackle_color)){
+                        $hackle_color[ucfirst($pheno[2])]++;
+                    }else{
+                        $hackle_color[ucfirst($pheno[2])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[3]) ,$hackle_pattern)){
+                        $hackle_pattern[ucfirst($pheno[3])]++;
+                    }else{
+                        $hackle_pattern[ucfirst($pheno[3])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[4]) ,$body_carriage)){
+                        $body_carriage[ucfirst($pheno[4])]++;
+                    }else{
+                        $body_carriage[ucfirst($pheno[4])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[5]) ,$comb_type)){
+                        $comb_type[ucfirst($pheno[5])]++;
+                    }else{
+                        $comb_type[ucfirst($pheno[5])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[6]) ,$comb_color)){
+                        $comb_color[ucfirst($pheno[6])]++;
+                    }else{
+                        $comb_color[ucfirst($pheno[6])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[7]) ,$earlobe_color)){
+                        $earlobe_color[ucfirst($pheno[7])]++;
+                    }else{
+                        $earlobe_color[ucfirst($pheno[7])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[8]) ,$iris_color)){
+                        $iris_color[ucfirst($pheno[8])]++;
+                    }else{
+                        $iris_color[ucfirst($pheno[8])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[9]) ,$beak_color)){
+                        $beak_color[ucfirst($pheno[9])]++;
+                    }else{
+                        $beak_color[ucfirst($pheno[9])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[10]) ,$shank_color)){
+                        $shank_color[ucfirst($pheno[10])]++;
+                    }else{
+                        $shank_color[ucfirst($pheno[10])] = 1;
+                    }
+
+                    if(array_key_exists(ucfirst($pheno[11]) ,$skin_color)){
+                        $skin_color[ucfirst($pheno[11])]++;
+                    }else{
+                        $skin_color[ucfirst($pheno[11])] = 1;
+                    }
+                }                
+            }
+            array_push ($props, $plumage_color, $plumage_pattern, $hackle_color, $hackle_pattern, $body_carriage, $comb_type, $comb_color, $earlobe_color, $iris_color, $beak_color , $shank_color, $skin_color);
+            
+            dd($props);
+        }else{
+            $pheno = [];
+            $plumage_color = [];
+            $plumage_pattern = [];
+            $body_carriage = [];
+            $shank_color = [];
+            $skin_color = [];
+            $neck_markings = [];
+            $wing_feather = [];
+            $tail_feather = [];
+            $bill_color = [];
+            $bill_shape = [];
+            $bean_color = [];
+            $presence_crest = [];
+            $eye_color = [];
+
+        }
     }
 
     public function getMorphoFamilySummary()

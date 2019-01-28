@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MortalitySale extends Model
 {
     use LogsActivity;
+    use SoftDeletes;
 
     public $timestamps = false;
     protected $table = 'mortality_sales';
@@ -15,7 +17,7 @@ class MortalitySale extends Model
     protected $fillable = [
         'type', 'category', 'date', 'male', 'female', 'total', 'price', 'reason', 'remarks'
     ];
-
+    protected $dates = ['deleted_at'];
     protected static $logAttributes = ['*'];
     protected static $logName = 'mortalitys_sales';
 
