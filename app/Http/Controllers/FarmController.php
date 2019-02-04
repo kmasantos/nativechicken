@@ -616,274 +616,85 @@ class FarmController extends Controller
         ->withTrashed()->get();
         dd($breeders);
     }
-
-    public function getPhenoFamilySummary($generation)
+    
+    // Better way of getting summary
+    public function getMorphoFamilySummary($generation)
     {
-        $breeders = Generation::join('lines', 'lines.generation_id', 'generations.id')
-        ->where('generations.id', $generation)
-        ->join('families', 'families.line_id', 'lines.id')
-        ->join('breeders', 'families.id', 'breeders.family_id')
-        ->join('breeder_inventories', 'breeders.id', 'breeder_inventories.breeder_id')
-        ->join('pheno_morphos', 'pheno_morphos.breeder_inventory_id', 'breeder_inventories.id')
-        ->join('pheno_morpho_values', 'pheno_morpho_values.id', 'pheno_morphos.values_id')
-        ->select('lines.number as line_number', 'families.number as family_number', 
-                'pheno_morpho_values.phenotypic as pheno_values', 'pheno_morpho_values.morphometric as morpho_values',
-                'pheno_morpho_values.gender as gender')
-        ->withTrashed()->get();
-        
-        $replacements = Generation::join('lines', 'lines.generation_id', 'generations.id')
-        ->where('generations.id', $generation)
-        ->join('families', 'families.line_id', 'lines.id')
-        ->join('replacements', 'families.id', 'replacements.family_id')
-        ->join('replacement_inventories', 'replacements.id', 'replacement_inventories.replacement_id')
-        ->join('pheno_morphos', 'pheno_morphos.replacement_inventory_id', 'replacement_inventories.id')
-        ->join('pheno_morpho_values', 'pheno_morpho_values.id', 'pheno_morphos.values_id')
-        ->select('lines.number as line_number', 'families.number as family_number', 
-                'pheno_morpho_values.phenotypic as pheno_values', 'pheno_morpho_values.morphometric as morpho_values',
-                'pheno_morpho_values.gender as gender')
-        ->withTrashed()->get();
-
-        $male = [];
-        $female = [];
-        
-        foreach($breeders as $breeder) {
-            if($breeder->gender == "male"){
-                if(array_key_exists($breeder->family_number, $male)){
-                    array_push($male[$breeder->family_number], json_decode($breeder->pheno_values, true));
+        $breeders = Breeder::join('families', 'families.id', 'breeders.family_id')
+                        ->join('lines', 'lines.id', 'families.line_id')
+                        ->join('generations', 'generations.id', 'lines.generation_id')
+                        ->where('generations.id',  $generation)
+                        ->select('breeders.id as breeder_id', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number')
+                        ->withTrashed()->get();
+        $replacements = Replacement::join('families', 'families.id', 'replacements.family_id')
+                        ->join('lines', 'lines.id', 'families.line_id')
+                        ->join('generations', 'generations.id', 'lines.generation_id')
+                        ->where('generations.id',  $generation)
+                        ->select('replacements.id as replacement_id', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number')
+                        ->withTrashed()->get();
+        $summary = [];
+        foreach($breeders as $breeder){
+            $phenomorphos = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                            ->join('breeder_inventories', 'breeder_inventories.breeder_id', 'pheno_morphos.breeder_inventory_id')
+                            ->where('breeder_inventories.breeder_id', $breeder->breeder_id)
+                            ->withTrashed()->get(); 
+            $male = [
+                'pheno' => [],
+                'morpho' => []
+            ];
+            $female = [
+                'pheno' => [],
+                'morpho' => []
+            ];
+            foreach($phenomorphos as $phenomorpho){
+                $phenomorpho->phenotypic = json_decode($phenomorpho->phenotypic, true);
+                $phenomorpho->morphometric = json_decode($phenomorpho->morphometric, true);
+                //  dd($phenomorpho);
+                if($phenomorpho->gender == 'male'){
+                    $count = 0;
+                    foreach($phenomorpho->phenotypic as $attribute){
+                        if(array_key_exists($count, $male['pheno']) && array_key_exists(ucfirst($phenomorpho->phenotypic[$count]), $male['pheno'][$count])){
+                            $male['pheno'][$count][ucfirst($phenomorpho->phenotypic[$count])]++;
+                        }else{
+                            $male['pheno'][$count][ucfirst($phenomorpho->phenotypic[$count])] = 1;
+                        }
+                        $count++;
+                    }
+                    $count = 0;
+                    foreach($phenomorpho->morphometric as $attribute){
+                        if(!isset($male['morpho'][$count])){
+                            $male['morpho'][$count] = [];
+                            $male['morpho'][$count][0] = $phenomorpho->morphometric[$count];
+                        }else{
+                            array_push($male['morpho'][$count], $phenomorpho->morphometric[$count]);
+                        }
+                        $count++;
+                    }
                 }else{
-                    $male[$breeder->family_number] = array();
-                    array_push($male[$breeder->family_number], json_decode($breeder->pheno_values, true));
-                }
-            }else{
-                if(array_key_exists($breeder->family_number, $female)){
-                    array_push($female[$breeder->family_number], json_decode($breeder->pheno_values, true));
-                }else{
-                    $female[$breeder->family_number] = array();
-                    array_push($female[$breeder->family_number], json_decode($breeder->pheno_values, true));
+                    $count = 0;
+                    foreach($phenomorpho->phenotypic as $attribute){
+                        if(array_key_exists($count, $female['pheno']) && array_key_exists(ucfirst($phenomorpho->phenotypic[$count]), $female['pheno'][$count])){
+                            $female['pheno'][$count][ucfirst($phenomorpho->phenotypic[$count])]++;
+                        }else{
+                            $female['pheno'][$count][ucfirst($phenomorpho->phenotypic[$count])] = 1;
+                        }
+                        $count++;
+                    }
+                    $count = 0;
+                    foreach($phenomorpho->morphometric as $attribute){
+                        if(!isset($female['morpho'][$count])){
+                            $female['morpho'][$count] = [];
+                            $female['morpho'][$count][0] = $phenomorpho->morphometric[$count];
+                        }else{
+                            array_push($female['morpho'][$count], $phenomorpho->morphometric[$count]);
+                        }
+                        $count++;
+                    }
                 }
             }
-        } 
-
-        foreach($replacements as $replacement) {
-            if($replacement->gender == "male"){
-                if(array_key_exists($replacement->family_number, $male)){
-                    array_push($male[$replacement->family_number], json_decode($replacement->pheno_values, true));
-                }else{
-                    $male[$replacement->family_number] = array();
-                    array_push($male[$replacement->family_number], json_decode($replacement->pheno_values, true));
-                }
-            }else{
-                if(array_key_exists($replacement->family_number, $female)){
-                    array_push($female[$replacement->family_number], json_decode($replacement->pheno_values, true));
-                }else{
-                    $female[$replacement->family_number] = array();
-                    array_push($female[$replacement->family_number], json_decode($replacement->pheno_values, true));
-                }
-            }
+            $summary["F|".$breeder->family_number." L|".$breeder->line_number." G|".$breeder->generation_number] = [$male, $female];
         }
-        if(Auth::user()->getAnimalType() == 1){
-            $props = [];
-            $plumage_color = [];
-            $plumage_pattern = [];
-            $hackle_color = [];
-            $hackle_pattern = [];
-            $body_carriage = [];
-            $comb_type = [];
-            $comb_color = [];
-            $earlobe_color = [];
-            $iris_color = [];
-            $beak_color = [];
-            $shank_color = [];
-            $skin_color = [];
-            
-            foreach($male as $member) {
-                foreach ($member as $pheno) {
-                    if(array_key_exists(ucfirst($pheno[0]) ,$plumage_color)){
-                        $plumage_color[ucfirst($pheno[0])]++;
-                    }else{
-                        $plumage_color[ucfirst($pheno[0])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[1]) ,$plumage_pattern)){
-                        $plumage_pattern[ucfirst($pheno[1])]++;
-                    }else{
-                        $plumage_pattern[ucfirst($pheno[1])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[2]) ,$hackle_color)){
-                        $hackle_color[ucfirst($pheno[2])]++;
-                    }else{
-                        $hackle_color[ucfirst($pheno[2])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[3]) ,$hackle_pattern)){
-                        $hackle_pattern[ucfirst($pheno[3])]++;
-                    }else{
-                        $hackle_pattern[ucfirst($pheno[3])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[4]) ,$body_carriage)){
-                        $body_carriage[ucfirst($pheno[4])]++;
-                    }else{
-                        $body_carriage[ucfirst($pheno[4])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[5]) ,$comb_type)){
-                        $comb_type[ucfirst($pheno[5])]++;
-                    }else{
-                        $comb_type[ucfirst($pheno[5])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[6]) ,$comb_color)){
-                        $comb_color[ucfirst($pheno[6])]++;
-                    }else{
-                        $comb_color[ucfirst($pheno[6])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[7]) ,$earlobe_color)){
-                        $earlobe_color[ucfirst($pheno[7])]++;
-                    }else{
-                        $earlobe_color[ucfirst($pheno[7])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[8]) ,$iris_color)){
-                        $iris_color[ucfirst($pheno[8])]++;
-                    }else{
-                        $iris_color[ucfirst($pheno[8])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[9]) ,$beak_color)){
-                        $beak_color[ucfirst($pheno[9])]++;
-                    }else{
-                        $beak_color[ucfirst($pheno[9])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[10]) ,$shank_color)){
-                        $shank_color[ucfirst($pheno[10])]++;
-                    }else{
-                        $shank_color[ucfirst($pheno[10])] = 1;
-                    }
-
-                    if(array_key_exists(ucfirst($pheno[11]) ,$skin_color)){
-                        $skin_color[ucfirst($pheno[11])]++;
-                    }else{
-                        $skin_color[ucfirst($pheno[11])] = 1;
-                    }
-                }                
-            }
-            array_push ($props, $plumage_color, $plumage_pattern, $hackle_color, $hackle_pattern, $body_carriage, $comb_type, $comb_color, $earlobe_color, $iris_color, $beak_color , $shank_color, $skin_color);
-            
-            dd($props);
-        }else{
-            $pheno = [];
-            $plumage_color = [];
-            $plumage_pattern = [];
-            $body_carriage = [];
-            $shank_color = [];
-            $skin_color = [];
-            $neck_markings = [];
-            $wing_feather = [];
-            $tail_feather = [];
-            $bill_color = [];
-            $bill_shape = [];
-            $bean_color = [];
-            $presence_crest = [];
-            $eye_color = [];
-
-        }
+        return $summary;
     }
-
-    public function getMorphoFamilySummary()
-    {
-        
-    }
-
-    // public function getFarmSummary()
-    // {
-    //     $farm = Auth::user()->getFarm();
-    //     $breed = Breed::where('id', $farm->breedable_id)->first();
-    //     $gen_pheno = [];
-    //     $gen_morpho = [];
-    //     $mpheno = [];
-    //     $fpheno = [];
-    //     $mmorpho = [];
-    //     $fmorpho = [];
-    //     if($breed->animaltype_id == 1){
-    //         $plumage_color = array("White" => 0, "Black" => 0, "Red" => 0, "Orange" => 0, "Brown" => 0, "Yellow" => 0);
-    //         $plumage_pattern = array("Plain" => 0, "Barred" => 0, "Wild Type" => 0, "Laced" => 0, "Mottled" => 0);
-    //         $hackle_color = array("Yellow" => 0, "Orange" => 0, "Brown" => 0, "Red" => 0, "Black" => 0);
-    //         $hackle_pattern = array("Plain" => 0, "Laced" => 0, "Barred" => 0);
-    //         $body_carriage = array("Slight Upright" => 0, "Upright" => 0,);
-    //         $comb_type = array("Single" => 0, "Pea" => 0, "Rose" => 0,);
-    //         $comb_color = array("Red" => 0, "Pink" => 0, "Black" => 0,);
-    //         $earlobe_color = array("White" => 0, "Red" => 0, "Red-White" => 0,);
-    //         $iris_color = array("Red" => 0, "Orange" => 0, "Brown" => 0, "Yellow" => 0,);
-    //         $beak_color = array("White" => 0, "Black" => 0, "Brown" => 0, "Yellow" => 0,);
-    //         $shank_color = array("White" => 0, "Black" => 0, "Yellow" => 0, "Green" => 0, "Grey" => 0,);
-    //         $skin_color = array("White" => 0, "Yellow" => 0,);
-    //         $height = array();
-    //         $weight = array();
-    //         $body_length = array();
-    //         $chest_circumference = array();
-    //         $wing_span = array();
-    //         $shank_length = array();
-    //     }else{
-    //         $plumage_color = array("Black" => 0, "Black with Brown" => 0, "Brown" => 0, "Brown with Black" => 0);
-    //         $plumage_pattern = array("Dusky" => 0, "Mallard" => 0, "Plain Brown" => 0, "Runner" => 0, "Runner/Mallard" => 0,);
-    //         $body_carriage = array("Horizontal" => 0, "Slight Upright" => 0, "Upright" => 0,);
-    //         $shank_color = array("Black" => 0, "Brown" => 0, "Dark Brown" => 0, "Dark Orange" => 0, "Orange with Black" => 0,);
-    //         $skin_color = array("White" => 0);
-    //         $neck_feather = array("Plain" => 0, "Bib-Small" => 0, "Bib-Medium" => 0, "Bib-Large" => 0);
-    //         $wing_feather = array("Black" => 0, "Black with Brown" => 0, "Black with White" => 0, "Brown" => 0, "Brown with White" => 0);
-    //         $tail_feather = array("Black" => 0, "Brown" => 0, "Brown with White" => 0);
-    //         $bill_color = array("Green" => 0, "Black" => 0, "Black with Grey" => 0);
-    //         $bill_shape = array("Uniform" => 0, "Saddle" => 0);
-    //         $bean_color = array("Black" => 0, "Grey" => 0);
-    //         $crest = array("Yes" => 0, "No" => 0);
-    //         $eye_color = array("Black" => 0, "Brown" => 0);
-    //         $height = array();
-    //         $weight = array();
-    //         $body_length = array();
-    //         $chest_circumference = array();
-    //         $wing_span = array();
-    //         $shank_length = array();
-    //         $bill_length = array();
-    //         $neck_length = array();
-    //     }
-    //     $generations = Generation::where('farm_id', $farm->id)->where('is_active', true)->get();
-    //     foreach($generations as $generation){
-    //         $lines = $generation->getLines();
-    //         foreach($lines as $line){
-    //             $families = Family::where('line_id', $line->id)->where('is_active', true)->get();
-    //             foreach($families as $family){
-    //                 $breeders = Breeder::where('family_id', $family->id)->get();
-    //                 foreach($breeders as $breeder){
-    //                     $inventories = BreederInventory::where('breeder_id', $breeder->id)->get();
-    //                     foreach($inventories as $inventory){
-
-    //                     }
-    //                 }
-    //                 $replacements = Replacement::where('family_id', $family->id)->get();
-    //                 foreach($replacements as $replacement){
-    //                     $inventories = BreederInventory::where('replacement_id', $replacement->id)->get();
-    //                     foreach($inventories as $inventory){
-
-    //                     }
-    //                 }
-    //                 // $brooders = BrooderGrower::where('family_id', $family->id)->get();
-    //                 // foreach($brooders as $brooder){
-    //                 //     $inventories = BreederInventory::where('replacement_id', $brooder->id)->get();
-    //                 //     $male = $male + $inventories->sum('number_male');
-    //                 //     $female = $female + $inventories->sum('number_female');
-    //                 //     $total = $total + $inventories->sum('total');
-    //                 //     foreach($inventories as $inventory){
-    //                 //         $brooder_feeding = $brooder_feeding + BrooderGrowerFeeding::where('broodergrower_inventory_id', $inventory->id)->whereBetween('date_collected', [$month_start, $month_end])->get()->sum('amount_offered');
-    //                 //         $brooder_mortality = $brooder_mortality + MortalitySale::where('brooder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'died')->get()->sum('total');
-    //                 //         $brooder_sales = $brooder_sales + MortalitySale::where('brooder_inventory_id', $inventory->id)->whereBetween('date', [$month_start, $month_end])->where('category', 'sold')->where('type', 'brooder')->get()->sum('total');
-    //                 //     }
-    //                 // }
-    //             }
-    //         }
-    //     }
-    // }
 }
+

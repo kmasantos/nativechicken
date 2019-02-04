@@ -88,6 +88,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::patch('cull_generation/{generation_id}', 'FarmController@cullGeneration');
         Route::get('family_summary/{generation_id}', 'FarmController@familySummary');
         Route::get('family_pheno_summary/{generation_id}', 'FarmController@getPhenoFamilySummary');
+        Route::get('family_morpho_summary/{generation_id}', 'FarmController@getMorphoFamilySummary');
+        
 
         // Breeder Axios Routes
         Route::get('breeder_list', 'BreederController@getBreederList');

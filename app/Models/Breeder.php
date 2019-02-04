@@ -78,4 +78,16 @@ class Breeder extends Model
         $generation = Generation::where('id', $this->getLine()->generation_id)->first();
         return $generation;
     }
+
+    public function getAllInventory()
+    {
+        $inventories = BreederInventory::where('family_id', $this->id)->get();
+        return $inventories;
+    }
+
+    public function getAllInventoryWithTrashed()
+    {
+        $inventories = BreederInventory::where('family_id', $this->id)->withTrashed()->get();
+        return $inventories;
+    }
 }
