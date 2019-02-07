@@ -86,9 +86,10 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('search_family/{search}', 'FarmController@searchFamily');
         Route::get('get_dashboard_data', 'FarmController@getDashData');
         Route::patch('cull_generation/{generation_id}', 'FarmController@cullGeneration');
-        Route::get('family_summary/{generation_id}', 'FarmController@familySummary');
-        Route::get('family_pheno_summary/{generation_id}', 'FarmController@getPhenoFamilySummary');
-        Route::get('family_morpho_summary/{generation_id}', 'FarmController@getMorphoFamilySummary');
+        Route::get('family_summary', 'FarmController@getGenerationSummary');
+        Route::get('family_pheno_morpho_genfam/{generation_id}', 'FarmController@getPhenoMorphoFamilySummary');
+        Route::get('family_feeding_summary/{generation_id}/{year}', 'FarmController@feedingRecordPerFamily');
+        Route::get('family_egg_quality_summary/{generation_id}/{year}', 'FarmController@eggQualityPerFamily');
         
 
         // Breeder Axios Routes
