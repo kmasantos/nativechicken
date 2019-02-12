@@ -20,7 +20,9 @@ use App\Models\BrooderGrower;
 use App\Models\BrooderGrowerInventory;
 use App\Models\BreederFeeding;
 use App\Models\ReplacementFeeding;
+use App\Models\ReplacementGrowth;
 use App\Models\BrooderGrowerFeeding;
+use App\Models\BrooderGrowerGrowth;
 use App\Models\HatcheryRecord;
 use App\Models\EggQuality;
 use App\Models\EggProduction;
@@ -706,8 +708,9 @@ class FarmController extends Controller
                     }
                 }
             }
-            $summary["F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number] = [$male, $female];
+            $summary["Family: ".$collection->family_number." Line: ".$collection->line_number." Generation: ".$collection->generation_number] = [$male, $female];
         }
+        
         return $summary;
     }
 
@@ -762,6 +765,44 @@ class FarmController extends Controller
         return $summary;
     }
 
+    public function growthRecordPerFamily($generation, $year) 
+    {   
+        $replacement_growth_records = ReplacementGrowth::join('replacement_inventories', 'replacement_inventories.id', 'replacement_growths.replacement_inventory_id')
+                            ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                            ->join('families', 'families.id', 'replacements.family_id')
+                            ->join('lines', 'lines.id', 'families.line_id')
+                            ->join('generations', 'generations.id', 'lines.generation_id')
+                            ->where('generations.id', $generation)
+                            ->whereYear('replacement_growths.date_collected', $year)
+                            ->select('replacement_growths.*', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'replacement_inventories.number_male as males', 'replacement_inventories.number_female as females')
+                            ->withTrashed()->get();
+        $brooder_growth_records = BrooderGrowerGrowth::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_growths.broodergrower_inventory_id')
+                            ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                            ->join('families', 'families.id', 'brooder_growers.family_id')
+                            ->join('lines', 'lines.id', 'families.line_id')
+                            ->join('generations', 'generations.id', 'lines.generation_id')
+                            ->where('generations.id', $generation)
+                            ->whereYear('brooder_grower_growths.date_collected', $year)
+                            ->select('brooder_grower_growths.*', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'brooder_grower_inventories.number_male as males', 'brooder_grower_inventories.number_female as females')
+                            ->withTrashed()->get();
+        $collection_summary = collect([]);
+        foreach($replacement_growth_records as $replacement_growth_record) {
+            $collection_summary = $collection_summary->push($replacement_growth_record);
+        }
+        foreach($brooder_growth_records as $brooder_growth_record) {
+            $collection_summary = $collection_summary->push($brooder_growth_record);
+        }
+        $summary = [];
+        foreach($collection_summary as $collection){
+            if(!array_key_exists("F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number, $summary)){
+                $summary["F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number] = array();
+            }
+            array_push($summary["F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number], $collection);
+            
+        }
+        return $summary;
+    }
+
     public function eggQualityPerFamily ($generation, $year) 
     {
         $breeder_egg_quality = EggQuality::join('breeder_inventories', 'breeder_inventories.id', 'egg_qualities.breeder_inventory_id')
@@ -782,5 +823,99 @@ class FarmController extends Controller
         }
         return $summary;
     }
+
+    public function eggProductionPerFamily ($generation, $year) 
+    {
+        $breeder_egg_productions = EggProduction::join('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
+                                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                                ->join('families', 'families.id', 'breeders.family_id')
+                                ->join('lines', 'lines.id', 'families.line_id')
+                                ->join('generations', 'generations.id', 'lines.generation_id')
+                                ->where('generations.id', $generation)
+                                ->whereYear('egg_productions.date_collected', $year)
+                                ->select('egg_productions.*', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'breeder_inventories.number_male as males', 'breeder_inventories.number_female as females')
+                                ->withTrashed()->get();
+        $summary = [];
+        foreach($breeder_egg_productions as $egg_production){
+            if(!array_key_exists("F|".$egg_production->family_number." L|".$egg_production->line_number." G|".$egg_production->generation_number, $summary)){
+                $summary["F|".$egg_production->family_number." L|".$egg_production->line_number." G|".$egg_production->generation_number] = array();
+            }
+            array_push($summary["F|".$egg_production->family_number." L|".$egg_production->line_number." G|".$egg_production->generation_number], $egg_production);
+        }
+        return $summary;
+    }
+    
+    public function hatcheryRecordPerFamily ($generation, $year) 
+    {
+        $breeder_hatchery_records = HatcheryRecord::join('breeder_inventories', 'breeder_inventories.id', 'hatchery_records.breeder_inventory_id')
+                                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                                ->join('families', 'families.id', 'breeders.family_id')
+                                ->join('lines', 'lines.id', 'families.line_id')
+                                ->join('generations', 'generations.id', 'lines.generation_id')
+                                ->where('generations.id', $generation)
+                                ->whereYear('hatchery_records.date_eggs_set', $year)
+                                ->select('hatchery_records.*', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'breeder_inventories.number_male as males', 'breeder_inventories.number_female as females')
+                                ->withTrashed()->get();
+        $summary = [];
+        foreach($breeder_hatchery_records as $hatchery_record){
+            if(!array_key_exists("F|".$hatchery_record->family_number." L|".$hatchery_record->line_number." G|".$hatchery_record->generation_number, $summary)){
+                $summary["F|".$hatchery_record->family_number." L|".$hatchery_record->line_number." G|".$hatchery_record->generation_number] = array();
+            }
+            array_push($summary["F|".$hatchery_record->family_number." L|".$hatchery_record->line_number." G|".$hatchery_record->generation_number], $hatchery_record);
+        }
+        return $summary;
+    }
+    
+    public function mortalitySalesPerFamily($generation, $year) 
+    {
+        $breeder_mortalities = MortalitySale::join('breeder_inventories', 'breeder_inventories.id', 'mortality_sales.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.id', $generation)
+                ->whereYear('mortality_sales.date', $year)
+                ->select('mortality_sales.*', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'breeder_inventories.number_male as males', 'breeder_inventories.number_female as females')
+                ->withTrashed()->get();
+
+        $replacement_mortalities = MortalitySale::join('replacement_inventories', 'replacement_inventories.id', 'mortality_sales.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.id', $generation)
+                ->whereYear('mortality_sales.date', $year)
+                ->select('mortality_sales.*', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'replacement_inventories.number_male as males', 'replacement_inventories.number_female as females')
+                ->withTrashed()->get();
+        $brooder_mortalities = MortalitySale::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'mortality_sales.brooder_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.id', $generation)
+                ->whereYear('mortality_sales.date', $year)
+                ->select('mortality_sales.*', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'brooder_grower_inventories.number_male as males', 'brooder_grower_inventories.number_female as females')
+                ->withTrashed()->get();
+        $collection_summary = collect([]);
+        foreach($breeder_mortalities as $breeder_mortality) {
+            $collection_summary = $collection_summary->push($breeder_mortality);
+        }
+        foreach($replacement_mortalities as $replacement_mortality) {
+            $collection_summary = $collection_summary->push($replacement_mortality);
+        }
+        foreach($brooder_mortalities as $brooder_mortality) {
+            $collection_summary = $collection_summary->push($brooder_mortality);
+        }
+        $summary = [];
+        foreach($collection_summary as $collection){
+            if(!array_key_exists("F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number, $summary)){
+            $summary["F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number] = array();
+            }
+            array_push($summary["F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number], $collection);
+
+        }
+        return $summary;
+    }
+
 }
 
