@@ -756,10 +756,10 @@ class FarmController extends Controller
         }
         $summary = [];
         foreach($collection_summary as $collection){
-            if(!array_key_exists("F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number, $summary)){
-                $summary["F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number] = array();
+            if(!array_key_exists("Family ".$collection->family_number." | L (".$collection->line_number.") G ( ".$collection->generation_number.")", $summary)){
+                $summary["Family ".$collection->family_number." | L (".$collection->line_number.") G ( ".$collection->generation_number.")"] = array();
             }
-            array_push($summary["F|".$collection->family_number." L|".$collection->line_number." G|".$collection->generation_number], $collection);
+            array_push($summary["Family ".$collection->family_number." | L (".$collection->line_number.") G ( ".$collection->generation_number.")"], $collection);
             
         }
         return $summary;
