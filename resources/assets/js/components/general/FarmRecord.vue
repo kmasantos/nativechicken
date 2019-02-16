@@ -1512,86 +1512,86 @@
                                         <tbody v-for="(growth_record, index) in growth_records" :key="index">
                                             <tr>
                                                 <td>{{index}}</td>
-                                                    <td>{{getGrowthData(growth_record)[0].day}}</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[0].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[0].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[0].weight_per_head)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[0].weight_per_head)}}</td>
-                                                </tr>
+                                                <td>{{getGrowthData(growth_record)[0].day}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[0].weight_per_head)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[0].weight_per_head)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[0].weight_per_head)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[0].weight_per_head)}}</td>
+                                            </tr>
 
-                                                <tr v-if="getGrowthData(growth_record)[1].day !== undefined">
-                                                    <td>-</td>
-                                                    <td>{{getGrowthData(growth_record)[1].day}}</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[1].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[1].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[1].weight_per_head)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[1].weight_per_head)}}</td>
-                                                </tr>
+                                            <tr v-if="getGrowthData(growth_record)[1].day !== undefined">
+                                                <td>-</td>
+                                                <td>{{getGrowthData(growth_record)[1].day}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[1].weight_per_head)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[1].weight_per_head)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[1].weight_per_head)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[1].weight_per_head)}}</td>
+                                            </tr>
 
-                                                <tr v-if="getGrowthData(growth_record)[2].day !== undefined">
-                                                    <td>-</td>
-                                                    <td>{{getGrowthData(growth_record)[2].day}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[2].weight_per_male)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[2].weight_per_male)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[2].weight_per_male)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[2].weight_per_male)}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[2].weight_per_female)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[2].weight_per_female)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[2].weight_per_female)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[2].weight_per_female)}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[2].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[2].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[2].weight_per_head)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[2].weight_per_head)}}</td>
-                                                </tr>
-                                                <tr v-if="getGrowthData(growth_record)[3].day !== undefined">
-                                                    <td>-</td>
-                                                    <td>{{getGrowthData(growth_record)[3].day}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[3].weight_per_male)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[3].weight_per_male)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[3].weight_per_male)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[3].weight_per_male)}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[3].weight_per_female)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[3].weight_per_female)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[3].weight_per_female)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[3].weight_per_female)}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[3].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[3].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[3].weight_per_head)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[3].weight_per_head)}}</td>
-                                                </tr>
-                                                <tr v-if="getGrowthData(growth_record)[4].day !== undefined">
-                                                    <td>-</td>
-                                                    <td>{{getGrowthData(growth_record)[4].day}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[4].weight_per_male)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[4].weight_per_male)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[4].weight_per_male)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[4].weight_per_male)}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[4].weight_per_female)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[4].weight_per_female)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[4].weight_per_female)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[4].weight_per_female)}}</td>
-                                                    <td>{{getGrowthAverage(getGrowthData(growth_record)[4].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMin(getGrowthData(growth_record)[4].weight_per_head)}}</td>
-                                                    <td>{{getGrowthMax(getGrowthData(growth_record)[4].weight_per_head)}}</td>
-                                                    <td>{{getGrowthStd(getGrowthData(growth_record)[4].weight_per_head)}}</td>
-                                                </tr>
+                                            <tr v-if="getGrowthData(growth_record)[2].day !== undefined">
+                                                <td>-</td>
+                                                <td>{{getGrowthData(growth_record)[2].day}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[2].weight_per_male)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[2].weight_per_male)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[2].weight_per_male)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[2].weight_per_male)}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[2].weight_per_female)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[2].weight_per_female)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[2].weight_per_female)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[2].weight_per_female)}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[2].weight_per_head)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[2].weight_per_head)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[2].weight_per_head)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[2].weight_per_head)}}</td>
+                                            </tr>
+                                            <tr v-if="getGrowthData(growth_record)[3].day !== undefined">
+                                                <td>-</td>
+                                                <td>{{getGrowthData(growth_record)[3].day}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[3].weight_per_male)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[3].weight_per_male)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[3].weight_per_male)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[3].weight_per_male)}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[3].weight_per_female)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[3].weight_per_female)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[3].weight_per_female)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[3].weight_per_female)}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[3].weight_per_head)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[3].weight_per_head)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[3].weight_per_head)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[3].weight_per_head)}}</td>
+                                            </tr>
+                                            <tr v-if="getGrowthData(growth_record)[4].day !== undefined">
+                                                <td>-</td>
+                                                <td>{{getGrowthData(growth_record)[4].day}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[4].weight_per_male)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[4].weight_per_male)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[4].weight_per_male)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[4].weight_per_male)}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[4].weight_per_female)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[4].weight_per_female)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[4].weight_per_female)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[4].weight_per_female)}}</td>
+                                                <td>{{getGrowthAverage(getGrowthData(growth_record)[4].weight_per_head)}}</td>
+                                                <td>{{getGrowthMin(getGrowthData(growth_record)[4].weight_per_head)}}</td>
+                                                <td>{{getGrowthMax(getGrowthData(growth_record)[4].weight_per_head)}}</td>
+                                                <td>{{getGrowthStd(getGrowthData(growth_record)[4].weight_per_head)}}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1606,12 +1606,131 @@
                                             <tr>
                                                 <th>Family</th>
                                                 <th>Week</th>
+                                                <th>Avg Wt</th>
+                                                <th>Color</th>
+                                                <th>Shape</th>
+                                                <th>Avg Width</th>
+                                                <th>Avg AH</th>
+                                                <th>Avg AW</th>
+                                                <th>Avg YW</th>
+                                                <th>YC</th>
+                                                <th>Avg SW</th>
+                                                <th>Avg TT</th>
+                                                <th>Avg MT</th>
+                                                <th>Avg BT</th>
                                             </tr>
                                         </thead>
 
-                                        <tbody>
-                                            <tr v-for="(eggqual_record, index) in eggqual_records" :key="index">
+                                        <tbody v-for="(eggqual_record, index) in eggqual_records" :key="index">
+                                            <tr>
                                                 <td>{{index}}</td>
+                                                <td>{{getEggQualData(eggqual_record)}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <h6>Egg Production</h6>
+                                </div>
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered responsive-table centered">
+                                        <thead>
+                                            <tr>
+                                                <th>Family</th>
+                                                <th>Week</th>
+                                                <th>Avg Wt</th>
+                                                <th>Color</th>
+                                                <th>Shape</th>
+                                                <th>Avg Width</th>
+                                                <th>Avg AH</th>
+                                                <th>Avg AW</th>
+                                                <th>Avg YW</th>
+                                                <th>YC</th>
+                                                <th>Avg SW</th>
+                                                <th>Avg TT</th>
+                                                <th>Avg MT</th>
+                                                <th>Avg BT</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody v-for="(eggprod_record, index) in eggprod_records" :key="index">
+                                            <tr>
+                                                <td>{{index}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <h6>Hatchery Records</h6>
+                                </div>
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered responsive-table centered">
+                                        <thead>
+                                            <tr>
+                                                <th>Family</th>
+                                                <th>Week</th>
+                                                <th>Avg Wt</th>
+                                                <th>Color</th>
+                                                <th>Shape</th>
+                                                <th>Avg Width</th>
+                                                <th>Avg AH</th>
+                                                <th>Avg AW</th>
+                                                <th>Avg YW</th>
+                                                <th>YC</th>
+                                                <th>Avg SW</th>
+                                                <th>Avg TT</th>
+                                                <th>Avg MT</th>
+                                                <th>Avg BT</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody v-for="(hatchery_record, index) in hatchery_records" :key="index">
+                                            <tr>
+                                                <td>{{index}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                             </tr>
                                         </tbody>
@@ -1658,6 +1777,8 @@
                 feeding_records : {},
                 growth_records : {},
                 eggqual_records : {},
+                eggprod_records : {},
+                hatchery_records : {},
                 year_production : null,
                 year_inventory : null,
                 
@@ -1703,9 +1824,39 @@
                     this.growth_loading = true;
                 }
             },
+            getEggQualityRecord : async function () {
+                try {
+                    const response = await axios.get('family_egg_quality_summary/'+this.selected_generations_production.id+'/'+this.customFormatter(this.year_production));
+                    this.eggqual_records = response.data;
+                    this.eggqual_loading = false;
+                } catch (error) {
+                    this.eggqual_loading = true;
+                }
+            },
+            getEggProductionRecord : async function () {
+                try {
+                    const response = await axios.get('family_egg_production_summary/'+this.selected_generations_production.id+'/'+this.customFormatter(this.year_production));
+                    this.eggprod_records = response.data;
+                    this.eggprod_loading = false;
+                } catch (error) {
+                    this.eggprod_loading = true;
+                }
+            },
+            getHatcheryRecord : async function () {
+                try {
+                    const response = await axios.get('family_hatchery_record_summary/'+this.selected_generations_production.id+'/'+this.customFormatter(this.year_production));
+                    this.hatchery_records = response.data;
+                    this.hatchery_loading = false;
+                } catch (error) {
+                    this.hatchery_loading = true;
+                }
+            },
             getProductionData : function () {
                 this.getFeedingRecord();
                 this.getGrowthRecord();
+                this.getEggQualityRecord();
+                this.getEggProductionRecord();
+                this.getHatcheryRecord();
             },
             getPercentage : function (object, value){
                var array = Object.values(object);
@@ -1909,10 +2060,31 @@
                 }else{
                     return math.min(array).toFixed(3);
                 }
-            }   
+            },
+            getEggQualData : function (object) {
+                var data = object;
+                var summary = [];
+                var week35 = [];
+                var week40 = [];
+                var week60 = [];
+                data.forEach(element => {
+                    if(element.egg_quality_at === 35){
+                        if(typeof week35['week'] === 'undefined'){
+                            week35['week'] = 35;
+                        }
+                    }else if(element.egg_quality_at === 40){
+                        if(typeof week40['week'] === 'undefined'){
+                            week40['week'] = 40;
+                        }
+                    }else if(element.egg_quality_at === 60){
+                        if(typeof week60['week'] === 'undefined'){
+                            week60['week'] = 60;
+                        }
+                    }
+                });
+            },
         },
         mounted() {
-            console.log('Component mounted.');
             this.fetchGeneration();
         },
         created() {
