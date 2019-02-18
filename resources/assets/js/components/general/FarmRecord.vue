@@ -1652,39 +1652,28 @@
                                         <thead>
                                             <tr>
                                                 <th>Family</th>
-                                                <th>Week</th>
-                                                <th>Avg Wt</th>
-                                                <th>Color</th>
-                                                <th>Shape</th>
-                                                <th>Avg Width</th>
-                                                <th>Avg AH</th>
-                                                <th>Avg AW</th>
-                                                <th>Avg YW</th>
-                                                <th>YC</th>
-                                                <th>Avg SW</th>
-                                                <th>Avg TT</th>
-                                                <th>Avg MT</th>
-                                                <th>Avg BT</th>
+                                                <th>Avg Intact</th>
+                                                <th>STD Intact</th>
+                                                <th>Avg Egg Weight</th>
+                                                <th>STD Egg Weight</th>
+                                                <th>Avg Broken</th>
+                                                <th>STD Broken</th>
+                                                <th>Avg Rejects</th>
+                                                <th>STD Rejects</th>
                                             </tr>
                                         </thead>
 
                                         <tbody v-for="(eggprod_record, index) in eggprod_records" :key="index">
                                             <tr>
                                                 <td>{{index}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{getMeanValues(getEggProductionData(eggprod_record)[0])}}</td>
+                                                <td>{{getStdValues(getEggProductionData(eggprod_record)[0])}}</td>
+                                                <td>{{getMeanValues(getEggProductionData(eggprod_record)[1])}}</td>
+                                                <td>{{getStdValues(getEggProductionData(eggprod_record)[1])}}</td>
+                                                <td>{{getMeanValues(getEggProductionData(eggprod_record)[2])}}</td>
+                                                <td>{{getStdValues(getEggProductionData(eggprod_record)[2])}}</td>
+                                                <td>{{getMeanValues(getEggProductionData(eggprod_record)[3])}}</td>
+                                                <td>{{getStdValues(getEggProductionData(eggprod_record)[3])}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1699,39 +1688,32 @@
                                         <thead>
                                             <tr>
                                                 <th>Family</th>
-                                                <th>Week</th>
-                                                <th>Avg Wt</th>
-                                                <th>Color</th>
-                                                <th>Shape</th>
-                                                <th>Avg Width</th>
-                                                <th>Avg AH</th>
-                                                <th>Avg AW</th>
-                                                <th>Avg YW</th>
-                                                <th>YC</th>
-                                                <th>Avg SW</th>
-                                                <th>Avg TT</th>
-                                                <th>Avg MT</th>
-                                                <th>Avg BT</th>
+                                                <th>Mean Eggs Set</th>
+                                                <th>STD Eggs Set</th>
+                                                <th>Mean Fertile</th>
+                                                <th>STD Fertile</th>
+                                                <th>Mean Hatched</th>
+                                                <th>STD Hatched</th>
+                                                <th>Mean Fertility</th>
+                                                <th>STD Fertility</th>
+                                                <th>Mean Hatchability</th>
+                                                <th>STD Hatchability</th>
                                             </tr>
                                         </thead>
 
                                         <tbody v-for="(hatchery_record, index) in hatchery_records" :key="index">
                                             <tr>
                                                 <td>{{index}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{getMeanValues(getHatcheryData(hatchery_record)[0])}}</td>
+                                                <td>{{getStdValues(getHatcheryData(hatchery_record)[0])}}</td>
+                                                <td>{{getMeanValues(getHatcheryData(hatchery_record)[1])}}</td>
+                                                <td>{{getStdValues(getHatcheryData(hatchery_record)[1])}}</td>
+                                                <td>{{getMeanValues(getHatcheryData(hatchery_record)[2])}}</td>
+                                                <td>{{getStdValues(getHatcheryData(hatchery_record)[2])}}</td>
+                                                <td>{{getMeanValues(getHatcheryData(hatchery_record)[3])}}</td>
+                                                <td>{{getStdValues(getHatcheryData(hatchery_record)[3])}}</td>
+                                                <td>{{getMeanValues(getHatcheryData(hatchery_record)[4])}}</td>
+                                                <td>{{getStdValues(getHatcheryData(hatchery_record)[4])}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -2061,6 +2043,7 @@
                     return math.min(array).toFixed(3);
                 }
             },
+            // TODO : EGG QUALITY SUMMARY
             getEggQualData : function (object) {
                 var data = object;
                 var summary = [];
@@ -2082,6 +2065,64 @@
                         }
                     }
                 });
+            },
+            getEggProductionData : function (object) {
+                var data = object;
+                var summary = [];
+                var intact = [];
+                var weight = [];
+                var broken = [];
+                var reject = [];
+
+                data.forEach(element => {
+                    intact.push(element.total_eggs_intact);
+                    weight.push(element.total_egg_weight);
+                    broken.push(element.total_broken);
+                    reject.push(element.total_rejects);
+                });
+                summary.push(intact, weight, broken, reject);
+                return summary;
+            },
+            getMeanValues : function (array){
+                return math.mean(array).toFixed(3);
+            },
+            getStdValues : function (array){
+                return math.std(array).toFixed(3);
+            },
+            getHatcheryData : function (object) {
+                var data = object;
+                var set = [];
+                var hatched = [];
+                var fertile = [];
+                var hatchability = [];
+                var fertility = [];
+                var summary = [];
+                data.forEach(element => {
+                    if(element.number_eggs_set != null){
+                        set.push(element.number_eggs_set);
+                    }else{
+                        set.push(0);
+                    }
+                    if(element.number_fertile != null){
+                        fertile.push(element.number_fertile);
+                    }else{
+                        fertile.push(0);
+                    }
+                    if(element.number_hatched != null){
+                        hatched.push(element.number_hatched);
+                    }else{
+                        hatched.push(0);
+                    }
+                    if(element.number_eggs_set != 0 || element.number_eggs_set != null){
+                        hatchability.push((element.number_hatched/element.number_eggs_set) * 100);
+                        fertility.push((element.number_fertile/element.number_eggs_set) * 100);
+                    }else{
+                        hatchability.push(0);
+                        fertility.push(0);
+                    }
+                });
+                summary.push(set, fertile, hatched, hatchability, fertility);
+                return summary;
             },
         },
         mounted() {
