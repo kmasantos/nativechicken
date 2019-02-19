@@ -812,7 +812,7 @@ class FarmController extends Controller
                                 ->join('generations', 'generations.id', 'lines.generation_id')
                                 ->where('generations.id', $generation)
                                 ->whereYear('egg_qualities.date_collected', $year)
-                                ->select('egg_qualities.*', 'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'breeder_inventories.number_male as males', 'breeder_inventories.number_female as females')
+                                ->select('egg_qualities.*', 'egg_qualities.length as len','families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number', 'breeder_inventories.number_male as males', 'breeder_inventories.number_female as females')
                                 ->withTrashed()->get();
         $summary = [];
         foreach($breeder_egg_quality as $egg_quality){

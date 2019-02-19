@@ -1606,14 +1606,15 @@
                                             <tr>
                                                 <th>Family</th>
                                                 <th>Week</th>
+                                                <th>Avg Lt</th>
                                                 <th>Avg Wt</th>
-                                                <th>Color</th>
-                                                <th>Shape</th>
+                                                <th>Prom Col</th>
+                                                <th>Prom Shpe</th>
                                                 <th>Avg Width</th>
                                                 <th>Avg AH</th>
                                                 <th>Avg AW</th>
                                                 <th>Avg YW</th>
-                                                <th>YC</th>
+                                                <th>Prom YC</th>
                                                 <th>Avg SW</th>
                                                 <th>Avg TT</th>
                                                 <th>Avg MT</th>
@@ -1624,20 +1625,54 @@
                                         <tbody v-for="(eggqual_record, index) in eggqual_records" :key="index">
                                             <tr>
                                                 <td>{{index}}</td>
-                                                <td>{{getEggQualData(eggqual_record)}}</td>
+                                                <td>{{getEggQualData(eggqual_record)[0].week}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].weight)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[0].color)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[0].shape)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].len)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].width)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].albumen_height)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].albumen_weight)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].yolk_weight)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[0].yolk_color)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].shell_weight)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].thickness_top)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].thickness_mid)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[0].thickness_bot)}}</td>
+                                            </tr>
+                                            <tr v-if="getEggQualData(eggqual_record)[1].week !== undefined">
                                                 <td></td>
+                                                <td>{{getEggQualData(eggqual_record)[1].week}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].weight)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[1].color)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[1].shape)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].len)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].width)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].albumen_height)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].albumen_weight)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].yolk_weight)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[1].yolk_color)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].shell_weight)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].thickness_top)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].thickness_mid)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[1].thickness_bot)}}</td>
+                                            </tr>
+                                            <tr v-if="getEggQualData(eggqual_record)[2].week !== undefined">
                                                 <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{getEggQualData(eggqual_record)[2].week}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].weight)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[2].color)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[2].shape)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].len)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].width)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].albumen_height)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].albumen_weight)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].yolk_weight)}}</td>
+                                                <td>{{sort(getEggQualData(eggqual_record)[2].yolk_color)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].shell_weight)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].thickness_top)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].thickness_mid)}}</td>
+                                                <td>{{getMeanValues(getEggQualData(eggqual_record)[2].thickness_bot)}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -2043,7 +2078,6 @@
                     return math.min(array).toFixed(3);
                 }
             },
-            // TODO : EGG QUALITY SUMMARY
             getEggQualData : function (object) {
                 var data = object;
                 var summary = [];
@@ -2054,17 +2088,133 @@
                     if(element.egg_quality_at === 35){
                         if(typeof week35['week'] === 'undefined'){
                             week35['week'] = 35;
+                            week35['weight'] = [];
+                            week35['color'] = [];
+                            week35['shape'] = [];
+                            week35['len'] = [];
+                            week35['width'] = [];
+                            week35['albumen_height'] = [];
+                            week35['albumen_weight'] = [];
+                            week35['yolk_weight'] = [];
+                            week35['yolk_color'] = [];
+                            week35['shell_weight'] = [];
+                            week35['thickness_top'] = [];
+                            week35['thickness_mid'] = [];
+                            week35['thickness_bot'] = [];
                         }
+                        week35['weight'].push(element.weight);
+                        if(typeof week35['color'][element.color]  === 'undefined'){
+                            week35['color'][element.color] = 1;
+                        }else{
+                            week35['color'][element.color]++;
+                        }
+                        if(typeof week35['shape'][element.shape]  === 'undefined'){
+                            week35['shape'][element.shape] = 1;
+                        }else{
+                            week35['shape'][element.shape]++ ;
+                        }
+                        week35['len'].push(element.len);
+                        week35['width'].push(element.width);
+                        week35['albumen_height'].push(element.albumen_height);
+                        week35['albumen_weight'].push(element.albumen_weight);
+                        week35['yolk_weight'].push(element.yolk_weight);
+                         if(typeof week35['yolk_color'][element.yolk_color]  === 'undefined'){
+                            week35['yolk_color'][element.yolk_color] = 1;
+                        }else{
+                            week35['yolk_color'][element.yolk_color]++;
+                        }
+                        week35['shell_weight'].push(element.shell_weight);
+                        week35['thickness_top'].push(element.thickness_top);
+                        week35['thickness_mid'].push(element.thickness_mid);
+                        week35['thickness_bot'].push(element.thickness_bot);
                     }else if(element.egg_quality_at === 40){
                         if(typeof week40['week'] === 'undefined'){
                             week40['week'] = 40;
+                            week40['weight'] = [];
+                            week40['color'] = [];
+                            week40['shape'] = [];
+                            week40['len'] = [];
+                            week40['width'] = [];
+                            week40['albumen_height'] = [];
+                            week40['albumen_weight'] = [];
+                            week40['yolk_weight'] = [];
+                            week40['yolk_color'] = [];
+                            week40['shell_weight'] = [];
+                            week40['thickness_top'] = [];
+                            week40['thickness_mid'] = [];
+                            week40['thickness_bot'] = [];
                         }
+                        week40['weight'].push(element.weight);
+                        if(typeof week40['color'][element.color]  === 'undefined'){
+                            week40['color'][element.color] = 1;
+                        }else{
+                            week40['color'][element.color]++;
+                        }
+                        if(typeof week40['shape'][element.shape]  === 'undefined'){
+                            week40['shape'][element.shape] = 1;
+                        }else{
+                            week40['shape'][element.shape]++;
+                        }
+                        week40["len"].push(element.len);
+                        week40['width'].push(element.width);
+                        week40['albumen_height'].push(element.albumen_height);
+                        week40['albumen_weight'].push(element.albumen_weight);
+                        week40['yolk_weight'].push(element.yolk_weight);
+                         if(typeof week40['yolk_color'][element.yolk_color]  === 'undefined'){
+                            week40['yolk_color'][element.yolk_color] = 1;
+                        }else{
+                            week40['yolk_color'][element.yolk_color]++;
+                        }
+                        week40['shell_weight'].push(element.shell_weight);
+                        week40['thickness_top'].push(element.thickness_top);
+                        week40['thickness_mid'].push(element.thickness_mid);
+                        week40['thickness_bot'].push(element.thickness_bot);
                     }else if(element.egg_quality_at === 60){
                         if(typeof week60['week'] === 'undefined'){
                             week60['week'] = 60;
+                            week60['weight'] = [];
+                            week60['color'] = [];
+                            week60['shape'] = [];
+                            week60['len'] = [];
+                            week60['width'] = [];
+                            week60['albumen_height'] = [];
+                            week60['albumen_weight'] = [];
+                            week60['yolk_weight'] = [];
+                            week60['yolk_color'] = [];
+                            week60['shell_weight'] = [];
+                            week60['thickness_top'] = [];
+                            week60['thickness_mid'] = [];
+                            week60['thickness_bot'] = [];
                         }
+                        week60['weight'].push(element.weight);
+                        if(typeof week60['color'][element.color]  === 'undefined'){
+                            week60['color'][element.color] = 1;
+                        }else{
+                            week60['color'][element.color]++;
+                        }
+                        if(typeof week60['shape'][element.shape]  === 'undefined'){
+                            week60['shape'][element.shape] = 1;
+                        }else{
+                            week60['shape'][element.shape]++;
+                        }
+                        week60["len"].push(element.len);
+                        week60['width'].push(element.width);
+                        week60['albumen_height'].push(element.albumen_height);
+                        week60['albumen_weight'].push(element.albumen_weight);
+                        week60['yolk_weight'].push(element.yolk_weight);
+                         if(week60['yolk_color'][element.yolk_color]  === 'undefined'){
+                            week60['yolk_color'][element.yolk_color] = 1;
+                        }else{
+                            week60['yolk_color'][element.yolk_color]++;
+                        }
+                        week60['shell_weight'].push(element.shell_weight);
+                        week60['thickness_top'].push(element.thickness_top);
+                        week60['thickness_mid'].push(element.thickness_mid);
+                        week60['thickness_bot'].push(element.thickness_bot);
                     }
                 });
+                summary.push(week35, week40, week60);
+                return summary;
             },
             getEggProductionData : function (object) {
                 var data = object;
@@ -2084,10 +2234,21 @@
                 return summary;
             },
             getMeanValues : function (array){
-                return math.mean(array).toFixed(3);
+                var filtered = math.filter(array, /[0-9]+/);
+                if(filtered === undefined || filtered.length === 0){
+                    return;
+                }else{
+                    return math.mean(filtered).toFixed(3);
+                }
+                
             },
             getStdValues : function (array){
-                return math.std(array).toFixed(3);
+                var filtered = math.filter(array, /[0-9]+/);
+                if(filtered === undefined || filtered.length === 0){
+                    return;
+                }else{
+                    return math.std(filtered).toFixed(3);
+                }
             },
             getHatcheryData : function (object) {
                 var data = object;
@@ -2124,6 +2285,23 @@
                 summary.push(set, fertile, hatched, hatchability, fertility);
                 return summary;
             },
+            capitalize : function (string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            },
+            sort : function (colors) {
+                var keys = [];
+                var max = 0;
+                for (var val in colors) {
+                    if(colors[val] > max){
+                        max = colors[val];
+                        keys = [];
+                        keys.push(val);
+                    }else if(colors[val] == max){
+                        keys.push(val);
+                    }
+                }
+                return keys.join(", ");
+            }
         },
         mounted() {
             this.fetchGeneration();
