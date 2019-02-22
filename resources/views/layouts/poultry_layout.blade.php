@@ -85,7 +85,7 @@
                         <a href="javascript:void(0)" class="collapsible-header" class="waves-effect"><i class="material-icons">assessment</i>Farm Records</a>
                          <div class="collapsible-body">
                             <ul>
-                                <li><a href="javascript:void(0)">Generation</a></li>
+                                <li><a href="{{route('farm.generation_records')}}">Generation</a></li>
                                 <li><a href="{{route('farm.farm_records')}}">Family</a></li>
                             </ul>
                         </div> 
