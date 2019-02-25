@@ -1110,7 +1110,7 @@ class FarmController extends Controller
         }
         $summary = [];
         foreach($collection_summary as $collection){
-            if(!array_key_exists("Family ".$collection->family_number." | L (".$collection->line_number.") G ( ".$collection->generation_number.")", $summary)){
+            if(!array_key_exists($collection->generation_number, $summary)){
                 $summary[$collection->generation_number] = array();
             }
             array_push($summary[$collection->generation_number], $collection);
@@ -1264,7 +1264,7 @@ class FarmController extends Controller
         return $summary;
     }
 
-    public function getMortalityGeneration ($year) 
+    public function getMortalityGeneration () 
     {
         $breeder_mortalities = MortalitySale::join('breeder_inventories', 'breeder_inventories.id', 'mortality_sales.breeder_inventory_id')
                 ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')

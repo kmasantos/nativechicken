@@ -44,6 +44,7 @@
                             </div>
                             <div v-else id="genprod">
                                 <!-- Production Component -->
+                                <generation-production :year="summary_year"></generation-production>
                             </div>
                             <div v-if="summary_year===null" id="geninv">
                                 <div class="row center">
@@ -54,6 +55,7 @@
                             </div>
                             <div v-else id="geninv">
                                 <!-- Inventory Component -->
+                                <generation-inventory :year="summary_year"></generation-inventory>
                             </div>
                     </div>
                 </div>

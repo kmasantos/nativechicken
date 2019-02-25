@@ -97,6 +97,13 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('family_mortality_summary/{generation_id}', 'FarmController@mortalitySalesPerFamily');
         Route::get('family_inventory_summary/{generation_id}', 'FarmController@getInventoryPerFamily');
         Route::get('generation_pheno_morpho', 'FarmController@getPhenoMorphoGeneration');
+        Route::get('generation_feeding/{year}', 'FarmController@getFeedingRecordGeneration');
+        Route::get('generation_growth/{year}', 'FarmController@getGrowthRecordGeneration');
+        Route::get('generation_eggqual/{year}', 'FarmController@eggQualityGeneration');
+        Route::get('generation_eggprod/{year}', 'FarmController@eggProductionGeneration');
+        Route::get('generation_hatchery/{year}', 'FarmController@getHatcheryRecordGeneration');
+        Route::get('generation_inventory', 'FarmController@getInventoryGeneration');
+        Route::get('generation_mortality', 'FarmController@getMortalityGeneration');
 
         // Breeder Axios Routes
         Route::get('breeder_list', 'BreederController@getBreederList');

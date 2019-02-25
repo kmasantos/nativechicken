@@ -2118,7 +2118,7 @@
                 var day0 = [];
                 var day21 = [];
                 var day45 = [];
-                var day60 = [];
+                var day75 = [];
                 var day100 = [];
                 data.forEach(element => {
                     if(element.collection_day == 0){
@@ -2146,16 +2146,16 @@
                             day45["weight_per_male"].push(element.male_weight/element.male_quantity);
                             day45["weight_per_female"].push(element.female_weight/element.female_quantity);
                         }
-                    }else if(element.collection_day == 60){
-                        if(typeof day60["weight_per_head"] === 'undefined' && typeof day60["weight_per_male"] === 'undefined' && typeof day60["weight_per_female"] === 'undefined'){
-                            day60["day"] = 60;
-                            day60["weight_per_head"] = element.total_weight/element.total_quantity;
-                            day60["weight_per_male"] = element.male_weight/element.male_quantity;
-                            day60["weight_per_female"] = element.female_weight/element.female_quantity;
+                    }else if(element.collection_day == 75){
+                        if(typeof day75["weight_per_head"] === 'undefined' && typeof day75["weight_per_male"] === 'undefined' && typeof day75["weight_per_female"] === 'undefined'){
+                            day75["day"] = 75;
+                            day75["weight_per_head"] = element.total_weight/element.total_quantity;
+                            day75["weight_per_male"] = element.male_weight/element.male_quantity;
+                            day75["weight_per_female"] = element.female_weight/element.female_quantity;
                         }else{
-                            day60["weight_per_head"].push(element.total_weight/element.total_quantity);
-                            day60["weight_per_male"].push(element.male_weight/element.male_quantity);
-                            day60["weight_per_female"].push(element.female_weight/element.female_quantity);
+                            day75["weight_per_head"].push(element.total_weight/element.total_quantity);
+                            day75["weight_per_male"].push(element.male_weight/element.male_quantity);
+                            day75["weight_per_female"].push(element.female_weight/element.female_quantity);
                         }
                     }else if(element.collection_day == 100){
                         if(typeof day100["weight_per_head"] === 'undefined' && typeof day100["weight_per_male"] === 'undefined' && typeof day100["weight_per_female"] === 'undefined'){
@@ -2170,7 +2170,7 @@
                         }
                     }
                 });
-                summary.push(day0, day21, day45, day60, day100);
+                summary.push(day0, day21, day45, day75, day100);
                 return summary;
             },
             getGrowthAverage : function (array) {
