@@ -36,14 +36,14 @@
                                                 <th>Percentage</th>
                                             </tr>
                                         </thead>
-
+            
                                         <tbody>
                                             <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][0]" :key="index">
                                                 <td>{{index}}</td>
                                                 <td>{{attribute}}</td>
                                                 <td>{{getPercentage(pheno_morpho['male']['pheno'][0], attribute)}}%</td>
                                             </tr>
-                                    </tbody>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -73,13 +73,43 @@
                                                 <td>{{attribute}}</td>
                                                 <td>{{getPercentage(pheno_morpho['male']['pheno'][1], attribute)}}%</td>
                                             </tr>
-                                    </tbody>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Body Carriage
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][2]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][2], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -103,13 +133,43 @@
                                                 <td>{{attribute}}</td>
                                                 <td>{{getPercentage(pheno_morpho['male']['pheno'][2], attribute)}}%</td>
                                             </tr>
-                                    </tbody>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Shank Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][3]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][3], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -139,7 +199,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Skin Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][4]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][4], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -169,7 +259,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Neck Feather Marking
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][5]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][5], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -199,7 +319,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Wing Feather Marking
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][6]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][6], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -229,7 +379,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Tail Feather Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][7]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][7], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -259,7 +439,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Bill Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][8]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][8], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -289,7 +499,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Bill Shape
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][9]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][9], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -319,7 +559,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Bean Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][10]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][10], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -349,7 +619,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Presence of Crest
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][11]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][11], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -379,6 +679,36 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" v-if="pheno_morpho['male']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Eye Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['male']['pheno'][12]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['male']['pheno'][12], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col s12 m12 l12">
                             Morphometric
@@ -397,7 +727,40 @@
                                     </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody v-if="pheno_morpho['male']['pheno'].length >= 13">
+                                    <tr v-for="(attribute, index) in pheno_morpho['male']['morpho']" :key="index">
+                                        <td v-if="index === 0">
+                                            Height (cm)	
+                                        </td>
+                                        <td v-if="index === 1">
+                                            Weight (g)		
+                                        </td>
+                                        <td v-if="index === 2">
+                                            Body Length (cm)
+                                        </td>
+                                        <td v-if="index === 3">
+                                            Chest Circumference (cm)	
+                                        </td>
+                                        <td v-if="index === 4">
+                                            Wing Span (cm)
+                                        </td>
+                                        <td v-if="index === 5">
+                                            Shank Length (cm)	
+                                        </td>
+                                        <td v-if="index === 6">
+                                            Bill Length (cm)	
+                                        </td>
+                                        <td v-if="index === 7">
+                                            Neck Length (cm)	
+                                        </td>
+                                        <td>{{getMin(attribute)}}</td>
+                                        <td>{{getMax(attribute)}}</td>
+                                        <td>{{getMean(attribute)}}</td>
+                                        <td>{{getStd(attribute)}}</td>
+                                    </tr>
+                                </tbody>
+
+                                <tbody v-else>
                                     <tr v-for="(attribute, index) in pheno_morpho['male']['morpho']" :key="index">
                                         <td v-if="index === 0">
                                             Height (cm)	
@@ -498,7 +861,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Body Carriage
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][2]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][2], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -528,7 +921,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Shank Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][3]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][3], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -558,7 +981,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Skin Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][4]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][4], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -588,7 +1041,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Neck Feather Marking
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][5]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][5], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -618,7 +1101,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Wing Feather Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][6]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][6], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -648,7 +1161,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Tail Feather Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][7]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][7], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -678,7 +1221,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Bill Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][8]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][8], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -708,7 +1281,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Bill Shape
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][9]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][9], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -738,7 +1341,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Bean Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][10]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][10], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -768,7 +1401,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Presence of Crest
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][11]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][11], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col s12 m12 l12">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -798,6 +1461,36 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" v-if="pheno_morpho['female']['pheno'].length >= 13"> 
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Eye Color
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <table class="bordered centered responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Frequency</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr v-for="(attribute, index) in pheno_morpho['female']['pheno'][12]" :key="index">
+                                                <td>{{index}}</td>
+                                                <td>{{attribute}}</td>
+                                                <td>{{getPercentage(pheno_morpho['female']['pheno'][12], attribute)}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col s12 m12 l12">
                             Morphometric
@@ -816,7 +1509,40 @@
                                     </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody v-if="pheno_morpho['female']['pheno'].length >= 13">
+                                    <tr v-for="(attribute, index) in pheno_morpho['female']['morpho']" :key="index">
+                                        <td v-if="index === 0">
+                                            Height (cm)	
+                                        </td>
+                                        <td v-if="index === 1">
+                                            Weight (g)		
+                                        </td>
+                                        <td v-if="index === 2">
+                                            Body Length (cm)
+                                        </td>
+                                        <td v-if="index === 3">
+                                            Chest Circumference (cm)	
+                                        </td>
+                                        <td v-if="index === 4">
+                                            Wing Span (cm)
+                                        </td>
+                                        <td v-if="index === 5">
+                                            Shank Length (cm)	
+                                        </td>
+                                        <td v-if="index === 6">
+                                            Bill Length (cm)	
+                                        </td>
+                                        <td v-if="index === 7">
+                                            Neck Length (cm)	
+                                        </td>
+                                        <td>{{getMin(attribute)}}</td>
+                                        <td>{{getMax(attribute)}}</td>
+                                        <td>{{getMean(attribute)}}</td>
+                                        <td>{{getStd(attribute)}}</td>
+                                    </tr>
+                                </tbody>
+
+                                <tbody v-else>
                                     <tr v-for="(attribute, index) in pheno_morpho['female']['morpho']" :key="index">
                                         <td v-if="index === 0">
                                             Height (cm)	
