@@ -110,7 +110,7 @@ class FarmController extends Controller
                     }
                     $replacements = Replacement::where('family_id', $family->id)->get();
                     foreach($replacements as $replacement){
-                        $inventories = BreederInventory::where('replacement_id', $replacement->id)->get();
+                        $inventories = ReplacementInventory::where('replacement_id', $replacement->id)->get();
                         $male = $male + $inventories->sum('number_male');
                         $female = $female + $inventories->sum('number_female');
                         $total = $total + $inventories->sum('total');
@@ -123,7 +123,7 @@ class FarmController extends Controller
                     }
                     $brooders = BrooderGrower::where('family_id', $family->id)->get();
                     foreach($brooders as $brooder){
-                        $inventories = BreederInventory::where('replacement_id', $brooder->id)->get();
+                        $inventories = BrooderGrowerInventory::where('broodergrower_id', $brooder->id)->get();
                         $male = $male + $inventories->sum('number_male');
                         $female = $female + $inventories->sum('number_female');
                         $total = $total + $inventories->sum('total');
