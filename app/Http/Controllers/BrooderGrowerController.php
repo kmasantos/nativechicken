@@ -32,8 +32,17 @@ class BrooderGrowerController extends Controller
 
     public function getBrooderGrowerPens ()
     {
-        $broodergrowers = Pen::where('farm_id', Auth::user()->farm_id)->where('is_active', true)->where('type', 'brooder')->paginate(12);
+        $broodergrowers = Pen::where('farm_id', Auth::user()->farm_id)->where('is_active', true)->where('type', 'brooder')->paginate(10);
         return $broodergrowers;
+    }
+
+    public function searchBrooderPen ($search)
+    {
+        $brooder_pen = Pen::where('farm_id', Auth::user()->farm_id)
+        ->where('type','brooder')
+        ->where('number', 'like', '%'.$search.'%')
+        ->paginate(10);
+        return $brooder_pen;
     }
 
     public function addBrooderGrower(Request $request)
@@ -224,7 +233,7 @@ class BrooderGrowerController extends Controller
                             ->get();
         foreach ($selected_records as $record) {
             $delete = BrooderGrowerFeeding::where('id', $record->sel_feeding_id)->firstOrFail();
-            $delete->delete();
+            $delete->forceDelete();
         }
         return response()->json(['status' => 'success', 'message' => 'Feeding record deleted']);
     }
@@ -338,7 +347,7 @@ class BrooderGrowerController extends Controller
                             ->get();
         foreach ($selected_records as $record) {
             $delete = BrooderGrowerGrowth::where('id', $record->sel_growth_id)->firstOrFail();
-            $delete->delete();
+            $delete->forceDelete();
         }
         return response()->json(['status' => 'success', 'message' => 'Growth record deleted']);
     }

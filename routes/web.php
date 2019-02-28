@@ -115,7 +115,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_fetch_pens', 'BreederController@fetchBreederPens');
         Route::get('breeder_fetch_brooder_pens', 'BreederController@fetchBrooderPens');
         Route::get('breeder_fetch_inventories/{family_id}', 'BreederController@fetchReplacementInventories');
-
+        Route::get('search_breeder/{breeder_tag}', 'BreederController@searchBreederTag');
         /**
          * *New Axios Routes for Breeders
          */
@@ -199,11 +199,13 @@ Route::group(['middleware' => ['web']], function ()
         Route::delete('brooder_delete_growthrecords/{record}', 'BrooderGrowerController@deleteGrowthRecord');
         Route::get('brooder_select_feedingrecords/{record}', 'BrooderGrowerController@selectFeedingRecords');
         Route::delete('brooder_delete_feedingrecords/{record}', 'BrooderGrowerController@deleteFeedingRecord');
+        Route::get('search_brooder/{search}', 'BrooderGrowerController@searchBrooderPen');
     });
     // Admin Routes
     Route::group(['prefix' => 'admin'], function()
     {
         Route::get('/',['as' => 'admin.index', 'uses' => 'AdminController@index']);
+        
     });
 });
 

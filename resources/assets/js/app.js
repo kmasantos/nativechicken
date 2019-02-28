@@ -51,6 +51,9 @@ Vue.component('inventory-broodergrower', require('./components/broodersgrowers/I
 Vue.component('feedingrecord-broodergrower', require('./components/broodersgrowers/FeedingRecord.vue'));
 Vue.component('growthrecord-broodergrower', require('./components/broodersgrowers/GrowthRecord.vue'));
 
+// Admin Vue Components
+
+
 /**
  ** Others
  **/

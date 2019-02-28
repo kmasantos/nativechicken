@@ -11,10 +11,10 @@
             <div class="row valign-wrapper" v-if="breeders_length > 0">
                 <div class="col s12 m8 l8 input-field">
                     <input v-model="search" id="search" type="text">
-                    <label for="search">Search Breeder Tag Number</label>
+                    <label for="search" class="active">Search Breeder Tag</label>
                 </div>
                 <div class="col s12 m4 l4">
-                    <a class="waves-effect waves-light btn blue-grey">Search
+                    <a class="waves-effect waves-light btn blue-grey" @click="searchBreeder">Search
                         <i class="material-icons right">search</i>
                     </a>
                 </div>
@@ -651,6 +651,15 @@
                     Materialize.toast('Failed to add breeder', 5000, 'red rounded');
                 });
                 this.getBreederList();
+            },
+            searchBreeder : function (page = 1) {
+                axios.get('search_breeder/'+this.search+"?page="+page).then(response => {
+                    this.breeders = response.data;
+                    this.breeders_length = this.breeders.data.length;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
             },
             customFormatter : function (date) {
                 var formatted = moment(date).format('YYYY-MM-DD')

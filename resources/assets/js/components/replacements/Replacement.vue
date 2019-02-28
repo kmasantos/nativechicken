@@ -20,7 +20,7 @@
             <div v-if="inventory_pen==null&&feeding_pen==null&&phenomorpho_pen==null&&growth_pen==null">
                 <div class="row valign-wrapper">
                     <div class="col s12 m9 l9 valign">
-                        <label for="search">Search</label>
+                        <label for="search" class="active">Search</label>
                         <input v-model="search" placeholder="Type family number" id="search" type="text">
                     </div>
                     <div class="col s12 m3 l3 valign">
@@ -294,9 +294,9 @@
                     console.log(error);
                 });
             },
-            searchReplacements : function () {
+            searchReplacements : function (page = 1) {
                 this.replacements_loaded = false;
-                axios.get('search_replacement_pens/'+this.search)
+                axios.get('search_replacement_pens/'+this.search+'?page='+page)
                 .then(response => this.replacement_pens = response.data)
                 .catch(function (error) {
                     console.log(error);

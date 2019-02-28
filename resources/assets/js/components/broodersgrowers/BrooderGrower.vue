@@ -3,10 +3,10 @@
         <div class="row valign-wrapper">
             <div class="col s12 m8 l8 input-field">
                 <input v-model="search" id="search" type="text">
-                <label for="search">Search Brooder Pens</label>
+                <label for="search" class="active">Search Brooder Pens</label>
             </div>
             <div class="col s12 m4 l4">
-                <a class="waves-effect waves-light btn blue-grey darken-1">Search<i class="material-icons right">search</i></a>
+                <a class="waves-effect waves-light btn blue-grey darken-1" @click="searchBrooderPen">Search<i class="material-icons right">search</i></a>
             </div>
         </div>
 
@@ -268,9 +268,9 @@
                 });
                 this.initialize();
             },
-            fetchBrooderPens : function () {
+            fetchBrooderPens : function (page = 1) {
                 this.broodergrowerloaded = false;
-                axios.get('broodergrower_pens')
+                axios.get('broodergrower_pens?page='+page)
                 .then(response => {
                     this.broodergrower_pens = response.data;
                     this.broodergrower_pen_len = response.data.data.length;
@@ -280,6 +280,17 @@
 
                 });
             },
+            searchBrooderPen : function (page = 1) {
+                axios.get('search_brooder/'+this.search+"?page="+page)
+                .then(response => {
+                    this.broodergrowers_pens = response.data;
+                    this.broodergrower_pen_len = this.broodergrowers_pens.data.length;
+                    this.broodergrowerloaded = true;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
         },
         created() {
             this.initialize();

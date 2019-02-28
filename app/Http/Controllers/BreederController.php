@@ -53,6 +53,24 @@ class BreederController extends Controller
         return $inventories;
     }
 
+    public function searchBreederTag ($breeder_tag)
+    {
+        $inventories = BreederInventory::
+            leftJoin('breeders', 'breeder_inventories.breeder_id', 'breeders.id')
+            ->leftJoin('families', 'breeders.family_id', 'families.id')
+            ->leftJoin('lines', 'families.line_id', 'lines.id')
+            ->leftJoin('generations', 'lines.generation_id', 'generations.id')
+            ->where('total', '>', 0)
+            ->where('generations.farm_id', Auth::user()->farm_id)
+            ->where('breeder_inventories.breeder_tag', 'like', '%'.$breeder_tag.'%')
+            ->select('breeder_inventories.*', 'breeders.*','families.*',
+            'breeder_inventories.id as inventory_id','breeders.id as breeder_id','families.id as family_id','families.number as family_number',
+            'lines.number as line_number', 'generations.number as generation_number')
+            ->paginate(8);
+
+        return $inventories;
+    }
+
     /**
      * !BUG : Breeder existence check
      * TODO Check breeder by combination of generation, line and family and the breeder inventory tag
@@ -280,7 +298,7 @@ class BreederController extends Controller
     public function deleteEggProduction ($record_id)
     {
         $record = EggProduction::where('id', $record_id)->firstOrFail();
-        $record->delete();
+        $record->forceDelete();
         return response()->json(['status' => 'success', 'message' => 'Egg Production record deleted']);
     }
 
@@ -664,7 +682,7 @@ class BreederController extends Controller
         ]);
         $hatchery_record = HatcheryRecord::find($request->delete_record);
         if($hatchery_record->number_hatched === 0 || $hatchery_record->number_hatched === null){
-            $hatchery_record->delete();
+            $hatchery_record->forceDelete();
             return response()->json(['status' => 'success', 'message' => 'Hatchery record deleted']);
         }
         else{
@@ -690,11 +708,11 @@ class BreederController extends Controller
             $brooder_pen = Pen::where('id', $brooder_inventory->pen_id)->first();
             $brooder_pen->current_capacity = $brooder_pen->current_capacity - $brooder_inventory->total;
             $brooder_pen->save();
-            $animal_movement->delete();
-            $brooder_inventory->delete();
-            $hatchery_record->delete();
+            $animal_movement->forceDelete();
+            $brooder_inventory->forceDelete();
+            $hatchery_record->forceDelete();
             if(BrooderGrowerInventory::where('broodergrower_id', $brooder->id)->count() === 0){
-                $brooder->delete();
+                $brooder->forceDelete();
             }
             return response()->json(['status' => 'success', 'message' => 'Hatchery Record updated']);
         }
@@ -1043,7 +1061,7 @@ class BreederController extends Controller
     public function deleteFeedingRecord ($record_id)
     {
         $record = BreederFeeding::where('id', $record_id)->firstOrFail();
-        $record->delete();
+        $record->forceDelete();
         return response()->json(['status' => 'success', 'message' => 'Feeding record deleted']);
     }
 
@@ -1073,7 +1091,7 @@ class BreederController extends Controller
     public function deleteEggQuality($record_id)
     {
         $record = EggQuality::where('id', $record_id)->firstOrFail();
-        $record->delete();
+        $record->forceDelete();
         return response()->json(['status' => 'success', 'message' => 'Egg Quality record deleted']);
     }
 
@@ -1081,8 +1099,8 @@ class BreederController extends Controller
     {
         $record = PhenoMorpho::where('id', $record_id)->firstOrFail();
         $record_value = PhenoMorphoValue::where('id', $record->values_id)->firstOrFail();
-        $record->delete();
-        $record_value->delete();
+        $record->forceDelete();
+        $record_value->forceDelete();
         return response()->json(['status' => 'success', 'message' => 'Pheno & Morpho record deleted']);
     }
 
@@ -1235,11 +1253,4 @@ class BreederController extends Controller
         $gen_list = Generation::where('farm_id', Auth::user()->farm_id)->where('numerical_generation', '>', $generation->numerical_generation)->get();
         return $gen_list;
     }
-
-    // public function fetchNewLines ($selected) 
-    // {
-    //     $generation = Generation::findOrFail($selected);
-    //     $line = Line::where('is_active', true)->where('generation_id', $generation->id)->get();
-    //     return $line;
-    // }
 }

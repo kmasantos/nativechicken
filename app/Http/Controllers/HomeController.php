@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,11 @@ class HomeController extends Controller
     public function index()
     {
         // Farm landing page
-        return view('general.dashboard');
+        if(Auth::user()->role_id === 1){
+            return view('general.dashboard');
+        }else if(Auth::user()->role_id === 2){
+            return view('admin.home');
+        }
+        
     }
 }

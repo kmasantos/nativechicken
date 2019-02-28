@@ -161,7 +161,7 @@ class ReplacementController extends Controller
             $inventory->save();
 
             if($brooder_inventory->total - ($request->males + $request->females) == 0){
-                $brooder_inventory->delete();
+                $brooder_inventory->forceDelete();
             }else{
                 $brooder_inventory->number_male = $brooder_inventory->number_male - $request->males;
                 $brooder_inventory->number_female = $brooder_inventory->number_female - $request->females;
@@ -393,7 +393,7 @@ class ReplacementController extends Controller
 
         foreach ($selected_records as $selected_record) {
             $delete = ReplacementFeeding::where('id', $selected_record->record_id)->firstOrFail();
-            $delete->delete();
+            $delete->forceDelete();
         }
         return response()->json(['status' => 'success', 'message' => 'Feeding records deleted']);
     }
@@ -477,7 +477,7 @@ class ReplacementController extends Controller
 
         foreach ($selected_records as $record) {
             $delete = ReplacementGrowth::where('id', $record->sel_growth_id)->firstOrFail();
-            $delete->delete();
+            $delete->forceDelete();
         }
         return response()->json(['status' => 'success', 'message' => 'Growth record deleted']);
     }
@@ -510,8 +510,8 @@ class ReplacementController extends Controller
     {
         $pheno_morpho_value = PhenoMorphoValue::where('id', $record)->firstOrFail();
         $pheno_morpho = PhenoMorpho::where('values_id', $pheno_morpho_value->id)->firstOrFail();
-        $pheno_morpho->delete();
-        $pheno_morpho_value->delete();
+        $pheno_morpho->forceDelete();
+        $pheno_morpho_value->forceDelete();
         return response()->json(['status' => 'success', 'message' => 'Pheno & Morpho record deleted']);
     }
 
