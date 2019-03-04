@@ -17,21 +17,29 @@
             nav {
                 height: 150px;
                 line-height: 150px;
+                padding-left: 400px;
             }
 
-            @media only screen and (max-width: 601px){
-                nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
-                    height: 80px;
-                    line-height: 80px;
-                }
-            }
-            header, main, footer, .navbar-fixed {
+            header, footer, {
                 padding-left: 160px;
             }
 
-            @media only screen and (max-width : 992px) {
+            main {
+                padding-top: 110px;
+            }
+
+            @media only screen and (max-width: 900px){
+                nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+                    height: 80px;
+                    line-height: 80px;
+                    padding-left: 0px;
+                }
                 header, main, footer {
                     padding-left: 0;
+                }
+                
+                main {
+                    padding-top: 50px;
                 }
             }
             
@@ -49,13 +57,14 @@
     <div class="navbar-fixed">
         <nav class="grey darken-1">
             <div class="nav-wrapper">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
                 <a class="brand-logo">@yield('title')</a>
             </div>
         </nav>
     </div>
     <ul id="slide-out" class="side-nav fixed">
         <div class="user-view">
-            <div class="background grey darken-1">
+            <div class="background grey">
             </div>
             <span>
                 <img id="logo" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="logo">
@@ -63,9 +72,22 @@
             <span class="white-text name">{{Auth::user()->name}}</span>
             <span class="white-text email">{{Auth::user()->email}}</span>
         </div>
-        <li><a href="#!">User Management</a></li>
-        <li><a href="#!">Content Management</a></li>
+        <li><a href="{{route('admin.index')}}"><i class="fas fa-columns"></i> Dashboard</a></li>
+        <li><a href="{{route('admin.user_management')}}"><i class="fas fa-users-cog"></i> User Management</a></li>
+        <li><a href="{{route('admin.content_management')}}"><i class="fas fa-pencil-alt"></i> Content Management</a></li>
+        <li><a href="{{route('admin.farm_status')}}"><i class="fab fa-houzz"></i> Farm Status</a></li>
+        <li><a href="{{route('logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
-    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+    <main>
+        <div class="container" id="app">
+            @yield('content')
+        </div>
+    </main>
+
+    <script type="text/javascript" src="/js/app.js"></script>
+    <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/js/application_materialize.js"></script>
+    @yield('customscripts')
 </body>
 </html>

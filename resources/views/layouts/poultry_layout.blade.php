@@ -118,7 +118,7 @@
             <ul id='dropdown_nav' class='dropdown-content'>
                 <li><a href="{{route('farm.index')}}">{{Auth::user()->name}}</a></li>
                 <li><a href="#!">Notifications</a></li>
-                <li><a href="#!">Logout</a></li>
+                <li><a href="{{route('logout')}}">Logout</a></li>
             </ul>
         </div>
     </nav>

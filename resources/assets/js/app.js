@@ -52,7 +52,7 @@ Vue.component('feedingrecord-broodergrower', require('./components/broodersgrowe
 Vue.component('growthrecord-broodergrower', require('./components/broodersgrowers/GrowthRecord.vue'));
 
 // Admin Vue Components
-
+Vue.component('user-management', require('./components/admin/UserManagement.vue'));
 
 /**
  ** Others

@@ -205,7 +205,14 @@ Route::group(['middleware' => ['web']], function ()
     Route::group(['prefix' => 'admin'], function()
     {
         Route::get('/',['as' => 'admin.index', 'uses' => 'AdminController@index']);
-        
+        Route::get('/user_management',['as' => 'admin.user_management', 'uses' => 'AdminController@userManagementPage']);
+        Route::get('/content_management',['as' => 'admin.content_management', 'uses' => 'AdminController@contentManagementPage']);
+        Route::get('/farm_status',['as' => 'admin.farm_status', 'uses' => 'AdminController@farmStatusPage']);
+
+        /**
+         * * Axios Routes for Admin
+         */
+        Route::get('user_list', 'AdminController@getUserList');
     });
 });
 
