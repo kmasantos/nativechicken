@@ -23,7 +23,7 @@
                     <tr v-for="user in users.data" :key="user.user_id">
                         <td>{{user.user_name}}</td>
                         <td>{{user.email}}</td>
-                        <td>{{user.role}}</td>
+                        <td>{{capitalize(user.role)}}</td>
                         <td>{{user.farm_name}}</td>
                         <td>{{user.last_active}}</td>
                         <td>
@@ -67,6 +67,9 @@
                 } catch (error) {
                     this.users_loaded = false;
                 }
+            },
+            capitalize : function (string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
             },
         },
         mounted() {

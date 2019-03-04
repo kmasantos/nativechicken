@@ -55,7 +55,7 @@
                                     </div>
                                 </div>
                                 <div class="card-action center-align">
-                                    <a href="#additional_breeder" @click="breeder_additional = breeder.inventory_id; selected_additional_tag=breeder.breeder_tag;" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add Breeder to Family"><i class="fas fa-exchange-alt"></i></a>
+                                    <a href="#additional_breeder" @click="breeder_additional = breeder.inventory_id; selected_additional_tag=breeder.breeder_tag; getValidInventory();" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add Breeder to Family"><i class="fas fa-exchange-alt"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_feeding = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-utensils"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
@@ -366,6 +366,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- <div class="row" v-if="add_within">
+                                <div class="col s12 m6 l6">
+                                    <label for="inventory_select">Select Inventory</label>
+                                    <select v-model="selected_inventory" class="browser-default">
+                                        <option v-if="valid_inventory_length === 0" value="" disabled selected>No inventory</option>
+                                        <option v-else value="" disabled selected>Choose your option</option>
+                                        <option v-for="inv in valid_inventory" :key="inv.inv_id" :value="inv.inv_id">Inventory: {{inv.replacement_tag}}/Batching: {{inv.batching_date}}/M:{{inv.number_male}}/F:{{inv.number_female}}</option>
+                                    </select>
+                                </div>
+                            </div> -->
                             <div class="row">
                                 <div class="input-field col s12 m6 l6">
                                     <input v-model="add_male" placeholder="Male to add" id="add_male" type="number" min=0 class="validate">
@@ -383,7 +393,7 @@
                 </div>
                 <div class="modal-footer">
                     <button href="javascript:void(0)" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
-                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                    <a @click="add_within=false;selected_inventory=null" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
                 </div>
             </form>
         </div>
@@ -453,6 +463,9 @@
                 add_within : false,
                 add_male : 0,
                 add_female : 0,
+                valid_inventory : {},
+                valid_inventory_length : 0,
+                selected_inventory : null,
             }
         },
         methods : {
@@ -660,6 +673,13 @@
                 .catch(function (error) {
                     console.log(error);
                 })
+            },
+            getValidInventory : function () {
+                axios.get('breeder_valid_inventory/'+this.breeder_additional).then(response => {
+                    this.valid_inventory = response.data;
+                    console.log(this.valid_inventory.length);
+                    this.valid_inventory_length = this.valid_inventory.length;
+                });
             },
             customFormatter : function (date) {
                 var formatted = moment(date).format('YYYY-MM-DD')

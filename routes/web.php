@@ -116,6 +116,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_fetch_brooder_pens', 'BreederController@fetchBrooderPens');
         Route::get('breeder_fetch_inventories/{family_id}', 'BreederController@fetchReplacementInventories');
         Route::get('search_breeder/{breeder_tag}', 'BreederController@searchBreederTag');
+        Route::get('breeder_valid_inventory/{breeder_inventory}', 'BreederController@getValidInventory');
+        
         /**
          * *New Axios Routes for Breeders
          */

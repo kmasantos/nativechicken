@@ -1119,7 +1119,7 @@ class BreederController extends Controller
         $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
         $breeder = Breeder::where('id', $breeder_inventory->breeder_id)->firstOrFail();
 
-        if($breeder_pen->total_capacity < $breeder_pen->current_capacity + ($request->number_male + $request->number_female)){
+        if(($breeder_pen->current_capacity + ($request->number_male + $request->number_female)) > $breeder_pen->total_capacity){
             return response()->json( ['error'=>'Input quantity is too large for the breeder inventory'] );
         }
 
@@ -1129,7 +1129,7 @@ class BreederController extends Controller
                                 ->where('batching_date', $breeder_inventory->batching_date)
                                 ->firstOrFail();
             $replacement_pen = Pen::where('id', $replacement_inventory->pen_id)->firstOrFail();
-            if($replacment_pen->total_capacity < $replacement_pen->current_capacity + ($request->number_male + $request->number_female)){
+            if($replacement_pen->total_capacity < $replacement_pen->current_capacity + ($request->number_male + $request->number_female)){
                 return response()->json( ['error'=>'Input quantity is too large for the replacment inventory'] );
             }
             $replacement_pen->current_capacity = $replacement_pen->current_capacity - ($request->number_male + $request->number_female);
@@ -1253,4 +1253,14 @@ class BreederController extends Controller
         $gen_list = Generation::where('farm_id', Auth::user()->farm_id)->where('numerical_generation', '>', $generation->numerical_generation)->get();
         return $gen_list;
     }
+
+    public function getValidInventory ($inventory) 
+    {
+        $breeder = BreederInventory::where('id', $inventory)->first()->getBreederData();
+        $inventories = ReplacementInventory::join('replacements', 'replacement_inventories.replacement_id', 'replacements.id')
+                    ->where('replacements.family_id', $breeder->family_id)
+                    ->select('replacement_inventories.*', 'replacement_inventories.id as inv_id', 'replacements.id as rep_id')
+                    ->get();
+        return $inventories;
+    } 
 }
