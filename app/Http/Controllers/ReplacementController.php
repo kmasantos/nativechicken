@@ -75,14 +75,13 @@ class ReplacementController extends Controller
         $request->validate([
             "family_id" => "required",
             "pen_id" => "required",
-            "males" => "required",
-            "females" => "required",
+            "total" => "required",
             "external" => "required",
         ]);
         $replacement_pen = Pen::where('id', $request->pen_id)->firstOrFail();
         $replacement = Replacement::where('family_id', $request->family_id)->first();
-        if($replacement_pen->total_capacity < ($replacement_pen->current_capacity+($request->males + $request->females))){
-            return response()->json( ['error'=>'Replacement pen capacity is too small for total male and female'] );
+        if($replacement_pen->total_capacity < ($replacement_pen->current_capacity + $request->total)){
+            return response()->json( ['status' => 'error', 'message' => 'Total quantity too large for replacement pen'] );
         }
         if($replacement == null){
             $replacement = new Replacement;
@@ -92,7 +91,7 @@ class ReplacementController extends Controller
         }
 
         if($request->external){
-            $replacement_pen->current_capacity = $replacement_pen->current_capacity + ($request->males + $request->females);
+            $replacement_pen->current_capacity = $replacement_pen->current_capacity + $request->total;
             $replacement_pen->save();
 
             $movement = new AnimalMovement;
@@ -104,9 +103,7 @@ class ReplacementController extends Controller
             $movement->previous_type = null;
             $movement->current_type = "replacement";
             $movement->activity = "transfer";
-            $movement->number_male = $request->males;
-            $movement->number_female = $request->females;
-            $movement->number_total = $request->males + $request->females;
+            $movement->number_total = $request->total;
             $movement->remarks = "outside system";
             $movement->save();
 
@@ -115,16 +112,14 @@ class ReplacementController extends Controller
             $inventory->pen_id = $replacement_pen->id;
             $inventory->replacement_tag = $tag;
             $inventory->batching_date = $request->estimate_hatch_date;
-            $inventory->number_male = $request->males;
-            $inventory->number_female = $request->females;
-            $inventory->total = $request->males + $request->females;
+            $inventory->total = $request->total;
             $inventory->last_update = $request->date_added;
             $inventory->save();
             return response()->json(['status' => 'success', 'message' => 'Replacement added']);
         }else{
             $brooder_inventory = BrooderGrowerInventory::where('id', $request->brooder_inventory)->first();
-            if(($brooder_inventory->number_male<$request->male || $brooder_inventory->number_female<$request->females)||$brooder_inventory->total < ($request->male+$request->females)){
-                return response()->json( ['error'=>'There is a problem in your brooder inventory data or the input quantity does is too large'] );
+            if($brooder_inventory->total < $request->total){
+                return response()->json( ['status' => 'error', 'message' => 'Total quantity too large for brooder inventory selected'] );
             }
 
             $brooder_movement = new AnimalMovement;
@@ -136,17 +131,15 @@ class ReplacementController extends Controller
             $brooder_movement->previous_type = "broodersgrowers";
             $brooder_movement->current_type = "replacement";
             $brooder_movement->activity = "transfer";
-            $brooder_movement->number_male = $request->males;
-            $brooder_movement->number_female = $request->females;
-            $brooder_movement->number_total = $request->males + $request->females;
+            $brooder_movement->number_total = $request->total;
             $brooder_movement->remarks = "within system";
             $brooder_movement->save();
 
             $brooder_pen = Pen::where('id', $brooder_inventory->pen_id)->firstOrFail();
-            $brooder_pen->current_capacity = $brooder_pen->current_capacity - ($request->males + $request->females);
+            $brooder_pen->current_capacity = $brooder_pen->current_capacity - $request->total;
             $brooder_pen->save();
 
-            $replacement_pen->current_capacity = $replacement_pen->current_capacity + ($request->males + $request->females);
+            $replacement_pen->current_capacity = $replacement_pen->current_capacity + $request->total;
             $replacement_pen->save();
 
             $inventory = new ReplacementInventory;
@@ -154,18 +147,14 @@ class ReplacementController extends Controller
             $inventory->pen_id = $replacement_pen->id;
             $inventory->replacement_tag = $tag;
             $inventory->batching_date = $brooder_inventory->batching_date;
-            $inventory->number_male = $request->males;
-            $inventory->number_female = $request->females;
-            $inventory->total = $request->males + $request->females;
+            $inventory->total = $request->total;
             $inventory->last_update = $request->date_added;
             $inventory->save();
 
-            if($brooder_inventory->total - ($request->males + $request->females) == 0){
+            if($brooder_inventory->total - $request->total == 0){
                 $brooder_inventory->forceDelete();
             }else{
-                $brooder_inventory->number_male = $brooder_inventory->number_male - $request->males;
-                $brooder_inventory->number_female = $brooder_inventory->number_female - $request->females;
-                $brooder_inventory->total = $brooder_inventory->total - ($request->males + $request->females);
+                $brooder_inventory->total = $brooder_inventory->total - $request->total;
                 $brooder_inventory->save();
             }
 
