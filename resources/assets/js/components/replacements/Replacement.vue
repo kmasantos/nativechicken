@@ -182,6 +182,12 @@
                                     </div>
                                     <div class="row">
                                         <div class="col s12 m6 l6 input-field">
+                                            <input v-model.number="total" id="number_total" type="number" min=0 placeholder="Number of brooders to transfer or add">
+                                            <label class="active" for="number_total">Total</label>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col s12 m6 l6 input-field">
                                             <input v-model.number="males" id="number_male" type="number" min=0 placeholder="Number of male to transfer or add">
                                             <label class="active" for="number_male">Number Male</label>
                                         </div>
@@ -191,7 +197,7 @@
                                             <input v-model.number="females" id="number_female" type="number" min=0 placeholder="Number of female to transfer or add">
                                             <label class="active" for="number_female">Number Female</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="row" v-if="external==true">
                                         <div class="col s12 m6 l6">
                                             <label for="estimate_date_hatched">Estimated Hatch Date</label>
@@ -210,7 +216,7 @@
                     </div>
                     <div class="modal-footer">
                         <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                        <button href="javascript:void(0)" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
+                        <button @click="button_disabled = true" :disabled="button_disabled" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
                     </div>
                 </form>
             </div>
@@ -244,8 +250,7 @@
                 selected_line : '',
                 selected_family : '',
                 date_added : '',
-                males : '',
-                females : '',
+                total: '',
                 replacement_tag : '',
                 estimate_date_hatched : '',
 
@@ -264,6 +269,7 @@
                 phenomorpho_number : null,
                 growth_pen : null,
                 growth_number : null,
+                button_disabled: false,
 
             }
         },
@@ -336,43 +342,51 @@
                     console.log(error);
                 });
             },
-            addReplacements : function () {
+            addReplacements : async function () {
                 if(this.external==true){
                     this.estimate_date_hatched = this.customFormatter(this.estimate_date_hatched);
                 }
-                axios.post('add_replacements', {
-                    family_id : this.selected_family,
-                    pen_id : this.selected_pen,
-                    males : this.males,
-                    females : this.females,
-                    date_added : this.customFormatter(this.date_added),
-                    external : this.external,
-                    replacement_tag : this.replacement_tag,
-                    brooder_inventory : this.selected_brooder,
-                    estimate_hatch_date : this.estimate_date_hatched,
-                })
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.selected_generation = '';
-                        this.selected_line = '';
-                        this.selected_family = '';
-                        this.selected_pen = '';
-                        this.males = '';
-                        this.females = '';
-                        this.date_added = '';
-                        this.external = false;
-                        this.replacement_tag = '';
-                        this.selected_brooder = '';
-                        this.estimate_date_hatched = '';
-                        Materialize.toast('Successfully added replacements', 3000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                try {
+                    const response = await axios.post('add_replacements', {
+                        family_id : this.selected_family,
+                        pen_id : this.selected_pen,
+                        total : this.total,
+                        date_added : this.customFormatter(this.date_added),
+                        external : this.external,
+                        replacement_tag : this.replacement_tag,
+                        brooder_inventory : this.selected_brooder,
+                        estimate_hatch_date : this.estimate_date_hatched,
+                    });
+                    while(response.status==null){
+                        this.button_disabled = true;
                     }
-                })
-                .catch(error => {
+                    if(response.status == 200){
+                        this.selected_generation = '';
+                            this.selected_line = '';
+                            this.selected_family = '';
+                            this.selected_pen = '';
+                            this.total = '';
+                            this.date_added = '';
+                            this.external = false;
+                            this.replacement_tag = '';
+                            this.selected_brooder = '';
+                            this.estimate_date_hatched = '';
+                            if(response.data.status == "error"){
+                                Materialize.toast(response.data.message, 3000, 'red rounded');
+                            }else{
+                                Materialize.toast('Successfully added replacements', 3000, 'green rounded');
+                            }
+                            this.getReplacementPens();
+                            this.button_disabled = false;
+                    }else{
+                        Materialize.toast(response.data.message, 3000, 'red rounded');
+                        this.button_disabled = false;
+                    }
+                }catch (error) {
                     Materialize.toast(error, 3000, 'red rounded');
-                });
-                this.getReplacementPens();
+                    this.button_disabled = false;
+                }
+                
             },
             fetchPenInfo : function (){
                 this.info_loaded = false;
