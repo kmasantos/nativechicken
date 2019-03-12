@@ -155,12 +155,17 @@
                                             <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
                                         </div>
                                         <div class="row">
+                                            <div class="col s12 m12 l12">
+                                                <i class="orange-text">Note: Replacement inventories with no male quantity will not be displayed</i> 
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col s12 m6 l6">
                                                 <label>Male's Replacement Inventory</label>
                                                 <select v-model="selected_male_inv" class="browser-default">
                                                     <option v-if="male_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id">{{inventories.replacement_tag}}</option>
+                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id">Tag: {{inventories.replacement_tag}} Male: {{inventories.number_male}} Female: {{inventories.number_female}}</option>
                                                 </select>
                                             </div>
                                             <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
@@ -202,6 +207,11 @@
                                                 </select>
                                             </div>
                                             <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l12">
+                                                <i class="orange-text">Note: Replacement inventories with no female quantity will not be displayed</i> 
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col s12 m6 l6">
