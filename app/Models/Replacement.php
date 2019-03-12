@@ -57,6 +57,18 @@ class Replacement extends Model
         return $inventories;
     }
 
+    public function getUpdatedInventories()
+    {
+        $inventories = ReplacementInventory::where('replacement_id', $this->id)
+                        ->where('total', '>', 0)
+                        ->where(function($query){
+                            $query->where('number_male', '>', 0)
+                                ->orWhere('number_female', '>', 0);
+                        })
+                        ->get();
+        return $inventories;
+    }
+
     public function getFamily()
     {
         $family = Family::where('id', $this->family_id)->first();

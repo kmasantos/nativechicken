@@ -24,6 +24,7 @@
                                         <th>Female</th>
                                         <th>Total</th>
                                         <th>Added</th>
+                                        <th>Update</th>
                                         <th>Mortality/Sale</th>
                                         <th>Cull</th>
                                     </tr>
@@ -31,6 +32,7 @@
 
                                 <tbody>
                                     <tr v-if="inventories_length == 0">
+                                        <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
@@ -56,6 +58,8 @@
                                         <td v-else>{{inventory.number_female}}</td>
                                         <td>{{inventory.total}}</td>
                                         <td>{{inventory.last_update}}</td>
+                                        <td v-if="inventory.number_female===0 && inventory.number_male===0"><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;selected_total=inventory.total" href="#update_modal" class="modal-trigger"><i class="fas fa-edit"></i></a></td>
+                                        <td v-else><i class="fas fa-edit grey-text"></i></td>
                                         <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;getMortalitySale()" href="#mortality_sale" class="modal-trigger"><i class="fas fa-minus-circle"></i></a></td>
                                         <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;" href="#cull_modal" class="modal-trigger"><i class="fas fa-times-circle"></i></a></td>
                                     </tr>
@@ -313,6 +317,42 @@
                         <a @click="cullReplacement()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
                     </div>
                 </div>
+                <div id="update_modal" class="modal modal-fixed-footer">
+                    <form method="patch" v-on:submit.prevent="updateReplacementInventory">
+                        <div class="modal-content">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <h4>Update {{selected_inventory_tag}}</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    Current Inventory Total : <strong>{{selected_total}}</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <div class="row">
+                                        <div class="col s12 s6 m6 input-field">
+                                            <input v-model.number="number_male" class="validate" placeholder="Update number of male" id="male" type="number" min="0">
+                                            <label class="active" for="male">Male</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 s6 m6 input-field">
+                                            <input v-model.number="number_female" class="validate" placeholder="Update number of female" id="female" type="number" min="0">
+                                            <label class="active" for="female">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat" type="submit">Submit</button>
+                            <a @click="selected_total=null; number_male=0;number_female=0" href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 </template>
@@ -352,6 +392,10 @@ export default {
             sale_eggs : '',
             egg_price : '',
             egg_remarks : '',
+
+            selected_total : null,
+            number_male : 0,
+            number_female : 0
         }
     },
     methods : {
@@ -479,6 +523,33 @@ export default {
                 });
                 this.getMortalitySale();
                 this.fetchPenInventory();
+            },  
+            updateReplacementInventory : function () {
+                if(this.selected_total != this.number_male + this.number_female){
+                    this.selected_total = null;
+                    Materialize.toast('Input and total did not match', 5000, 'red rounded');
+                }else{
+                    axios.patch('update_replacement_inventory', {
+                        inventory_id : this.selected_inventory_id,
+                        number_male: this.number_male,
+                        number_female: this.number_female
+                    })
+                    .then(response => {
+                        if(response.data.error == undefined){
+                            this.selected_inventory_id = null;
+                            this.number_male = 0;
+                            this.number_female = 0;
+                            this.selected_total = null;
+                            this.fetchPenInventory();
+                            Materialize.toast('Successfully updated inventory', 3000, 'green rounded');
+                        }else{
+                            Materialize.toast(response.data.error, 3000, 'red rounded');
+                        }
+                    })
+                    .catch(error => {
+                        Materialize.toast(error, 3000, 'red rounded');
+                    });
+                }
             },
             customFormatter : function(date) {
                 return moment(date).format('YYYY-MM-DD');
@@ -505,6 +576,9 @@ export default {
         $('#cull_modal').modal({
             dismissible : false,
         });
+        $('#update_modal').modal({
+            dismissible : false,
+        });
         $('ul.tabs').tabs();
     },
     destroyed () {
@@ -512,3 +586,10 @@ export default {
     },
 }
 </script>
+
+<style>
+    #update_modal{
+        height: 400px !important;
+        width: 800px !important;
+    }
+</style>

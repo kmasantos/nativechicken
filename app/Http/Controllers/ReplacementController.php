@@ -674,4 +674,36 @@ class ReplacementController extends Controller
         ->get();
         return $brooders;
     }
+
+    public function updateMaleAndFemale(Request $request)
+    {
+        $date = Carbon::now();
+        $request->validate([
+            'inventory_id' => 'required',
+            'number_male' => 'required',
+            'number_female' => 'required',
+        ]);
+        $inventory = ReplacementInventory::where('id', $request->inventory_id)->firstOrFail();
+        $replacement = Replacement::where('id', $inventory->replacement_id)->firstOrFail();
+        $movement = new AnimalMovement;
+        $movement->date = $date->toDateString();
+        $movement->family_id = $replacement->family_id;
+        $movement->tag = $inventory->replacement_tag;
+        $movement->previous_pen_id = null;
+        $movement->current_pen_id  = $inventory->pen_id;
+        $movement->previous_type = 'replacement';
+        $movement->current_type = 'replacement';
+        $movement->activity = 'update';
+        $movement->number_male = $request->number_male;
+        $movement->number_female = $request->number_female;
+        $movement->number_total = $inventory->total;
+        $movement->remarks = null;
+
+        $inventory->number_male = $request->number_male;
+        $inventory->number_female = $request->number_female;
+
+        $movement->save();
+        $inventory->save();
+        return response()->json(['status' => 'success', 'message' => 'Replacement updated']);
+    }
 }
