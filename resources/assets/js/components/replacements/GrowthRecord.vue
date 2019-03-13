@@ -48,10 +48,14 @@
                                     <td>{{growth.date_collected}}</td>
                                     <td>{{growth.collection_day}}</td>
                                     <td>{{growth.replacement_tag}}</td>
-                                    <td>{{growth.male_quantity}}</td>
+                                    <td v-if="growth.male_quantity!==null">{{growth.male_quantity}}</td>
+                                    <td v-else>-</td>
                                     <td v-if="growth.male_weight!==null">{{growth.male_weight.toFixed(3)}}</td>
-                                    <td>{{growth.female_quantity}}</td>
+                                    <td v-else>-</td>
+                                    <td v-if="growth.female_weight!==null">{{growth.female_quantity}}</td>
+                                    <td v-else>-</td>
                                     <td v-if="growth.female_weight!==null">{{growth.female_weight.toFixed(3)}}</td>
+                                    <td v-else>-</td>
                                     <td>{{growth.total_quantity}}</td>
                                     <td v-if="growth.total_weight!==null">{{growth.total_weight.toFixed(3)}}</td>
                                     <td><a @click.prevent="selected_growth_record = growth.growth_id;selectGrowthRecords()" class="modal-trigger" href="#delete_growth"><i class="far fa-trash-alt"></i></a></td>
@@ -98,12 +102,31 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col s12 m12 l12">
+                                <label>Sexing Done?</label>
+                                <div class="switch">
+                                    <label>
+                                        Off
+                                        <input v-model="sexing" type="checkbox">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" v-if="!sexing">
+                            <div class="col s12 s6 m6 input-field">
+                                <input v-model.number="total_weight" class="validate" placeholder="Total weight (kg)" id="total_weight" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                <label class="active" for="total_weight">Total Weight</label>
+                            </div>
+                        </div>
+                        <div class="row" v-if="sexing">
                             <div class="col s12 s6 m6 input-field">
                                 <input v-model.number="male_weight" class="validate" placeholder="Total weight of all males (kg)" id="male_weight" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$">
                                 <label class="active" for="male_weight">Male Weight</label>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" v-if="sexing">
                             <div class="col s12 s6 m6 input-field">
                                 <input v-model.number="female_weight" class="validate" placeholder="Total weight of all females (kg)" id="female_weight" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$">
                                 <label class="active" for="female_weight">Female Weight</label>
@@ -149,10 +172,14 @@
                                         <td>{{selected_record.date_collected}}</td>
                                         <td>{{selected_record.collection_day}}</td>
                                         <td>{{selected_record.replacement_tag}}</td>
-                                        <td>{{selected_record.male_quantity}}</td>
+                                        <td v-if="selected_record.male_quantity!==null">{{selected_record.male_quantity}}</td>
+                                        <td v-else>-</td>
                                         <td v-if="selected_record.male_weight!==null">{{selected_record.male_weight.toFixed(3)}}</td>
-                                        <td>{{selected_record.female_quantity}}</td>
+                                        <td v-else>-</td>
+                                        <td v-if="selected_record.male_quantity!==null">{{selected_record.female_quantity}}</td>
+                                        <td v-else>-</td>
                                         <td v-if="selected_record.female_weight!==null">{{selected_record.female_weight.toFixed(3)}}</td>
+                                        <td v-else>-</td>
                                         <td>{{selected_record.total_quantity}}</td>
                                         <td v-if="selected_record.total_weight!==null">{{selected_record.total_weight.toFixed(3)}}</td>
                                     </tr>
@@ -191,9 +218,10 @@ export default {
             collection_day : '',
             date_added : '',
             male_weight : '',
+            total_weight : '',
             female_weight : '',
             selected_growth_record : '',
-
+            sexing : false,
             selected_records : {},
 
         }
@@ -210,13 +238,26 @@ export default {
             });
         },
         addGrowthRecord : function () {
-            axios.post('add_replacement_growth', {
-                pen_id : this.growth_pen_id,
-                collection_day : this.collection_day,
-                date_collected : this.customFormatter(this.date_added),
-                male_weight : this.male_weight,
-                female_weight : this.female_weight,
-            })
+            var input = {};
+            if(this.sexing){
+                input = {
+                    pen_id : this.growth_pen_id,
+                    collection_day : this.collection_day,
+                    date_collected : this.customFormatter(this.date_added),
+                    male_weight : this.male_weight,
+                    female_weight : this.female_weight,
+                    sexing : this.sexing,
+                };
+            }else{
+                input = {
+                    pen_id : this.growth_pen_id,
+                    collection_day : this.collection_day,
+                    date_collected : this.customFormatter(this.date_added),
+                    total_weight : this.total_weight,
+                    sexing : this.sexing,
+                };
+            }
+            axios.post('add_replacement_growth', input)
             .then(response => {
                 if(response.data.error == undefined){
                     this.others = false;
@@ -224,6 +265,8 @@ export default {
                     this.date_added  = '';
                     this.male_weight = '';
                     this.female_weight = '';
+                    this.total_weight = '';
+                    this.sexing = false;
                     Materialize.toast('Successfully added growth record', 5000, 'green rounded');
                 }else{
                     Materialize.toast(response.data.error, 5000, 'red rounded');
