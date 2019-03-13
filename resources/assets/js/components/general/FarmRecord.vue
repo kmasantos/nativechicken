@@ -2158,16 +2158,15 @@
                             day75["weight_per_female"].push(element.female_weight/element.female_quantity);
                         }
                     }else if(element.collection_day == 100){
-                        if(typeof day100["weight_per_head"] === 'undefined' && typeof day100["weight_per_male"] === 'undefined' && typeof day100["weight_per_female"] === 'undefined'){
-                            day100["day"] = 100;
-                            day100["weight_per_head"] = element.total_weight/element.total_quantity;
-                            day100["weight_per_male"] = element.male_weight/element.male_quantity;
-                            day100["weight_per_female"] = element.female_weight/element.female_quantity;
-                        }else{
+                        if(typeof day100["day"] == "undefined" || !(day100["day"] instanceof Array)){
+                            day100["day"] = 60;
+                            day100["weight_per_head"] = [];
+                            day100["weight_per_male"] = [];
+                            day100["weight_per_female"] = [];
+                        }
                             day100["weight_per_head"].push(element.total_weight/element.total_quantity);
                             day100["weight_per_male"].push(element.male_weight/element.male_quantity);
                             day100["weight_per_female"].push(element.female_weight/element.female_quantity);
-                        }
                     }
                 });
                 summary.push(day0, day21, day45, day75, day100);
@@ -2177,14 +2176,30 @@
                 if(array === undefined || array.length == 0){
                     return null;
                 }else{
-                    return math.mean(array).toFixed(3);
+                    if(Array.isArray(array)){
+                        var filtered = math.filter(array, /[0-9]+/);
+                        if(filtered === undefined || filtered.length == 0){
+                            return null;
+                        }
+                        return math.mean(filtered).toFixed(3);
+                    }else{
+                        return array.toFixed(3);
+                    }
                 }
             },
             getGrowthStd : function (array) {
                 if(array === undefined || array.length == 0){
                     return null;
                 }else{
-                    return math.std(array).toFixed(3);
+                    if(Array.isArray(array)){
+                        var filtered = math.filter(array, /[0-9]+/);
+                        if(filtered === undefined || filtered.length == 0){
+                            return null;
+                        }
+                        return math.mean(filtered).toFixed(3);
+                    }else{
+                        return array.toFixed(3);
+                    }
                 }
             },
             getGrowthMin : function (array) {
