@@ -534,7 +534,7 @@
                         day75["weight_per_female"].push(element.female_weight/element.female_quantity);
                         
                     }
-                    if(element.collection_day === 100){
+                    if(element.collection_day == 100){
                         if(typeof day100["day"] == "undefined" || !(day100["day"] instanceof Array)){
                             day100["day"] = 60;
                             day100["weight_per_head"] = [];
@@ -744,6 +744,9 @@
                     return null;
                 }else{
                     var filtered = math.filter(array, /[0-9]+/);
+                    if(filtered === undefined || filtered.length == 0){
+                        return null
+                    }
                     return math.mean(filtered).toFixed(3);
                 }
             },
@@ -752,6 +755,9 @@
                     return null;
                 }else{
                     var filtered = math.filter(array, /[0-9]+/);
+                    if(filtered === undefined || filtered.length == 0){
+                        return null
+                    }
                     return math.std(filtered).toFixed(3);
                 }
             },
