@@ -961,6 +961,11 @@ class BreederController extends Controller
             $replacement = Replacement::where('family_id', $breeder->family_id)->firstOrFail();
             $replacement_inventory = ReplacementInventory::where('replacement_id', $replacement->id)
                                 ->where('batching_date', $breeder_inventory->batching_date)
+                                ->where('total', '>', 0)
+                                ->where(function($query){
+                                    $query->where('number_male', '>', 0)
+                                        ->orWhere('number_female', '>', 0);
+                                })
                                 ->firstOrFail();
             $replacement_pen = Pen::where('id', $replacement_inventory->pen_id)->firstOrFail();
             if($replacement_pen->total_capacity < $replacement_pen->current_capacity + ($request->number_male + $request->number_female)){
