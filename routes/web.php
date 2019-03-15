@@ -216,6 +216,7 @@ Route::group(['middleware' => ['web']], function ()
          * * Axios Routes for Admin
          */
         Route::get('user_list', 'AdminController@getUserList');
+        Route::get('breed_list', 'AdminController@getBreedList');
     });
 });
 

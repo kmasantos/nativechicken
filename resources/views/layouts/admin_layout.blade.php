@@ -48,14 +48,14 @@
             }
 
             #logo {
-                height: 100px;
-                width: 240px;
+                height: 110px;
+                width: 250px;
             }
     </style>
 </head>
 <body>
     <div class="navbar-fixed">
-        <nav class="grey darken-1">
+        <nav class="indigo darken-1">
             <div class="nav-wrapper">
                 <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
                 <a class="brand-logo">@yield('title')</a>
@@ -64,7 +64,7 @@
     </div>
     <ul id="slide-out" class="side-nav fixed">
         <div class="user-view">
-            <div class="background grey">
+            <div class="background indigo lighten-1">
             </div>
             <span>
                 <img id="logo" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="logo">

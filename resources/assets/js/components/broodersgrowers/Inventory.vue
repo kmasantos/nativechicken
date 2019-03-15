@@ -24,7 +24,7 @@
                                         <th><i class="fas fa-venus"></i></th>
                                         <th><i class="fas fa-venus-mars"></i></th>
                                         <th>Added</th>
-                                        <th>Update</th>
+                                        <!-- <th>Update</th> -->
                                         <th>Mort/Sale</th>
                                         <th>Cull</th>
                                     </tr>
@@ -58,7 +58,7 @@
                                         <td v-else>{{inventory.number_female}}</td>
                                         <td>{{inventory.total}}</td>
                                         <td>{{inventory.last_update}}</td>
-                                        <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag" href="#update" class="modal-trigger"><i class="fas fa-pen-square"></i></a></td>
+                                        <!-- <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag" href="#update" class="modal-trigger"><i class="fas fa-pen-square"></i></a></td> -->
                                         <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag;getMortalitySale();if(inventory.number_male!=null||inventory.number_female!=null)updated=true;" href="#mortality_sale" class="modal-trigger"><i class="fas fa-dollar-sign"></i></a></td>
                                         <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag" href="#cull_modal" class="modal-trigger"><i class="fas fa-minus-circle"></i></a></td>
 

@@ -7,6 +7,7 @@ use Auth;
 use App\Models\User;
 use App\Models\Farm;
 use App\Models\Role;
+use App\Models\Breed;
 
 class AdminController extends Controller
 {
@@ -54,6 +55,15 @@ class AdminController extends Controller
             'users.name as user_name', 'farms.name as farm_name')
             ->paginate(10);
         return $users;
-    } 
+    }
+    
+    /**
+     ** Helper Functions
+    **/
+    public function getBreedList () 
+    {
+        $breeds = Breed::all();
+        return $breeds;
+    }
 
 }
