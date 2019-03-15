@@ -8,6 +8,13 @@ nav, main, footer {
     }
 }
 
+#application_top_nav {
+    height: 120px;
+    line-height: 140px;
+    padding-top: 10px;
+}
+
+
 [type="radio"]:checked + label:after,
 [type="radio"].with-gap:checked + label:after {
     background-color: #78909c;

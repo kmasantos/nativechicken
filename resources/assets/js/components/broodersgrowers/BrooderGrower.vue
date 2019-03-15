@@ -40,25 +40,25 @@
                 <div class="col s12 m12 l12" v-if="inventory_pen==null&&feeding_pen==null&&growth_pen==null">
                     <div class="row">
                         <div class="col s12 m6 l6" v-for="pen in broodergrower_pens.data" :key="pen.id">
-                            <div class="card blue-grey lighten-4">
+                            <div class="card blue-grey darken-1 white-text">
                                 <div class="card-content">
-                                    <div class="card-title">Pen {{pen.number}}</div>
+                                    <div class="card-title"><strong>Pen {{pen.number}}</strong></div>
                                     <div class="row">
-                                        <div class="col s12 m12 l12">Content : {{pen.current_capacity}}</div>
-                                        <div class="col s12 m12 l12">Free : {{pen.total_capacity-pen.current_capacity}}</div>
+                                        <div class="col s12 m12 l12"><strong>Content : {{pen.current_capacity}}</strong></div>
+                                        <div class="col s12 m12 l12"><strong>Free : {{pen.total_capacity-pen.current_capacity}}</strong></div>
                                     </div>
                                 </div>
                                 <div class="card-action right-align">
-                                    <a v-if="pen.current_capacity>0" @click="inventory_pen=pen.id; inventory_number=pen.number" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Pen information">
+                                    <a v-if="pen.current_capacity>0" @click="inventory_pen=pen.id; inventory_number=pen.number" href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Pen information">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
-                                    <a v-if="pen.total_capacity > pen.current_capacity" @click="selectedpen=pen.id" href="#broodergrowermodal" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add brooder & grower">
+                                    <a v-if="pen.total_capacity > pen.current_capacity" @click="selectedpen=pen.id" href="#broodergrowermodal" class="white-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add brooder & grower">
                                         <i class="far fa-plus-square"></i>
                                     </a>
-                                    <a v-if="pen.current_capacity>0" @click="feeding_pen=pen.id; feeding_number=pen.number"  href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Feeding records">
+                                    <a v-if="pen.current_capacity>0" @click="feeding_pen=pen.id; feeding_number=pen.number"  href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Feeding records">
                                         <i class="fas fa-utensils"></i>
                                     </a>
-                                    <a v-if="pen.current_capacity>0" @click="growth_pen=pen.id; growth_number=pen.number" class="black-text tooltipped" href="javascript:void(0)" data-position="bottom" data-delay="50" data-tooltip="Growth records">
+                                    <a v-if="pen.current_capacity>0" @click="growth_pen=pen.id; growth_number=pen.number" class="white-text tooltipped" href="javascript:void(0)" data-position="bottom" data-delay="50" data-tooltip="Growth records">
                                         <i class="fas fa-balance-scale"></i>
                                     </a>
                                 </div>
