@@ -17,10 +17,10 @@
 
 <body>
     {{-- Side navigation --}}
-    <ul id="slide-out" class="side-nav fixed blue-grey lighten-4">
+    <ul id="slide-out" class="side-nav fixed blue-grey lighten-2">
         <li>
             <div class="user-view">
-                <div class="background blue-grey">
+                <div class="background blue-grey darken-1">
 
                 </div>
                 <img class="circle" src="https://image.ibb.co/jdbaXA/farmer.png" alt="farmer">
@@ -95,31 +95,26 @@
             <li class="no-padding">
                 <ul class="collapsible">
                     <li>
-                        <a href="{{route('farm.farm_settings')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">settings_applications</i>Farm Settings</a>
+                        <a href="{{route('farm.farm_settings')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">info</i>Farm Info and Notifictions</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible">
+                    <li>
+                        <a href="{{route('logout')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">power_settings_new</i>Logout</a>
                     </li>
                 </ul>
             </li>
         @endif
     </ul>
     {{-- Top navigation --}}
-    <nav class="blue-grey">
+    <nav id="application_top_nav" class="blue-grey darken-1">
         <div class="nav-wrapper">
             <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only"><i class="material-icons">menu</i></a>
-            <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo"eight="60px" width="150px"/ ></a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="{{route('farm.index')}}"><i class="material-icons">account_circle</i></a></li>
-                <li><a href="{{route('farm.test')}}"><i class="material-icons">notification_important</i></a></li>
-                <li><a href="{{route('logout')}}"><i class="material-icons">power_settings_new</i></a></li>
-            </ul>
-
+            <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo" height="100px" width="250px"/></a>
             <!-- Dropdown Trigger -->
             <a class='right dropdown-button hide-on-large-only' href='#' data-activates='dropdown_nav'><i class="material-icons">arrow_drop_down</i></a>
-            <!-- Dropdown Structure -->
-            <ul id='dropdown_nav' class='dropdown-content'>
-                <li><a href="{{route('farm.index')}}">{{Auth::user()->name}}</a></li>
-                <li><a href="#!">Notifications</a></li>
-                <li><a href="{{route('logout')}}">Logout</a></li>
-            </ul>
         </div>
     </nav>
     <main>

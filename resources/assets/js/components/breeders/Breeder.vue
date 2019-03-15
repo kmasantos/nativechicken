@@ -24,7 +24,7 @@
                 <div class="col s12 m12 l12">
                     <div class="row">
                         <div class="col s12 m6 l6" v-for="breeder in breeders.data" :key="breeder.inventory_id">
-                            <div class="card blue-grey lighten-2">
+                            <div class="card blue-grey">
                                 <div class="card-content">
                                     <div class="row valign-wrapper">
                                         <div class="col s8 m8 l8">
@@ -32,24 +32,24 @@
                                             <span id="tag_title" class="card-title white-text">{{breeder.breeder_tag}}</span>
                                         </div>
                                         <div class="col s4 m4 l4 center-align">
-                                            <a @click="breeder_delete=breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" href="#cull_modal" class="waves-effect waves-grey btn-flat red-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Cull"><i class="far fa-trash-alt"></i></a>
+                                            <a @click="breeder_delete=breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" href="#cull_modal" class="waves-effect waves-grey btn-flat white-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Cull"><i class="far fa-trash-alt"></i></a>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s12 m12 l12">
                                             <ul class="collection">
-                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Family : ' + breeder.family_number">F: {{breeder.family_number}}</li>
-                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Line : ' + breeder.line_number">L: {{breeder.line_number}}</li>
-                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Generation : ' + breeder.generation_number">G: {{breeder.generation_number}}</li>
-                                                <li class="collection-item blue-grey lighten-4 center-align">
+                                                <li class="collection-item blue-grey lighten-2 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Family : ' + breeder.family_number"><strong>F: {{breeder.family_number}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Line : ' + breeder.line_number"><strong>L: {{breeder.line_number}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Generation : ' + breeder.generation_number"><strong>G: {{breeder.generation_number}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 center-align">
                                                     <span>
-                                                        <i class="fas fa-mars"></i> Male : {{breeder.number_male}}
+                                                        <i class="fas fa-mars"></i><strong> Male : {{breeder.number_male}}</strong>
                                                     </span> |
                                                     <span>
-                                                        <i class="fas fa-venus"></i> Female : {{breeder.number_female}}
+                                                        <i class="fas fa-venus"></i><strong> Female : {{breeder.number_female}}</strong>
                                                     </span>
                                                 </li>
-                                                <li class="collection-item blue-grey lighten-4 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Batching Date : ' + breeder.batching_date">B: {{breeder.batching_date}}</li>
+                                                <li class="collection-item blue-grey lighten-2 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Batching Date : ' + breeder.batching_date"><strong>B: {{breeder.batching_date}}</strong></li>
                                             </ul>
                                         </div>
                                     </div>

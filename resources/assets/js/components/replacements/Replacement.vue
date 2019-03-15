@@ -34,30 +34,30 @@
                         <div class="col s12 m12 l12" v-if="replacement_pens_len > 0">
                             <div class="row">
                                 <div class="col s12 m6 l6" v-for="replacement_pen in replacement_pens.data" :key="replacement_pen.id">
-                                    <div class="card blue-grey lighten-4">
-                                        <div class="card-content black-text">
-                                            <div class="card-title">Pen {{replacement_pen.number}}</div>
+                                    <div class="card blue-grey darken-1">
+                                        <div class="card-content white-text">
+                                            <div class="card-title"><strong>Pen {{replacement_pen.number}}</strong></div>
                                             <div class="row">
                                                 <div class="col s12 m12 l12">
-                                                    Content : {{replacement_pen.current_capacity}}
+                                                    <strong>Content : {{replacement_pen.current_capacity}}</strong>
                                                 </div>
                                                 <div class="col s12 m12 l12">
-                                                    Free : {{replacement_pen.total_capacity - replacement_pen.current_capacity}}
+                                                    <strong>Free : {{replacement_pen.total_capacity - replacement_pen.current_capacity}}</strong>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-action right-align">
                                             <a v-if="replacement_pen.current_capacity>0" @click="inventory_pen=replacement_pen.id; inventory_number=replacement_pen.number" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Pen information">
-                                                <i class="fas fa-info-circle"></i>
+                                                <i class="fas fa-info-circle white-text"></i>
                                             </a>
                                             <a href="#add_modal" v-if="replacement_pen.total_capacity > replacement_pen.current_capacity" @click="selected_pen=replacement_pen.id;selected_pen_number=replacement_pen.number" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add replacement">
-                                                <i class="far fa-plus-square"></i>
+                                                <i class="far fa-plus-square white-text"></i>
                                             </a>
                                             <a v-if="replacement_pen.current_capacity>0" @click="feeding_pen=replacement_pen.id; feeding_number=replacement_pen.number" href="javascript:void(0)" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Feeding records">
-                                                <i class="fas fa-utensils"></i>
+                                                <i class="fas fa-utensils white-text"></i>
                                             </a>
-                                            <a v-if="replacement_pen.current_capacity>0" @click="phenomorpho_pen=replacement_pen.id; phenomorpho_number=replacement_pen.number" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
-                                            <a v-if="replacement_pen.current_capacity>0" @click="growth_pen=replacement_pen.id; growth_number=replacement_pen.number" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Growth Records"><i class="fas fa-balance-scale"></i></a>
+                                            <a v-if="replacement_pen.current_capacity>0" @click="phenomorpho_pen=replacement_pen.id; phenomorpho_number=replacement_pen.number" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye white-text"></i></a>
+                                            <a v-if="replacement_pen.current_capacity>0" @click="growth_pen=replacement_pen.id; growth_number=replacement_pen.number" href="javascript:void(0)" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Growth Records"><i class="fas fa-balance-scale white-text"></i></a>
                                         </div>
                                     </div>
                                 </div>
