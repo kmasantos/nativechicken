@@ -61,14 +61,18 @@ class LoginController extends Controller
     {
         $user = Socialite::driver('google')->stateless()->user();
         $findUser = User::where('email', $user->email)->first();
-        Auth::login($findUser, true);
-        $user->remember_token = $user->token;
-        if(!is_null($findUser)){
+        if(!is_null($findUser) && $findUser->blocked == false){
             if($findUser->role_id == 2){
+                Auth::login($findUser, true);
+                $user->remember_token = $user->token;
                 return redirect()->action('AdminController@index');
             }else{
+                Auth::login($findUser, true);
+                $user->remember_token = $user->token;
                 return redirect()->action('FarmController@index');
             }
+        }else{
+            return redirect('/');
         }
     }
 

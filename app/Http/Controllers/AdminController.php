@@ -45,7 +45,52 @@ class AdminController extends Controller
     {
         return view('admin.status');
     }
+    
+    public function createUser(Request $request) 
+    {
+        try{
+            $request->validate([
+                'username' => 'required',
+                'email' => 'required',
+                'farm_code' => 'required',
+                'farm_name' => 'required',
+                'farm_address' => 'required',
+                'breed_selected' => 'required',
+            ]);
 
+            if(User::where('email', '=', $request->email)->count() > 0){
+                return response()->json(['error'=>'Email already exists']);
+            }
+            if(Farm::where('code', '=', $request->farm_code)->count() > 0){
+                return response()->json(['error'=>'Farm code already exists']);
+            }
+
+            try{
+                $farm = new Farm;
+                $user = new User;
+                $farm->name = $request->farm_name;
+                $farm->code = $request->farm_code;
+                $farm->address = $request->farm_address;
+                $farm->breedable_id = $request->breed_selected;
+                $farm->save();
+                $user->name = $request->username;
+                $user->email = $request->email;
+                $user->farm_id = $farm->id;
+                $role = Role::find(1);
+                $user->role_id = $role->id;
+                $user->save();
+                return response()->json(['success' => $user->name]);
+            }catch(Exception $exception) {
+                return response()->json(['error'=>'Failed to create user']);
+            }
+        }catch(Exception $exception){
+            return response()->json(['error'=>'Incomplete input']);
+        }
+    }
+
+    /**
+     ** Helper Functions
+    **/
     public function getUserList ()
     {
         $users = User::join('farms', 'users.farm_id', 'farms.id')
@@ -56,14 +101,11 @@ class AdminController extends Controller
             ->paginate(10);
         return $users;
     }
-    
-    /**
-     ** Helper Functions
-    **/
+
     public function getBreedList () 
     {
         $breeds = Breed::all();
         return $breeds;
     }
-
+    
 }

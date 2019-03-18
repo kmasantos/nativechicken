@@ -13,6 +13,11 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>PAB-IS | @yield('title')</title>
+    <style>
+        .pagination li.active {
+            background-color : #546e7a;
+        }
+    </style>
 </head>
 
 <body>

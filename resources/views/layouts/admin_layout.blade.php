@@ -51,6 +51,16 @@
                 height: 110px;
                 width: 250px;
             }
+            .pagination li.active {
+                background-color : #3f51b5;
+            }
+            .side-nav li>a>i{
+                color: #3f51b5;
+            }
+
+            .side-nav li :hover{
+                background-color: #3f51b5;
+            }
     </style>
 </head>
 <body>
@@ -72,7 +82,7 @@
             <span class="white-text name">{{Auth::user()->name}}</span>
             <span class="white-text email">{{Auth::user()->email}}</span>
         </div>
-        <li><a href="{{route('admin.index')}}"><i class="fas fa-columns"></i> Dashboard</a></li>
+        <li><a href="{{route('admin.index')}}"><i class="fas fa-columns waves-effect waves-indigo darken-1"></i> Dashboard</a></li>
         <li><a href="{{route('admin.user_management')}}"><i class="fas fa-users-cog"></i> User Management</a></li>
         <li><a href="{{route('admin.content_management')}}"><i class="fas fa-pencil-alt"></i> Content Management</a></li>
         <li><a href="{{route('admin.farm_status')}}"><i class="fab fa-houzz"></i> Farm Status</a></li>

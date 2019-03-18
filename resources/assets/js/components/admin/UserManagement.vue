@@ -25,7 +25,8 @@
                         <td>{{user.email}}</td>
                         <td>{{capitalize(user.role)}}</td>
                         <td>{{user.farm_name}}</td>
-                        <td>{{user.last_active}}</td>
+                        <td v-if="user.last_active!=null">{{user.last_active}}</td>
+                        <td v-else>-</td>
                         <td>
                             <div class="col s4 m4 l4">
                                 <a class="indigo-text darken-1 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit User">
@@ -46,9 +47,12 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="col s12 m12 l12 center">
+                <pagination :data="users" @pagination-change-page="getUserList"></pagination>
+            </div>  
         </div>
         <div id="add_user_modal" class="modal modal-fixed-footer">
-            <form action="">
+            <form action="post" v-on:submit.prevent="createNewUser">
                 <div class="modal-content">
                     <div class="row">
                         <div class="col s12 m12 l12">
@@ -99,7 +103,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat">Submit</a>
+                    <button  href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat" type="submit">Submit</button>
                     <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat">Close</a>
                 </div>
             </form>
@@ -120,7 +124,6 @@
                 users_loaded : false,
                 breeds : [],
                 breeders_loaded : false,
-
                 username : '',
                 email : '',
                 farm_code : '',
@@ -130,9 +133,9 @@
             }
         },
         methods : {
-            getUserList : async function () {
+            getUserList : async function (page = 1) {
                 try {
-                    const response = await axios.get('user_list');
+                    const response = await axios.get('user_list?page=' + page);
                     this.users = response.data;
                     this.users_loaded = true;
                 } catch (error) {
@@ -148,28 +151,59 @@
                     this.breeders_loaded = false;
                 }
             },
-            createNewUser : async function () {
-                try{
-
-                }catch (error){
-
+            createNewUser : function () {
+                if(!this.checkEmailFormat(this.email)){
+                    Materialize.toast("Incorrect email format", 5000, 'red rounded');
                 }
+                axios.post('create_user', {
+                    username : this.username,
+                    email : this.email,
+                    farm_code : this.farm_code,
+                    farm_name : this.farm_name,
+                    farm_address : this.farm_address,
+                    breed_selected : this.breed_selected.id
+                })
+                .then(response => {
+                    if(response.data.error == undefined){
+                        this.getUserList();
+                        this.username = ''
+                        this.email = '';
+                        this.farm_code = '';
+                        this.farm_name = '';
+                        this.farm_address = '';
+                        this.breed_selected = '';
+                        Materialize.toast('Successfully created new user', 5000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
+                    }
+                }).catch(error => {
+                    Materialize.toast(error, 3000, 'red rounded');
+                });
             },
             capitalize : function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             },
+            checkEmailFormat : function (string){
+                var re = /\S+@\S+\.\S+/;
+                return re.test(email);
+            }
         },
         mounted() {
             $(document).ready(function(){
                 $('.tooltipped').tooltip({delay: 50});
-            
+                $('.modal').modal({
+                    dismissible: false,
+                });
             });
             this.getUserList();
             this.getBreedsList();
+        },
+        created() {
+            
         }
     }
 </script>
 
 <style>
-    
+
 </style>

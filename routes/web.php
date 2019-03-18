@@ -217,6 +217,8 @@ Route::group(['middleware' => ['web']], function ()
          */
         Route::get('user_list', 'AdminController@getUserList');
         Route::get('breed_list', 'AdminController@getBreedList');
+
+        Route::post('create_user', 'AdminController@createUser');
     });
 });
 

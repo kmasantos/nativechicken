@@ -62,6 +62,11 @@
                         </table>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <pagination :data="records" @pagination-change-page="getMortalitySale"></pagination>
+                    </div>
+                </div>
             </div>
             <div id="mortality" class="modal modal-fixed-footer">
                 <div class="modal-content">
