@@ -88,6 +88,28 @@ class AdminController extends Controller
         }
     }
 
+    public function blockUnblockUser($user)
+    {
+        $user = User::find($user);
+        $user->blocked = !$user->blocked;
+        $user->save();
+        return response()->json(['success' => $user->name]);
+    }
+
+    public function deleteUser($user)
+    {
+        $user = User::find($user);
+        $name = $user->name;
+        $user->delete();
+        return response()->json(['success' => $name]);
+    }
+
+    public function editUser($user)
+    {
+
+    }
+    
+
     /**
      ** Helper Functions
     **/

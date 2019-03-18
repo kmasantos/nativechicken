@@ -98,6 +98,11 @@
     <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
     <script type="text/javascript" src="/js/application_materialize.js"></script>
+    <script>
+        $('.modal').modal({
+            dismissible: false,
+        });
+    </script>
     @yield('customscripts')
 </body>
 </html>

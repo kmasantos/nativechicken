@@ -29,17 +29,21 @@
                         <td v-else>-</td>
                         <td>
                             <div class="col s4 m4 l4">
-                                <a class="indigo-text darken-1 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit User">
+                                <a @click="selected_user=user.user_id;selected_user_name=user.user_name" href="" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Edit User">
                                     <i class="fas fa-user-edit left"></i>
                                 </a>
                             </div>
                             <div class="col s4 m4 l4">
-                                <a class="indigo-text darken-1 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Block User">
-                                    <i class="fas fa-user-lock left"></i>
+                                <a v-if="!user.blocked" @click="selected_user=user.user_id;selected_user_name=user.user_name;selected_user_status=user.blocked" href="#block_user_modal" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Block User">
+                                    <i v-if="!user.blocked" class="fas fa-user-lock left"></i>
+                                    <i v-else class="fas fa-user-check left"></i>
+                                </a>
+                                <a v-else @click="selected_user=user.user_id;selected_user_name=user.user_name;selected_user_status=user.blocked" href="#block_user_modal" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Unblock User">
+                                    <i class="fas fa-user-check left"></i>
                                 </a>
                             </div>
                             <div class="col s4 m4 l4">
-                                <a class="indigo-text darken-1 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Delete User">
+                                <a @click="selected_user=user.user_id;selected_user_name=user.user_name" href="" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Delete User">
                                     <i class="fas fa-user-times left"></i>
                                 </a>
                             </div>
@@ -108,6 +112,31 @@
                 </div>
             </form>
         </div>
+        <div id="block_user_modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <h4 v-if="!selected_user_status" class="red-text">Block {{selected_user_name}}</h4>
+                        <h4 v-else class="green-text">Unblock {{selected_user_name}}</h4>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div v-if="!selected_user_status" class="col s12 m12 l12">
+                        <p>Are you sure you want to <span class="red-text">block</span> <strong>{{selected_user_name}}</strong>?</p>
+                        <p>This will block the user's access to the information system.</p>
+                    </div>
+                    <div v-else class="col s12 m12 l12">
+                        <p>Are you sure you want to <span class="green-text">unblock</span> <strong>{{selected_user_name}}</strong>?</p>
+                        <p>This will make the user be able login to the information system again.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a @click="blockUnblockUser" href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat">Agree</a>
+                <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat">Close</a>
+            </div>
+        </div>
         <div class="fixed-action-btn horizontal tooltipped" data-position="left" data-delay="100" data-tooltip="Create New User">
             <a class="btn-floating btn-large indigo darken-1 modal-trigger" href="#add_user_modal">
                 <i class="fas fa-user-plus"></i>
@@ -130,6 +159,10 @@
                 farm_name : '',
                 farm_address: '',
                 breed_selected : '',
+
+                selected_user : '',
+                selected_user_name : '',
+                selected_user_status : '',
             }
         },
         methods : {
@@ -180,6 +213,19 @@
                     Materialize.toast(error, 3000, 'red rounded');
                 });
             },
+            blockUnblockUser : function () {
+                axios.patch('block_user/' + this.selected_user)
+                .then(response => {
+                    this.getUserList(); 
+                    this.selected_user = '';
+                    this.selected_user_name = '';
+                    this.selected_user_status = '';
+                    Materialize.toast('Successfully changed user state', 5000, 'green rounded');
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to change user state', 5000, 'red rounded');
+                });
+            },
             capitalize : function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             },
@@ -205,5 +251,8 @@
 </script>
 
 <style>
-
+    #block_user_modal{
+        max-height: 30%;
+        width: 35%;
+    }
 </style>

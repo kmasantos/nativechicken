@@ -219,6 +219,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breed_list', 'AdminController@getBreedList');
 
         Route::post('create_user', 'AdminController@createUser');
+        Route::patch('block_user/{user_id}', 'AdminController@blockUnblockUser');
     });
 });
 
