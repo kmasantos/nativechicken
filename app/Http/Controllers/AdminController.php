@@ -104,9 +104,30 @@ class AdminController extends Controller
         return response()->json(['success' => $name]);
     }
 
-    public function editUser($user)
+    public function editUser(Request $request)
     {
-
+        $user = User::find($request->user);
+        if(!empty($user)){
+            if(!empty($request->username) || !empty($request->email)){
+                if(!empty($request->username)){
+                    $user->name = $request->username;
+                }
+                if(!empty($request->email)){
+                    $check_email = User::where('email', $request->email)->first();
+                    if(empty($check_email)){
+                        $user->email = $request->email;    
+                    }
+                }
+                $user->save();
+            }
+            if(!empty($request->farm_code)){
+                $farm = Farm::find($user->farm_id);
+                $farm->code = $request->farm_code;
+                $farm->save();
+            }
+            return response()->json(['success' => "Successfully edited ".$user->name]);
+        }
+        return response()->json(['error' => "Failed to edit ".$user->name]);
     }
     
 

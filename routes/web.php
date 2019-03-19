@@ -220,6 +220,7 @@ Route::group(['middleware' => ['web']], function ()
 
         Route::post('create_user', 'AdminController@createUser');
         Route::patch('block_user/{user_id}', 'AdminController@blockUnblockUser');
+        Route::put('edit_user', 'AdminController@editUser');
     });
 });
 

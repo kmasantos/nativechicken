@@ -12,7 +12,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Email Address</th>
-                        <th>Role</th>
+                        <th>Farm Code</th>
                         <th>Farm</th>
                         <th>Last Login</th>
                         <th>Manage User</th>
@@ -23,13 +23,15 @@
                     <tr v-for="user in users.data" :key="user.user_id">
                         <td>{{user.user_name}}</td>
                         <td>{{user.email}}</td>
-                        <td>{{capitalize(user.role)}}</td>
+                        <td>{{user.code}}</td>
                         <td>{{user.farm_name}}</td>
                         <td v-if="user.last_active!=null">{{user.last_active}}</td>
                         <td v-else>-</td>
                         <td>
                             <div class="col s4 m4 l4">
-                                <a @click="selected_user=user.user_id;selected_user_name=user.user_name" href="" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Edit User">
+                                <a @click="selected_user=user.user_id;selected_user_name=user.user_name;username_edit=user.user_name;
+                                            email_edit=user.email;farm_code_edit=user.code" 
+                                        href="#edit_user_modal" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Edit User">
                                     <i class="fas fa-user-edit left"></i>
                                 </a>
                             </div>
@@ -137,6 +139,43 @@
                 <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat">Close</a>
             </div>
         </div>
+        <div id="edit_user_modal" class="modal modal-fixed-footer">
+            <form v-on:submit.prevent="editUser" method="PUT">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h4>Edit {{selected_user_name}}</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <input v-model="username_edit" placeholder="Edit Username" id="edit_username" type="text">
+                                    <label class="active" for="edit_username">Username</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <input v-model="email_edit" placeholder="Edit Email" id="edit_email" type="text">
+                                    <label class="active" for="edit_email">Email</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <input v-model="farm_code_edit" placeholder="Edit Farm Code" id="edit_farm_code" type="text">
+                                    <label class="active" for="edit_farm_code">Farm Code</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-action modal-close waves-effect waves-indigo btn-flat" type="submit">Submit</button>
+                    <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat">Close</a>
+                </div>
+            </form>
+        </div>
         <div class="fixed-action-btn horizontal tooltipped" data-position="left" data-delay="100" data-tooltip="Create New User">
             <a class="btn-floating btn-large indigo darken-1 modal-trigger" href="#add_user_modal">
                 <i class="fas fa-user-plus"></i>
@@ -163,6 +202,10 @@
                 selected_user : '',
                 selected_user_name : '',
                 selected_user_status : '',
+
+                username_edit : '',
+                email_edit : '',
+                farm_code_edit : '',
             }
         },
         methods : {
@@ -226,6 +269,30 @@
                     Materialize.toast('Failed to change user state', 5000, 'red rounded');
                 });
             },
+            editUser : function () {
+                axios.put('edit_user', {
+                    user : this.selected_user,
+                    username : this.username_edit,
+                    email : this.email_edit,
+                    farm_code : this.farm_code_edit
+                })
+                .then(response => {
+                    if(response.data.success != null){
+                        this.selected_user = '';
+                        this.username_edit = '';
+                        this.email_edit = '';
+                        this.farm_code_edit = '';
+                        Materialize.toast(response.data.success, 5000, 'green rounded');
+                        this.getUserList();
+                    }
+                    if(response.data.error != null){
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            }, 
             capitalize : function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             },
@@ -254,5 +321,9 @@
     #block_user_modal{
         max-height: 30%;
         width: 35%;
+    }
+    #edit_user_modal{
+        max-height: 55%;
+        max-width: 45%;
     }
 </style>
