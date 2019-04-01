@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 window.moment = require('moment');
 import vSelect from 'vue-select';
+import tippy from 'tippy.js'
 
 Vue.component('v-select', vSelect);
 /**

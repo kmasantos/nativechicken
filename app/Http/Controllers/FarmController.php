@@ -168,6 +168,83 @@ class FarmController extends Controller
         return $collection;
     }
 
+    // new Dashboard Function 
+    public function getDashBreederInventory() 
+    {
+        $inventory = BreederInventory::join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                    ->join('families', 'families.id', 'breeders.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->get();
+                    
+        return $inventory;        
+    }
+
+    public function getDashBreederMortality () 
+    {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+        $mortality = MortalitySale::join('breeder_inventories', 'breeder_inventories.id', 'mortality_sales.breeder_inventory_id')
+                    ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                    ->join('families', 'families.id', 'breeders.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->whereIn('mortality_sales.type', ['breeder', 'egg'])
+                    ->whereBetween('mortality_sales.date', [$weekStartDate, $weekEndDate])
+                    ->select('mortality_sales.*')
+                    ->get();
+        return $mortality;
+    }
+
+    public function getDashBreederFeeding ()
+    {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+        $feeding = BreederFeeding::join('breeder_inventories', 'breeder_inventories.id', 'breeder_feedings.breeder_inventory_id')
+                    ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                    ->join('families', 'families.id', 'breeders.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->whereBetween('breeder_feedings.date_collected', [$weekStartDate, $weekEndDate])
+                    ->select('breeder_feedings.*')
+                    ->get();
+        return $feeding;
+    }
+
+    public function getDashEggProduction () 
+    {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+        $production = EggProduction::join('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
+                        ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                        ->join('families', 'families.id', 'breeders.family_id')
+                        ->join('lines', 'lines.id', 'families.line_id')
+                        ->join('generations', 'generations.id', 'lines.generation_id')
+                        ->where('generations.farm_id', Auth::user()->farm_id)
+                        ->whereBetween('egg_productions.date_collected', [$weekStartDate, $weekEndDate])
+                        ->select('egg_productions.*')
+                        ->get();
+
+        $inventory = BreederInventory::join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                    ->join('families', 'families.id', 'breeders.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->sum('breeder_inventories.number_female');
+        
+        $collection  = collect([
+                        "data" => $production, 
+                        "female" => $inventory
+                        ]);
+        return $collection;
+    }
+
     public function cullGeneration($generation_id)
     {
         $generation = Generation::where('id', $generation_id)->first();

@@ -85,7 +85,6 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('fetch_families', 'FarmController@fetchFamilies');
         Route::post('add_family', 'FarmController@addFamilyRecord');
         Route::get('search_family/{search}', 'FarmController@searchFamily');
-        Route::get('get_dashboard_data', 'FarmController@getDashData');
         Route::patch('cull_generation/{generation_id}', 'FarmController@cullGeneration');
         Route::get('family_summary', 'FarmController@getGenerationSummary');
         Route::get('family_pheno_morpho_genfam/{generation_id}', 'FarmController@getPhenoMorphoFamilySummary');
@@ -105,6 +104,15 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('generation_inventory', 'FarmController@getInventoryGeneration');
         Route::get('generation_mortality', 'FarmController@getMortalityGeneration');
 
+        /*
+        * * Axios Routes for Dashboard
+        */
+        Route::get('dash_breeder_inventory', 'FarmController@getDashBreederInventory');
+        Route::get('dash_breeder_mortality', 'FarmController@getDashBreederMortality');
+        Route::get('dash_breeder_feeding', 'FarmController@getDashBreederFeeding');
+        Route::get('dash_breeder_eggprod', 'FarmController@getDashEggProduction');
+        
+
         // Breeder Axios Routes
         Route::get('breeder_list', 'BreederController@getBreederList');
         Route::post('add_breeder', 'BreederController@addBreeder');
@@ -118,9 +126,9 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('search_breeder/{breeder_tag}', 'BreederController@searchBreederTag');
         Route::get('breeder_valid_inventory/{breeder_inventory}', 'BreederController@getValidInventory');
         
-        /**
+        /*
          * *New Axios Routes for Breeders
-         */
+        */
         Route::get('breeder_feeding/{breeder_id}', 'BreederController@fetchFeedingRecords');
         Route::post('breeder_feeding', 'BreederController@addFeedingRecords');
         Route::get('breeder_eggprod/{breeder_id}', 'BreederController@fetchEggProduction');

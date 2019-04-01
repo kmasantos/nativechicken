@@ -45,7 +45,7 @@
                                 </a>
                             </div>
                             <div class="col s4 m4 l4">
-                                <a @click="selected_user=user.user_id;selected_user_name=user.user_name" href="" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Delete User">
+                                <a @click="selected_user=user.user_id;selected_user_name=user.user_name" href="#delete_user_modal" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Delete User">
                                     <i class="fas fa-user-times left"></i>
                                 </a>
                             </div>
@@ -176,6 +176,51 @@
                 </div>
             </form>
         </div>
+        <div id="delete_user_modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <h4 class="red-text">Delete {{selected_user_name}}</h4> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <p>Choose delete method</p>
+                        <p>
+                            <input v-model="delete_type" class="with-gap" name="with_data" type="radio" id="user_only" value="soft_delete"/>
+                            <label for="user_only">Soft Delete User + Data</label>
+                        </p>
+                        <p>
+                            <input v-model="delete_type" class="with-gap" name="with_data" type="radio" id="user_data" value="hard_delete" />
+                            <label for="user_data">Hard Delete User + Data</label>
+                        </p>
+                        <i>
+                            <p>Note: </p>
+                            <p>
+                                * <strong>Soft Delete</strong> will not delete the user and it's data in the database but it will be marked as deleted
+                            </p>
+                            <p>
+                                * <strong>Hard Delete</strong> will delete the user and it's data in the database completely
+                            </p>
+                        </i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 m6 l6">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-indigo btn-flat">Ok</a>
+                <a @click="delete_type=null" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-indigo btn-flat">Close</a>
+            </div>
+        </div>
         <div class="fixed-action-btn horizontal tooltipped" data-position="left" data-delay="100" data-tooltip="Create New User">
             <a class="btn-floating btn-large indigo darken-1 modal-trigger" href="#add_user_modal">
                 <i class="fas fa-user-plus"></i>
@@ -206,6 +251,8 @@
                 username_edit : '',
                 email_edit : '',
                 farm_code_edit : '',
+
+                delete_type : null,
             }
         },
         methods : {
@@ -293,6 +340,13 @@
                     console.log(error);
                 });
             }, 
+            deleteUser : function () {
+                if(delete_type === null){
+                    Materialize.toast("Choose Delete Type", 5000, 'red rounded');
+                }else{
+                    
+                }
+            },
             capitalize : function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             },
@@ -326,4 +380,9 @@
         max-height: 55%;
         max-width: 45%;
     }
+    #delete_user_modal{
+        max-height: 50%;
+        max-width: 45%;
+    }
+    
 </style>

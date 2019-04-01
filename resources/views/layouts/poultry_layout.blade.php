@@ -7,6 +7,7 @@
     <link type="text/css" rel="stylesheet" href="/thirdparty/fontawesome-free-5.6.0-web/css/all.min.css">
     <link type="text/css" rel="stylesheet" href="/thirdparty/materialize/css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/application_materialize.css"  media="screen,projection"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
     @yield('customcss')
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -16,6 +17,22 @@
     <style>
         .pagination li.active {
             background-color : #546e7a;
+        }
+        .custom-card-title{
+            border-bottom: 2px solid #546e7a;
+            padding-bottom: 8px;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .left-column-divider {
+            border-left: 1.5px solid #546e7a;
+        }
+        .right-column-divider {
+            border-right: 1.5px solid #546e7a;
+        }
+        .spinner-layer{
+            border-color: #546e7a;
         }
     </style>
 </head>

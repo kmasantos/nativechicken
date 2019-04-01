@@ -61,6 +61,26 @@
             .side-nav li :hover{
                 background-color: #3f51b5;
             }
+            [type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after{
+                border: 2px solid #3f51b5;
+                border-top-color: #3f51b5;
+                border-top-style: solid;
+                border-top-width: 2px;
+                border-right-color: #3f51b5;
+                border-right-style: solid;
+                border-right-width: 2px;
+                border-bottom-color: #3f51b5;
+                border-bottom-style: solid;
+                border-bottom-width: 2px;
+                border-left-color: #3f51b5;
+                border-left-style: solid;
+                border-left-width: 2px;
+                border-image-source: initial;
+                border-image-slice: initial;
+                border-image-width: initial;
+                border-image-outset: initial;
+                border-image-repeat: initial;
+            }
     </style>
 </head>
 <body>
