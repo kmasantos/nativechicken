@@ -245,6 +245,23 @@ class FarmController extends Controller
         return $collection;
     }
 
+    public function getDashHatchery () 
+    {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+        $hatchery = HatcheryRecord::join('breeder_inventories', 'breeder_inventories.id', 'hatchery_records.breeder_inventory_id')
+                    ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                    ->join('families', 'families.id', 'breeders.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->whereBetween('hatchery_records.date_eggs_set', [$weekStartDate, $weekEndDate])
+                    ->select('hatchery_records.*')
+                    ->get();
+        return $hatchery;
+    }
+
     public function cullGeneration($generation_id)
     {
         $generation = Generation::where('id', $generation_id)->first();

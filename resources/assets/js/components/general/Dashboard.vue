@@ -142,11 +142,9 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col s16 m6 l6 center-align right-column-divider">
+                                            <div class="col s12 m12 l12 center-align">
                                                 <p>Approx. Hen-Day Egg Production</p>
-                                            </div>
-                                            <div class="col s16 m6 l6 center-align">
-                                                <p>Approx. Egg Mass</p>
+                                                <p class="emphasis-med">{{breeder_hen_day}} %</p>
                                             </div>
                                         </div>    
                                     </div>
@@ -162,12 +160,15 @@
                                         <div class="row">
                                             <div class="col s4 m4 l4 center-align right-column-divider">
                                                 <p>Fertility</p>
+                                                <p class="emphasis-med">{{breeder_fertility}}</p>
                                             </div>
                                             <div class="col s4 m4 l4 center-align right-column-divider">
-                                                <p>Hatchability</p>
+                                                <p>Hatchability (on Fertile Eggs)</p>
+                                                <p class="emphasis-med">{{breeder_hatchability_fertile}}</p>
                                             </div>
                                             <div class="col s4 m4 l4 center-align">
-                                                <p>Egg Hen Day</p>
+                                                <p>Hatchability (on Total Eggs)</p>
+                                                <p class="emphasis-med">{{breeder_hatchability_total}}</p>
                                             </div>
                                         </div>        
                                     </div>
@@ -229,7 +230,9 @@ export default {
             breeder_broken_eggs : 0,
             breeder_rejected_eggs : 0,
             breeder_hen_day : 0,
-            breeder_egg_mass : 0,
+            breeder_hatchability_fertile : 0,
+            breeder_hatchability_total : 0,
+            breeder_fertility : 0,
         }
     },
     methods : {
@@ -246,6 +249,7 @@ export default {
             this.getBreederMortality();
             this.getBreederFeeding();
             this.getBreederEggProd();
+            this.getBreederHatchery();
         },
         getReplacementSummary : function () {
             
@@ -314,19 +318,37 @@ export default {
                     this.breeder_intact_eggs = this.breeder_intact_eggs + element.total_eggs_intact;
                     this.breeder_egg_weight = this.breeder_egg_weight + element.total_egg_weight;
                     this.breeder_broken_eggs = this.breeder_broken_eggs + element.total_broken;
-                    this.breeder_rejected_eggs = this.breeder_rejected_eggs + element.total_rejects;
+                    this.breeder_rejected_eggs = this.breeder_rejected_eggs + element.total_rejects; 
                 });
+                this.breeder_hen_day = ((this.breeder_intact_eggs/eggprod['female'])*100).toFixed(3);
             })
             .catch(error => {
                 
             })
         },
         getBreederHatchery : function () {
-
+            axios.get('farm/dash_breeder_hatchery')
+            .then(response => {
+                var hatchery = response.data;
+                var total_eggs = 0;
+                var total_fertile = 0;
+                var total_hatched = 0;
+                hatchery.forEach(element => {
+                    total_egg = total_egg + element.number_eggs_set;
+                    total_fertile = total_fertile + element.number_fertile;
+                    total_hatched = total_hatched + element.number_hatched;
+                });
+                this.breeder_fertility = ((total_egg/total_fertile)*100).toFixed(3);
+                this.breeder_hatchability_fertile = ((total_hatched/total_fertile)*100).toFixed(3);
+                this.breeder_hatchability_total = ((total_hatched/total_egg)*100).toFixed(3);
+            })
+            .catch(error => {
+                
+            })
         }
     },
     mounted () {
-        this.init();
+        
     },
     created () {
         this.init();

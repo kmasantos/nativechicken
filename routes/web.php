@@ -111,6 +111,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('dash_breeder_mortality', 'FarmController@getDashBreederMortality');
         Route::get('dash_breeder_feeding', 'FarmController@getDashBreederFeeding');
         Route::get('dash_breeder_eggprod', 'FarmController@getDashEggProduction');
+        Route::get('dash_breeder_hatchery', 'FarmController@getDashHatchery');
         
 
         // Breeder Axios Routes
