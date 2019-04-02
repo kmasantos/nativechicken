@@ -99,7 +99,24 @@
                                                 <strong>FEED CONSUMPTION</strong> 
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div v-if="breeder_feeding_loading" class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <div class="preloader-wrapper small active">
+                                                    <div class="spinner-layer spinner-gray-only">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="gap-patch">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="row">
                                             <div class="col s12 m12 l12 center-align">
                                                 <p>Consumption</p> 
                                                 <p class="emphasis-big">
@@ -123,30 +140,51 @@
                                                 <strong>EGG PRODUCTION</strong> 
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col s3 m3 l3 center-align right-column-divider">
-                                                <p>Intact</p>
-                                                <p class="emphasis-med">{{breeder_intact_eggs}}</p>
-                                            </div>
-                                            <div class="col s3 m3 l3 center-align right-column-divider">
-                                                <p>Total Weight</p>
-                                                <p class="emphasis-med">{{breeder_egg_weight.toFixed(3)}}</p>
-                                            </div>
-                                            <div class="col s3 m3 l3 center-align right-column-divider">
-                                                <p>Broken</p>
-                                                <p class="emphasis-med">{{breeder_broken_eggs}}</p>
-                                            </div>
-                                            <div class="col s3 m3 l3 center-align">
-                                                <p>Rejected</p>
-                                                <p class="emphasis-med">{{breeder_rejected_eggs}}</p>
+                                        <div v-if="breeder_eggprod_loading" class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <div class="preloader-wrapper small active">
+                                                    <div class="spinner-layer spinner-gray-only">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="gap-patch">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col s12 m12 l12 center-align">
-                                                <p>Approx. Hen-Day Egg Production</p>
-                                                <p class="emphasis-med">{{breeder_hen_day}} %</p>
+                                        <div v-else class="row">
+                                            <div class="col s12 m12 l12">
+                                                <div class="row">
+                                                    <div class="col s3 m3 l3 center-align right-column-divider">
+                                                        <p>Intact</p>
+                                                        <p class="emphasis-med">{{breeder_intact_eggs}}</p>
+                                                    </div>
+                                                    <div class="col s3 m3 l3 center-align right-column-divider">
+                                                        <p>Total Weight</p>
+                                                        <p class="emphasis-med">{{breeder_egg_weight.toFixed(3)}}</p>
+                                                    </div>
+                                                    <div class="col s3 m3 l3 center-align right-column-divider">
+                                                        <p>Broken</p>
+                                                        <p class="emphasis-med">{{breeder_broken_eggs}}</p>
+                                                    </div>
+                                                    <div class="col s3 m3 l3 center-align">
+                                                        <p>Rejected</p>
+                                                        <p class="emphasis-med">{{breeder_rejected_eggs}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col s12 m12 l12 center-align">
+                                                        <p>Approx. Hen-Day Egg Production</p>
+                                                        <p class="emphasis-med">{{breeder_hen_day}} %</p>
+                                                    </div>
+                                                </div>  
                                             </div>
-                                        </div>    
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -157,7 +195,24 @@
                                                 <strong>HATCHERY SUMMARY</strong>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div v-if="breeder_hatchery_loading" class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <div class="preloader-wrapper small active">
+                                                    <div class="spinner-layer spinner-gray-only">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="gap-patch">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="row">
                                             <div class="col s4 m4 l4 center-align right-column-divider">
                                                 <p>Fertility</p>
                                                 <p class="emphasis-med">{{breeder_fertility}}</p>
@@ -215,6 +270,8 @@ export default {
             breeder_mortality_loading : true,
             breeder_feeding_loading : true,
             breeder_eggprod_loading : true,
+            breeder_hatchery_loading : true,
+            
             breeder_male : 0,
             breeder_female : 0,
             breeder_mort_male : 0,
@@ -321,6 +378,7 @@ export default {
                     this.breeder_rejected_eggs = this.breeder_rejected_eggs + element.total_rejects; 
                 });
                 this.breeder_hen_day = ((this.breeder_intact_eggs/eggprod['female'])*100).toFixed(3);
+                this.breeder_eggprod_loading = false;
             })
             .catch(error => {
                 
@@ -341,6 +399,7 @@ export default {
                 this.breeder_fertility = ((total_egg/total_fertile)*100).toFixed(3);
                 this.breeder_hatchability_fertile = ((total_hatched/total_fertile)*100).toFixed(3);
                 this.breeder_hatchability_total = ((total_hatched/total_egg)*100).toFixed(3);
+                this.breeder_hatchery_loading = false;
             })
             .catch(error => {
                 
