@@ -256,10 +256,40 @@ class FarmController extends Controller
                     ->join('lines', 'lines.id', 'families.line_id')
                     ->join('generations', 'generations.id', 'lines.generation_id')
                     ->where('generations.farm_id', Auth::user()->farm_id)
-                    ->whereBetween('hatchery_records.date_eggs_set', [$weekStartDate, $weekEndDate])
+                    ->whereBetween('hatchery_records.date_hatched', [$weekStartDate, $weekEndDate])
                     ->select('hatchery_records.*')
                     ->get();
         return $hatchery;
+    }
+
+    public function getDashReplacementInventory () 
+    {
+        $inventory = ReplacementInventory::join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                    ->join('families', 'families.id', 'replacements.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->get();
+                    
+        return $inventory;
+    }
+
+    public function getDashReplacementMortality () 
+    {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+        $mortality = MortalitySale::join('replacement_inventories', 'replacement_inventories.id', 'mortality_sales.replacement_inventory_id')
+                    ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                    ->join('families', 'families.id', 'replacements.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->where('mortality_sales.type', 'replacement')
+                    ->whereBetween('mortality_sales.date', [$weekStartDate, $weekEndDate])
+                    ->select('mortality_sales.*')
+                    ->get();
+        return $mortality;
     }
 
     public function cullGeneration($generation_id)

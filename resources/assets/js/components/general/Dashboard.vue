@@ -215,15 +215,15 @@
                                         <div v-else class="row">
                                             <div class="col s4 m4 l4 center-align right-column-divider">
                                                 <p>Fertility</p>
-                                                <p class="emphasis-med">{{breeder_fertility}}</p>
+                                                <p class="emphasis-med">{{((this.breeder_total_eggs/this.breeder_total_fertile)*100).toFixed(2)}} %</p>
                                             </div>
                                             <div class="col s4 m4 l4 center-align right-column-divider">
                                                 <p>Hatchability (on Fertile Eggs)</p>
-                                                <p class="emphasis-med">{{breeder_hatchability_fertile}}</p>
+                                                <p class="emphasis-med">{{((this.breeder_total_hatched/this.breeder_total_fertile)*100).toFixed(2)}} %</p>
                                             </div>
                                             <div class="col s4 m4 l4 center-align">
                                                 <p>Hatchability (on Total Eggs)</p>
-                                                <p class="emphasis-med">{{breeder_hatchability_total}}</p>
+                                                <p class="emphasis-med">{{((this.breeder_total_hatched/this.breeder_total_eggs)*100).toFixed(2)}} %</p>
                                             </div>
                                         </div>        
                                     </div>
@@ -240,6 +240,83 @@
                         <div class="row">
                             <div class="col s12 m12 l12">
                                 <h5 class="center-align custom-card-title">BROODERS & REPLACEMENTS</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <div class="row">
+                                    <div class="col s12 m6 l6 right-column-divider">
+                                        <div class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <strong>INVENTORY</strong>
+                                            </div>
+                                        </div>
+                                        <div v-if="replacement_inventory_loading" class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <div class="preloader-wrapper small active">
+                                                    <div class="spinner-layer spinner-gray-only">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="gap-patch">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="row">
+                                            <div class="col s6 m6 l6 center-align right-column-divider">
+                                                <p><i class="fas fa-mars"></i> Male</p>
+                                                <p class="emphasis-med">{{replacement_male}}</p>
+                                            </div>
+                                            <div class="col s6 m6 l6 center-align">
+                                                <p><i class="fas fa-venus"></i> Female</p>
+                                                <p class="emphasis-med">{{replacement_female}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6 l6">
+                                        <div class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <strong>MORTALITY & SALES</strong>
+                                            </div>
+                                        </div>
+                                        <div v-if="breeder_mortality_loading" class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <div class="preloader-wrapper small active">
+                                                    <div class="spinner-layer spinner-gray-only">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="gap-patch">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="row">
+                                            <div class="col s6 m6 l6 right-column-divider center-align">
+                                                <p><i class="fas fa-skull-crossbones"></i> Mortality</p>
+                                                <p class="emphasis-med"><i class="fas fa-mars"></i> : {{replacement_mort_male}} <i class="fas fa-venus"></i> : {{replacement_mort_female}}</p>
+                                            </div>
+                                            <div class="col s6 m6 l6 center-align">
+                                                <p><i class="fas fa-dollar-sign"></i> Sales</p>
+                                                <p class="emphasis-med"><i class="fas fa-mars"></i> : {{replacement_sale_male}} <i class="fas fa-venus"></i> : {{replacement_sale_female}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+
                             </div>
                         </div>
                     </div>
@@ -271,7 +348,6 @@ export default {
             breeder_feeding_loading : true,
             breeder_eggprod_loading : true,
             breeder_hatchery_loading : true,
-            
             breeder_male : 0,
             breeder_female : 0,
             breeder_mort_male : 0,
@@ -287,14 +363,34 @@ export default {
             breeder_broken_eggs : 0,
             breeder_rejected_eggs : 0,
             breeder_hen_day : 0,
-            breeder_hatchability_fertile : 0,
-            breeder_hatchability_total : 0,
-            breeder_fertility : 0,
+            breeder_total_eggs : 0,
+            breeder_total_fertile : 0,
+            breeder_total_hatched : 0,
+
+            replacement_inventory_loading : true,
+            replacement_mortality_loading : true,
+            replacement_feeding_loading : true,
+            replacement_male : 0,
+            replacement_female : 0,
+            replacement_mort_male : 0,
+            replacement_mort_female : 0,
+            replacement_sale_male : 0,
+            replacement_sale_female : 0,
+            replacement_feed_offered : 0,
+            replacement_feed_refused : 0,
+            replacement_feed_consumption : 0,
+
+
+            brooder_inventory_loading : true,
+            brooder_mortality_loading : true,
+            brooder_feeding_loading : true,
+
         }
     },
     methods : {
         init : function () {
             this.getBreederSummary();
+            this.getReplacementSummary();
         },
         getDateTime : function () {
             var today = new Date;
@@ -309,7 +405,8 @@ export default {
             this.getBreederHatchery();
         },
         getReplacementSummary : function () {
-            
+            this.getReplacementInventory();
+            this.getReplacementMortality();
         },
         getBrooderSummary : function () {
             
@@ -388,23 +485,54 @@ export default {
             axios.get('farm/dash_breeder_hatchery')
             .then(response => {
                 var hatchery = response.data;
-                var total_eggs = 0;
-                var total_fertile = 0;
-                var total_hatched = 0;
                 hatchery.forEach(element => {
-                    total_egg = total_egg + element.number_eggs_set;
-                    total_fertile = total_fertile + element.number_fertile;
-                    total_hatched = total_hatched + element.number_hatched;
+                    this.breeder_total_eggs = this.breeder_total_eggs + element.number_eggs_set;
+                    this.breeder_total_fertile = this.breeder_total_fertile + element.number_fertile;
+                    this.breeder_total_hatched = this.breeder_total_hatched + element.number_hatched;
                 });
-                this.breeder_fertility = ((total_egg/total_fertile)*100).toFixed(3);
-                this.breeder_hatchability_fertile = ((total_hatched/total_fertile)*100).toFixed(3);
-                this.breeder_hatchability_total = ((total_hatched/total_egg)*100).toFixed(3);
                 this.breeder_hatchery_loading = false;
             })
             .catch(error => {
                 
             })
-        }
+        },
+        getReplacementInventory : function () {
+            axios.get('farm/dash_replacement_inventory')
+            .then(response => {
+                var inventory = response.data;
+                inventory.forEach(element => {
+                    this.replacement_male = this.replacement_male + element.number_male;
+                    this.replacement_female = this.replacement_female + element.number_female;
+                });
+                this.replacement_inventory_loading = false;
+            })
+            .catch(error => {
+                
+            })
+        },
+        getReplacementMortality : function () {
+            axios.get('farm/dash_replacement_mortality')
+            .then(response => {
+                var mortality = response.data;
+                mortality.forEach(element => {
+                    if(element.category === "died" || element.category === "culled"){
+                        this.replacement_mort_male = this.replacement_mort_male + element.male;
+                        this.replacement_mort_female = this.replacement_mort_female + element.female;
+                    }
+                    else if(element.category === "sold" && element.type=="replacement"){
+                        this.replacement_sale_male = this.replacement_sale_male + element.male;
+                        this.replacement_sale_female = this.replacement_sale_female + element.female;
+                    }
+                });
+                this.replacement_mortality_loading = false;
+            })
+            .catch(error => {
+                
+            })
+        },
+        getReplacementFeeding : function () {
+
+        },
     },
     mounted () {
         
