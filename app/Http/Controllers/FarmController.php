@@ -273,7 +273,7 @@ class FarmController extends Controller
                     
         return $inventory;
     }
-
+    
     public function getDashReplacementMortality () 
     {
         $now = Carbon::now();
@@ -290,6 +290,23 @@ class FarmController extends Controller
                     ->select('mortality_sales.*')
                     ->get();
         return $mortality;
+    }
+
+    public function getDashReplacementFeeding ()
+    {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+        $feeding = ReplacementFeeding::join('replacement_inventories', 'replacement_inventories.id', 'replacement_feedings.replacement_inventory_id')
+                    ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                    ->join('families', 'families.id', 'replacements.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->whereBetween('replacement_feedings.date_collected', [$weekStartDate, $weekEndDate])
+                    ->select('replacement_feedings.*')
+                    ->get();
+        return $feeding;
     }
 
     public function cullGeneration($generation_id)

@@ -285,7 +285,7 @@
                                                 <strong>MORTALITY & SALES</strong>
                                             </div>
                                         </div>
-                                        <div v-if="breeder_mortality_loading" class="row">
+                                        <div v-if="replacement_mortality_loading" class="row">
                                             <div class="col s12 m12 l12 center-align">
                                                 <div class="preloader-wrapper small active">
                                                     <div class="spinner-layer spinner-gray-only">
@@ -314,9 +314,46 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-
-
+                                <div class="row">
+                                    <div class="s12 m12 l12">
+                                        <div class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <strong>FEED CONSUMPTION</strong> 
+                                            </div>
+                                        </div>
+                                        <div v-if="replacement_feeding_loading" class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <div class="preloader-wrapper small active">
+                                                    <div class="spinner-layer spinner-gray-only">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="gap-patch">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <p>Consumption</p> 
+                                                <p class="emphasis-big">
+                                                    {{replacement_feed_consumption}} kg
+                                                </p>
+                                            </div>
+                                            <div class="col s6 m6 l6 center-align">
+                                                <i>Total Feed Offered: <strong class="emphasis-small">{{replacement_feed_offered}} kg</strong></i>
+                                            </div>
+                                            <div class="col s6 m6 l6 center-align">
+                                                <i>Total Feed Refused: <strong class="emphasis-small">{{replacement_feed_refused}} kg</strong></i>
+                                            </div>
+                                        </div>     
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -384,7 +421,15 @@ export default {
             brooder_inventory_loading : true,
             brooder_mortality_loading : true,
             brooder_feeding_loading : true,
-
+            brooder_male : 0,
+            brooder_female : 0,
+            brooder_mort_male : 0,
+            brooder_mort_female : 0,
+            brooder_sale_male : 0,
+            brooder_sale_female : 0,
+            brooder_feed_offered : 0,
+            brooder_feed_refused : 0,
+            brooder_feed_consumption : 0,
         }
     },
     methods : {
@@ -407,6 +452,7 @@ export default {
         getReplacementSummary : function () {
             this.getReplacementInventory();
             this.getReplacementMortality();
+            this.getReplacementFeeding();
         },
         getBrooderSummary : function () {
             
@@ -531,6 +577,26 @@ export default {
             })
         },
         getReplacementFeeding : function () {
+            axios.get('farm/dash_replacement_feeding')
+            .then(response => {
+                var feeding = response.data;
+                feeding.forEach(element => {
+                    this.replacement_feed_offered = this.replacement_feed_offered + element.amount_offered;
+                    this.replacement_feed_refused = this.replacement_feed_refused + element.amount_refused;
+                });
+                this.replacement_feed_offered = (this.replacement_feed_offered/1000).toFixed(3);
+                this.replacement_feed_refused = (this.replacement_feed_refused/1000).toFixed(3);
+                this.replacement_feed_consumption = (this.replacement_feed_offered - this.replacement_feed_refused).toFixed(3);
+                this.replacement_feeding_loading = false;
+            })
+            .catch(error => {
+                
+            })
+        },
+        getBrooderInventory : function () {
+
+        },
+        getBrooderFeedng : function () {
 
         },
     },
