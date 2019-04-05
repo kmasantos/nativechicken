@@ -309,6 +309,53 @@ class FarmController extends Controller
         return $feeding;
     }
 
+    public function getDashBrooderInventory () 
+    {
+        $inventory = BrooderGrowerInventory::join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                    ->join('families', 'families.id', 'brooder_growers.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->get();
+                    
+        return $inventory;
+    }
+
+    public function getDashBrooderMortality () 
+    {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+        $mortality = MortalitySale::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'mortality_sales.brooder_inventory_id')
+                    ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                    ->join('families', 'families.id', 'brooder_growers.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->where('mortality_sales.type', 'brooder')
+                    ->whereBetween('mortality_sales.date', [$weekStartDate, $weekEndDate])
+                    ->select('mortality_sales.*')
+                    ->get();
+        return $mortality;
+    }
+
+    public function getDashBrooderFeeding () 
+    {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+        $feeding = BrooderGrowerFeeding::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_feedings.broodergrower_inventory_id')
+                    ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                    ->join('families', 'families.id', 'brooder_growers.family_id')
+                    ->join('lines', 'lines.id', 'families.line_id')
+                    ->join('generations', 'generations.id', 'lines.generation_id')
+                    ->where('generations.farm_id', Auth::user()->farm_id)
+                    ->whereBetween('brooder_grower_feedings.date_collected', [$weekStartDate, $weekEndDate])
+                    ->select('brooder_grower_feedings.*')
+                    ->get();
+        return $feeding;
+    }
+
     public function cullGeneration($generation_id)
     {
         $generation = Generation::where('id', $generation_id)->first();
