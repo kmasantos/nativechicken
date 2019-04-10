@@ -30,6 +30,13 @@ Vue.component('generation-production', require('./components/general/GenProducti
 Vue.component('generation-inventory', require('./components/general/GenInventory.vue'));
 Vue.component('farm-record-feeding', require('./components/general/FarmRecordFeeding.vue'));
 
+/**
+ ** Generation Summary 
+**/
+Vue.component('generation-summary-general', require('./components/general/GenerationSummaryGeneral.vue'));
+Vue.component('generation-summary-phenotypic', require('./components/general/GenerationSummaryPhenotypic.vue'));
+
+
 // Breeder Vue Components
 Vue.component('add-breeder', require('./components/breeders/Breeder.vue'));
 Vue.component('hatchery-record', require('./components/breeders/HatcheryRecordList.vue'));
