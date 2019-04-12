@@ -324,3 +324,9 @@
         }
     }
 </script>
+
+<style>
+    #pen_modal{
+        max-height: 50%;
+    }
+</style>

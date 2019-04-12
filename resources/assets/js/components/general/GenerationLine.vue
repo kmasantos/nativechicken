@@ -66,8 +66,8 @@
                 <i class="fas fa-plus"></i>
             </a>
             <ul>
-                <li><a href="#add_generation" class="btn-floating blue-grey tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Add Generation"><i class="fas fa-genderless"></i></a></li>
-                <li><a href="#add_line" class="btn-floating blue-grey tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Add Line"><i class="fas fa-code-branch"></i></a></li>
+                <li><a href="#add_generation" class="btn-floating blue-grey tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Add Generation"><i class="fas fa-dna"></i></a></li>
+                <li><a href="#add_line" class="btn-floating blue-grey tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Add Line"><i class="fas fa-grip-lines-vertical"></i></a></li>
             </ul>
         </div>
         <div id="add_generation" class="modal modal-fixed-footer">

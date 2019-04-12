@@ -56,11 +56,11 @@
                                 </div>
                                 <div class="card-action center-align">
                                     <a href="#additional_breeder" @click="breeder_additional = breeder.inventory_id; selected_additional_tag=breeder.breeder_tag; getValidInventory();" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add Breeder to Family"><i class="fas fa-exchange-alt"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_feeding = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-utensils"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_feeding = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-cannabis"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-ellipsis-v"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-th-list"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-eye"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-crow"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-check-double"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-feather"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_mortality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
                                 </div>
                             </div>
@@ -123,6 +123,11 @@
                                 <div id="within">
                                     <form v-on:submit.prevent="addBreeder" method="post">
                                         <div class="row">
+                                            <div class="col s12 m12 l12">
+                                                <i>*Note: Choice of <strong>Line</strong> depends on breeding program</i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col s12 m6 l6">
                                                 <label>Male's Generation</label>
                                                 <select @change="selectMaleLine" v-model="selected_male_gen" class="browser-default">
@@ -141,7 +146,7 @@
                                                     <option v-for="line in male_lines" :key="line.id" :value="line.id">{{line.number}}</option>
                                                 </select>
                                             </div>
-                                            <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female lines does not match</div>
+                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female lines does not match</div> -->
                                         </div>
                                         <div class="row">
                                             <div class="col s12 m6 l6">
@@ -152,23 +157,23 @@
                                                     <option v-for="family in male_families" :key="family.id" :value="family.id">{{family.number}}</option>
                                                 </select>
                                             </div>
-                                            <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
+                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
                                         </div>
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="col s12 m12 l12">
                                                 <i class="orange-text">Note: Replacement inventories with no male quantity will not be displayed</i> 
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col s12 m6 l6">
                                                 <label>Male's Replacement Inventory</label>
                                                 <select v-model="selected_male_inv" class="browser-default">
                                                     <option v-if="male_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id">Tag: {{inventories.replacement_tag}} Male: {{inventories.number_male}} Female: {{inventories.number_female}}</option>
+                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id" v-if="inventories.number_male>0">Tag: {{inventories.replacement_tag}} | Male: {{inventories.number_male}}</option>
                                                 </select>
                                             </div>
-                                            <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
+                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
                                         </div>
                                         <div class="row">
                                             <div class="col input-field s12 m6 l6">
@@ -195,7 +200,7 @@
                                                     <option v-for="line in female_lines" :key="line.id" :value="line.id">{{line.number}}</option>
                                                 </select>
                                             </div>
-                                            <div v-if="selected_male_line != selected_female_line" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female lines does not match</div>
+                                            <!-- <div v-if="selected_male_line != selected_female_line" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female lines does not match</div> -->
                                         </div>
                                         <div class="row">
                                             <div class="col s12 m6 l6">
@@ -206,23 +211,23 @@
                                                     <option v-for="family in female_families" :key="family.id" :value="family.id">{{family.number}}</option>
                                                 </select>
                                             </div>
-                                            <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
+                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
                                         </div>
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="col s12 m12 l12">
                                                 <i class="orange-text">Note: Replacement inventories with no female quantity will not be displayed</i> 
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col s12 m6 l6">
                                                 <label>Female's Replacement Inventory</label>
                                                 <select v-model="selected_female_inv" class="browser-default">
                                                     <option v-if="female_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in female_inventories" :key="inventories.id" :value="inventories.id">{{inventories.replacement_tag}}</option>
+                                                    <option v-for="inventories in female_inventories" :key="inventories.id" :value="inventories.id" v-if="inventories.number_female>0">Tag : {{inventories.replacement_tag}} | Female : {{inventories.number_female}}</option>
                                                 </select>
                                             </div>
-                                            <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div>
+                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
                                         </div>
                                         <div class="row">
                                             <div class="col input-field s12 m6 l6">
@@ -687,7 +692,6 @@
             getValidInventory : function () {
                 axios.get('breeder_valid_inventory/'+this.breeder_additional).then(response => {
                     this.valid_inventory = response.data;
-                    console.log(this.valid_inventory.length);
                     this.valid_inventory_length = this.valid_inventory.length;
                 });
             },
@@ -708,3 +712,7 @@
         },
     }
 </script>
+
+<style>
+    
+</style>

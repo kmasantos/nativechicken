@@ -1081,6 +1081,9 @@ class BreederController extends Controller
     public function fetchReplacementInventories ($family_id)
     {
         $replacement = Replacement::where('family_id', $family_id)->first();
+        if($replacement===null){
+            return null;
+        }
         return $replacement->getUpdatedInventories();
     }
 

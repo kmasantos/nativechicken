@@ -162,3 +162,9 @@
         }
     }
 </script>
+
+<style>
+    #add_family{
+        max-height: 50%;
+    }
+</style>
