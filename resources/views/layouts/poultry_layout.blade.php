@@ -122,14 +122,14 @@
                     </li>
                 </ul>
             </li>
-            <li class="no-padding">
-                <ul class="collapsible">
-                    <li>
-                        <a href="{{route('logout')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">power_settings_new</i>Logout</a>
-                    </li>
-                </ul>
-            </li>
         @endif
+        <li class="no-padding">
+            <ul class="collapsible">
+                <li>
+                    <a href="{{route('logout')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">power_settings_new</i>Logout</a>
+                </li>
+            </ul>
+        </li>
     </ul>
     {{-- Top navigation --}}
     <nav id="application_top_nav" class="blue-grey darken-1">

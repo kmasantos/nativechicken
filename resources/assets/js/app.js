@@ -9,9 +9,12 @@ require('./bootstrap');
 window.Vue = require('vue');
 window.moment = require('moment');
 import vSelect from 'vue-select';
-import tippy from 'tippy.js'
+import tippy from 'tippy.js';
+import DataTable from 'vue-materialize-datatable';
+
 
 Vue.component('v-select', vSelect);
+Vue.component('datatable', DataTable);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

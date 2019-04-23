@@ -1078,13 +1078,13 @@ class BreederController extends Controller
         return $pens;
     }
 
-    public function fetchReplacementInventories ($family_id)
+    public function fetchReplacementInventories ($family_id, $gender)
     {
         $replacement = Replacement::where('family_id', $family_id)->first();
         if($replacement===null){
             return null;
         }
-        return $replacement->getUpdatedInventories();
+        return $replacement->getUpdatedInventories($gender);
     }
 
     public function fetchNewGenerations ($inventory) 

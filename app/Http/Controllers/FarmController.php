@@ -1387,12 +1387,30 @@ class FarmController extends Controller
         return $summary;
     }
 
+    public function fetchAnimalType()
+    {
+        $animal_type = Farm::where('farms.id', Auth::user()->farm_id)
+                        ->join('breeds', 'breeds.id', 'farms.breedable_id')
+                        ->select('breeds.animaltype_id')
+                        ->get();
+        return $animal_type;
+    }
+
     /**
      ** Breeder Farm Summary per Generation 
     **/
-    public function genBreederPhenoMorphoSummary () 
+    public function genBreederPhenoSummary () 
     {
-        
+        $data = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('breeder_inventories', 'breeder_inventories.id', 'pheno_morphos.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->select('pheno_morpho_values.*', 'generations.number')
+                ->withTrashed()->get();  
+        return $data;
     }
 
     /**

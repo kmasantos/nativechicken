@@ -170,7 +170,7 @@
                                                 <select v-model="selected_male_inv" class="browser-default">
                                                     <option v-if="male_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id" v-if="inventories.number_male>0">Tag: {{inventories.replacement_tag}} | Male: {{inventories.number_male}}</option>
+                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id">Tag: {{inventories.replacement_tag}} | Male: {{inventories.number_male}}</option>
                                                 </select>
                                             </div>
                                             <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
@@ -224,7 +224,7 @@
                                                 <select v-model="selected_female_inv" class="browser-default">
                                                     <option v-if="female_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in female_inventories" :key="inventories.id" :value="inventories.id" v-if="inventories.number_female>0">Tag : {{inventories.replacement_tag}} | Female : {{inventories.number_female}}</option>
+                                                    <option v-for="inventories in female_inventories" :key="inventories.id" :value="inventories.id">Tag : {{inventories.replacement_tag}} | Female : {{inventories.number_female}}</option>
                                                 </select>
                                             </div>
                                             <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
@@ -550,7 +550,8 @@
                 });
             },
             selectMaleInventory : function () {
-                axios.get('breeder_fetch_inventories/'+this.selected_male_fam)
+                var gender = "male";
+                axios.get('breeder_fetch_inventories/'+this.selected_male_fam+'/'+gender)
                 .then(response => {
                     this.male_inventories_length = response.data.length;
                     this.male_inventories = response.data;
@@ -560,7 +561,8 @@
                 });
             },
             selectFemaleInventory : function () {
-                axios.get('breeder_fetch_inventories/'+this.selected_female_fam)
+                var gender = "female";
+                axios.get('breeder_fetch_inventories/'+this.selected_female_fam+'/'+gender)
                 .then(response => {
                     this.female_inventories_length = response.data.length;
                     this.female_inventories = response.data;

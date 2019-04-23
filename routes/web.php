@@ -70,6 +70,7 @@ Route::group(['middleware' => ['web']], function ()
         ***AXIOS ROUTES***
         *****************/
         // General Axios Routes
+        Route::get('fetch_animal_type', 'FarmController@fetchAnimalType');
         Route::get('fetch_pens', 'FarmController@fetchPens');
         Route::post('add_pens', 'FarmController@addPen');
         Route::get('search_pens/{search_array}', 'FarmController@searchPen');
@@ -103,7 +104,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('generation_hatchery/{year}', 'FarmController@getHatcheryRecordGeneration');
         Route::get('generation_inventory', 'FarmController@getInventoryGeneration');
         Route::get('generation_mortality', 'FarmController@getMortalityGeneration');
-
+        Route::get('generation_summary_breeder_pheno', 'FarmController@genBreederPhenoSummary');
         /*
         * * Axios Routes for Dashboard
         */
@@ -128,7 +129,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_fetch_female_families/{line_number}/{male_family}', 'BreederController@fetchFemaleFamilies');
         Route::get('breeder_fetch_pens', 'BreederController@fetchBreederPens');
         Route::get('breeder_fetch_brooder_pens', 'BreederController@fetchBrooderPens');
-        Route::get('breeder_fetch_inventories/{family_id}', 'BreederController@fetchReplacementInventories');
+        Route::get('breeder_fetch_inventories/{family_id}/{gender}', 'BreederController@fetchReplacementInventories');
         Route::get('search_breeder/{breeder_tag}', 'BreederController@searchBreederTag');
         Route::get('breeder_valid_inventory/{breeder_inventory}', 'BreederController@getValidInventory');
         
