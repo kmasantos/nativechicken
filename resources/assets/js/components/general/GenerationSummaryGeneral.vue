@@ -26,9 +26,11 @@
                     </div>
                 </div>
                 <div v-if="selected=='Phenotypic Summary'">
-                    <generation-summary-phenotypic></generation-summary-phenotypic>
+                    <generation-summary-phenotypic :animal_type="animal_type.animaltype_id"></generation-summary-phenotypic>
                 </div>
-                <div v-if="selected=='Morphometric Summary'"></div>
+                <div v-if="selected=='Morphometric Summary'">
+                    <generation-summary-morphometric :animal_type="animal_type.animaltype_id"></generation-summary-morphometric>
+                </div>
                 <div v-if="selected=='Feeding Performance'"></div>
                 <div v-if="selected=='Growth Performance'"></div>
                 <div v-if="selected=='Egg Production'"></div>
@@ -44,10 +46,22 @@ export default {
     data () {
         return {
             selected : null,
+            animal_type : null,
         }
     },
+    methods : {
+        checkAnimalType : function () {
+            axios.get('fetch_animal_type')
+            .then(response => {
+                this.animal_type = response.data;
+            })
+            .catch(error => {
+                
+            });
+        },
+    },
     mounted () {
-
+        this.checkAnimalType();
     },
     created () {
 

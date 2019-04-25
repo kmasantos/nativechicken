@@ -18,7 +18,7 @@ Route::get('/', function () {
 Route::group(['middleware' => ['web']], function ()
 {
     Auth::routes();
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'FarmController@index')->name('home');
     // Farm Routes
     Route::group(['prefix' => 'farm'], function()
     {
@@ -105,6 +105,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('generation_inventory', 'FarmController@getInventoryGeneration');
         Route::get('generation_mortality', 'FarmController@getMortalityGeneration');
         Route::get('generation_summary_breeder_pheno', 'FarmController@genBreederPhenoSummary');
+        Route::get('generation_summary_breeder_morpho', 'FarmController@genBreederMorphoSummary');
+        Route::get('generation_summary_replacement_morpho', 'FarmController@genReplacementMorphoSummary');
         /*
         * * Axios Routes for Dashboard
         */

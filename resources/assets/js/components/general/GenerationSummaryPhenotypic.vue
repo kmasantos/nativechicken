@@ -121,27 +121,20 @@
 
 <script>
 export default {
+    props: [
+        'animal_type'
+    ],
     data () {
         return {
             summary : null,
             male : {},
             female : {},
-            animal_type : null,
+            
         }
     },
     methods : {
         init : function () {
-            this.checkAnimalType();
             this.getBreederPhenoSummary();
-        },
-        checkAnimalType : function () {
-            axios.get('fetch_animal_type')
-            .then(response => {
-                this.animal_type = response.data;
-            })
-            .catch(error => {
-                
-            });
         },
         getBreederPhenoSummary : function () {
             axios.get('generation_summary_breeder_pheno')
