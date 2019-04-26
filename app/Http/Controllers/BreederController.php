@@ -552,11 +552,6 @@ class BreederController extends Controller
         }
     }
 
-    public function flushHatcheryRecord ()
-    {
-
-    }
-
     public function hatcheryRecordPage()
     {
         return view('chicken.breeder.hatchery_record');
@@ -1027,9 +1022,10 @@ class BreederController extends Controller
             return response()->json(['status' => 'success', 'message' => 'Breeders added']);
         }
     }
-    /*
-    ** Helper methods for this controller
-    */
+    
+    /**
+     * * HELPER FUNCTIONS FOR THE BREEDER CONTROLLER
+     */
     public function fetchGenerations()
     {
         $generations = Generation::where('farm_id', Auth::user()->farm_id)->where('is_active', true)->get();
@@ -1105,4 +1101,32 @@ class BreederController extends Controller
                     ->get();
         return $inventories;
     } 
+
+    public function getValidAdditionalMaleBreeder ($inventory)
+    {
+        $inventory = BreederInventory::join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                    ->where('breeder_inventories.id', $inventory)
+                    ->select('breeder_inventories.batching_date', 'breeders.family_id', 'breeders.female_family_id')
+                    ->first();
+        $replacements = ReplacementInventory::join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                    ->where('replacements.family_id', $inventory->family_id)
+                    ->where('replacement_inventories.batching_date', $inventory->batching_date)
+                    ->select('replacement_inventories.*')
+                    ->get();
+        return $replacements;
+    }
+
+    public function getValidAdditionalFemaleBreeder ($inventory) 
+    {
+        $inventory = BreederInventory::join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                    ->where('breeder_inventories.id', $inventory)
+                    ->select('breeder_inventories.batching_date', 'breeders.family_id', 'breeders.female_family_id')
+                    ->first();
+        $replacements = ReplacementInventory::join('replacements', 'replacements.id', 'replacement_iventories.replacement_id')
+                    ->where('replacements.family_id', $inventory->female_family_id)
+                    ->where('replacement_inventories.batching_date', $inventory->batching_date)
+                    ->select('replacement_inventories.*')
+                    ->get();
+        return $replacements;
+    }
 }

@@ -32,7 +32,7 @@
             <!-- Empty Record -->
             <div class="row center" v-if="broodergrower_pen_len == 0">
                 <div class="col s12 m12 l12">
-                    <h5>No Brooder & Grower Pens</h5>
+                    <h5>No Brooder Pens</h5>
                 </div>
             </div>
             <!-- Record not Empty -->
@@ -50,16 +50,16 @@
                                 </div>
                                 <div class="card-action right-align">
                                     <a v-if="pen.current_capacity>0" @click="inventory_pen=pen.id; inventory_number=pen.number" href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Pen information">
-                                        <i class="fas fa-info-circle"></i>
+                                        <i class="fas fa-warehouse"></i>
                                     </a>
                                     <a v-if="pen.total_capacity > pen.current_capacity" @click="selectedpen=pen.id" href="#broodergrowermodal" class="white-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add brooder & grower">
-                                        <i class="far fa-plus-square"></i>
+                                        <i class="fas fa-plus-circle"></i>
                                     </a>
                                     <a v-if="pen.current_capacity>0" @click="feeding_pen=pen.id; feeding_number=pen.number"  href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Feeding records">
-                                        <i class="fas fa-utensils"></i>
+                                        <i class="fas fa-cannabis"></i>
                                     </a>
                                     <a v-if="pen.current_capacity>0" @click="growth_pen=pen.id; growth_number=pen.number" class="white-text tooltipped" href="javascript:void(0)" data-position="bottom" data-delay="50" data-tooltip="Growth records">
-                                        <i class="fas fa-balance-scale"></i>
+                                        <i class="fas fa-weight"></i>
                                     </a>
                                 </div>
                             </div>

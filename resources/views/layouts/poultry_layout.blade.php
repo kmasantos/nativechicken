@@ -35,6 +35,19 @@
         .spinner-layer{
             border-color: #546e7a;
         }
+        
+        .switch label input[type=checkbox]:checked+.lever:after{
+            background-color: #546e7a;
+        }
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #91a5a3;
+        }
+        .note_div {
+            background-color: #FFDAB9;
+        }
+        .warning_div {
+            background-color: #FFB6C1;
+        } 
     </style>
 </head>
 
@@ -136,8 +149,6 @@
         <div class="nav-wrapper">
             <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only"><i class="material-icons">menu</i></a>
             <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo" height="100px" width="250px"/></a>
-            <!-- Dropdown Trigger -->
-            <a class='right dropdown-button hide-on-large-only' href='#' data-activates='dropdown_nav'><i class="material-icons">arrow_drop_down</i></a>
         </div>
     </nav>
     <main>
