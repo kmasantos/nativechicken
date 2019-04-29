@@ -139,7 +139,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col s12 m12 l12 center-align emphasis-med">
-                                                {{breeder_broken_eggs}}
+                                                {{breeder_rejected_eggs}}
                                             </div>
                                         </div>
                                     </div>
