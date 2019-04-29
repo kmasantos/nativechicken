@@ -111,16 +111,11 @@ Route::group(['middleware' => ['web']], function ()
         * * Axios Routes for Dashboard
         */
         Route::get('dash_breeder_inventory', 'FarmController@getDashBreederInventory');
-        Route::get('dash_breeder_mortality', 'FarmController@getDashBreederMortality');
-        Route::get('dash_breeder_feeding', 'FarmController@getDashBreederFeeding');
         Route::get('dash_breeder_eggprod', 'FarmController@getDashEggProduction');
-        Route::get('dash_breeder_hatchery', 'FarmController@getDashHatchery');
         Route::get('dash_replacement_inventory', 'FarmController@getDashReplacementInventory');
         Route::get('dash_replacement_mortality', 'FarmController@getDashReplacementMortality');
-        Route::get('dash_replacement_feeding', 'FarmController@getDashReplacementFeeding');
         Route::get('dash_brooders_inventory', 'FarmController@getDashBrooderInventory');
-        Route::get('dash_brooders_mortality', 'FarmController@getDashBrooderMortality');
-        Route::get('dash_brooders_feeding', 'FarmController@getDashBrooderFeeding');
+        
 
         // Breeder Axios Routes
         Route::get('breeder_list', 'BreederController@getBreederList');
@@ -135,7 +130,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('search_breeder/{breeder_tag}', 'BreederController@searchBreederTag');
         Route::get('breeder_valid_inventory/{breeder_inventory}', 'BreederController@getValidInventory');
         Route::get('breeder_add_male_inventory/{breeder_inventory}', 'BreederController@getValidAdditionalMaleBreeder');
-        Route::get('breeder_add_female_inventory/{breeder_inventory}', 'BreederController@getValidAdditionalFemaleInventory');
+        Route::get('breeder_add_female_inventory/{breeder_inventory}', 'BreederController@getValidAdditionalFemaleBreeder');
         /*
          * *New Axios Routes for Breeders
         */

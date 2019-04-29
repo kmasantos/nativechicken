@@ -1111,6 +1111,7 @@ class BreederController extends Controller
         $replacements = ReplacementInventory::join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
                     ->where('replacements.family_id', $inventory->family_id)
                     ->where('replacement_inventories.batching_date', $inventory->batching_date)
+                    ->where('replacement_inventories.number_male', '>', 0)
                     ->select('replacement_inventories.*')
                     ->get();
         return $replacements;
@@ -1122,9 +1123,10 @@ class BreederController extends Controller
                     ->where('breeder_inventories.id', $inventory)
                     ->select('breeder_inventories.batching_date', 'breeders.family_id', 'breeders.female_family_id')
                     ->first();
-        $replacements = ReplacementInventory::join('replacements', 'replacements.id', 'replacement_iventories.replacement_id')
+        $replacements = ReplacementInventory::join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
                     ->where('replacements.family_id', $inventory->female_family_id)
                     ->where('replacement_inventories.batching_date', $inventory->batching_date)
+                    ->where('replacement_inventories.number_female', '>', 0)
                     ->select('replacement_inventories.*')
                     ->get();
         return $replacements;

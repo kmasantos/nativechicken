@@ -404,72 +404,78 @@
         </div> -->
         
         <div id="additional_breeder" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <h4>Add More Breeders to {{selected_additional_tag}}</h4>
+            <form action="">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h4>Add More Breeders to {{selected_additional_tag}}</h4>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <i>
-                            <p>Note :</p>
-                            <p>Adding Breeders from the system will use replacement stocks</p>
-                            <p>Inventories that will be displayed will depend on the age of flock where the new breeders will be added</p>
-                        </i>
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <i>
+                                <p>Note :</p>
+                                <p>Adding Breeders from the system will use replacement stocks</p>
+                                <p>Inventories that will be displayed will depend on the age of flock where the new breeders will be added</p>
+                            </i>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l6">
-                        <label>Get from the system</label>                        
-                        <div class="switch">
-                            <label>
-                                No
-                            <input type="checkbox" v-model="add_within">
-                            <span class="lever"></span>
-                                Yes
-                            </label>
+                    <div class="row">
+                        <div class="col s12 m12 l6">
+                            <label>Get from the system</label>                        
+                            <div class="switch">
+                                <label>
+                                    No
+                                <input type="checkbox" v-model="add_within">
+                                <span class="lever"></span>
+                                    Yes
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-if="add_within">
+                        <div class="col s12 m12 l6">
+                            <label for="male_inventory">Male Inventory</label>
+                            <select class="browser-default" v-model="selected_male_inventory">
+                                <option v-if="valid_male_inventory === undefined || valid_male_inventory.length == 0" disabled selected>No Inventories</option>
+                                <option v-for="inv in valid_male_inventory" :key="inv.id" :value="inv.id">Tag : {{inv.replacement_tag}} Male : {{inv.number_male}} Batching Date : {{inv.batching_date}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6 m12 l6">
+                            <input placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number">
+                            <label for="additional_male">Male to Add</label>
+                        </div>
+                    </div>
+                    <div class="row" v-if="add_within">
+                        <div class="col s12 m12 l6">
+                            <label for="female_inventory">Female Inventory</label>
+                            <select class="browser-default" v-model="selected_female_inventory">
+                                <option v-if="valid_female_inventory === undefined || valid_female_inventory.length == 0" disabled selected>No Inventories</option>
+                                <option v-for="inv in valid_female_inventory" :key="inv.id" :value="inv.id">Tag : {{inv.replacement_tag}} Female : {{inv.number_female}} Batching Date : {{inv.batching_date}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m12 l6">
+                            <input placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number">
+                            <label for="additional_female">Female to Add</label>
                         </div>
                     </div>
                 </div>
-                <div class="row" v-if="add_within">
-                    <div class="col s12 m12 l6">
-                        <label for="male_inventory">Male Inventory</label>
-                        <v-select v-model="selected_male_inventory" :options="valid_male_inventory" id="male_inventory">
-                            <template slot="label">
-                                <p>Replacement Inventory Tag : {{ valid_male_inventory.replacement_tag }}</p>
-                                <p>
-                                    Male : {{ valid_male_inventory.number_male }} | Female : {{ valid_male_inventory.number_female}}
-                                </p>
-                            </template>
-                        </v-select>
-                    </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
+                    <a @click="valid_male_inventory = {}; 
+                    valid_female_inventory = {};
+                    valid_male_inventory_length = 0;
+                    valid_female_inventory_length = 0;
+                    selected_male_inventory = null;
+                    selected_female_inventory = null;" 
+                    href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
                 </div>
-                <div class="row">
-                    <div class="input-field col s6 m12 l6">
-                        <input placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number">
-                        <label for="additional_male">Male to Add</label>
-                    </div>
-                </div>
-                <div class="row" v-if="add_within">
-                    <div class="col s12 m12 l6">
-                        <label for="female_inventory">Female Inventory</label>
-                        <v-select v-model="selected_female_inventory" :options="valid_female_inventory" id="female_inventory"></v-select>                        
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12 m12 l6">
-                        <input placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number">
-                        <label for="additional_female">Female to Add</label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
-                <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-            </div>
+            </form>
         </div>
-
     </div>
 
 </template>
@@ -777,12 +783,13 @@
                     console.log(error);
                 })
             },
-            getValidInventory : function () {
-                axios.get('breeder_valid_inventory/'+this.breeder_additional).then(response => {
-                    this.valid_inventory = response.data;
-                    this.valid_inventory_length = this.valid_inventory.length;
-                });
-            },
+            // getValidInventory : function () {
+            //     axios.get('breeder_valid_inventory/'+this.breeder_additional)
+            //     .then(response => {
+            //         this.valid_inventory = response.data;
+            //         this.valid_inventory_length = this.valid_inventory.length;
+            //     });
+            // },
             customFormatter : function (date) {
                 var formatted = moment(date).format('YYYY-MM-DD')
                 return formatted;

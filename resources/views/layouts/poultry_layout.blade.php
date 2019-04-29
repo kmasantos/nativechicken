@@ -68,7 +68,7 @@
         <li class="no-padding">
             <ul class="collapsible">
                 <li>
-                    <a href="{{route('farm.index')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">dashboard</i>Dashboard</a>
+                    <a href="{{route('farm.index')}}" class="collapsible-header" class="waves-effect">Dashboard<i class="fas fa-home"></i></a>
                 </li>
             </ul>
         </li>
@@ -76,49 +76,49 @@
         <li class="no-padding">
                 <ul class="collapsible">
                     <li>
-                        <a href="{{route('farm.pens')}}" class="collapsible-header"><i class="material-icons">view_column</i>Pens</a>
+                        <a href="{{route('farm.pens')}}" class="collapsible-header">Pens<i class="fas fa-boxes"></i></a>
                     </li>
                 </ul>
             </li>
             <li class="no-padding">
                 <ul class="collapsible">
                     <li>
-                        <a href="{{route('farms.generation_lines_page')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">linear_scale</i>Generations & Lines</a>
+                        <a href="{{route('farms.generation_lines_page')}}" class="collapsible-header" class="waves-effect">Generations & Lines<i class="fas fa-dna"></i></a>
                     </li>
                 </ul>
             </li>
             <li class="no-padding">
                 <ul class="collapsible">
                     <li>
-                        <a href="{{route('farm.family_records')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">queue</i>Families</a>
+                        <a href="{{route('farm.family_records')}}" class="collapsible-header" class="waves-effect">Families<i class="fas fa-list"></i></a>
                     </li>
                 </ul>
             </li>
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                        <a href="{{route('farm.chicken.breeder.add_breeder')}}" class="collapsible-header">Breeder<i class="material-icons">stars</i></a>
+                        <a href="{{route('farm.chicken.breeder.add_breeder')}}" class="collapsible-header">Breeder<i class="fas fa-certificate"></i></a>
                     </li>
                 </ul>
             </li>
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                    <a href="{{route('farm.chicken.replacemnt.replacement_add')}}" class="collapsible-header">Growers & Replacement<i class="material-icons">autorenew</i></a>
+                    <a href="{{route('farm.chicken.replacemnt.replacement_add')}}" class="collapsible-header">Growers & Replacement<i class="fas fa-feather"></i></a>
                     </li>
                 </ul>
             </li>
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                    <a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}" class="collapsible-header">Brooders<i class="material-icons">group_work</i></a>
+                    <a href="{{route('farm.chicken.broodergrower.broodergrower_add')}}" class="collapsible-header">Brooders<i class="fas fa-crow"></i></a>
                     </li>
                 </ul>
             </li>
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                        <a href="javascript:void(0)" class="collapsible-header" class="waves-effect"><i class="material-icons">assessment</i>Farm Records</a>
+                        <a href="javascript:void(0)" class="collapsible-header" class="waves-effect">Farm Summary<i class="fas fa-chart-bar"></i></a>
                          <div class="collapsible-body">
                             <ul>
                                 <li><a href="{{route('farm.generation_records')}}">Generation</a></li>
@@ -131,7 +131,7 @@
             <li class="no-padding">
                 <ul class="collapsible">
                     <li>
-                        <a href="{{route('farm.farm_settings')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">info</i>Farm Info and Notifictions</a>
+                        <a href="{{route('farm.farm_settings')}}" class="collapsible-header" class="waves-effect">Farm Info and Notifictions<i class="fas fa-info"></i></a>
                     </li>
                 </ul>
             </li>
@@ -139,7 +139,7 @@
         <li class="no-padding">
             <ul class="collapsible">
                 <li>
-                    <a href="{{route('logout')}}" class="collapsible-header" class="waves-effect"><i class="material-icons">power_settings_new</i>Logout</a>
+                    <a href="{{route('logout')}}" class="collapsible-header" class="waves-effect">Logout<i class="fas fa-sign-out-alt"></i></a>
                 </li>
             </ul>
         </li>
