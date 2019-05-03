@@ -31,7 +31,9 @@
                 <div v-if="selected=='Morphometric Summary'">
                     <generation-summary-morphometric :animal_type="animal_type.animaltype_id"></generation-summary-morphometric>
                 </div>
-                <div v-if="selected=='Feeding Performance'"></div>
+                <div v-if="selected=='Feeding Performance'">
+                    <generation-summary-feeding :animal_type="animal_type.animaltype_id"></generation-summary-feeding>
+                </div>
                 <div v-if="selected=='Growth Performance'"></div>
                 <div v-if="selected=='Egg Production'"></div>
                 <div v-if="selected=='Hatchery Data'"></div>

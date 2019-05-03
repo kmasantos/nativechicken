@@ -358,53 +358,8 @@
             </div>
         </div>
         
-        <!-- <div id="additional_breeder" class="modal modal-fixed-footer">
-            <form v-on:submit.prevent="addAdditionalBreeder" method="post">
-                <div class="modal-content">
-                    <div class="row">
-                        <div class="col s12 m12 l12">
-                            <h5>Add Breeders to {{selected_additional_tag}}</h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 m12 l12">
-                            <div class="row">
-                                <div class="col s12 m12 l12">
-                                    <label>Get Breeders from</label>
-                                    <div class="switch">
-                                        <label>
-                                            Outside System
-                                            <input type="checkbox" v-model="add_within">
-                                            <span class="lever"></span>
-                                            Within System
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 m6 l6">
-                                    <input v-model="add_male" placeholder="Male to add" id="add_male" type="number" min=0 class="validate">
-                                    <label for="add_male">Male</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 m6 l6">
-                                    <input v-model="add_female" placeholder="Female to add" id="add_female" type="number" min=0 class="validate">
-                                    <label for="add_female">Female</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">m12 l6
-                    <button href="javascript:void(0)" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
-                    <a @click="add_within=false;selected_inventory=null" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                </div>
-            </form>
-        </div> -->
-        
         <div id="additional_breeder" class="modal modal-fixed-footer">
-            <form action="">
+            <form v-on:submit.prevent="addAdditionalBreeder">
                 <div class="modal-content">
                     <div class="row">
                         <div class="col s12 m12 l12">
@@ -426,7 +381,7 @@
                             <div class="switch">
                                 <label>
                                     No
-                                <input type="checkbox" v-model="add_within">
+                                <input type="checkbox" v-model="add_within" @change="selected_male_inventory=null;selected_female_inventory=null;add_male = 0; add_female = 0;date_additional=null">
                                 <span class="lever"></span>
                                     Yes
                                 </label>
@@ -438,14 +393,16 @@
                             <label for="male_inventory">Male Inventory</label>
                             <select class="browser-default" v-model="selected_male_inventory">
                                 <option v-if="valid_male_inventory === undefined || valid_male_inventory.length == 0" disabled selected>No Inventories</option>
-                                <option v-for="inv in valid_male_inventory" :key="inv.id" :value="inv.id">Tag : {{inv.replacement_tag}} Male : {{inv.number_male}} Batching Date : {{inv.batching_date}}</option>
+                                <option v-for="inv in valid_male_inventory" :key="inv.id" :value="inv">Tag : {{inv.replacement_tag}} Male : {{inv.number_male}} Batching Date : {{inv.batching_date}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6 m12 l6">
-                            <input placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number">
-                            <label for="additional_male">Male to Add</label>
+                            <input v-if="selected_male_inventory==null && add_within==true" placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number" disabled>
+                            <input v-else-if="selected_male_inventory==null && add_within==false" v-model="add_male" placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number">
+                            <input v-else-if="selected_male_inventory!=null && add_within==true" v-model="add_male" placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number" min="1" :max="selected_male_inventory.number_male" class="validate" pattern="^[0-9]">
+                            <label for="additional_male" class="active">Male to Add</label>
                         </div>
                     </div>
                     <div class="row" v-if="add_within">
@@ -453,26 +410,32 @@
                             <label for="female_inventory">Female Inventory</label>
                             <select class="browser-default" v-model="selected_female_inventory">
                                 <option v-if="valid_female_inventory === undefined || valid_female_inventory.length == 0" disabled selected>No Inventories</option>
-                                <option v-for="inv in valid_female_inventory" :key="inv.id" :value="inv.id">Tag : {{inv.replacement_tag}} Female : {{inv.number_female}} Batching Date : {{inv.batching_date}}</option>
+                                <option v-for="inv in valid_female_inventory" :key="inv.id" :value="inv">Tag : {{inv.replacement_tag}} Female : {{inv.number_female}} Batching Date : {{inv.batching_date}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 m12 l6">
-                            <input placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number">
-                            <label for="additional_female">Female to Add</label>
+                            <input v-if="selected_female_inventory==null && add_within==true" placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number" disabled>
+                            <input v-else-if="selected_female_inventory==null && add_within==false" v-model="add_female" placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number">
+                            <input v-else-if="selected_female_inventory!=null && add_within==true" v-model="add_female" value="add_female" placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number" min="1" :max="selected_female_inventory.number_female" class="validate" pattern="^[0-9]">
+                            <label for="additional_female" class="active">Female to Add</label>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Submit</a>
+                    <button href="#!" class="modal-action modal-close waves-effect waves-gray btn-flat ">Submit</button>
                     <a @click="valid_male_inventory = {}; 
                     valid_female_inventory = {};
                     valid_male_inventory_length = 0;
                     valid_female_inventory_length = 0;
                     selected_male_inventory = null;
-                    selected_female_inventory = null;" 
-                    href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+                    selected_female_inventory = null;
+                    add_within=false;
+                    add_male = 0;
+                    add_female = 0;
+                    date_additional = null" 
+                    href="javascript:void(0)" class="modal-action modal-close waves-effect waves-gray btn-flat ">Close</a>
                 </div>
             </form>
         </div>
@@ -542,9 +505,6 @@
                 add_within : false,
                 add_male : 0,
                 add_female : 0,
-                // valid_inventory : {},
-                // valid_inventory_length : 0,
-                // selected_inventory : null,
 
                 valid_male_inventory : {},
                 valid_female_inventory : {},
@@ -733,21 +693,27 @@
                 this.initialize();
             },
             addAdditionalBreeder : function () {
-                axios.post('add_breeder_additional', {
-                    inventory_id : this.breeder_additional,
-                    within : this.add_within,
-                    number_male: this.add_male,
-                    number_female: this.add_female,
-                })
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.add_within = false;
-                        this.add_male = 0;
-                        this.add_female = 0;
-                        Materialize.toast('Successfully added breeder', 5000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 5000, 'red rounded');
+                var input = {};
+                if(within){
+                    input = {
+                        selected_breeder : this.breeder_additional,
+                        within : this.add_within,
+                        male : this.add_male,
+                        female : this.add_female,
+                        replacement_male_inventory : this.selected_male_inventory.id,
+                        replacement_female_inventory : this.selected_female_inventory.id
                     }
+                }else{
+                    input = {
+                        selected_breeder : this.breeder_additional,
+                        within : this.add_within,
+                        male : this.add_male,
+                        female : this.add_female
+                    }
+                }
+                axios.post('add_breeder_additional', input)
+                .then(response => {
+                    Materialize.toast('Successfully added breeder', 5000, 'green rounded');
                 })
                 .catch(error => {
                     Materialize.toast('Failed to add breeder', 5000, 'red rounded');
@@ -783,13 +749,7 @@
                     console.log(error);
                 })
             },
-            // getValidInventory : function () {
-            //     axios.get('breeder_valid_inventory/'+this.breeder_additional)
-            //     .then(response => {
-            //         this.valid_inventory = response.data;
-            //         this.valid_inventory_length = this.valid_inventory.length;
-            //     });
-            // },
+            
             customFormatter : function (date) {
                 var formatted = moment(date).format('YYYY-MM-DD')
                 return formatted;

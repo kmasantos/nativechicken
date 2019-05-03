@@ -1319,6 +1319,45 @@ class FarmController extends Controller
         return $data;
     }
 
+    public function genBreederFeedingSummary () 
+    {
+        $data = BreederFeeding::join('breeder_inventories', 'breeder_inventories.id','breeder_feedings.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->select('breeder_feedings.*', 'generations.number')
+                ->withTrashed()->get();
+        return $data;
+    }
+
+    public function genReplacementFeedingSummary () 
+    {
+        $data = ReplacementFeeding::join('replacement_inventories', 'replacement_inventories.id','replacement_feedings.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->select('replacement_feedings.*', 'generations.number')
+                ->withTrashed()->get();
+        return $data;
+    }
+
+    public function genBrooderFeedingSummary () 
+    {
+        $data = BrooderGrowerFeeding::join('brooder_grower_inventories', 'brooder_grower_inventories.id','brooder_grower_feedings.broodergrower_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->select('brooder_grower_feedings.*', 'generations.number')
+                ->withTrashed()->get();
+        return $data;
+    }
+
     /**
      ** Breeder Farm Summary per Family 
     **/

@@ -939,87 +939,19 @@ class BreederController extends Controller
     }
 
     /**
-     * ! Unchecked for bugs
-    **/
+     * TODO Complete function for adding additional breeders to the breeder flock
+     */
     public function addAdditionalBreeder(Request $request)
     {
-        $now = Carbon::now();
-        $breeder_inventory = BreederInventory::where('id', $request->inventory_id)->firstOrFail();
-        $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->firstOrFail();
-        $breeder = Breeder::where('id', $breeder_inventory->breeder_id)->firstOrFail();
-
-        if(($breeder_pen->current_capacity + ($request->number_male + $request->number_female)) > $breeder_pen->total_capacity){
-            return response()->json( ['error'=>'Input quantity is too large for the breeder inventory'] );
-        }
-
         if($request->within){
-            $replacement = Replacement::where('family_id', $breeder->family_id)->firstOrFail();
-            $replacement_inventory = ReplacementInventory::where('replacement_id', $replacement->id)
-                                ->where('batching_date', $breeder_inventory->batching_date)
-                                ->where('total', '>', 0)
-                                ->where(function($query){
-                                    $query->where('number_male', '>', 0)
-                                        ->orWhere('number_female', '>', 0);
-                                })
-                                ->firstOrFail();
-            $replacement_pen = Pen::where('id', $replacement_inventory->pen_id)->firstOrFail();
-            if($replacement_pen->total_capacity < $replacement_pen->current_capacity + ($request->number_male + $request->number_female)){
-                return response()->json( ['error'=>'Input quantity is too large for the replacment inventory'] );
+
+        }else{
+            $breeder_inventory = BreederInventory::where('id', $request->selected_breeder)->first();
+            $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->first();
+            if($breeder_pen->current_capacity == $breeder_pen->total_capacity || $breeder_pen->current_capacity + ($request->male + $request->female) > $breeder_pen->total_capacity){
+                return;
             }
-            $replacement_pen->current_capacity = $replacement_pen->current_capacity - ($request->number_male + $request->number_female);
-            $breeder_pen->current_capacity = $breeder_pen->current_capacity + ($request->number_male + $request->number_female);
-            $replacement_inventory->number_male = $replacement_inventory->number_male - $request->number_male;
-            $replacement_inventory->number_female = $replacement_inventory->number_female - $request->number_female;
-            $replacement_inventory->total = $replacement_inventory->total - ($request->number_male + $request->number_female);
-            $breeder_inventory->number_male = $breeder_inventory->number_male + $request->number_male;
-            $breeder_inventory->number_female = $breeder_inventory->number_female + $request->number_female;
-            $breeder_inventory->total = $breeder_inventory->total + ($request->number_male + $request->number_female);
-            $movement = new AnimalMovement;
-            $movement->date = $now->toDateString();
-            $movement->family_id = $breeder->id;
-            $movement->tag = $replacement_inventory->replacement_tag;
-            $movement->previous_pen_id = $replacement_pen->id;
-            $movement->current_pen_id = $breeder_pen->id;
-            $movement->previous_type = "replacement";
-            $movement->current_type = "breeder";
-            $movement->activity = "replace";
-            $movement->number_male = $request->number_male;
-            $movement->number_female = $request->number_female;
-            $movement->number_total = $request->number_male + $request->number_female;
-            $movement->remarks = "within system";
-
-            $replacement_inventory->save();
-            $replacement_pen->save();
-            $breeder_inventory->save();
-            $breeder_pen->save();
-            $movement->save();
-            return response()->json(['status' => 'success', 'message' => 'Breeders added']);
-        }
-        else{
-            $breeder_pen->current_capacity = $breeder_pen->current_capacity + ($request->number_male + $request->number_female);
-
-            $breeder_inventory->number_male = $breeder_inventory->number_male + $request->number_male;
-            $breeder_inventory->number_female = $breeder_inventory->number_female + $request->number_female;
-            $breeder_inventory->total = $breeder_inventory->total + ($request->number_male + $request->number_female);
-
-            $movement = new AnimalMovement;
-            $movement->date = $now->toDateString();
-            $movement->family_id = $breeder->id;
-            $movement->tag = null;
-            $movement->previous_pen_id = null;
-            $movement->current_pen_id = $breeder_pen->id;
-            $movement->previous_type = null;
-            $movement->current_type = "breeder";
-            $movement->activity = "replace";
-            $movement->number_male = $request->number_male;
-            $movement->number_female = $request->number_female;
-            $movement->number_total = $request->number_male + $request->number_female;
-            $movement->remarks = "outside system";
-
-            $breeder_inventory->save();
-            $breeder_pen->save();
-            $movement->save();
-            return response()->json(['status' => 'success', 'message' => 'Breeders added']);
+            
         }
     }
     

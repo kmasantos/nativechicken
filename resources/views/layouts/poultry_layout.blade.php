@@ -47,7 +47,45 @@
         }
         .warning_div {
             background-color: #FFB6C1;
-        } 
+        }
+        
+        .tabs .tab a{
+            color:#000;
+        } /*Black color to the text*/
+
+        .tabs .tab a:hover {
+            background-color:#eee;
+            color:#000;
+        } /*Text color on hover*/
+
+        .tabs .tab a.active {
+            color:#000;
+        } /*Background and text color when a tab is active*/
+
+        .tabs .indicator {
+            background-color:#546e7a;
+        } /*Color of underline*/
+        
+        /* label color */
+        label {
+            color: #000;
+        }
+        .input-field label {
+            color: #000;
+        }
+        /* label focus color */
+        .input-field input[type=text]:focus + label {
+            color: #000;
+        }
+        [type="radio"].with-gap:checked+label:after {
+            background-color: #546e7a !important;
+        }
+
+        [type="radio"].with-gap:checked+label:before,
+        [type="radio"].with-gap:checked+label:after {
+            border: 2px solid #546e7a !important;
+        }
+            
     </style>
 </head>
 

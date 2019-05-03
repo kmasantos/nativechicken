@@ -131,7 +131,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col s12 m12 l4 right-column-divider">
+                                    <div class="col s12 m12 l4">
                                         <div class="row">
                                             <div class="col s12 m12 l12 center-align custom_subheading">
                                                 EGGS REJECTED

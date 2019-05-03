@@ -18,10 +18,38 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col s12 m6 l6">
+                            <div class="col s12 m12 l6">
                                 <div class="row">
                                     <div class="col s12 m12 l12">
                                         <h6 class="center-align">HEIGHT</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["height"])}}</td>
+                                                    <td>{{getStd(msummary["height"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">WEIGHT</h6>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -35,11 +63,11 @@
                                                 </tr>
                                             </thead>
 
-                                            <tbody>
+                                            <tbody v-for="(msummary, index) in breeder_male_summary" :key="index">
                                                 <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["weight"])}}</td>
+                                                    <td>{{getStd(msummary["weight"])}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -47,9 +75,673 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">BODY LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["blength"])}}</td>
+                                                    <td>{{getStd(msummary["blength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">CHEST CIRCUMFERENCE</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["ccircumference"])}}</td>
+                                                    <td>{{getStd(msummary["ccircumference"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">WING SPAN</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["wspan"])}}</td>
+                                                    <td>{{getStd(msummary["wspan"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">SHANK LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["slength"])}}</td>
+                                                    <td>{{getStd(msummary["slength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h5 class="center-align">FEMALE <i class="fas fa-venus"></i></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">HEIGHT</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["height"])}}</td>
+                                                    <td>{{getStd(msummary["height"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">WEIGHT</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["weight"])}}</td>
+                                                    <td>{{getStd(msummary["weight"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">BODY LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["blength"])}}</td>
+                                                    <td>{{getStd(msummary["blength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">CHEST CIRCUMFERENCE</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["ccircumference"])}}</td>
+                                                    <td>{{getStd(msummary["ccircumference"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">WING SPAN</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["wspan"])}}</td>
+                                                    <td>{{getStd(msummary["wspan"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">SHANK LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["slength"])}}</td>
+                                                    <td>{{getStd(msummary["slength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div id="tab2">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h5 class="center-align">MALE <i class="fas fa-mars"></i></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">HEIGHT</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["height"])}}</td>
+                                                    <td>{{getStd(msummary["height"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">WEIGHT</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["weight"])}}</td>
+                                                    <td>{{getStd(msummary["weight"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">BODY LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["blength"])}}</td>
+                                                    <td>{{getStd(msummary["blength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">CHEST CIRCUMFERENCE</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["ccircumference"])}}</td>
+                                                    <td>{{getStd(msummary["ccircumference"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">WING SPAN</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["wspan"])}}</td>
+                                                    <td>{{getStd(msummary["wspan"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">SHANK LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["slength"])}}</td>
+                                                    <td>{{getStd(msummary["slength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h5 class="center-align">FEMALE <i class="fas fa-venus"></i></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">HEIGHT</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["height"])}}</td>
+                                                    <td>{{getStd(msummary["height"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">WEIGHT</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["weight"])}}</td>
+                                                    <td>{{getStd(msummary["weight"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">BODY LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["blength"])}}</td>
+                                                    <td>{{getStd(msummary["blength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">CHEST CIRCUMFERENCE</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["ccircumference"])}}</td>
+                                                    <td>{{getStd(msummary["ccircumference"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">WING SPAN</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["wspan"])}}</td>
+                                                    <td>{{getStd(msummary["wspan"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">SHANK LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["slength"])}}</td>
+                                                    <td>{{getStd(msummary["slength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -261,6 +953,12 @@ export default {
                 
             });
         },
+        getMean : function (array) {
+            return math.mean(array).toFixed(2);
+        },
+        getStd : function (array){
+            return math.std(array).toFixed(2);
+        },
     },
     mounted () {
         $('ul.tabs').tabs();
@@ -269,6 +967,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    tbody {
+        max-height:500px;
+        overflow:auto;
+    }
 </style>
+

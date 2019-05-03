@@ -104,9 +104,16 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('generation_hatchery/{year}', 'FarmController@getHatcheryRecordGeneration');
         Route::get('generation_inventory', 'FarmController@getInventoryGeneration');
         Route::get('generation_mortality', 'FarmController@getMortalityGeneration');
+
+        /**
+         ** NEW GENERATION SUMMARY ROUTES
+        **/
         Route::get('generation_summary_breeder_pheno', 'FarmController@genBreederPhenoSummary');
         Route::get('generation_summary_breeder_morpho', 'FarmController@genBreederMorphoSummary');
         Route::get('generation_summary_replacement_morpho', 'FarmController@genReplacementMorphoSummary');
+        Route::get('generation_summary_breeder_feeding', 'FarmController@genBreederFeedingSummary');
+        Route::get('generation_summary_replacement_feeding', 'FarmController@genReplacementFeedingSummary');
+        Route::get('generation_summary_brooder_feeding', 'FarmController@genBrooderFeedingSummary');
         /*
         * * Axios Routes for Dashboard
         */
