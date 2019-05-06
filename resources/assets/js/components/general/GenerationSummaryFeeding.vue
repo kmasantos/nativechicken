@@ -9,7 +9,12 @@
                                 BREEDERS
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" v-if="Object.entries(breeder_feeding).length === 0 && breeder_feeding.constructor === Object">
+                            <div class="col s12 m12 l12 center-align">
+                                <strong>NO DATA</strong>
+                            </div>
+                        </div>
+                        <div class="row" v-else>
                             <div class="col s12 m12 l12">
                                 <table class="bordered highlight centered responsive-table">
                                     <thead>
@@ -41,7 +46,12 @@
                                 GROWERS & REPLACEMENTS
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" v-if="Object.entries(replacement_feeding).length === 0 && replacement_feeding.constructor === Object">
+                            <div class="col s12 m12 l12 center-align">
+                                <strong>NO DATA</strong>
+                            </div>
+                        </div>
+                        <div class="row" v-else>
                             <div class="col s12 m12 l12">
                                 <table class="bordered highlight centered responsive-table">
                                     <thead>
@@ -73,7 +83,12 @@
                                 BROODERS
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" v-if="Object.entries(brooder_feeding).length === 0 && brooder_feeding.constructor === Object">
+                            <div class="col s12 m12 l12 center-align">
+                                <strong>NO DATA</strong>
+                            </div>
+                        </div>
+                        <div class="row" v-else>
                             <div class="col s12 m12 l12">
                                 <table class="bordered highlight centered responsive-table">
                                     <thead>

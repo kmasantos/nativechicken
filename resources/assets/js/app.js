@@ -40,6 +40,7 @@ Vue.component('generation-summary-general', require('./components/general/Genera
 Vue.component('generation-summary-phenotypic', require('./components/general/GenerationSummaryPhenotypic.vue'));
 Vue.component('generation-summary-morphometric', require('./components/general/GenerationSummaryMorphometric.vue'));
 Vue.component('generation-summary-feeding', require('./components/general/GenerationSummaryFeeding.vue'));
+Vue.component('generation-summary-growth', require('./components/general/GenerationSummaryGrowth.vue'));
 
 // Breeder Vue Components
 Vue.component('add-breeder', require('./components/breeders/Breeder.vue'));
