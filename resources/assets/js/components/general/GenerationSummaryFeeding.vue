@@ -217,7 +217,7 @@ export default {
 <style scoped>
     tbody {
         display:block;
-        max-height:500px;
+        max-height:700px;
         overflow:auto;
     }
     thead, tbody tr {

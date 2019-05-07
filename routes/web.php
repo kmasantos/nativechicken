@@ -106,7 +106,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('generation_mortality', 'FarmController@getMortalityGeneration');
 
         /**
-         ** NEW GENERATION SUMMARY ROUTES
+         *  * NEW GENERATION SUMMARY ROUTES
         **/
         Route::get('generation_summary_breeder_pheno', 'FarmController@genBreederPhenoSummary');
         Route::get('generation_summary_breeder_morpho', 'FarmController@genBreederMorphoSummary');
@@ -116,9 +116,12 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('generation_summary_brooder_feeding', 'FarmController@genBrooderFeedingSummary');
         Route::get('generation_summary_replacement_growth', 'FarmController@genGrowerGrowthSummary');
         Route::get('generation_summary_brooder_growth', 'FarmController@genBrooderGrowthSummary');
-
+        Route::get('generation_summary_hatchery', 'FarmController@genHatcherySummary');
+        Route::get('generation_summary_breeder_mortality', 'FarmController@genBreederMortalitySummary');
+        Route::get('generation_summary_replacement_mortality', 'FarmController@genReplacementMortalitySummary');
+        Route::get('generation_summary_brooder_mortality', 'FarmController@genBrooderMortalitySummary');
         /*
-        * * Axios Routes for Dashboard
+        *   * Axios Routes for Dashboard
         */
         Route::get('dash_breeder_inventory', 'FarmController@getDashBreederInventory');
         Route::get('dash_breeder_eggprod', 'FarmController@getDashEggProduction');
@@ -141,9 +144,9 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('breeder_valid_inventory/{breeder_inventory}', 'BreederController@getValidInventory');
         Route::get('breeder_add_male_inventory/{breeder_inventory}', 'BreederController@getValidAdditionalMaleBreeder');
         Route::get('breeder_add_female_inventory/{breeder_inventory}', 'BreederController@getValidAdditionalFemaleBreeder');
-        /*
-         * *New Axios Routes for Breeders
-        */
+        /** 
+        *  *New Axios Routes for Breeders
+        **/
         Route::get('breeder_feeding/{breeder_id}', 'BreederController@fetchFeedingRecords');
         Route::post('breeder_feeding', 'BreederController@addFeedingRecords');
         Route::get('breeder_eggprod/{breeder_id}', 'BreederController@fetchEggProduction');

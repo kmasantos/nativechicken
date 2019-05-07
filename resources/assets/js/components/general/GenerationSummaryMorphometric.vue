@@ -6,8 +6,8 @@
                     </div>
                 <div class="card-tabs">
                 <ul class="tabs tabs-fixed-width">
-                    <li class="tab"><a href="#tab1">Breeder</a></li>
                     <li class="tab"><a href="#tab2">Replacement</a></li>
+                    <li class="tab"><a href="#tab1">Breeder</a></li>
                 </ul>
                 </div>
                 <div class="card-content grey lighten-4">

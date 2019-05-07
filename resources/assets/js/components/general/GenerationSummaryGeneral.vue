@@ -38,8 +38,12 @@
                     <generation-summary-growth :animal_type="animal_type.animaltype_id"></generation-summary-growth>
                 </div>
                 <div v-if="selected=='Egg Production'"></div>
-                <div v-if="selected=='Hatchery Data'"></div>
-                <div v-if="selected=='Mortality & Sales'"></div>
+                <div v-if="selected=='Hatchery Data'">
+                    <generation-summary-hatchery :animal_type="animal_type.animaltype_id"></generation-summary-hatchery>
+                </div>
+                <div v-if="selected=='Mortality & Sales'">
+                    <generation-summary-mortality :animal_type="animal_type.animaltype_id"></generation-summary-mortality>
+                </div>
             </div>
         </div>
     </div>

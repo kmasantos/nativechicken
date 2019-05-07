@@ -3,6 +3,19 @@
         <div class="col s12 m12 l12">
             <div class="card-panel">
                 <div class="row">
+                    <div class="col s12 m12 l12 custom-notice">
+                        <p>
+                            <strong>Note:</strong>  
+                        </p>
+                        <p>
+                            <i>• If the data does not specify male and female weights, no values will show</i>
+                        </p>
+                        <p>
+                            <i>• If the data does not specify male and female weights, no values will show</i>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="row">
                             <div class="col s12 m12 l12 center-align custom-title">
@@ -15,8 +28,8 @@
                                     <thead>
                                         <tr>
                                             <th>Generation</th>
-                                            <th>Week 0</th>
-                                            <th>Week 21</th>
+                                            <th>Day 0</th>
+                                            <th>Day 21</th>
                                         </tr>
                                     </thead>
 
@@ -75,19 +88,16 @@
                             <div class="col s12 m12 l12 center-align custom-title">
                                 Grower Weights
                             </div>
-                            <div class="col s12 m12 l12 center-align orange-text">
-                                <i>* Note: If the data does not specify male and female weights, no values will show</i>
-                            </div>
                         </div>
                         <div class="row"  v-if="grower_growth_record_len>0">
                             <div class="col s12 m12 l12">
-                                <table class="bordered highlight responsive-table centered">
+                                <table class="bordered responsive-table centered">
                                     <thead>
                                         <tr>
                                             <th>Generation</th>
-                                            <th>Week 45</th>
-                                            <th>Week 75</th>
-                                            <th>Week 100</th>
+                                            <th>Day 45</th>
+                                            <th>Day 75</th>
+                                            <th>Day 100</th>
                                         </tr>
                                     </thead>
 
@@ -289,9 +299,15 @@ export default {
     .custom-title {
         font-size: 1.3em;
     }
+    .custom-notice {
+        background-color: #F3D9CA;
+        line-height: 1;
+        padding-left: 15%; 
+        border-radius: 6px;
+    }
     tbody {
         display:block;
-        max-height:500px;
+        max-height:800px;
         overflow:auto;
     }
     thead, tbody tr {

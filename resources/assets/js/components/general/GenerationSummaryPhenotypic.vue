@@ -15,93 +15,96 @@
                                 <h5 class="center-align">MALE <i class="fas fa-mars"></i></h5>
                             </div>
                         </div>
+                        
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <div class="row">
-                                    <div class="col s12 m12 l12">
-                                        <h5 class="center-align">Plumage Color</h5>
+                                <div class="card-panel">
+                                    <div class="row">
+                                        <div class="col s12 m12 l12">
+                                            <h6 class="center-align">PLUMAGE COLOR</h6>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col s12 m12 l12">
-                                        <table class="bordered centered responsive-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Generation</th>
-                                                <th>Data</th>
-                                            </tr>
-                                        </thead>
+                                    <div class="row">
+                                        <div class="col s12 m12 l12">
+                                            <table class="bordered centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Generation</th>
+                                                    <th>Data</th>
+                                                </tr>
+                                            </thead>
 
-                                        <tbody>
-                                            <tr>
-                                                <td>Alvin</td>
-                                                <td>
-                                                    <table class="centered responsive-table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th><i class="fas fa-feather"></i></th>
-                                                            <th><i class="fas fa-sort-amount-down"></i></th>
-                                                            <th><i class="fas fa-percentage"></i></th>
-                                                        </tr>
-                                                        </thead>
-
-                                                        <tbody>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <table class="centered responsive-table">
+                                                            <thead>
                                                             <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
+                                                                <th><i class="fas fa-feather"></i></th>
+                                                                <th><i class="fas fa-sort-amount-down"></i></th>
+                                                                <th><i class="fas fa-percentage"></i></th>
                                                             </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        </table>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col s12 m6 l6">
-                                <h5 class="center-align">Plumage Pattern</h5>
+                                <h6 class="center-align">PLUMAGE PATTERN</h6>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <h5 class="center-align">Hackle Color</h5>
+                                <h6 class="center-align">HACKLE COLOR</h6>
                             </div>
                             <div class="col s12 m6 l6">
-                                <h5 class="center-align">Hackle Pattern</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 m6 l6">
-                                <h5 class="center-align">Body Carriage</h5>
-                            </div>
-                            <div class="col s12 m6 l6">
-                                <h5 class="center-align">Comb Type</h5>
+                                <h6 class="center-align">HACKLE PATTERN</h6>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <h5 class="center-align">Comb Color</h5>
+                                <h6 class="center-align">BODY CARRIAGE</h6>
                             </div>
                             <div class="col s12 m6 l6">
-                                <h5 class="center-align">Earlobe Color</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 m6 l6">
-                                <h5 class="center-align">Iris Color</h5>
-                            </div>
-                            <div class="col s12 m6 l6">
-                                <h5 class="center-align">Beak Color</h5>
+                                <h6 class="center-align">COMB TYPE</h6>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <h5 class="center-align">Shank Color</h5>
+                                <h6 class="center-align">COMB COLOR</h6>
                             </div>
                             <div class="col s12 m6 l6">
-                                <h5 class="center-align">Skin Color</h5>
+                                <h6 class="center-align">EARLOBE COLOR</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <h6 class="center-align">IRIS COLOR</h6>
+                            </div>
+                            <div class="col s12 m6 l6">
+                                <h6 class="center-align">BEAK COLOR</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <h6 class="center-align">SHANK COLOR</h6>
+                            </div>
+                            <div class="col s12 m6 l6">
+                                <h6 class="center-align">SKIN COLOR</h6>
                             </div>
                         </div>
                         <div class="row">
@@ -126,9 +129,12 @@ export default {
     ],
     data () {
         return {
-            summary : null,
-            male : {},
-            female : {},
+            breeder_data : null,
+            replacement_data : null,
+            breeder_data_len : 0,
+            replacement_data_len : 0,
+            breeder_records : {},
+            replacement_records : {},
             
         }
     },
@@ -139,27 +145,36 @@ export default {
         getBreederPhenoSummary : function () {
             axios.get('generation_summary_breeder_pheno')
             .then(response => {
-                this.summary = response.data;
-                if(this.summary.length > 0){
-                    this.count(this.summary);
-                }
-            })
-            .catch(error => {
+                this.breeder_data = response.data;
+                this.breeder_data_len = this.breeder_data.length;
+                this.breeder_records = {};
+                this.breeder_data.forEach(element => {
+                    if((typeof this.breeder_records[element.number] === 'undefined')){
+                        this.breeder_records[element.number] = {};
+                        this.breeder_records[element.number]['male'] = {};
+                        this.breeder_records[element.number]['female'] = {};
+                        if(this.animal_type === 1){
+                            this.breeder_records[element.number]['male']['plumage_color'];
+                            this.breeder_records[element.number]['female']['plumage_color'];
+                            this.breeder_records[element.number]['male']['plumage_pattern'];
+                            this.breeder_records[element.number]['female']['plumage_pattern'];
+                            this.breeder_records[element.number]['male']['hackle_color'];
+                            this.breeder_records[element.number]['female']['hackle_color'];
+                            this.breeder_records[element.number]['male']['hackle_pattern'];
+                            this.breeder_records[element.number]['female']['hackle_pattern'];
+                        }else{
+
+                        }
+                    }
+                    
+
+                });
                 
-            });
-            
+            })
+            .catch(error => {});
         },
         count : function (data) {
-            data.forEach(element => {
-                if(element.gender == "male"){
-                    element.phenotypic.forEach(element => {
-                        
-                    });
-                }
-                if(element.gender == "female"){
-
-                }
-            });
+            
         }
     },
     mounted () {
