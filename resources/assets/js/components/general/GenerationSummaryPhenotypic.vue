@@ -4353,7 +4353,7 @@ export default {
                                 this.male_replacement_records['plumage_color'][element.number] = {};
                             }
                             if((typeof this.male_replacement_records['plumage_color'][element.number][values[0].toUpperCase()] === 'undefined')){
-                                this.male_replacement_records['plumage_color'][element.number][values[0].toUpperCase()] = 0
+                                this.male_replacement_records['plumage_color'][element.number][values[0].toUpperCase()] = 0;
                             }
                             this.male_replacement_records['plumage_color'][element.number][values[0].toUpperCase()]++;
                             
@@ -4484,7 +4484,7 @@ export default {
                             if((typeof this.female_replacement_records['body_carriage'][element.number][values[4].toUpperCase()] === 'undefined')){
                                 this.female_replacement_records['body_carriage'][element.number][values[4].toUpperCase()] = 0
                             }
-                            this.male_replacement_records['body_carriage'][element.number][values[4].toUpperCase()]++;
+                            this.female_replacement_records['body_carriage'][element.number][values[4].toUpperCase()]++;
                             
                             if((typeof this.female_replacement_records['comb_type'][element.number] === 'undefined')){
                                 this.female_replacement_records['comb_type'][element.number] = {};
