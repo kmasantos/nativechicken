@@ -109,6 +109,7 @@ Route::group(['middleware' => ['web']], function ()
          *  * NEW GENERATION SUMMARY ROUTES
         **/
         Route::get('generation_summary_breeder_pheno', 'FarmController@genBreederPhenoSummary');
+        Route::get('generation_summary_replacement_pheno', 'FarmController@genReplacementPhenoSummary');
         Route::get('generation_summary_breeder_morpho', 'FarmController@genBreederMorphoSummary');
         Route::get('generation_summary_replacement_morpho', 'FarmController@genReplacementMorphoSummary');
         Route::get('generation_summary_breeder_feeding', 'FarmController@genBreederFeedingSummary');

@@ -1291,6 +1291,20 @@ class FarmController extends Controller
         return $data;
     }
 
+    public function genReplacementPhenoSummary () 
+    {
+        $data = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('replacement_inventories', 'replacement_inventories.id', 'pheno_morphos.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->select('pheno_morpho_values.*', 'generations.number')
+                ->withTrashed()->get();  
+        return $data;
+    }
+
     public function genBreederMorphoSummary () 
     {
         $data = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
