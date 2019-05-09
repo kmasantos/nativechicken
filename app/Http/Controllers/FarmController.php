@@ -1453,6 +1453,19 @@ class FarmController extends Controller
         return $data;
     }
 
+    public function genEggprodSummary () 
+    {
+        $data = EggProduction::join('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->select('egg_productions.*', 'generations.number')
+                ->withTrashed()->get();
+        return $data;
+    }
+
     /**
      ** Breeder Farm Summary per Family 
     **/

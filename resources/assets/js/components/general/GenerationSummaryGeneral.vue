@@ -37,7 +37,9 @@
                 <div v-if="selected=='Growth Performance'">
                     <generation-summary-growth :animal_type="animal_type.animaltype_id"></generation-summary-growth>
                 </div>
-                <div v-if="selected=='Egg Production'"></div>
+                <div v-if="selected=='Egg Production'">
+                    <generation-summary-egg></generation-summary-egg>
+                </div>
                 <div v-if="selected=='Hatchery Data'">
                     <generation-summary-hatchery :animal_type="animal_type.animaltype_id"></generation-summary-hatchery>
                 </div>

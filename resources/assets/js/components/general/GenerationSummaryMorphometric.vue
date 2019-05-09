@@ -969,8 +969,20 @@ export default {
 
 <style scoped>
     tbody {
+        display:block;
         max-height:500px;
         overflow:auto;
+    }
+    thead, tbody tr {
+        display:table;
+        width:100%;
+        table-layout:fixed;
+    }
+    thead {
+        width: calc( 100% - 1em )
+    }
+    table {
+        width:100%;
     }
 </style>
 

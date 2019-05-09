@@ -20,9 +20,9 @@
                                     <thead>
                                         <tr>
                                             <th>Generation</th>
-                                            <th>Total Deaths</th>
-                                            <th>Total Sales</th>
-                                            <th>Total Egg Sales</th>
+                                            <th>Total Mortality</th>
+                                            <th>Total Heads Sold</th>
+                                            <th>Total Eggs Sold</th>
                                         </tr>
                                     </thead>
 
@@ -87,8 +87,8 @@
                                     <thead>
                                         <tr>
                                             <th>Generation</th>
-                                            <th>Total Deaths</th>
-                                            <th>Total Sales</th>
+                                            <th>Total Mortality</th>
+                                            <th>Total Heads Sold</th>
                                         </tr>
                                     </thead>
 
@@ -152,8 +152,8 @@
                                     <thead>
                                         <tr>
                                             <th>Generation</th>
-                                            <th>Total Deaths</th>
-                                            <th>Total Sales</th>
+                                            <th>Total Mortality</th>
+                                            <th>Total Heads Sold</th>
                                         </tr>
                                     </thead>
 
@@ -322,5 +322,21 @@ export default {
 <style scoped>
     .custom-title {
         font-size: 1.3em;
+    }
+    tbody {
+        display:block;
+        max-height:500px;
+        overflow:auto;
+    }
+    thead, tbody tr {
+        display:table;
+        width:100%;
+        table-layout:fixed;
+    }
+    thead {
+        width: calc( 100% - 1em )
+    }
+    table {
+        width:100%;
     }
 </style>

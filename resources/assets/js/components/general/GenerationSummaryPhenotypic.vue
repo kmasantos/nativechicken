@@ -4796,7 +4796,7 @@ export default {
                 total += obj[index];
             }
             if(total != 0){
-                return (freq/total)*100;
+                return ((freq/total)*100).toFixed(2);
             }
         },
     },
@@ -4808,5 +4808,23 @@ export default {
 </script>
 
 <style scoped>
-     
+    .card-panel {
+        height: 500px;
+    }
+    tbody {
+        display:block;
+        max-height:500px;
+        overflow:auto;
+    }
+    thead, tbody tr {
+        display:table;
+        width:100%;
+        table-layout:fixed;
+    }
+    thead {
+        width: calc( 100% - 1em )
+    }
+    table {
+        width:100%;
+    }
 </style>
