@@ -24,7 +24,12 @@
                                         <h6 class="center-align">HEIGHT</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(breeder_male_summary).length === 0 && breeder_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -52,7 +57,12 @@
                                         <h6 class="center-align">WEIGHT</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(breeder_male_summary).length === 0 && breeder_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -83,7 +93,12 @@
                                         <h6 class="center-align">BODY LENGTH</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(breeder_male_summary).length === 0 && breeder_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -111,7 +126,12 @@
                                         <h6 class="center-align">CHEST CIRCUMFERENCE</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(breeder_male_summary).length === 0 && breeder_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -142,7 +162,12 @@
                                         <h6 class="center-align">WING SPAN</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(breeder_male_summary).length === 0 && breeder_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -170,7 +195,12 @@
                                         <h6 class="center-align">SHANK LENGTH</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(breeder_male_summary).length === 0 && breeder_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -186,6 +216,74 @@
                                                     <td>{{index}}</td>
                                                     <td>{{getMean(msummary["slength"])}}</td>
                                                     <td>{{getStd(msummary["slength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" v-if="animal_type === 2">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">BILL LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-if="Object.entries(breeder_male_summary).length === 0 && breeder_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["billlen"])}}</td>
+                                                    <td>{{getStd(msummary["billlen"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">NECK LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="Object.entries(breeder_male_summary).length === 0 && breeder_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["nlength"])}}</td>
+                                                    <td>{{getStd(msummary["nlength"])}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -206,7 +304,12 @@
                                         <h6 class="center-align">HEIGHT</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(breeder_female_summary).length === 0 && breeder_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -234,7 +337,12 @@
                                         <h6 class="center-align">WEIGHT</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(breeder_female_summary).length === 0 && breeder_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -265,7 +373,12 @@
                                         <h6 class="center-align">BODY LENGTH</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(breeder_female_summary).length === 0 && breeder_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -293,7 +406,12 @@
                                         <h6 class="center-align">CHEST CIRCUMFERENCE</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(breeder_female_summary).length === 0 && breeder_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -324,7 +442,12 @@
                                         <h6 class="center-align">WING SPAN</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(breeder_female_summary).length === 0 && breeder_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -352,7 +475,12 @@
                                         <h6 class="center-align">SHANK LENGTH</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(breeder_female_summary).length === 0 && breeder_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -368,6 +496,75 @@
                                                     <td>{{index}}</td>
                                                     <td>{{getMean(msummary["slength"])}}</td>
                                                     <td>{{getStd(msummary["slength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" v-if="animal_type === 2">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">BILL LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-if="Object.entries(breeder_female_summary).length === 0 && breeder_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["billlen"])}}</td>
+                                                    <td>{{getStd(msummary["billlen"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">NECK LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="Object.entries(breeder_female_summary).length === 0 && breeder_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in breeder_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["nlength"])}}</td>
+                                                    <td>{{getStd(msummary["nlength"])}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -391,7 +588,12 @@
                                         <h6 class="center-align">HEIGHT</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(replacement_male_summary).length === 0 && replacement_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -419,7 +621,12 @@
                                         <h6 class="center-align">WEIGHT</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(replacement_male_summary).length === 0 && replacement_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -450,7 +657,12 @@
                                         <h6 class="center-align">BODY LENGTH</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(replacement_male_summary).length === 0 && replacement_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -478,7 +690,12 @@
                                         <h6 class="center-align">CHEST CIRCUMFERENCE</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(replacement_male_summary).length === 0 && replacement_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -509,7 +726,12 @@
                                         <h6 class="center-align">WING SPAN</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(replacement_male_summary).length === 0 && replacement_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -537,7 +759,12 @@
                                         <h6 class="center-align">SHANK LENGTH</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(replacement_male_summary).length === 0 && replacement_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -553,6 +780,75 @@
                                                     <td>{{index}}</td>
                                                     <td>{{getMean(msummary["slength"])}}</td>
                                                     <td>{{getStd(msummary["slength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" v-if="animal_type === 2">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">BILL LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-if="Object.entries(replacement_male_summary).length === 0 && replacement_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["billlen"])}}</td>
+                                                    <td>{{getStd(msummary["billlen"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">NECK LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="Object.entries(replacement_male_summary).length === 0 && replacement_male_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_male_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["nlength"])}}</td>
+                                                    <td>{{getStd(msummary["nlength"])}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -573,7 +869,12 @@
                                         <h6 class="center-align">HEIGHT</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(replacement_female_summary).length === 0 && replacement_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -601,7 +902,12 @@
                                         <h6 class="center-align">WEIGHT</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(replacement_female_summary).length === 0 && replacement_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -632,7 +938,12 @@
                                         <h6 class="center-align">BODY LENGTH</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(replacement_female_summary).length === 0 && replacement_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -660,7 +971,12 @@
                                         <h6 class="center-align">CHEST CIRCUMFERENCE</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(replacement_female_summary).length === 0 && replacement_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row"  v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -691,7 +1007,12 @@
                                         <h6 class="center-align">WING SPAN</h6>
                                     </div>
                                 </div>
-                                <div class="row right-column-divider">
+                                <div class="row right-column-divider" v-if="Object.entries(replacement_female_summary).length === 0 && replacement_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -719,7 +1040,12 @@
                                         <h6 class="center-align">SHANK LENGTH</h6>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" v-if="Object.entries(replacement_female_summary).length === 0 && replacement_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
                                     <div class="col s12 m12 l12">
                                         <table class="bordered highlight centered responsive-table">
                                             <thead>
@@ -735,6 +1061,75 @@
                                                     <td>{{index}}</td>
                                                     <td>{{getMean(msummary["slength"])}}</td>
                                                     <td>{{getStd(msummary["slength"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" v-if="animal_type === 2">
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">BILL LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row right-column-divider" v-if="Object.entries(replacement_female_summary).length === 0 && replacement_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["billlen"])}}</td>
+                                                    <td>{{getStd(msummary["billlen"])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="row">
+                                    <div class="col s12 m12 l12">
+                                        <h6 class="center-align">NECK LENGTH</h6>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="Object.entries(replacement_female_summary).length === 0 && replacement_female_summary.constructor === Object">
+                                    <div class="col s12 m12 l12 center-align">
+                                        <strong>NO DATA</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col s12 m12 l12">
+                                        <table class="bordered highlight centered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>GENERATION</th>
+                                                    <th>μ</th>
+                                                    <th>σ</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody v-for="(msummary, index) in replacement_female_summary" :key="index">
+                                                <tr>
+                                                    <td>{{index}}</td>
+                                                    <td>{{getMean(msummary["nlength"])}}</td>
+                                                    <td>{{getStd(msummary["nlength"])}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
