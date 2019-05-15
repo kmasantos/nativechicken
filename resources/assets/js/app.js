@@ -45,6 +45,18 @@ Vue.component('generation-summary-hatchery', require('./components/general/Gener
 Vue.component('generation-summary-mortality', require('./components/general/GenerationSummaryMortality.vue'));
 Vue.component('generation-summary-egg', require('./components/general/GenerationSummaryEgg.vue'));
 
+/**
+ **  Family Summary 
+**/
+Vue.component('family-summary-general', require('./components/general/FamilySummaryGeneral.vue'));
+Vue.component('family-summary-phenotypic', require('./components/general/FamilySummaryPhenotypic.vue'));
+Vue.component('family-summary-morphometric', require('./components/general/FamilySummaryMorphometric.vue'));
+// Vue.component('generation-summary-feeding', require('./components/general/GenerationSummaryFeeding.vue'));
+// Vue.component('generation-summary-growth', require('./components/general/GenerationSummaryGrowth.vue'));
+// Vue.component('generation-summary-hatchery', require('./components/general/GenerationSummaryHatchery.vue'));
+// Vue.component('generation-summary-mortality', require('./components/general/GenerationSummaryMortality.vue'));
+// Vue.component('generation-summary-egg', require('./components/general/GenerationSummaryEgg.vue'));
+
 // Breeder Vue Components
 Vue.component('add-breeder', require('./components/breeders/Breeder.vue'));
 Vue.component('hatchery-record', require('./components/breeders/HatcheryRecordList.vue'));

@@ -1467,19 +1467,96 @@ class FarmController extends Controller
     }
 
     /**
-     ** Breeder Farm Summary per Family 
+    ** FARM SUMMARY BY FAMILY 
     **/
-    public function famBreederPhenoMorphoSummary () 
+    public function famBreederPhenoSummary ($generation) 
     {
-
+        
     }
 
-    /**
-     ** Replacement Farm Summary per Generation 
-    **/
+    public function famReplacementPhenoSummary ($generation) 
+    {
+        
+    }
 
-    /**
-     ** Brooder Farm Summary per Generation 
-    **/
+    public function famBreederMorphoSummary ($generation) 
+    {
+        $data = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('breeder_inventories', 'breeder_inventories.id', 'pheno_morphos.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('pheno_morpho_values.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();  
+        return $data;
+    }
+
+    public function famReplacementMorphoSummary ($generation) 
+    {
+        $data = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('replacement_inventories', 'replacement_inventories.id', 'pheno_morphos.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('pheno_morpho_values.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();  
+        return $data;
+    }
+
+    public function famBreederFeedingSummary ($generation) 
+    {
+        
+    }
+
+    public function famReplacementFeedingSummary ($generation) 
+    {
+        
+    }
+
+    public function famBrooderFeedingSummary ($generation) 
+    {
+        
+    }
+
+    public function famBrooderGrowthSummary ($generation) 
+    {
+        
+    }
+
+    public function famGrowerGrowthSummary ($generation) 
+    {
+        
+    }
+
+    public function famEggProductionSummary ($generation) 
+    {
+        
+    }
+
+    public function famHatcherySummary ($generation) 
+    {
+        
+    }
+
+    public function famBreederMortalitySummary ($generation) 
+    {
+        
+    }
+
+    public function famReplacementMortalitySummary ($generation) 
+    {
+        
+    }
+
+    public function famBrooderMortalitySummary ($generation) 
+    {
+        
+    }
 }
 

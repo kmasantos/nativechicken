@@ -1,7 +1,7 @@
 @extends('layouts.poultry_layout')
 
 @section('title')
-    Farm Records
+    Family Summary
 @endsection
 
 @section('content')
@@ -9,18 +9,10 @@
         <div class="col s12 m12 12">
             <div class="row">
                 <div class="col s12 m12 l12">
-                    <h5>Farm Records</h5>
+                    <h5>Family Summary</h5>
                 </div>
             </div>
-            <div class="row">
-                <div class="col s12 m12 l12">
-                    <ul class="breadcrumb">
-                        <li><a href={{route('farm.index')}}>Home</a></li>
-                        <li>Farm Records</li>
-                    </ul>
-                </div>
-            </div>
-            <farm-record></farm-record>
+            <family-summary-general></family-summary-general>
         </div>
     </div>
 @endsection

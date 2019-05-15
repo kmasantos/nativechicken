@@ -283,6 +283,7 @@ class BreederController extends Controller
             'total_broken' => 'required',
             'total_rejects' => 'required',
         ]);
+        $inventory = BreederInventory::where('id', $request->breeder_id)->first();
         $eggprod = new EggProduction;
         $eggprod->breeder_inventory_id = $request->breeder_id;
         $eggprod->date_collected = $request->date_added;
@@ -291,6 +292,7 @@ class BreederController extends Controller
         $eggprod->total_broken = $request->total_broken;
         $eggprod->total_rejects = $request->total_rejects;
         $eggprod->remarks = $request->remarks;
+        $eggprod->female_inventory = $inventory->number_female;
         $eggprod->save();
         return response()->json(['status' => 'success', 'message' => 'Egg production added']);
     }
