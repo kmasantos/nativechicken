@@ -20,13 +20,14 @@
                     <nav class="sub_nav transparent z-depth-0">
                         <div class="nav-wrapper">
                             <ul id="nav-mobile" class="left">
-                                <li><a @click="selected='Phenotypic Summary'" class="black-text" href="#" onclick="return false;">PHENOTYPIC</a></li>
-                                <li><a @click="selected='Morphometric Summary'" class="black-text" href="#" onclick="return false;">MORPHOMETRIC</a></li>
+                                <li><a @click="selected='Phenotypic Summary'" class="black-text" href="#" onclick="return false;">PHENO</a></li>
+                                <li><a @click="selected='Morphometric Summary'" class="black-text" href="#" onclick="return false;">MORPHO</a></li>
                                 <li><a @click="selected='Feeding Performance'" class="black-text" href="#" onclick="return false;">FEEDING</a></li>
                                 <li><a @click="selected='Growth Performance'" class="black-text" href="#" onclick="return false;">GROWTH</a></li>
-                                <li><a @click="selected='Egg Production'" class="black-text" href="#" onclick="return false;">EGG PRODUCTION</a></li>
+                                <li><a @click="selected='Egg Production'" class="black-text" href="#" onclick="return false;">EGG PROD</a></li>
                                 <li><a @click="selected='Hatchery Data'" class="black-text" href="#" onclick="return false;">HATCHERY</a></li>
-                                <li><a @click="selected='Mortality & Sales'" class="black-text" href="#" onclick="return false;">MORTALITY & SALES</a></li>
+                                <li><a @click="selected='Egg Quality'" class="black-text" href="javascript:void(0);">EGG QUALITY</a></li>
+                                <li><a @click="selected='Mortality & Sales'" class="black-text" href="#" onclick="return false;">MORTALITY/SALES</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -52,7 +53,7 @@
                         <family-summary-growth :animal_type="animal_type.animaltype_id" :title="selected" :generation="generation"></family-summary-growth>
                     </div>
                     <div v-if="selected=='Egg Production'">
-                        <family-summary-egg :title="selected" :generation="generation"></family-summary-egg>
+                        <family-summary-eggprod :title="selected" :generation="generation"></family-summary-eggprod>
                     </div>
                     <div v-if="selected=='Hatchery Data'">
                         <family-summary-hatchery :animal_type="animal_type.animaltype_id" :title="selected" :generation="generation"></family-summary-hatchery>

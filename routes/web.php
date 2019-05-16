@@ -129,8 +129,17 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('family_summary_replacement_pheno/{generation}', 'FarmController@famReplacementPhenoSummary');
         Route::get('family_summary_breeder_morpho/{generation}', 'FarmController@famBreederMorphoSummary');
         Route::get('family_summary_replacement_morpho/{generation}', 'FarmController@famReplacementMorphoSummary');
-        
-        
+        Route::get('family_summary_breeder_feeding/{generation}', 'FarmController@famBreederFeedingSummary');
+        Route::get('family_summary_replacement_feeding/{generation}', 'FarmController@famReplacementFeedingSummary');
+        Route::get('family_summary_brooder_feeding/{generation}', 'FarmController@famBrooderFeedingSummary');
+        Route::get('family_summary_brooder_growth/{generation}', 'FarmController@famBrooderGrowthSummary');
+        Route::get('family_summary_replacement_growth/{generation}', 'FarmController@famGrowerGrowthSummary');
+        Route::get('family_summary_eggprod/{generation}', 'FarmController@famEggProductionSummary');
+        Route::get('family_summary_hatchery/{generation}', 'FarmController@famHatcherySummary');
+        Route::get('family_summary_breeder_mortality/{generation}', 'FarmController@famBreederMortalitySummary');
+        Route::get('family_summary_replacement_mortality/{generation}', 'FarmController@famReplacementMortalitySummary');
+        Route::get('family_summary_brooder_mortality/{generation}', 'FarmController@famBrooderMortalitySummary');
+
         /*
         *   * Axios Routes for Dashboard
         */

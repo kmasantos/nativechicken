@@ -10,6 +10,7 @@
                         <li><a @click="selected='Growth Performance'" class="black-text" href="javascript:void(0);">GROWTH</a></li>
                         <li><a @click="selected='Egg Production'" class="black-text" href="javascript:void(0);">EGG PRODUCTION</a></li>
                         <li><a @click="selected='Hatchery Data'" class="black-text" href="javascript:void(0);">HATCHERY</a></li>
+                        <!-- <li><a @click="selected='Egg Quality'" class="black-text" href="javascript:void(0);">EGG QUALITY</a></li> -->
                         <li><a @click="selected='Mortality & Sales'" class="black-text" href="javascript:void(0);">MORTALITY & SALES</a></li>
                     </ul>
                 </div>

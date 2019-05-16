@@ -1511,52 +1511,145 @@ class FarmController extends Controller
 
     public function famBreederFeedingSummary ($generation) 
     {
-        
+        $data = BreederFeeding::join('breeder_inventories', 'breeder_inventories.id', 'breeder_feedings.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('breeder_feedings.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famReplacementFeedingSummary ($generation) 
     {
-        
+        $data = ReplacementFeeding::join('replacement_inventories', 'replacement_inventories.id', 'replacement_feedings.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('replacement_feedings.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famBrooderFeedingSummary ($generation) 
     {
-        
+        $data = BrooderGrowerFeeding::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_feedings.broodergrower_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('brooder_grower_feedings.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famBrooderGrowthSummary ($generation) 
     {
-        
+        $data = BrooderGrowerGrowth::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_growths.broodergrower_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('brooder_grower_growths.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famGrowerGrowthSummary ($generation) 
     {
-        
+        $data = ReplacementGrowth::join('replacement_inventories', 'replacement_inventories.id', 'replacement_growths.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('replacement_growths.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famEggProductionSummary ($generation) 
     {
-        
+        $data = EggProduction::join('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('egg_productions.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famHatcherySummary ($generation) 
     {
-        
+        $data = HatcheryRecord::join('breeder_inventories', 'breeder_inventories.id', 'hatchery_records.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('hatchery_records.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famBreederMortalitySummary ($generation) 
-    {
-        
+    {   
+        $data = MortalitySale::join('breeder_inventories', 'breeder_inventories.id', 'mortality_sales.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->whereIn('mortality_sales.type', ["breeder", "egg"])
+                ->select('mortality_sales.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famReplacementMortalitySummary ($generation) 
     {
-        
+        $data = MortalitySale::join('replacement_inventories', 'replacement_inventories.id', 'mortality_sales.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->where('mortality_sales.type', "replacement")
+                ->select('mortality_sales.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 
     public function famBrooderMortalitySummary ($generation) 
     {
-        
+        $data = MortalitySale::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'mortality_sales.brooder_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->where('mortality_sales.type', "brooder")
+                ->select('mortality_sales.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
     }
 }
 
