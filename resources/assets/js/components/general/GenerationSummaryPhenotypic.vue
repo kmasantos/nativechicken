@@ -130,7 +130,7 @@
                                                                     </thead>
 
                                                                     <tbody>
-                                                                        <tr v-for="(data, index) in male_replacement_records[characteristic]" :key="index">
+                                                                        <tr v-for="(data, index) in female_replacement_records[characteristic]" :key="index">
                                                                             <td>{{index}}</td>
                                                                             <td>
                                                                                 <table class="bordered centered responsive-table">
@@ -482,7 +482,7 @@ export default {
                             if((typeof this.female_breeder_records['body_carriage'][element.number][values[4].toUpperCase()] === 'undefined')){
                                 this.female_breeder_records['body_carriage'][element.number][values[4].toUpperCase()] = 0
                             }
-                            this.male_breeder_records['body_carriage'][element.number][values[4].toUpperCase()]++;
+                            this.female_breeder_records['body_carriage'][element.number][values[4].toUpperCase()]++;
                             
                             if((typeof this.female_breeder_records['comb_type'][element.number] === 'undefined')){
                                 this.female_breeder_records['comb_type'][element.number] = {};

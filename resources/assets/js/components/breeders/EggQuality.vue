@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div id="eggquality" class="modal modal-fixed-footer">
-                    <form v-on:submit.prevent="addEggQualityRecord" method="post">
+                    <form v-on:submit.prevent="addEggQualityRecord" method="POST">
                         <div class="modal-content">
                             <div class="row">
                                 <div class="col s12 m12 l12">

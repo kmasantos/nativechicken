@@ -139,6 +139,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('family_summary_breeder_mortality/{generation}', 'FarmController@famBreederMortalitySummary');
         Route::get('family_summary_replacement_mortality/{generation}', 'FarmController@famReplacementMortalitySummary');
         Route::get('family_summary_brooder_mortality/{generation}', 'FarmController@famBrooderMortalitySummary');
+        Route::get('family_summary_eggquality/{generation}', 'FarmController@famEggQualitySummary');
 
         /*
         *   * Axios Routes for Dashboard

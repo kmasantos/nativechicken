@@ -1471,12 +1471,32 @@ class FarmController extends Controller
     **/
     public function famBreederPhenoSummary ($generation) 
     {
-        
+        $data = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('breeder_inventories', 'breeder_inventories.id', 'pheno_morphos.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('pheno_morpho_values.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();  
+        return $data;
     }
 
     public function famReplacementPhenoSummary ($generation) 
     {
-        
+        $data = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('replacement_inventories', 'replacement_inventories.id', 'pheno_morphos.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('pheno_morpho_values.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();  
+        return $data;
     }
 
     public function famBreederMorphoSummary ($generation) 
@@ -1648,6 +1668,20 @@ class FarmController extends Controller
                 ->where('generations.id', $generation)
                 ->where('mortality_sales.type', "brooder")
                 ->select('mortality_sales.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get();
+        return $data;
+    }
+
+    public function famEggQualitySummary ($generation) 
+    {
+        $data = EggQuality::join('breeder_inventories', 'breeder_inventories.id', 'egg_qualities.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', Auth::user()->farm_id)
+                ->where('generations.id', $generation)
+                ->select('egg_qualities.*', 'lines.number as line_number', 'families.number as family_number')
                 ->withTrashed()->get();
         return $data;
     }

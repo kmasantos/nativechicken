@@ -53,13 +53,16 @@
                         <family-summary-growth :animal_type="animal_type.animaltype_id" :title="selected" :generation="generation"></family-summary-growth>
                     </div>
                     <div v-if="selected=='Egg Production'">
-                        <family-summary-eggprod :title="selected" :generation="generation"></family-summary-eggprod>
+                        <family-summary-eggprod :title="selected" :generation="generation"></family-summary-eggprod >
                     </div>
                     <div v-if="selected=='Hatchery Data'">
                         <family-summary-hatchery :animal_type="animal_type.animaltype_id" :title="selected" :generation="generation"></family-summary-hatchery>
                     </div>
                     <div v-if="selected=='Mortality & Sales'">
                         <family-summary-mortality :animal_type="animal_type.animaltype_id" :title="selected" :generation="generation"></family-summary-mortality>
+                    </div>
+                    <div v-if="selected=='Egg Quality'">
+                        <family-summary-eggqual :animal_type="animal_type.animaltype_id" :title="selected" :generation="generation"></family-summary-eggqual>
                     </div>
                 </div>
             </div>

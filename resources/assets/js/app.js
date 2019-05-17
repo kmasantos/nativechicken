@@ -56,6 +56,7 @@ Vue.component('family-summary-growth', require('./components/general/FamilySumma
 Vue.component('family-summary-hatchery', require('./components/general/FamilySummaryHatchery.vue'));
 Vue.component('family-summary-mortality', require('./components/general/FamilySummaryMortality.vue'));
 Vue.component('family-summary-eggprod', require('./components/general/FamilySummaryEggProd.vue'));
+Vue.component('family-summary-eggqual', require('./components/general/FamilySummaryEggQual.vue'));
 
 // Breeder Vue Components
 Vue.component('add-breeder', require('./components/breeders/Breeder.vue'));

@@ -105,7 +105,6 @@ export default {
                 return ((eggs/inventory)*100).toFixed(2)+" %";
             }
         }
-
     },
     mounted () {
         this.init();
