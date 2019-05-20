@@ -17,6 +17,8 @@
                                 <li><a @click="attribute='CHEST CIRCUMFERENCE'" href="#" onclick="return false;">CHEST CIRCUMFERENCE</a></li>
                                 <li><a @click="attribute='WING SPAN'" href="#" onclick="return false;">WING SPAN</a></li>
                                 <li><a @click="attribute='SHANK LENGTH'" href="#" onclick="return false;">SHANK LENGTH</a></li>
+                                <li v-if="animal_type === 2"><a @click="attribute='BILL LENGTH'" href="#" onclick="return false;">BILL LENGTH</a></li>
+                                <li v-if="animal_type === 2"><a @click="attribute='NECK LENGTH'" href="#" onclick="return false;">NECK LENGTH</a></li>
                             </ul>
                         </div>
                         <div class="card-tabs">
@@ -175,127 +177,164 @@ export default {
             .then(response => {
                 this.breeder_morpho = response.data;
                 this.breeder_summary = {};
-                if(this.animal_type === 1){
-                    this.breeder_summary["HEIGHT"] = {};
-                    this.breeder_summary["WEIGHT"] = {};
-                    this.breeder_summary["BODY LENGTH"] = {};
-                    this.breeder_summary["CHEST CIRCUMFERENCE"] = {};
-                    this.breeder_summary["WING SPAN"] = {};
-                    this.breeder_summary["SHANK LENGTH"] = {};
-                    this.breeder_morpho.forEach(element => {
-                        var values = JSON.parse(element.morphometric);
-                        if((typeof this.breeder_summary["HEIGHT"][element.line_number] === 'undefined')){
-                            this.breeder_summary["HEIGHT"][element.line_number] = {};
-                        }
-                        if((typeof this.breeder_summary["HEIGHT"][element.line_number][element.family_number] === 'undefined')){
-                            this.breeder_summary["HEIGHT"][element.line_number][element.family_number] = {};
-                        }
-                        if(element.gender === "male"){
-                            if((typeof this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['male'] === 'undefined')){
-                                this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['male'] = [];
-                            }
-                            this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['male'].push(values[0]);
-                        }else if(element.gender === "female"){
-                            if((typeof this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['female'] === 'undefined')){
-                                this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['female'] = [];
-                            }
-                            this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['female'].push(values[0]);
-                        }
-
-                        if((typeof this.breeder_summary["WEIGHT"][element.line_number] === 'undefined')){
-                            this.breeder_summary["WEIGHT"][element.line_number] = {};
-                        }
-                        if((typeof this.breeder_summary["WEIGHT"][element.line_number][element.family_number] === 'undefined')){
-                            this.breeder_summary["WEIGHT"][element.line_number][element.family_number] = {};
-                        }
-                        if(element.gender === "male"){
-                            if((typeof this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['male'] === 'undefined')){
-                                this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['male'] = [];
-                            }
-                            this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['male'].push(values[1]);
-                        }else if(element.gender === "female"){
-                            if((typeof this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['female'] === 'undefined')){
-                                this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['female'] = [];
-                            }
-                            this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['female'].push(values[1]);
-                        }
-
-                        if((typeof this.breeder_summary["BODY LENGTH"][element.line_number] === 'undefined')){
-                            this.breeder_summary["BODY LENGTH"][element.line_number] = {};
-                        }
-                        if((typeof this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number] === 'undefined')){
-                            this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number] = {};
-                        }
-                        if(element.gender === "male"){
-                            if((typeof this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
-                                this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['male'] = [];
-                            }
-                            this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['male'].push(values[2]);
-                        }else if(element.gender === "female"){
-                            if((typeof this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
-                                this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['female'] = [];
-                            }
-                            this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['female'].push(values[2]);
-                        }
-
-                        if((typeof this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number] === 'undefined')){
-                            this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number] = {};
-                        }
-                        if((typeof this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number] === 'undefined')){
-                            this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number] = {};
-                        }
-                        if(element.gender === "male"){
-                            if((typeof this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'] === 'undefined')){
-                                this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'] = [];
-                            }
-                            this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'].push(values[3]);
-                        }else if(element.gender === "female"){
-                            if((typeof this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'] === 'undefined')){
-                                this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'] = [];
-                            }
-                            this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'].push(values[3]);
-                        }
-
-                        if((typeof this.breeder_summary["WING SPAN"][element.line_number] === 'undefined')){
-                            this.breeder_summary["WING SPAN"][element.line_number] = {};
-                        }
-                        if((typeof this.breeder_summary["WING SPAN"][element.line_number][element.family_number] === 'undefined')){
-                            this.breeder_summary["WING SPAN"][element.line_number][element.family_number] = {};
-                        }
-                        if(element.gender === "male"){
-                            if((typeof this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['male'] === 'undefined')){
-                                this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['male'] = [];
-                            }
-                            this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['male'].push(values[4]);
-                        }else if(element.gender === "female"){
-                            if((typeof this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['female'] === 'undefined')){
-                                this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['female'] = [];
-                            }
-                            this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['female'].push(values[4]);
-                        }
-
-                        if((typeof this.breeder_summary["SHANK LENGTH"][element.line_number] === 'undefined')){
-                            this.breeder_summary["SHANK LENGTH"][element.line_number] = {};
-                        }
-                        if((typeof this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number] === 'undefined')){
-                            this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number] = {};
-                        }
-                        if(element.gender === "male"){
-                            if((typeof this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
-                                this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'] = [];
-                            }
-                            this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'].push(values[5]);
-                        }else if(element.gender === "female"){
-                            if((typeof this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
-                                this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'] = [];
-                            }
-                            this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'].push(values[5]);
-                        }
-
-                    });
-                }else{
-
+                this.breeder_summary["HEIGHT"] = {};
+                this.breeder_summary["WEIGHT"] = {};
+                this.breeder_summary["BODY LENGTH"] = {};
+                this.breeder_summary["CHEST CIRCUMFERENCE"] = {};
+                this.breeder_summary["WING SPAN"] = {};
+                this.breeder_summary["SHANK LENGTH"] = {};
+                if(this.animal_type === 2){
+                    this.breeder_summary["BILL LENGTH"] = {};
+                    this.breeder_summary["NECK LENGTH"] = {};
                 }
+                this.breeder_morpho.forEach(element => {
+                    var values = JSON.parse(element.morphometric);
+                    if((typeof this.breeder_summary["HEIGHT"][element.line_number] === 'undefined')){
+                        this.breeder_summary["HEIGHT"][element.line_number] = {};
+                    }
+                    if((typeof this.breeder_summary["HEIGHT"][element.line_number][element.family_number] === 'undefined')){
+                        this.breeder_summary["HEIGHT"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['male'].push(values[0]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.breeder_summary["HEIGHT"][element.line_number][element.family_number]['female'].push(values[0]);
+                    }
+
+                    if((typeof this.breeder_summary["WEIGHT"][element.line_number] === 'undefined')){
+                        this.breeder_summary["WEIGHT"][element.line_number] = {};
+                    }
+                    if((typeof this.breeder_summary["WEIGHT"][element.line_number][element.family_number] === 'undefined')){
+                        this.breeder_summary["WEIGHT"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['male'].push(values[1]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.breeder_summary["WEIGHT"][element.line_number][element.family_number]['female'].push(values[1]);
+                    }
+
+                    if((typeof this.breeder_summary["BODY LENGTH"][element.line_number] === 'undefined')){
+                        this.breeder_summary["BODY LENGTH"][element.line_number] = {};
+                    }
+                    if((typeof this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number] === 'undefined')){
+                        this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['male'].push(values[2]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.breeder_summary["BODY LENGTH"][element.line_number][element.family_number]['female'].push(values[2]);
+                    }
+
+                    if((typeof this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number] === 'undefined')){
+                        this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number] = {};
+                    }
+                    if((typeof this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number] === 'undefined')){
+                        this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'].push(values[3]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.breeder_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'].push(values[3]);
+                    }
+
+                    if((typeof this.breeder_summary["WING SPAN"][element.line_number] === 'undefined')){
+                        this.breeder_summary["WING SPAN"][element.line_number] = {};
+                    }
+                    if((typeof this.breeder_summary["WING SPAN"][element.line_number][element.family_number] === 'undefined')){
+                        this.breeder_summary["WING SPAN"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['male'].push(values[4]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.breeder_summary["WING SPAN"][element.line_number][element.family_number]['female'].push(values[4]);
+                    }
+
+                    if((typeof this.breeder_summary["SHANK LENGTH"][element.line_number] === 'undefined')){
+                        this.breeder_summary["SHANK LENGTH"][element.line_number] = {};
+                    }
+                    if((typeof this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number] === 'undefined')){
+                        this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'].push(values[5]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.breeder_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'].push(values[5]);
+                    }
+                    if(this.animal_type === 2){
+                        if((typeof this.breeder_summary["BILL LENGTH"][element.line_number] === 'undefined')){
+                        this.breeder_summary["BILL LENGTH"][element.line_number] = {};
+                        }
+                        if((typeof this.breeder_summary["BILL LENGTH"][element.line_number][element.family_number] === 'undefined')){
+                            this.breeder_summary["BILL LENGTH"][element.line_number][element.family_number] = {};
+                        }
+                        if(element.gender === "male"){
+                            if((typeof this.breeder_summary["BILL LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
+                                this.breeder_summary["BILL LENGTH"][element.line_number][element.family_number]['male'] = [];
+                            }
+                            this.breeder_summary["BILL LENGTH"][element.line_number][element.family_number]['male'].push(values[6]);
+                        }else if(element.gender === "female"){
+                            if((typeof this.breeder_summary["BILL LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
+                                this.breeder_summary["BILL LENGTH"][element.line_number][element.family_number]['female'] = [];
+                            }
+                            this.breeder_summary["BILL LENGTH"][element.line_number][element.family_number]['female'].push(values[6]);
+                        }
+
+                        if((typeof this.breeder_summary["NECK LENGTH"][element.line_number] === 'undefined')){
+                        this.breeder_summary["NECK LENGTH"][element.line_number] = {};
+                        }
+                        if((typeof this.breeder_summary["NECK LENGTH"][element.line_number][element.family_number] === 'undefined')){
+                            this.breeder_summary["NECK LENGTH"][element.line_number][element.family_number] = {};
+                        }
+                        if(element.gender === "male"){
+                            if((typeof this.breeder_summary["NECK LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
+                                this.breeder_summary["NECK LENGTH"][element.line_number][element.family_number]['male'] = [];
+                            }
+                            this.breeder_summary["NECK LENGTH"][element.line_number][element.family_number]['male'].push(values[7]);
+                        }else if(element.gender === "female"){
+                            if((typeof this.breeder_summary["NECK LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
+                                this.breeder_summary["NECK LENGTH"][element.line_number][element.family_number]['female'] = [];
+                            }
+                            this.breeder_summary["NECK LENGTH"][element.line_number][element.family_number]['female'].push(values[7]);
+                        }
+                    }
+                });
+                
             })
             .catch(error => {});
         },
@@ -304,45 +343,188 @@ export default {
             .then(response => {
                 this.replacement_morpho = response.data;
                 this.replacement_summary = {};
-                if(this.animal_type === 1){
-                    this.replacement_summary["HEIGHT"] = {};
-                    this.replacement_summary["WEIGHT"] = {};
-                    this.replacement_summary["BODY LENGTH"] = {};
-                    this.replacement_summary["CHEST CIRCUMFERENCE"] = {};
-                    this.replacement_summary["WING SPAN"] = {};
-                    this.replacement_summary["SHANK LENGTH"] = {};
-                    this.replacement_morpho.forEach(element => {
-                        var values = JSON.parse(element.morphometric);
-                        console.log(values);
-                        if((typeof this.replacement_summary["HEIGHT"][element.line_number] === 'undefined')){
-                            this.replacement_summary["HEIGHT"][element.line_number] = {};
+                this.replacement_summary["HEIGHT"] = {};
+                this.replacement_summary["WEIGHT"] = {};
+                this.replacement_summary["BODY LENGTH"] = {};
+                this.replacement_summary["CHEST CIRCUMFERENCE"] = {};
+                this.replacement_summary["WING SPAN"] = {};
+                this.replacement_summary["SHANK LENGTH"] = {};
+                if(this.animal_type === 2){
+                    this.replacement_summary["BILL LENGTH"] = {};
+                    this.replacement_summary["NECK LENGTH"] = {};
+                }
+                this.replacement_morpho.forEach(element => {
+                    var values = JSON.parse(element.morphometric);
+                    if((typeof this.replacement_summary["HEIGHT"][element.line_number] === 'undefined')){
+                        this.replacement_summary["HEIGHT"][element.line_number] = {};
+                    }
+                    if((typeof this.replacement_summary["HEIGHT"][element.line_number][element.family_number] === 'undefined')){
+                        this.replacement_summary["HEIGHT"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['male'] = [];
                         }
-                        if((typeof this.replacement_summary["HEIGHT"][element.line_number][element.family_number] === 'undefined')){
-                            this.replacement_summary["HEIGHT"][element.line_number][element.family_number] = {};
+                        this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['male'].push(values[0]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['female'].push(values[0]);
+                    }
+
+                    if((typeof this.replacement_summary["WEIGHT"][element.line_number] === 'undefined')){
+                        this.replacement_summary["WEIGHT"][element.line_number] = {};
+                    }
+                    if((typeof this.replacement_summary["WEIGHT"][element.line_number][element.family_number] === 'undefined')){
+                        this.replacement_summary["WEIGHT"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.replacement_summary["WEIGHT"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.replacement_summary["WEIGHT"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.replacement_summary["WEIGHT"][element.line_number][element.family_number]['male'].push(values[1]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.replacement_summary["WEIGHT"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.replacement_summary["WEIGHT"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.replacement_summary["WEIGHT"][element.line_number][element.family_number]['female'].push(values[1]);
+                    }
+
+                    if((typeof this.replacement_summary["BODY LENGTH"][element.line_number] === 'undefined')){
+                        this.replacement_summary["BODY LENGTH"][element.line_number] = {};
+                    }
+                    if((typeof this.replacement_summary["BODY LENGTH"][element.line_number][element.family_number] === 'undefined')){
+                        this.replacement_summary["BODY LENGTH"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.replacement_summary["BODY LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.replacement_summary["BODY LENGTH"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.replacement_summary["BODY LENGTH"][element.line_number][element.family_number]['male'].push(values[2]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.replacement_summary["BODY LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.replacement_summary["BODY LENGTH"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.replacement_summary["BODY LENGTH"][element.line_number][element.family_number]['female'].push(values[2]);
+                    }
+
+                    if((typeof this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number] === 'undefined')){
+                        this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number] = {};
+                    }
+                    if((typeof this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number] === 'undefined')){
+                        this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['male'].push(values[3]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.replacement_summary["CHEST CIRCUMFERENCE"][element.line_number][element.family_number]['female'].push(values[3]);
+                    }
+
+                    if((typeof this.replacement_summary["WING SPAN"][element.line_number] === 'undefined')){
+                        this.replacement_summary["WING SPAN"][element.line_number] = {};
+                    }
+                    if((typeof this.replacement_summary["WING SPAN"][element.line_number][element.family_number] === 'undefined')){
+                        this.replacement_summary["WING SPAN"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.replacement_summary["WING SPAN"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.replacement_summary["WING SPAN"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.replacement_summary["WING SPAN"][element.line_number][element.family_number]['male'].push(values[4]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.replacement_summary["WING SPAN"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.replacement_summary["WING SPAN"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.replacement_summary["WING SPAN"][element.line_number][element.family_number]['female'].push(values[4]);
+                    }
+
+                    if((typeof this.replacement_summary["SHANK LENGTH"][element.line_number] === 'undefined')){
+                        this.replacement_summary["SHANK LENGTH"][element.line_number] = {};
+                    }
+                    if((typeof this.replacement_summary["SHANK LENGTH"][element.line_number][element.family_number] === 'undefined')){
+                        this.replacement_summary["SHANK LENGTH"][element.line_number][element.family_number] = {};
+                    }
+                    if(element.gender === "male"){
+                        if((typeof this.replacement_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
+                            this.replacement_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'] = [];
+                        }
+                        this.replacement_summary["SHANK LENGTH"][element.line_number][element.family_number]['male'].push(values[5]);
+                    }else if(element.gender === "female"){
+                        if((typeof this.replacement_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
+                            this.replacement_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'] = [];
+                        }
+                        this.replacement_summary["SHANK LENGTH"][element.line_number][element.family_number]['female'].push(values[5]);
+                    }
+                    if(this.animal_type === 2){
+                        if((typeof this.replacement_summary["BILL LENGTH"][element.line_number] === 'undefined')){
+                        this.replacement_summary["BILL LENGTH"][element.line_number] = {};
+                        }
+                        if((typeof this.replacement_summary["BILL LENGTH"][element.line_number][element.family_number] === 'undefined')){
+                            this.replacement_summary["BILL LENGTH"][element.line_number][element.family_number] = {};
                         }
                         if(element.gender === "male"){
-                            if((typeof this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['male'] === 'undefined')){
-                                this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['male'] = [];
+                            if((typeof this.replacement_summary["BILL LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
+                                this.replacement_summary["BILL LENGTH"][element.line_number][element.family_number]['male'] = [];
                             }
-                            this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['male'].push(values[0]);
+                            this.replacement_summary["BILL LENGTH"][element.line_number][element.family_number]['male'].push(values[6]);
                         }else if(element.gender === "female"){
-                            if((typeof this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['female'] === 'undefined')){
-                                this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['female'] = [];
+                            if((typeof this.replacement_summary["BILL LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
+                                this.replacement_summary["BILL LENGTH"][element.line_number][element.family_number]['female'] = [];
                             }
-                            this.replacement_summary["HEIGHT"][element.line_number][element.family_number]['female'].push(values[0]);
+                            this.replacement_summary["BILL LENGTH"][element.line_number][element.family_number]['female'].push(values[6]);
                         }
-                    });
-                }else{
 
-                }
+                        if((typeof this.replacement_summary["NECK LENGTH"][element.line_number] === 'undefined')){
+                        this.replacement_summary["NECK LENGTH"][element.line_number] = {};
+                        }
+                        if((typeof this.replacement_summary["NECK LENGTH"][element.line_number][element.family_number] === 'undefined')){
+                            this.replacement_summary["NECK LENGTH"][element.line_number][element.family_number] = {};
+                        }
+                        if(element.gender === "male"){
+                            if((typeof this.replacement_summary["NECK LENGTH"][element.line_number][element.family_number]['male'] === 'undefined')){
+                                this.replacement_summary["NECK LENGTH"][element.line_number][element.family_number]['male'] = [];
+                            }
+                            this.replacement_summary["NECK LENGTH"][element.line_number][element.family_number]['male'].push(values[7]);
+                        }else if(element.gender === "female"){
+                            if((typeof this.replacement_summary["NECK LENGTH"][element.line_number][element.family_number]['female'] === 'undefined')){
+                                this.replacement_summary["NECK LENGTH"][element.line_number][element.family_number]['female'] = [];
+                            }
+                            this.replacement_summary["NECK LENGTH"][element.line_number][element.family_number]['female'].push(values[7]);
+                        }
+                    }
+                });
             })
             .catch(error => {});
         },
         getMean : function (array) {
-            return math.mean(array).toFixed(2);
+            if(!Array.isArray(array) || !array.length){
+                return "NO DATA";
+            }else{
+                if(math.mean(array).toFixed(2) == 0){
+                    return "NO DATA";
+                }else{
+                    return math.mean(array).toFixed(2);
+                }
+            }
+            
         },
         getStd : function (array){
-            return math.std(array).toFixed(2);
+             if(!Array.isArray(array) || !array.length){
+                return "NO DATA";
+            }else{
+                if(math.mean(array).toFixed(2) == 0){
+                    return "NO DATA";
+                }else{
+                    return math.std(array).toFixed(2);
+                }
+            }
         },
     },
     mounted () {

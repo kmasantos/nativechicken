@@ -3,14 +3,14 @@
         <div class="col s12 m12 l12">
             <nav id="generation_summary_nav" class="transparent z-depth-0">
                 <div class="nav-wrapper">
-                    <ul>
+                    <ul id="general_nav">
                         <li><a @click="selected='Phenotypic Summary'" class="black-text" href="javascript:void(0);">PHENOTYPIC</a></li>
                         <li><a @click="selected='Morphometric Summary'" class="black-text" href="javascript:void(0);">MORPHOMETRIC</a></li>
-                        <li><a @click="selected='Feeding Performance'" class="black-text" href="javascript:void(0);">FEEDING</a></li>
-                        <li><a @click="selected='Growth Performance'" class="black-text" href="javascript:void(0);">GROWTH</a></li>
+                        <li><a @click="selected='Feeding Performance'" class="black-text" href="javascript:void(0);">FEEDING PERFORMANCE</a></li>
+                        <li><a @click="selected='Weights'" class="black-text" href="javascript:void(0);">WEIGHTS</a></li>
                         <li><a @click="selected='Egg Production'" class="black-text" href="javascript:void(0);">EGG PRODUCTION</a></li>
                         <li><a @click="selected='Hatchery Data'" class="black-text" href="javascript:void(0);">HATCHERY</a></li>
-                        <!-- <li><a @click="selected='Egg Quality'" class="black-text" href="javascript:void(0);">EGG QUALITY</a></li> -->
+                        <li><a @click="selected='Egg Quality'" class="black-text" href="javascript:void(0);">EGG QUALITY</a></li>
                         <li><a @click="selected='Mortality & Sales'" class="black-text" href="javascript:void(0);">MORTALITY & SALES</a></li>
                     </ul>
                 </div>
@@ -43,6 +43,9 @@
                 </div>
                 <div v-if="selected=='Hatchery Data'">
                     <generation-summary-hatchery :animal_type="animal_type.animaltype_id"></generation-summary-hatchery>
+                </div>
+                <div v-if="selected=='Egg Quality'">
+                    <generation-summary-eggqual></generation-summary-eggqual>
                 </div>
                 <div v-if="selected=='Mortality & Sales'">
                     <generation-summary-mortality :animal_type="animal_type.animaltype_id"></generation-summary-mortality>
@@ -85,6 +88,9 @@ export default {
 
 <style scoped>
     #generation_summary_nav {
-        padding-left: 0px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0px;
     }
 </style>

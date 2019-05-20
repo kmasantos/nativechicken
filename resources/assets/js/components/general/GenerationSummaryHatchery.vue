@@ -30,7 +30,7 @@
                                             <td>{{getSum(data['eggs_fertile'])}}</td>
                                             <td>{{getSum(data['eggs_hatched'])}}</td>
                                             <td>{{getPercentage(getSum(data['eggs_fertile']),getSum(data['eggs_set']))}} %</td>
-                                            <td>{{getPercentage(getSum(data['eggs_hatched']),getSum(data['eggs_set']))}} %</td>
+                                            <td>{{getPercentage(getSum(data['eggs_hatched']),getSum(data['eggs_fertile']))}} %</td>
                                         </tr>
                                     </tbody>
                                 </table>

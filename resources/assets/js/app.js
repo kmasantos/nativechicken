@@ -44,6 +44,7 @@ Vue.component('generation-summary-growth', require('./components/general/Generat
 Vue.component('generation-summary-hatchery', require('./components/general/GenerationSummaryHatchery.vue'));
 Vue.component('generation-summary-mortality', require('./components/general/GenerationSummaryMortality.vue'));
 Vue.component('generation-summary-egg', require('./components/general/GenerationSummaryEgg.vue'));
+Vue.component('generation-summary-eggqual', require('./components/general/GenerationSummaryEggQual.vue'));
 
 /**
  **  Family Summary 

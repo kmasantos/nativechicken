@@ -1349,10 +1349,19 @@ export default {
             });
         },
         getMean : function (array) {
-            return math.mean(array).toFixed(2);
+            if(math.mean(array).toFixed(2) == 0){
+                return "NO DATA";
+            }else{
+                return math.mean(array).toFixed(2);
+            }
+            
         },
         getStd : function (array){
-            return math.std(array).toFixed(2);
+            if(math.mean(array).toFixed(2) == 0){
+                return "NO DATA";
+            }else{
+                return math.std(array).toFixed(2);
+            }
         },
     },
     mounted () {

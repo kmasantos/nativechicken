@@ -122,6 +122,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('generation_summary_replacement_mortality', 'FarmController@genReplacementMortalitySummary');
         Route::get('generation_summary_brooder_mortality', 'FarmController@genBrooderMortalitySummary');
         Route::get('generation_summary_eggprod', 'FarmController@genEggprodSummary');
+        Route::get('generation_summary_eggquality', 'FarmController@genEggQualitySummary');
         /**
          ** NEW FAMILY SUMMARY ROUTES    
         **/

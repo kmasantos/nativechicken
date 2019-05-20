@@ -47,7 +47,7 @@
                                                             <td>{{getSum(famdata['eggs_fertile'])}}</td>
                                                             <td>{{getSum(famdata['eggs_hatched'])}}</td>
                                                             <td>{{getPercentage(getSum(famdata['eggs_fertile']),getSum(famdata['eggs_set']))}} %</td>
-                                                            <td>{{getPercentage(getSum(famdata['eggs_hatched']),getSum(famdata['eggs_set']))}} %</td>
+                                                            <td>{{getPercentage(getSum(famdata['eggs_hatched']),getSum(famdata['eggs_fertile']))}} %</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -107,7 +107,6 @@ export default {
                         this.hatchery_data[element.line_number][element.family_number]['eggs_hatched'].push(element.number_hatched);
                     }
                 });
-                
             })
             .catch(error => {});
         },
@@ -122,7 +121,7 @@ export default {
                 return "-";
             }
             return ((num/deno)*100).toFixed(2);
-        }
+        },
     },
     mounted () {
         this.init();
