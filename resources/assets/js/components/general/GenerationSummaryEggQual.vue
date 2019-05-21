@@ -586,14 +586,14 @@ export default {
                         }
                         
                         this.eggqual35[element.number]['weight'].push(element.weight);
-                        if((typeof this.eggqual35[element.number]['color'][element.color] === 'undefined')){
-                            this.eggqual35[element.number]['color'][element.color] = 0;
+                        if((typeof this.eggqual35[element.number]['color'][(element.color).toUpperCase()] === 'undefined')){
+                            this.eggqual35[element.number]['color'][(element.color).toUpperCase()] = 0;
                         }
-                        this.eggqual35[element.number]['color'][element.color]++;
-                        if((typeof this.eggqual35[element.number]['shape'][element.shape] === 'undefined')){
-                            this.eggqual35[element.number]['shape'][element.shape] = 0;
+                        this.eggqual35[element.number]['color'][(element.color).toUpperCase()]++;
+                        if((typeof this.eggqual35[element.number]['shape'][(element.shape).toUpperCase()] === 'undefined')){
+                            this.eggqual35[element.number]['shape'][(element.shape).toUpperCase()] = 0;
                         }
-                        this.eggqual35[element.number]['shape'][element.shape]++;
+                        this.eggqual35[element.number]['shape'][(element.shape).toUpperCase()]++;
                         this.eggqual35[element.number]['length'].push(element.length);
                         this.eggqual35[element.number]['width'].push(element.width);
                         if((typeof this.eggqual35[element.number]['yolkcol'][element.yolk_color] === 'undefined')){
@@ -634,14 +634,14 @@ export default {
                         }
                         
                         this.eggqual40[element.number]['weight'].push(element.weight);
-                        if((typeof this.eggqual40[element.number]['color'][element.color] === 'undefined')){
-                            this.eggqual40[element.number]['color'][element.color] = 0;
+                        if((typeof this.eggqual40[element.number]['color'][(element.color).toUpperCase()] === 'undefined')){
+                            this.eggqual40[element.number]['color'][(element.color).toUpperCase()] = 0;
                         }
-                        this.eggqual40[element.number]['color'][element.color]++;
-                        if((typeof this.eggqual40[element.number]['shape'][element.shape] === 'undefined')){
-                            this.eggqual40[element.number]['shape'][element.shape] = 0;
+                        this.eggqual40[element.number]['color'][(element.color).toUpperCase()]++;
+                        if((typeof this.eggqual40[element.number]['shape'][(element.shape).toUpperCase()] === 'undefined')){
+                            this.eggqual40[element.number]['shape'][(element.shape).toUpperCase()] = 0;
                         }
-                        this.eggqual40[element.number]['shape'][element.shape]++;
+                        this.eggqual40[element.number]['shape'][(element.shape).toUpperCase()]++;
                         this.eggqual40[element.number]['length'].push(element.length);
                         this.eggqual40[element.number]['width'].push(element.width);
                         if((typeof this.eggqual40[element.number]['yolkcol'][element.yolk_color] === 'undefined')){
@@ -683,14 +683,14 @@ export default {
                         }
                         
                         this.eggqual60[element.number]['weight'].push(element.weight);
-                        if((typeof this.eggqual60[element.number]['color'][element.color] === 'undefined')){
-                            this.eggqual60[element.number]['color'][element.color] = 0;
+                        if((typeof this.eggqual60[element.number]['color'][(element.color).toUpperCase()] === 'undefined')){
+                            this.eggqual60[element.number]['color'][(element.color).toUpperCase()] = 0;
                         }
-                        this.eggqual60[element.number]['color'][element.color]++;
-                        if((typeof this.eggqual60[element.number]['shape'][element.shape] === 'undefined')){
-                            this.eggqual60[element.number]['shape'][element.shape] = 0;
+                        this.eggqual60[element.number]['color'][(element.color).toUpperCase()]++;
+                        if((typeof this.eggqual60[element.number]['shape'][(element.shape).toUpperCase()] === 'undefined')){
+                            this.eggqual60[element.number]['shape'][(element.shape).toUpperCase()] = 0;
                         }
-                        this.eggqual60[element.number]['shape'][element.shape]++;
+                        this.eggqual60[element.number]['shape'][(element.shape).toUpperCase()]++;
                         this.eggqual60[element.number]['length'].push(element.length);
                         this.eggqual60[element.number]['width'].push(element.width);
                         if((typeof this.eggqual60[element.number]['yolkcol'][element.yolk_color] === 'undefined')){
