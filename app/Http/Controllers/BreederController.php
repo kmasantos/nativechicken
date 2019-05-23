@@ -23,6 +23,7 @@ use App\Models\BrooderGrowerInventory;
 use App\Models\PhenoMorpho;
 use App\Models\PhenoMorphoValue;
 use App\Models\MortalitySale;
+use App\Models\Farm;
 
 class BreederController extends Controller
 {
@@ -48,7 +49,7 @@ class BreederController extends Controller
         ->select('breeder_inventories.*', 'breeders.*','families.*',
         'breeder_inventories.id as inventory_id','breeders.id as breeder_id','families.id as family_id','families.number as family_number',
         'lines.number as line_number', 'generations.number as generation_number')
-        ->paginate(8);
+        ->paginate(4);
 
         return $inventories;
     }
@@ -66,21 +67,28 @@ class BreederController extends Controller
             ->select('breeder_inventories.*', 'breeders.*','families.*',
             'breeder_inventories.id as inventory_id','breeders.id as breeder_id','families.id as family_id','families.number as family_number',
             'lines.number as line_number', 'generations.number as generation_number')
-            ->paginate(8);
+            ->paginate(4);
 
         return $inventories;
     }
 
     /**
-     * !BUG : Breeder existence check
-     * TODO Check breeder by combination of generation, line and family and the breeder inventory tag
-     */
+     * Add Breeders to system either from within or outside the system
+     *
+     * @param Request   $request  POST request from client about the breeder info
+     * 
+     * @throws none
+     * @return JSON     response
+     */ 
     public function addBreeder(Request $request)
     {
         $code = Auth::user()->getFarm()->code;
         $timestamp = Carbon::now()->timestamp;
         $random = random_bytes(1);
         $tag = $code.bin2hex($random).$timestamp;
+        $farm = Farm::where('id', Auth::user()->farm_id)->first();
+        $generation = Generation::where('id', $request->generation)->first();
+        $line = Line::where('id', $request->line)->first();
         if($request->within == true){
             $request->validate([
                 'male_family'  => 'required',
@@ -103,7 +111,7 @@ class BreederController extends Controller
             if(($male_inventory->number_male < $request->number_male)|| $female_inventory->number_female < $request->number_female){
                 return response()->json( ['error'=>'Replacement inventory has insufficient number of animals'] );
             }
-
+            
             // Update Pens
             $male_replacement_pen = Pen::where('id', $male_inventory->pen_id)->firstOrFail();
             $male_replacement_pen->current_capacity = $male_replacement_pen->current_capacity - $request->number_male;
@@ -146,6 +154,7 @@ class BreederController extends Controller
 
             // Make breeder record if not in database else skip process
             $breeder_record = Breeder::where('family_id', $request->male_family)->where('female_family_id', $request->female_family)->first();
+            $family = Family::where('id', $request->male_family)->first();
             if($breeder_record == null){
                 $new_breeder = new Breeder;
                 $new_breeder->family_id = $request->male_family;
@@ -162,6 +171,16 @@ class BreederController extends Controller
                 $new_inventory->number_female = $request->number_female;
                 $new_inventory->total = $request->number_male + $request->number_female;
                 $new_inventory->last_update = $request->date_added;
+
+                $datecode = Carbon::createFromFormat('Y-m-d', $male_inventory->batching_date);
+                $new_inventory->breeder_code = $farm->code.$generation->number.$line->number.$family->number.$datecode->year.$datecode->month.$datecode->day;
+                if($request->male_wingband != null){
+                    $new_inventory->male_wingbands = $this->convertToArray($request->male_wingband);
+                }
+                if($request->female_wingband != null){
+                    $new_inventory->female_wingbands = $this->convertToArray($request->female_wingband);
+                }
+                
                 $new_inventory->save();
             }else{
                 $new_inventory = new BreederInventory;
@@ -173,6 +192,14 @@ class BreederController extends Controller
                 $new_inventory->number_female = $request->number_female;
                 $new_inventory->total = $request->number_male + $request->number_female;
                 $new_inventory->last_update = $request->date_added;
+                $datecode = Carbon::createFromFormat('Y-m-d', $male_inventory->batching_date);
+                $new_inventory->breeder_code = $farm->code.$generation->number.$line->number.$family->number.$datecode->year.$datecode->month.$datecode->day;
+                if($request->male_wingband != null){
+                    $new_inventory->male_wingbands = $this->convertToArray($request->male_wingband);
+                }
+                if($request->female_wingband != null){
+                    $new_inventory->female_wingbands = $this->convertToArray($request->female_wingband);
+                }
                 $new_inventory->save();
             }
 
@@ -219,6 +246,8 @@ class BreederController extends Controller
             $new_breeder->date_added = $request->date_added;
             $new_breeder->save();
 
+            $family = Family::where('id', $request->family)->first();
+
             $new_inventory = new BreederInventory;
             $new_inventory->breeder_id = $new_breeder->id;
             $new_inventory->pen_id = $request->pen_id;
@@ -227,7 +256,15 @@ class BreederController extends Controller
             $new_inventory->number_male = $request->number_male;
             $new_inventory->number_female = $request->number_female;
             $new_inventory->total = $request->number_male + $request->number_female;
-            $new_inventory->last_update = $request->date_added;
+            $new_inventory->last_update = $request->estimated_batching_date;
+            $datecode = Carbon::createFromFormat('Y-m-d', $request->estimated_batching_date);
+            $new_inventory->breeder_code = $farm->code.$generation->number.$line->number.$family->number.$datecode->year.$datecode->month.$datecode->day;
+            if($request->male_wingband != null){
+                $new_inventory->male_wingbands = $this->convertToArray($request->male_wingband);
+            }
+            if($request->female_wingband != null){
+                $new_inventory->female_wingbands = $this->convertToArray($request->female_wingband);
+            }
             $new_inventory->save();
 
             $movement->save();
@@ -1064,5 +1101,11 @@ class BreederController extends Controller
                     ->select('replacement_inventories.*')
                     ->get();
         return $replacements;
+    }
+
+    public function convertToArray($string){
+        $clean = $stripped = str_replace(' ', '', $string);
+        $array = explode(',', $clean);
+        return json_encode($array);
     }
 }

@@ -75,7 +75,7 @@
         }
         /* label focus color */
         .input-field input[type=text]:focus + label {
-            color: #000;
+            color: #607d8b;
         }
         [type="radio"].with-gap:checked+label:after {
             background-color: #546e7a !important;
@@ -85,7 +85,16 @@
         [type="radio"].with-gap:checked+label:after {
             border: 2px solid #546e7a !important;
         }
-            
+        .input-field input[type=number]:focus {
+            border-bottom: 1px solid #607d8b;
+            box-shadow: 0 1px 0 0 #546e7a;
+        }
+        .inline_error_message {
+            color: #c62828;
+        }   
+        .inline_warning_message {
+            color: #ff7043;
+        }
     </style>
 </head>
 

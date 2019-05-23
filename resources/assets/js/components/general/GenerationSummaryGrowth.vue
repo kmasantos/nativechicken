@@ -13,6 +13,9 @@
                         <p>
                             <i>• If the data does not specify male and female weights, no values will show</i>
                         </p>
+                        <p>
+                            <i>• Weights are displayed in <strong>grams</strong></i>
+                        </p>
                     </div>
                 </div>
                 <div class="row">

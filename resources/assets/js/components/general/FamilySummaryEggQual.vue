@@ -41,16 +41,16 @@
                                                         <thead>
                                                             <tr>
                                                                 <th data-tippy-content="Family" class="tooltip">F</th>
-                                                                <th data-tippy-content="Egg Weight" class="tooltip">Egg WT</th>
-                                                                <th data-tippy-content="Egg Length" class="tooltip">Egg L</th>
-                                                                <th data-tippy-content="Egg Width" class="tooltip">Egg W</th>
+                                                                <th data-tippy-content="Egg Weight" class="tooltip">Egg WT (g)</th>
+                                                                <th data-tippy-content="Egg Length" class="tooltip">Egg L (mm)</th>
+                                                                <th data-tippy-content="Egg Width" class="tooltip">Egg W (mm)</th>
                                                                 <th data-tippy-content="Egg Shape" class="tooltip">Egg SHP</th>
                                                                 <th data-tippy-content="Egg Color" class="tooltip">Egg C</th>
-                                                                <th data-tippy-content="Shell Thickness (Average of Top, Middle and Bottom Thickness)" class="tooltip">Shell THK</th>
-                                                                <th data-tippy-content="Shell Weight" class="tooltip">Shell WT</th>
-                                                                <th data-tippy-content="Yolk Weight" class="tooltip">Yolk WT</th>
-                                                                <th data-tippy-content="Albumin Weight" class="tooltip">ALB WT</th>
-                                                                <th data-tippy-content="Albumin Height" class="tooltip">ALB HT</th>
+                                                                <th data-tippy-content="Shell Thickness (Average of Top, Middle and Bottom Thickness)" class="tooltip">Shell THK (mm)</th>
+                                                                <th data-tippy-content="Shell Weight" class="tooltip">Shell WT (g)</th>
+                                                                <th data-tippy-content="Yolk Weight" class="tooltip">Yolk WT (g)</th>
+                                                                <th data-tippy-content="Albumin Weight" class="tooltip">ALB WT (g)</th>
+                                                                <th data-tippy-content="Albumin Height" class="tooltip">ALB HT (mm)</th>
                                                                 <th data-tippy-content="Yolk Color" class="tooltip">Yolk C</th>
                                                             </tr>
                                                         </thead>
@@ -231,16 +231,16 @@
                                                         <thead>
                                                             <tr>
                                                                 <th data-tippy-content="Family" class="tooltip">F</th>
-                                                                <th data-tippy-content="Egg Weight" class="tooltip">Egg WT</th>
-                                                                <th data-tippy-content="Egg Length" class="tooltip">Egg L</th>
-                                                                <th data-tippy-content="Egg Width" class="tooltip">Egg W</th>
+                                                                <th data-tippy-content="Egg Weight" class="tooltip">Egg WT (g)</th>
+                                                                <th data-tippy-content="Egg Length" class="tooltip">Egg L (mm)</th>
+                                                                <th data-tippy-content="Egg Width" class="tooltip">Egg W (mm)</th>
                                                                 <th data-tippy-content="Egg Shape" class="tooltip">Egg SHP</th>
                                                                 <th data-tippy-content="Egg Color" class="tooltip">Egg C</th>
-                                                                <th data-tippy-content="Shell Thickness (Average of Top, Middle and Bottom Thickness)" class="tooltip">Shell THK</th>
-                                                                <th data-tippy-content="Shell Weight" class="tooltip">Shell WT</th>
-                                                                <th data-tippy-content="Yolk Weight" class="tooltip">Yolk WT</th>
-                                                                <th data-tippy-content="Albumin Weight" class="tooltip">ALB WT</th>
-                                                                <th data-tippy-content="Albumin Height" class="tooltip">ALB HT</th>
+                                                                <th data-tippy-content="Shell Thickness (Average of Top, Middle and Bottom Thickness)" class="tooltip">Shell THK (mm)</th>
+                                                                <th data-tippy-content="Shell Weight" class="tooltip">Shell WT (g)</th>
+                                                                <th data-tippy-content="Yolk Weight" class="tooltip">Yolk WT (g)</th>
+                                                                <th data-tippy-content="Albumin Weight" class="tooltip">ALB WT (g)</th>
+                                                                <th data-tippy-content="Albumin Height" class="tooltip">ALB HT (mm)</th>
                                                                 <th data-tippy-content="Yolk Color" class="tooltip">Yolk C</th>
                                                             </tr>
                                                         </thead>
@@ -421,16 +421,16 @@
                                                         <thead>
                                                             <tr>
                                                                 <th data-tippy-content="Family" class="tooltip">F</th>
-                                                                <th data-tippy-content="Egg Weight" class="tooltip">Egg WT</th>
-                                                                <th data-tippy-content="Egg Length" class="tooltip">Egg L</th>
-                                                                <th data-tippy-content="Egg Width" class="tooltip">Egg W</th>
+                                                                <th data-tippy-content="Egg Weight" class="tooltip">Egg WT (g)</th>
+                                                                <th data-tippy-content="Egg Length" class="tooltip">Egg L (mm)</th>
+                                                                <th data-tippy-content="Egg Width" class="tooltip">Egg W (mm)</th>
                                                                 <th data-tippy-content="Egg Shape" class="tooltip">Egg SHP</th>
                                                                 <th data-tippy-content="Egg Color" class="tooltip">Egg C</th>
-                                                                <th data-tippy-content="Shell Thickness (Average of Top, Middle and Bottom Thickness)" class="tooltip">Shell THK</th>
-                                                                <th data-tippy-content="Shell Weight" class="tooltip">Shell WT</th>
-                                                                <th data-tippy-content="Yolk Weight" class="tooltip">Yolk WT</th>
-                                                                <th data-tippy-content="Albumin Weight" class="tooltip">ALB WT</th>
-                                                                <th data-tippy-content="Albumin Height" class="tooltip">ALB HT</th>
+                                                                <th data-tippy-content="Shell Thickness (Average of Top, Middle and Bottom Thickness)" class="tooltip">Shell THK (mm)</th>
+                                                                <th data-tippy-content="Shell Weight" class="tooltip">Shell WT (g)</th>
+                                                                <th data-tippy-content="Yolk Weight" class="tooltip">Yolk WT (g)</th>
+                                                                <th data-tippy-content="Albumin Weight" class="tooltip">ALB WT (g)</th>
+                                                                <th data-tippy-content="Albumin Height" class="tooltip">ALB HT (mm)</th>
                                                                 <th data-tippy-content="Yolk Color" class="tooltip">Yolk C</th>
                                                             </tr>
                                                         </thead>

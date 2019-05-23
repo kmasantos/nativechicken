@@ -9,6 +9,20 @@
             <div class="row">
                 <div class="col s12 m12 l12">
                     <div class="card">
+                        <div class="card-content">
+                            <p>
+                                <strong>Note:</strong>  
+                            </p>
+                            <p>
+                                <i>• If the data does not specify male and female weights, no values will show</i>
+                            </p>
+                            <p>
+                                <i>• If the data does not specify male and female weights, no values will show</i>
+                            </p>
+                            <p>
+                                <i>• Weights are displayed in <strong>grams</strong></i>
+                            </p>
+                        </div>
                         <div class="card-tabs">
                             <ul class="tabs tabs-fixed-width">
                             <li class="tab"><a href="#test4">BROODER</a></li>

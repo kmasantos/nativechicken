@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="breeder_page_template">
         <div v-if="breeder_hatchery==null&&breeder_feeding==null&&breeder_eggprod==null&&breeder_eggquality==null&&breeder_phenomorpho==null&&breeder_mortality==null">
             <!-- No Breeder Inventory -->
             <div class="row center-align" v-if="breeders_length === 0">
@@ -22,6 +22,25 @@
             <!-- Breeder Inventory List -->
             <div class="row" v-if="breeders_length > 0">
                 <div class="col s12 m12 l12">
+                    <transition name="fade" v-on:close="hideNote">
+                    <div class="row" v-if="!hide_note">
+                        <div class="m12 s12 col">
+                            <div class="card-panel deep-orange lighten-5">
+                                <div class="row valign-wrapper">
+                                    <div class="col s1 center-align"><i id="alert_box_icon" class="fas fa-exclamation-triangle"></i></div>
+                                    <div class="col l8">
+                                        <h5>Note!</h5>
+                                        <h6>Record your data chronologically to ensure correct values for data that are computed automatically by the system</h6>
+                                    </div>
+                                    <div class="col l3 right-align">
+                                        <br>
+                                        <a @click="hide_note=true" href="#modalSubscribe" class="waves-effect waves-light btn btn-large white black-text btn-flat deep-orange lighten-4">Dismiss</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </transition>
                     <div class="row">
                         <div class="col s12 m12 l6" v-for="breeder in breeders.data" :key="breeder.inventory_id">
                             <div class="card blue-grey">
@@ -29,39 +48,56 @@
                                     <div class="row valign-wrapper">
                                         <div class="col s8 m8 l8">
                                             <label class="white-label" for="tag_title white-text">Breeder Tag</label>
-                                            <span id="tag_title" class="card-title white-text">{{breeder.breeder_tag}}</span>
+                                            <span v-if="breeder.breeder_code!=null" id="tag_title" class="card-title white-text tooltip truncate" :data-tippy-content="breeder.breeder_code">{{breeder.breeder_code}}</span>
+                                            <span v-else id="tag_title" class="card-title white-text tooltip truncate" :data-tippy-content="breeder.breeder_tag">{{breeder.breeder_tag}}</span>
                                         </div>
                                         <div class="col s4 m4 l4 center-align">
-                                            <a @click="breeder_delete=breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" href="#cull_modal" class="waves-effect waves-grey btn-flat white-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Cull"><i class="far fa-trash-alt"></i></a>
+                                            <a @click="breeder_delete=breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" href="#cull_modal" class="waves-effect waves-grey btn-flat white-text tooltip modal-trigger" data-tippy-content="Cull"><i class="far fa-trash-alt"></i></a>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s12 m12 l12">
                                             <ul class="collection">
-                                                <li class="collection-item blue-grey lighten-2 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Family : ' + breeder.family_number"><strong>F: {{breeder.family_number}}</strong></li>
-                                                <li class="collection-item blue-grey lighten-2 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Line : ' + breeder.line_number"><strong>L: {{breeder.line_number}}</strong></li>
-                                                <li class="collection-item blue-grey lighten-2 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Generation : ' + breeder.generation_number"><strong>G: {{breeder.generation_number}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'System Tag : ' + breeder.breeder_tag"><strong>ST: {{breeder.breeder_tag}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Family : ' + breeder.family_number"><strong>F: {{breeder.family_number}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Line : ' + breeder.line_number"><strong>L: {{breeder.line_number}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Generation : ' + breeder.generation_number"><strong>G: {{breeder.generation_number}}</strong></li>
                                                 <li class="collection-item blue-grey lighten-2 center-align">
-                                                    <span>
-                                                        <i class="fas fa-mars"></i><strong> Male : {{breeder.number_male}}</strong>
-                                                    </span> |
-                                                    <span>
-                                                        <i class="fas fa-venus"></i><strong> Female : {{breeder.number_female}}</strong>
-                                                    </span>
+                                                    <div class="row">
+                                                        <div class="col s12 m12 l12">
+                                                            <strong>Inventory</strong>
+                                                        </div>
+                                                        <div class="col s12 m12 l12">
+                                                            <i class="fas fa-mars"></i><strong> Male : {{breeder.number_male}}</strong>
+                                                        </div>
+                                                        <div class="col s12 m12 l12">
+                                                            <i class="fas fa-tag"></i> : 
+                                                            <span v-if="(breeder.male_wingbands!=null)" class="truncate">{{JSON.parse(breeder.male_wingbands).join(", ")}}</span>
+                                                            <span v-else>Not Specified</span>
+                                                        </div>
+                                                        <div class="col s12 m12 l12">
+                                                            <i class="fas fa-venus"></i><strong> Female : {{breeder.number_female}}</strong>
+                                                        </div>
+                                                        <div class="col s12 m12 l12">
+                                                            <i class="fas fa-tag"></i> : 
+                                                            <span v-if="(breeder.female_wingbands!=null)" class="truncate tooltip">{{JSON.parse(breeder.female_wingbands).join(", ")}}</span>
+                                                            <span v-else>Not Specified</span>
+                                                        </div>
+                                                    </div>
                                                 </li>
-                                                <li class="collection-item blue-grey lighten-2 tooltipped" data-position="bottom" data-delay="50" :data-tooltip="'Batching Date : ' + breeder.batching_date"><strong>B: {{breeder.batching_date}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Batching Date : ' + breeder.batching_date"><strong>B: {{breeder.batching_date}}</strong></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-action center-align">
-                                    <a href="#additional_breeder" @click="breeder_additional = breeder.inventory_id; selected_additional_tag=breeder.breeder_tag; getValidAdditionalMaleBreeder(); getValidAdditionalFemaleBreeder();" class="black-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add Breeder to Family"><i class="fas fa-exchange-alt"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_feeding = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Feeding Records"><i class="fas fa-cannabis"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Hatchery Records"><i class="fas fa-crow"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Egg Quality Records"><i class="fas fa-check-double"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-feather"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_mortality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
+                                    <a href="#additional_breeder" @click="breeder_additional = breeder.inventory_id; selected_additional_tag=breeder.breeder_tag; getValidAdditionalMaleBreeder(); getValidAdditionalFemaleBreeder();" class="black-text tooltip modal-trigger" data-tippy-content="Add Breeder to Family"><i class="fas fa-exchange-alt"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_feeding = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Feeding Records"><i class="fas fa-cannabis"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Hatchery Records"><i class="fas fa-crow"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Egg Quality Records"><i class="fas fa-check-double"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Pheno/Morpho Records"><i class="fas fa-feather"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_mortality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +131,7 @@
         </div>
         <!-- FAB -->
         <div class="fixed-action-btn">
-            <a href="#add_breeder_modal" class="btn-floating btn-large blue-grey darken-1 modal-trigger tooltipped" data-position="left" data-delay="50" data-tooltip="Add Breeder Record"><i class="fas fa-plus"></i></a>
+            <a href="#add_breeder_modal" class="btn-floating btn-large blue-grey darken-1 modal-trigger tooltip" data-tippy-content="Add Breeder Record"><i class="fas fa-plus"></i></a>
         </div>
         <!-- Add Breeder Modal -->
         <div id="add_breeder_modal" class="modal modal-fixed-footer">
@@ -121,7 +157,8 @@
                             <div class="card-content grey lighten-4">
                                 <!-- Within System -->
                                 <div id="within">
-                                    <form v-on:submit.prevent="addBreeder" method="post">
+                                    <!-- <form v-on:submit.prevent="addBreeder" method="post"> -->
+                                    <form v-on:submit.prevent="validateInput" method="post">
                                         <div class="row">
                                             <div class="col s12 m12 l12">
                                                 <i>*Note: Choice of <strong>Line</strong> depends on breeding program</i>
@@ -130,7 +167,7 @@
                                         <div class="row">
                                             <div class="col s12 m12 l6">
                                                 <label>Male's Generation</label>
-                                                <select @change="selectMaleLine" v-model="selected_male_gen" class="browser-default">
+                                                <select @change="selectMaleLine();selected_male_inventory_max;" v-model="selected_male_gen" class="browser-default">
                                                     <option v-if="generations_length === 0" value="" disabled selected>No generation</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
                                                     <option v-for="generation in generations" :key="generation.id" :value="generation.id">{{generation.number}}</option>
@@ -140,51 +177,60 @@
                                         <div class="row">
                                             <div class="col s12 m12 l6">
                                                 <label>Male's Line</label>
-                                                <select @change="selectMaleFamily" v-model="selected_male_line" class="browser-default">
+                                                <select @change="selectMaleFamily();selected_male_inventory_max=0;" v-model="selected_male_line" class="browser-default">
                                                     <option v-if="male_lines_length == 0" value="" disabled selected>No lines</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
                                                     <option v-for="line in male_lines" :key="line.id" :value="line.id">{{line.number}}</option>
                                                 </select>
                                             </div>
-                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female lines does not match</div> -->
                                         </div>
                                         <div class="row">
                                             <div class="col s12 m12 l6">
                                                 <label>Male's Family</label>
-                                                <select @change="selectMaleInventory" v-model="selected_male_fam" class="browser-default">
+                                                <select @change="selectMaleInventory();selected_male_inventory_max=0;" v-model="selected_male_fam" class="browser-default">
                                                     <option v-if="male_families_length == 0" value="" disabled selected>No families</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
                                                     <option v-for="family in male_families" :key="family.id" :value="family.id">{{family.number}}</option>
                                                 </select>
                                             </div>
-                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
                                         </div>
-                                        <!-- <div class="row">
-                                            <div class="col s12 m12 l12">
-                                                <i class="orange-text">Note: Replacement inventories with no male quantity will not be displayed</i> 
-                                            </div>
-                                        </div> -->
                                         <div class="row">
                                             <div class="col s12 m12 l6">
                                                 <label>Male's Replacement Inventory</label>
-                                                <select v-model="selected_male_inv" class="browser-default">
+                                                <select v-model="selected_male_inv" @change="selected_male_inventory_max=selected_male_inv.number_male" class="browser-default">
                                                     <option v-if="male_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories.id">Tag: {{inventories.replacement_tag}} | Male: {{inventories.number_male}}</option>
+                                                    <option v-for="inventories in male_inventories" :key="inventories.id" :value="inventories">Tag: {{inventories.replacement_tag}} | Male: {{inventories.number_male}}</option>
                                                 </select>
                                             </div>
-                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
                                         </div>
                                         <div class="row">
                                             <div class="col input-field s12 m12 l6">
-                                                <input v-model.number="number_male" placeholder="Number of male replacements to transfer" id="males" type="number" min=0 class="validate">
-                                                <label for="males">Number of Male</label>
+                                                <input v-model.number="number_male" placeholder="Number of male replacements to transfer" id="males" type="number" pattern="\d+" min=0 :max="selected_male_inventory_max" step="1" class="validate">
+                                                <label for="males">
+                                                    Number of Male 
+                                                    <span class="inline_error_message" v-if="number_male>selected_male_inventory_max">
+                                                        <i class="fas fa-exclamation-circle"></i> <i>Maximum value for number of male is {{selected_male_inventory_max}}</i>
+                                                    </span>
+                                                    <span class="inline_error_message" v-if="number_male<0">
+                                                        <i class="fas fa-exclamation-circle"></i> <i>Cannot add value less than 0</i>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l6 input-field">
+                                                <input v-model="male_wingband" type="text" id="male_wingbands" placeholder="Separated by commas without spaces eg. 011,211,322,457">
+                                                <label for="male_wingbands">
+                                                    Male Wing Bands <i>(Optional)</i>
+                                                    <span v-if="count(male_wingband)!=number_male" class="inline_warning_message"><i class="fas fa-exclamation-circle"></i> <i>Count of wing bands does not match number of male. Disregard if not recorded.</i></span>
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col s12 m6 l6">
                                                 <label>Female's Generation</label>
-                                                <select @change="selectFemaleLine" v-model="selected_female_gen" class="browser-default">
+                                                <select @change="selectFemaleLine();selected_female_inventory_max=0;" v-model="selected_female_gen" class="browser-default">
                                                     <option v-if="generations_length === 0" value="" disabled selected>No generation</option>
                                                     <option v-else-if="generations_length > 0" value="" disabled selected>Choose your option</option>
                                                     <option v-for="generation in generations" :key="generation.id" :value="generation.id">{{generation.number}}</option>
@@ -194,45 +240,54 @@
                                         <div class="row">
                                             <div class="col s12 m12 l6">
                                                 <label>Female's Line</label>
-                                                <select @change="selectFemaleFamily" v-model="selected_female_line" class="browser-default">
+                                                <select @change="selectFemaleFamily();selected_female_inventory_max=0;" v-model="selected_female_line" class="browser-default">
                                                     <option v-if="female_lines_length == 0" value="" disabled selected>No lines</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
                                                     <option v-for="line in female_lines" :key="line.id" :value="line.id">{{line.number}}</option>
                                                 </select>
                                             </div>
-                                            <!-- <div v-if="selected_male_line != selected_female_line" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female lines does not match</div> -->
                                         </div>
                                         <div class="row">
                                             <div class="col s12 m12 l6">
                                                 <label>Female's Family</label>
-                                                <select @change="selectFemaleInventory" v-model="selected_female_fam" class="browser-default">
+                                                <select @change="selectFemaleInventory();selected_female_inventory_max=0;" v-model="selected_female_fam" class="browser-default">
                                                     <option v-if="female_families_length == 0" value="" disabled selected>No families</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
                                                     <option v-for="family in female_families" :key="family.id" :value="family.id">{{family.number}}</option>
                                                 </select>
                                             </div>
-                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
                                         </div>
-                                        <!-- <div class="row">
-                                            <div class="col s12 m12 l12">
-                                                <i class="orange-text">Note: Replacement inventories with no female quantity will not be displayed</i> 
-                                            </div>
-                                        </div> -->
                                         <div class="row">
                                             <div class="col s12 m12 l6">
                                                 <label>Female's Replacement Inventory</label>
-                                                <select v-model="selected_female_inv" class="browser-default">
+                                                <select v-model="selected_female_inv" @change="selected_female_inventory_max=selected_female_inv.number_female" class="browser-default">
                                                     <option v-if="female_inventories_length == 0" value="" disabled selected>No replacement inventory</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="inventories in female_inventories" :key="inventories.id" :value="inventories.id">Tag : {{inventories.replacement_tag}} | Female : {{inventories.number_female}}</option>
+                                                    <option v-for="inventories in female_inventories" :key="inventories.id" :value="inventories">Tag : {{inventories.replacement_tag}} | Female : {{inventories.number_female}}</option>
                                                 </select>
                                             </div>
-                                            <!-- <div v-if="(selected_male_line != selected_female_line)" class="col s12 m12 l12 orange-text"><i class="fas fa-exclamation-triangle"></i> Male and Female families from different lines</div> -->
                                         </div>
                                         <div class="row">
                                             <div class="col input-field s12 m12 l6">
-                                                <input v-model.number="number_female" placeholder="Number of female replacements to transfer" id="females" type="number" min=0 class="validate">
-                                                <label for="females">Number of Female</label>
+                                                <input v-model.number="number_female" placeholder="Number of female replacements to transfer" id="females" type="number" pattern="\d+" min=0 :max="selected_female_inventory_max" step="1" class="validate">
+                                                <label for="females">
+                                                    Number of Female 
+                                                    <span class="inline_error_message" v-if="number_female>selected_female_inventory_max">
+                                                        <i class="fas fa-exclamation-circle"></i> <i>Maximum value for number of female is {{selected_female_inventory_max}}</i>
+                                                    </span>
+                                                    <span class="inline_error_message" v-if="number_female<0">
+                                                        <i class="fas fa-exclamation-circle"></i> <i>Cannot add value less than 0</i>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l6 input-field">
+                                                <input v-model="female_wingband" type="text" id="female_wingbands" placeholder="Separated by commas without spaces eg. 011,211,322,457">
+                                                <label for="female_wingbands">
+                                                    Female Wing Bands <i>(Optional)</i> 
+                                                    <span v-if="count(female_wingband)!=number_female" class="inline_warning_message"><i class="fas fa-exclamation-circle"></i> <i>Count of wing bands does not match number of female. Disregard if not recorded.</i></span>
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -241,7 +296,7 @@
                                                 <select v-model="selected_pen" class="browser-default">
                                                     <option v-if="pens_length == 0" value="" disabled selected>No breeder pens available</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="pen in pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>
+                                                    <option v-for="pen in pens" :key="pen.id" :value="pen">{{pen.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -262,7 +317,7 @@
                                 </div>
                                 <!-- Outside System -->
                                 <div id="outside">
-                                    <form v-on:submit.prevent="addBreeder" method="post">
+                                    <form v-on:submit.prevent="validateInput()" method="post">
                                         <div class="row">
                                             <div class="col s12 m12 l6">
                                                 <label class="active" for="estimated_batching_date">Estimated Date of Hatch</label>
@@ -302,13 +357,41 @@
                                         <div class="row">
                                             <div class="col input-field s12 m12 l6">
                                                 <input v-model.number="number_male" placeholder="Number of male replacements to add" id="males" type="number" min=0 class="validate">
-                                                <label for="males">Number of Male</label>
+                                                <label for="males">
+                                                    Number of Male
+                                                    <span class="inline_error_message" v-if="number_male<0">
+                                                        <i class="fas fa-exclamation-circle"></i> <i>Cannot add value less than 0</i>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l6 input-field">
+                                                <input v-model="male_wingband" type="text" id="male_wingbands" placeholder="Separated by commas without spaces eg. 011,211,322,457">
+                                                <label for="male_wingbands">
+                                                    Male Wing Bands <i>(Optional)</i>
+                                                    <span v-if="count(male_wingband)!=number_male" class="inline_warning_message"><i class="fas fa-exclamation-circle"></i> <i>Count of wing bands does not match number of male. Disregard if not recorded.</i></span>
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col input-field s12 m12 l6">
                                                 <input v-model.number="number_female" placeholder="Number of female replacements to add" id="females" type="number" min=0 class="validate">
-                                                <label for="females">Number of Female</label>
+                                                <label for="females">
+                                                    Number of Female
+                                                    <span class="inline_error_message" v-if="number_female<0">
+                                                        <i class="fas fa-exclamation-circle"></i> <i>Cannot add value less than 0</i>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l6 input-field">
+                                                <input v-model="female_wingband" type="text" id="female_wingbands" placeholder="Separated by commas without spaces eg. 011,211,322,457">
+                                                <label for="female_wingbands">
+                                                    Female Wing Bands <i>(Optional)</i> 
+                                                    <span v-if="count(female_wingband)!=number_female" class="inline_warning_message"><i class="fas fa-exclamation-circle"></i> <i>Count of wing bands does not match number of female. Disregard if not recorded.</i></span>
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -317,7 +400,7 @@
                                                 <select v-model="selected_pen" class="browser-default">
                                                     <option v-if="pens_length == 0" value="" disabled selected>No breeder pens available</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
-                                                    <option v-for="pen in pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>
+                                                    <option v-for="pen in pens" :key="pen.id" :value="pen">{{pen.number}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -445,6 +528,7 @@
 
 <script>
     import Datepicker from 'vuejs-datepicker';
+    import tippy from 'tippy.js';
     Vue.component('pagination', require('laravel-vue-pagination'));
     var moment = require('moment');
     export default {
@@ -458,7 +542,9 @@
                 breeders_length : 0,
                 // form data
                 within : true,
-
+                hide_note : false,
+                selected_male_inventory_max : 0,
+                selected_female_inventory_max : 0,
                 generations : [],
                 generations_length : 0,
                 selected_male_gen : '',
@@ -473,6 +559,7 @@
                 male_inventories_length : 0,
                 selected_male_inv : '',
                 number_male : 0,
+                male_wingband : "",
                 female_lines : [],
                 female_lines_length : 0,
                 selected_female_line : '',
@@ -483,6 +570,7 @@
                 female_inventories_length : 0,
                 selected_female_inv : '',
                 number_female : 0,
+                female_wingband : "",
                 pens : [],
                 pens_length : 0,
                 selected_pen : '',
@@ -619,13 +707,17 @@
                     param = {
                         within : this.within,
                         male_family : this.selected_male_fam,
-                        male_inventory : this.selected_male_inv,
+                        male_inventory : this.selected_male_inv.id,
                         number_male : this.number_male,
                         female_family : this.selected_female_fam,
-                        female_inventory : this.selected_female_inv,
+                        female_inventory : this.selected_female_inv.id,
                         number_female : this.number_female,
-                        pen_id : this.selected_pen,
+                        pen_id : this.selected_pen.id,
                         date_added : this.customFormatter(this.date_added),
+                        male_wingband : this.male_wingband,
+                        female_wingband : this.female_wingband,
+                        generation : this.selected_male_gen,
+                        line : this.selected_male_line,
                     };
                 }else{
                     param = {
@@ -634,8 +726,12 @@
                         family : this.selected_male_fam,
                         number_male : this.number_male,
                         number_female : this.number_female,
-                        pen_id : this.selected_pen,
+                        pen_id : this.selected_pen.id,
                         date_added : this.customFormatter(this.date_added),
+                        male_wingband : this.male_wingband,
+                        female_wingband : this.female_wingband,
+                        generation : this.selected_male_gen,
+                        line : this.selected_male_line,
                     };
                 }
                 axios.post('add_breeder', param)
@@ -666,13 +762,12 @@
                         this.selected_pen = '';
                         this.date_added = '';
                         this.estimated_batching_date = '';
-                        Materialize.toast('Successfully added breeders', 3000, 'green rounded');
+                        this.male_wingband = "";
+                        this.female_wingband = "";
+                        Materialize.toast('Successfully added breeders', 5000, 'green rounded');
                     }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
-                })
-                .catch(error => {
-                    Materialize.toast('Failed to add breeders', 3000, 'red rounded');
                 });
                 this.initialize();
             },
@@ -750,24 +845,89 @@
                 })
             },
             
+            validateInput : function () {
+                if(this.within){
+                    if(this.selected_male_inv === "" || this.selected_female_inv === "" || this.selected_pen.total_capacity === "" || (this.number_male + this.number_female) === 0 || this.date_added === ""){
+                        Materialize.toast('Check your form for incomplete data', 5000, 'red rounded');
+                        return;
+                    }
+                    else{
+                        if(this.number_male > this.selected_male_inv.number_male){
+                            Materialize.toast('Invalid number of male', 5000, 'red rounded');
+                            return;
+                        }
+                        if(this.number_female > this.selected_female_inv.number_female){
+                            Materialize.toast('Invalid number of female', 5000, 'red rounded');
+                            return;
+                        }   
+                        if(this.selected_pen.total_capacity < (this.number_male + this.number_female)){
+                            Materialize.toast('Pen capacity not enough', 5000, 'red rounded');
+                            return;
+                        }
+                        this.addBreeder();
+                    }
+                }else{
+                    if(this.selected_pen.total_capacity === "" || (this.number_male + this.number_female) === 0 || this.estimated_batching_date === "" || this.date_added === ""){
+                        Materialize.toast('Check your form for incomplete data', 5000, 'red rounded');
+                        return;
+                    }else{
+                        if(this.selected_pen.total_capacity < (this.number_male + this.number_female)){
+                            Materialize.toast('Pen capacity not enough', 5000, 'red rounded');
+                            return;
+                        }
+                        this.addBreeder();
+                    }
+                }
+            },
+
+            count : function (input) {
+                if(input === "") return 0;
+                var string = input.replace(/ /g, '');
+                return string.split(',').length;
+            },
+
             customFormatter : function (date) {
                 var formatted = moment(date).format('YYYY-MM-DD')
                 return formatted;
             },
+            hideNote : function (el, done) {
+                var that = this;
+                setTimeout(function() {
+                    that.hide_note = false;
+                }, 3000);
+            }
         },
-        created() {
+        mounted () {
+            tippy('#breeder_page_template', {
+                target : '.tooltip',
+                arrow: true,
+                arrowType: 'round',
+                animation: 'scale',
+                inertia: true,
+            });
             this.initialize();
-            $('.tooltipped').tooltip({delay: 50});
-        },
-        beforeCreate() {
-
-        },
-        destroyed () {
-            $('.tooltipped').tooltip('remove');
         },
     }
 </script>
 
 <style scoped>
-
+    #alert_box_icon{
+        font-size: 2.5em;
+    }
+    .fade-enter-active,
+        .fade-leave-active {
+        transition: opacity 1s;
+    }
+    .fade-enter,
+    .fade-leave-to
+    {
+        opacity: 0
+    }
+    .input-field input[type=number]:focus + label {
+        color: #607d8b;
+    }
+    .input-field input[type=number]:focus {
+        border-bottom: 1px solid #607d8b;
+        box-shadow: 0 1px 0 0 #546e7a;
+    }
 </style>
