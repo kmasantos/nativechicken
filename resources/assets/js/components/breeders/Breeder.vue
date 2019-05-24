@@ -80,7 +80,7 @@
                                                         </div>
                                                         <div class="col s12 m12 l12">
                                                             <i class="fas fa-tag"></i> : 
-                                                            <span v-if="(breeder.female_wingbands!=null)" class="truncate tooltip">{{JSON.parse(breeder.female_wingbands).join(", ")}}</span>
+                                                            <span v-if="(breeder.female_wingbands!=null)" class="truncate">{{JSON.parse(breeder.female_wingbands).join(", ")}}</span>
                                                             <span v-else>Not Specified</span>
                                                         </div>
                                                     </div>
@@ -442,7 +442,7 @@
         </div>
         
         <div id="additional_breeder" class="modal modal-fixed-footer">
-            <form v-on:submit.prevent="addAdditionalBreeder">
+            <form v-on:submit.prevent="validateAdditionalBreeders">
                 <div class="modal-content">
                     <div class="row">
                         <div class="col s12 m12 l12">
@@ -474,24 +474,47 @@
                     <div class="row" v-if="add_within">
                         <div class="col s12 m12 l6">
                             <label for="male_inventory">Male Inventory</label>
-                            <select class="browser-default" v-model="selected_male_inventory">
+                            <select class="browser-default" v-model="selected_male_inventory" @change="additional_male_inventory_max=selected_male_inventory.number_male">
                                 <option v-if="valid_male_inventory === undefined || valid_male_inventory.length == 0" disabled selected>No Inventories</option>
                                 <option v-for="inv in valid_male_inventory" :key="inv.id" :value="inv">Tag : {{inv.replacement_tag}} Male : {{inv.number_male}} Batching Date : {{inv.batching_date}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s6 m12 l6">
+                        <div class="input-field col s12 m12 l6">
                             <input v-if="selected_male_inventory==null && add_within==true" placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number" disabled>
                             <input v-else-if="selected_male_inventory==null && add_within==false" v-model="add_male" placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number">
-                            <input v-else-if="selected_male_inventory!=null && add_within==true" v-model="add_male" placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number" min="1" :max="selected_male_inventory.number_male" class="validate" pattern="^[0-9]">
-                            <label for="additional_male" class="active">Male to Add</label>
+                            <input v-else-if="selected_male_inventory!=null && add_within==true" v-model="add_male" placeholder="Number of rooster/drake that you want to add to the breeder flock" id="additional_male" type="number" min="1" :max="additional_male_inventory_max" class="validate" pattern="^[0-9]">
+                            <label v-if="add_within" for="additional_male" class="active">
+                                Male to Add
+                                <span class="inline_error_message" v-if="add_male>additional_male_inventory_max">
+                                    <i class="fas fa-exclamation-circle"></i> <i>Maximum value for number of male is {{additional_male_inventory_max}}</i>
+                                </span>
+                                <span class="inline_error_message" v-if="add_male<0">
+                                    <i class="fas fa-exclamation-circle"></i> <i>Cannot add value less than 0</i>
+                                </span>
+                            </label>
+                            <label v-else for="additional_male" class="active">
+                                Male to Add
+                                <span class="inline_error_message" v-if="add_male<0">
+                                    <i class="fas fa-exclamation-circle"></i> <i>Cannot add value less than 0</i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12 l6 input-field">
+                            <input v-model="add_male_wingband" type="text" id="male_wingbands" placeholder="Separated by commas without spaces eg. 011,211,322,457">
+                            <label for="male_wingbands" class="active">
+                                Male Wing Bands <i>(Optional)</i>
+                                <span v-if="count(add_male_wingband)!=add_male" class="inline_warning_message"><i class="fas fa-exclamation-circle"></i> <i>Count of wing bands does not match male. Disregard if not recorded.</i></span>
+                            </label>
                         </div>
                     </div>
                     <div class="row" v-if="add_within">
                         <div class="col s12 m12 l6">
                             <label for="female_inventory">Female Inventory</label>
-                            <select class="browser-default" v-model="selected_female_inventory">
+                            <select class="browser-default" v-model="selected_female_inventory" @change="additional_female_inventory_max=selected_female_inventory.number_female">
                                 <option v-if="valid_female_inventory === undefined || valid_female_inventory.length == 0" disabled selected>No Inventories</option>
                                 <option v-for="inv in valid_female_inventory" :key="inv.id" :value="inv">Tag : {{inv.replacement_tag}} Female : {{inv.number_female}} Batching Date : {{inv.batching_date}}</option>
                             </select>
@@ -502,7 +525,30 @@
                             <input v-if="selected_female_inventory==null && add_within==true" placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number" disabled>
                             <input v-else-if="selected_female_inventory==null && add_within==false" v-model="add_female" placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number">
                             <input v-else-if="selected_female_inventory!=null && add_within==true" v-model="add_female" value="add_female" placeholder="Number of hens that you want to add to the breeder flock" id="additional_female" type="number" min="1" :max="selected_female_inventory.number_female" class="validate" pattern="^[0-9]">
-                            <label for="additional_female" class="active">Female to Add</label>
+                            <label v-if="add_within" for="additional_female" class="active">
+                                Female to Add
+                                <span class="inline_error_message" v-if="add_female>additional_female_inventory_max">
+                                    <i class="fas fa-exclamation-circle"></i> <i>Maximum value for number of female is {{additional_female_inventory_max}}</i>
+                                </span>
+                                <span class="inline_error_message" v-if="add_female<0">
+                                    <i class="fas fa-exclamation-circle"></i> <i>Cannot add value less than 0</i>
+                                </span>
+                            </label>
+                            <label v-else for="additional_female" class="active">
+                                Female to Add
+                                <span class="inline_error_message" v-if="add_female<0">
+                                    <i class="fas fa-exclamation-circle"></i> <i>Cannot add value less than 0</i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12 l6 input-field">
+                            <input v-model="add_female_wingband" type="text" id="female_wingbands" placeholder="Separated by commas without spaces eg. 011,211,069,322">
+                            <label for="female_wingbands" class="active">
+                                Female Wing Bands <i>(Optional)</i> 
+                                <span v-if="count(add_female_wingband)!=add_female" class="inline_warning_message"><i class="fas fa-exclamation-circle"></i> <i>Count of wing bands does not match female. Disregard if not recorded.</i></span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -545,6 +591,8 @@
                 hide_note : false,
                 selected_male_inventory_max : 0,
                 selected_female_inventory_max : 0,
+                additional_male_inventory_max : 0,
+                additional_female_inventory_max : 0,
                 generations : [],
                 generations_length : 0,
                 selected_male_gen : '',
@@ -593,6 +641,8 @@
                 add_within : false,
                 add_male : 0,
                 add_female : 0,
+                add_male_wingband : "",
+                add_female_wingband : "",
 
                 valid_male_inventory : {},
                 valid_female_inventory : {},
@@ -789,21 +839,25 @@
             },
             addAdditionalBreeder : function () {
                 var input = {};
-                if(within){
+                if(this.add_within){
                     input = {
                         selected_breeder : this.breeder_additional,
                         within : this.add_within,
                         male : this.add_male,
                         female : this.add_female,
                         replacement_male_inventory : this.selected_male_inventory.id,
-                        replacement_female_inventory : this.selected_female_inventory.id
+                        replacement_female_inventory : this.selected_female_inventory.id,
+                        male_wingband : this.add_male_wingband,
+                        female_wingband : this.add_female_wingband
                     }
                 }else{
                     input = {
                         selected_breeder : this.breeder_additional,
                         within : this.add_within,
                         male : this.add_male,
-                        female : this.add_female
+                        female : this.add_female,
+                        male_wingband : this.add_male_wingband,
+                        female_wingband : this.add_female_wingband
                     }
                 }
                 axios.post('add_breeder_additional', input)
@@ -819,7 +873,7 @@
                 axios.get('breeder_add_male_inventory/'+this.breeder_additional)
                 .then(response => {
                     this.valid_male_inventory = response.data;
-                    this.valid_male_inventory_length = this.valid_male_inventory.data.length;
+                    this.valid_male_inventory_length = this.valid_male_inventory.length;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -829,7 +883,7 @@
                 axios.get('breeder_add_female_inventory/'+this.breeder_additional)
                 .then(response => {
                     this.valid_female_inventory = response.data;
-                    this.valid_female_inventory_length = this.valid_female_inventory.data.length;
+                    this.valid_female_inventory_length = this.valid_female_inventory.length;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -852,16 +906,20 @@
                         return;
                     }
                     else{
-                        if(this.number_male > this.selected_male_inv.number_male){
+                        if((this.number_male > this.selected_male_inv.number_male) || this.number_male < 0){
                             Materialize.toast('Invalid number of male', 5000, 'red rounded');
                             return;
                         }
-                        if(this.number_female > this.selected_female_inv.number_female){
+                        if((this.number_female > this.selected_female_inv.number_female) || this.number_female < 0){
                             Materialize.toast('Invalid number of female', 5000, 'red rounded');
                             return;
                         }   
                         if(this.selected_pen.total_capacity < (this.number_male + this.number_female)){
                             Materialize.toast('Pen capacity not enough', 5000, 'red rounded');
+                            return;
+                        }
+                        if((this.count(this.female_wingband) > 0 && this.count(this.female_wingband) != this.number_female) || (this.count(this.male_wingband) > 0 && this.count(this.male_wingband) != this.number_male)){
+                            Materialize.toast('Wing band count and animal count does not match', 5000, 'red rounded');
                             return;
                         }
                         this.addBreeder();
@@ -875,8 +933,46 @@
                             Materialize.toast('Pen capacity not enough', 5000, 'red rounded');
                             return;
                         }
+                        if((this.count(this.female_wingband) > 0 && (this.count(this.female_wingband) != this.number_female)) || (this.count(this.male_wingband) > 0 && (this.count(this.male_wingband) != this.number_male))){
+                            Materialize.toast('Wing band count and animal count does not match', 5000, 'red rounded');
+                            return;
+                        }
                         this.addBreeder();
                     }
+                }
+            },
+
+            validateAdditionalBreeders : function () {
+                if(this.add_within){
+                    if((this.selected_male_inventory == null && this.add_male!=0) || (this.selected_female_inventory == null && this.add_female!=0) || (this.add_male + this.add_female) === 0){
+                        Materialize.toast('Check your form for incomplete data', 5000, 'red rounded');
+                        return;
+                    }else{
+                        if((this.add_male > this.selected_male_inventory.number_male) || this.add_male < 0){
+                            Materialize.toast('Invalid number of male', 5000, 'red rounded');
+                            return;
+                        }
+                        if((this.add_female > this.selected_female_inventory.number_female) || this.add_female < 0){
+                            Materialize.toast('Invalid number of female', 5000, 'red rounded');
+                            return;
+                        }
+                        if((this.count(this.add_female_wingband) > 0 && (this.count(this.add_female_wingband) != this.add_female)) || (this.count(this.add_male_wingband) > 0 && (this.count(this.add_male_wingband) != this.add_male))){
+                            Materialize.toast('Wing band count and animal count does not match', 5000, 'red rounded');
+                            return;
+                        }
+                        this.addAdditionalBreeder();
+                    }
+
+                }else{
+                    if((this.add_male + this.add_female) === 0){
+                        Materialize.toast('Check your form for incomplete data', 5000, 'red rounded');
+                        return;
+                    }
+                    if((this.count(this.add_female_wingband) > 0 && (this.count(this.add_female_wingband) != this.add_female)) || (this.count(this.add_male_wingband) > 0 && (this.count(this.add_male_wingband) != this.add_male))){
+                        Materialize.toast('Wing band count and animal count does not match', 5000, 'red rounded');
+                        return;
+                    }
+                    this.addAdditionalBreeder();
                 }
             },
 
@@ -895,7 +991,7 @@
                 setTimeout(function() {
                     that.hide_note = false;
                 }, 3000);
-            }
+            },
         },
         mounted () {
             tippy('#breeder_page_template', {
@@ -904,6 +1000,9 @@
                 arrowType: 'round',
                 animation: 'scale',
                 inertia: true,
+            });
+            $('#additional_breeder').modal({
+                dismissible: false,
             });
             this.initialize();
         },
@@ -929,5 +1028,9 @@
     .input-field input[type=number]:focus {
         border-bottom: 1px solid #607d8b;
         box-shadow: 0 1px 0 0 #546e7a;
+    }
+    #additional_breeder{
+        width: 80%;
+        height: 90%;
     }
 </style>

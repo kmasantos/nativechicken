@@ -983,7 +983,15 @@ class BreederController extends Controller
     public function addAdditionalBreeder(Request $request)
     {
         if($request->within){
+            $male_replacement_inventory = ReplacementInventory::where('id', $request->replacement_male_inventory)->first();
+            $female_replacement_inventory = ReplacementInventory::where('id', $request->replacement_male_inventory)->first();
+            if($request->male > $male_replacement_inventory->number_male){
+                return response()->json(['error' => 'Input number of male too large for the current inventory'], 400);
+            }
 
+            if($request->female > $female_replacement_inventory->number_female){
+                return response()->json(['error' => 'Input number of female too large for the current inventory'], 400);
+            }
         }else{
             $breeder_inventory = BreederInventory::where('id', $request->selected_breeder)->first();
             $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->first();
