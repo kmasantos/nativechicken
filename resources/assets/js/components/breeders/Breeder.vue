@@ -1002,7 +1002,6 @@
             },
         },
         mounted () {
-            
             tippy('#breeder_page_template', {
                 target : '.tooltip',
                 arrow: true,
@@ -1010,7 +1009,6 @@
                 animation: 'scale',
                 inertia: true,
             });
-            
             this.initialize();
         },
     }
