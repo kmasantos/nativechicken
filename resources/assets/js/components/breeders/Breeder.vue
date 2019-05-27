@@ -1002,6 +1002,7 @@
             },
         },
         mounted () {
+            
             tippy('#breeder_page_template', {
                 target : '.tooltip',
                 arrow: true,
