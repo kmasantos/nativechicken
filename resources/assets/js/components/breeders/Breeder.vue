@@ -1009,9 +1009,7 @@
                 animation: 'scale',
                 inertia: true,
             });
-            $('#additional_breeder').modal({
-                dismissible: false,
-            });
+            
             this.initialize();
         },
     }

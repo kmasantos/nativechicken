@@ -240,6 +240,9 @@
         },
         beforeCreate() {
             $('.tooltipped').tooltip('remove');
+            $('#additional_breeder').modal({
+                dismissible: false,
+            });
         },
         mounted() {
             $('#feeding').modal({
