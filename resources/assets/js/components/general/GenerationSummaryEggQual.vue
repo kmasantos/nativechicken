@@ -765,9 +765,9 @@ export default {
                 return false
             } else {
                 for (var prop in Obj) {
-                if (Obj.hasOwnProperty(prop)) {
-                    return true
-                }
+                    if (Obj.hasOwnProperty(prop)) {
+                        return true
+                    }
                 }
                 return JSON.stringify(Obj) !== JSON.stringify({})
             }

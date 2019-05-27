@@ -10,7 +10,7 @@
                             </div>
                         </div>
                         <div class="row" v-if="eggprod_record_len === 0">
-                            <div class="col s12 m12 l12">
+                            <div class="col s12 m12 l12 center-align">
                                 <strong>NO DATA</strong> 
                             </div>
                         </div>

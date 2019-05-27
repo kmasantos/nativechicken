@@ -114,9 +114,8 @@ class BreederController extends Controller
             
             // Update Pens
             $male_replacement_pen = Pen::where('id', $male_inventory->pen_id)->firstOrFail();
-            $male_replacement_pen->current_capacity = $male_replacement_pen->current_capacity - $request->number_male;
             $female_replacement_pen = Pen::where('id', $female_inventory->pen_id)->firstOrFail();
-            $female_replacement_pen->current_capacity = $female_replacement_pen->current_capacity - $request->number_female;
+            
             // Animal Movements
             $movement_replacement_male = new AnimalMovement;
             $movement_replacement_male->date = $request->date_added;
@@ -205,7 +204,11 @@ class BreederController extends Controller
 
             $movement_replacement_male->save();
             $movement_replacement_female->save();
+            $male_replacement_pen->current_capacity = $male_replacement_pen->current_capacity - $request->number_male;
+            $male_replacement_pen->total = $male_replacement_pen->total - $request->number_male;
             $male_replacement_pen->save();
+            $female_replacement_pen->current_capacity = $female_replacement_pen->current_capacity - $request->number_female;
+            $female_replacement_pen->total = $female_replacement_pen->total - $request->number_female;
             $female_replacement_pen->save();
             $male_inventory->save();
             $female_inventory->save();
@@ -982,9 +985,17 @@ class BreederController extends Controller
      */
     public function addAdditionalBreeder(Request $request)
     {
-        if($request->within){
+        $breeder_inventory = BreederInventory::where('id', $request->selected_breeder)->first();
+        $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->first();
+        if($breeder_pen->current_capacity == $breeder_pen->total_capacity || $breeder_pen->total_capacity < ($breeder_pen->current_capacity + $request->male + $request->female) ){
+            return response()->json(['error' => 'Input number of male & female too large for the pen'], 400);
+        }
+        if($request->within){   
             $male_replacement_inventory = ReplacementInventory::where('id', $request->replacement_male_inventory)->first();
             $female_replacement_inventory = ReplacementInventory::where('id', $request->replacement_male_inventory)->first();
+            $male_replacement_pen = Pen::where('id', $male_replacement_inventory->pen_id)->first();
+            $female_replacement_pen = Pen::where('id', $female_replacement_inventory->pen_id)->first();
+            
             if($request->male > $male_replacement_inventory->number_male){
                 return response()->json(['error' => 'Input number of male too large for the current inventory'], 400);
             }
@@ -992,13 +1003,99 @@ class BreederController extends Controller
             if($request->female > $female_replacement_inventory->number_female){
                 return response()->json(['error' => 'Input number of female too large for the current inventory'], 400);
             }
-        }else{
-            $breeder_inventory = BreederInventory::where('id', $request->selected_breeder)->first();
-            $breeder_pen = Pen::where('id', $breeder_inventory->pen_id)->first();
-            if($breeder_pen->current_capacity == $breeder_pen->total_capacity || $breeder_pen->current_capacity + ($request->male + $request->female) > $breeder_pen->total_capacity){
-                return;
+
+            if($request->male!=null){
+                $breeder_inventory->number_male = $breeder_inventory->number_male + $request->male;
+                $male_replacement_inventory->number_male = $male_replacement_inventory->number_male - $request->male;
             }
             
+            if($request->female!=null){
+                $breeder_inventory->number_female = $breeder_inventory->number_female + $request->female;
+                $female_replacement_inventory->number_female = $female_replacement_inventory->number_female - $request->female;
+            }
+
+            if($request->male_wingband!=null){
+                if($breeder_inventory->male_wingbands != null){
+                    $wingbands = json_decode($breeder_inventory->male_wingbands);
+                    $newwingbands = json_decode($this->convertToArray($request->male_wingband));
+                    foreach($newwingbands as $value){
+                        array_push($wingbands, $value);
+                    }
+                    unset($value);
+                    $breeder_inventory->male_wingbands = json_encode($wingbands);
+                }else{
+                    $breeder_inventory->male_wingbands = $this->convertToArray($request->male_wingband);
+                }
+
+            }
+
+            if($request->female_wingband!=null){
+                if($breeder_inventory->female_wingbands != null){
+                    $wingbands = json_decode($breeder_inventory->female_wingbands);
+                    $newwingbands = json_decode($this->convertToArray($request->female_wingband));
+                    foreach($newwingbands as $value){
+                        array_push($wingbands, $value);
+                    }
+                    unset($value);
+                    $breeder_inventory->female_wingbands = json_encode($wingbands);
+                }else{
+                    $breeder_inventory->female_wingbands = $this->convertToArray($request->female_wingband);
+                }
+            }
+            $breeder_pen->current_capacity = $breeder_pen->current_capacity + ($request->male + $request->female);
+            $male_replacement_pen->current_capacity = $male_replacement_pen->current_capacity - ($request->male + $request->female);
+            $female_replacement_pen ->current_capacity = $female_replacement_pen->current_capacity - ($request->male + $request->female);
+            $breeder_inventory->total = $breeder_inventory->number_male + $breeder_inventory->number_female;
+            $male_replacement_inventory->total = $male_replacement_inventory->number_male + $male_replacement_inventory->number_female;
+            $female_replacement_inventory->total = $female_replacement_inventory->number_male + $female_replacement_inventory->number_female;
+            $breeder_pen->save();
+            $male_replacement_inventory->save();
+            $female_replacement_inventory->save();
+            $male_replacement_pen->save();
+            $female_replacement_pen->save();
+            $breeder_inventory->save();
+            return response()->json(['success' => 'Additional breeder added'], 200);
+        }else{
+            if($request->male!=null){
+                $breeder_inventory->number_male = $breeder_inventory->number_male + $request->male;
+            }
+            
+            if($request->female!=null){
+                $breeder_inventory->number_female = $breeder_inventory->number_female + $request->female;
+            }
+
+            if($request->male_wingband!=null){
+                if($breeder_inventory->male_wingbands != null){
+                    $wingbands = json_decode($breeder_inventory->male_wingbands);
+                    $newwingbands = json_decode($this->convertToArray($request->male_wingband));
+                    foreach($newwingbands as $value){
+                        array_push($wingbands, $value);
+                    }
+                    unset($value);
+                    $breeder_inventory->male_wingbands = json_encode($wingbands);
+                }else{
+                    $breeder_inventory->male_wingbands = $this->convertToArray($request->male_wingband);
+                }
+            }
+
+            if($request->female_wingband!=null){
+                if($breeder_inventory->female_wingbands != null){
+                    $wingbands = json_decode($breeder_inventory->female_wingbands);
+                    $newwingbands = json_decode($this->convertToArray($request->female_wingband));
+                    foreach($newwingbands as $value){
+                        array_push($wingbands, $value);
+                    }
+                    unset($value);
+                    $breeder_inventory->female_wingbands = json_encode($wingbands);
+                }else{
+                    $breeder_inventory->female_wingbands = $this->convertToArray($request->female_wingband);
+                }
+            }
+            $breeder_pen->current_capacity = $breeder_pen->current_capacity + ($request->male + $request->female);
+            $breeder_inventory->total = $breeder_inventory->number_male + $breeder_inventory->number_female;
+            $breeder_pen->save();
+            $breeder_inventory->save();
+            return response()->json(['success' => 'Additional breeder added'], 200);
         }
     }
     
@@ -1111,9 +1208,16 @@ class BreederController extends Controller
         return $replacements;
     }
 
-    public function convertToArray($string){
-        $clean = $stripped = str_replace(' ', '', $string);
+    public function convertToArray($string)
+    {
+        $clean = str_replace(' ', '', $string);
         $array = explode(',', $clean);
         return json_encode($array);
+    }
+    public function convertToArrayWithoutEncode () 
+    {
+        $clean = str_replace(' ', '', $string);
+        $array = explode(',', $clean);
+        return $array;
     }
 }

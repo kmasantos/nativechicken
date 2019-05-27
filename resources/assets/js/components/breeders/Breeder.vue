@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="col l3 right-align">
                                         <br>
-                                        <a @click="hide_note=true" href="#modalSubscribe" class="waves-effect waves-light btn btn-large white black-text btn-flat deep-orange lighten-4">Dismiss</a>
+                                        <a @click="hide_note=true" class="waves-effect waves-light btn btn-large white black-text btn-flat deep-orange lighten-4">Dismiss</a>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                     </transition>
                     <div class="row">
                         <div class="col s12 m12 l6" v-for="breeder in breeders.data" :key="breeder.inventory_id">
-                            <div class="card blue-grey">
+                            <div class="card blue-grey custom_card">
                                 <div class="card-content">
                                     <div class="row valign-wrapper">
                                         <div class="col s8 m8 l8">
@@ -55,14 +55,14 @@
                                             <a @click="breeder_delete=breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" href="#cull_modal" class="waves-effect waves-grey btn-flat white-text tooltip modal-trigger" data-tippy-content="Cull"><i class="far fa-trash-alt"></i></a>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row custom_card_content">
                                         <div class="col s12 m12 l12">
-                                            <ul class="collection">
+                                            <ul class="collection blue-grey lighten-2">
                                                 <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'System Tag : ' + breeder.breeder_tag"><strong>ST: {{breeder.breeder_tag}}</strong></li>
                                                 <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Family : ' + breeder.family_number"><strong>F: {{breeder.family_number}}</strong></li>
                                                 <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Line : ' + breeder.line_number"><strong>L: {{breeder.line_number}}</strong></li>
                                                 <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Generation : ' + breeder.generation_number"><strong>G: {{breeder.generation_number}}</strong></li>
-                                                <li class="collection-item blue-grey lighten-2 center-align">
+                                                <li class="collection-item blue-grey lighten-2 center-align custom_content_inventory">
                                                     <div class="row">
                                                         <div class="col s12 m12 l12">
                                                             <strong>Inventory</strong>
@@ -71,17 +71,15 @@
                                                             <i class="fas fa-mars"></i><strong> Male : {{breeder.number_male}}</strong>
                                                         </div>
                                                         <div class="col s12 m12 l12">
-                                                            <i class="fas fa-tag"></i> : 
-                                                            <span v-if="(breeder.male_wingbands!=null)" class="truncate">{{JSON.parse(breeder.male_wingbands).join(", ")}}</span>
-                                                            <span v-else>Not Specified</span>
+                                                            <span v-if="(breeder.male_wingbands!=null)" class="truncate"><i class="fas fa-tag tooltip" data-tippy-content="Male Wing Band ID"></i> : {{JSON.parse(breeder.male_wingbands).join(", ")}}</span>
+                                                            <span v-else><i class="fas fa-tag tooltip" data-tippy-content="Male Wing Band ID"></i> :  Not Specified</span>
                                                         </div>
                                                         <div class="col s12 m12 l12">
                                                             <i class="fas fa-venus"></i><strong> Female : {{breeder.number_female}}</strong>
                                                         </div>
                                                         <div class="col s12 m12 l12">
-                                                            <i class="fas fa-tag"></i> : 
-                                                            <span v-if="(breeder.female_wingbands!=null)" class="truncate">{{JSON.parse(breeder.female_wingbands).join(", ")}}</span>
-                                                            <span v-else>Not Specified</span>
+                                                            <span v-if="(breeder.female_wingbands!=null)" class="truncate"><i class="fas fa-tag tooltip" data-tippy-content="Female Wing Band ID"></i> : {{JSON.parse(breeder.female_wingbands).join(", ")}}</span>
+                                                            <span v-else><i class="fas fa-tag tooltip" data-tippy-content="Female Wing Band ID"></i> : Not Specified</span>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -308,7 +306,7 @@
                                         </div>
                                         <div class="row center">
                                             <div class="col s12 m12 l12">
-                                                <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action">Save
+                                                <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action" :disabled="submitting_form">Save
                                                     <i class="far fa-save"></i>
                                                 </button>
                                             </div>
@@ -412,7 +410,7 @@
                                         </div>
                                         <div class="row center">
                                             <div class="col s12 m12 l12">
-                                                <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action">Save
+                                                <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action" :disabled="submitting_form">Save
                                                     <i class="far fa-save"></i>
                                                 </button>
                                             </div>
@@ -553,7 +551,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button href="#!" class="modal-action modal-close waves-effect waves-gray btn-flat ">Submit</button>
+                    <button class="modal-action modal-close waves-effect waves-gray btn-flat" type="submit" :disabled="submitting_add">Submit</button>
                     <a @click="valid_male_inventory = {}; 
                     valid_female_inventory = {};
                     valid_male_inventory_length = 0;
@@ -650,7 +648,8 @@
                 valid_female_inventory_length : 0,
                 selected_male_inventory : null,
                 selected_female_inventory : null,
-
+                submitting_add : false,
+                submitting_form : false,
             }
         },
         methods : {
@@ -818,6 +817,7 @@
                     }else{
                         Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
+                    this.submitting_form=false;
                 });
                 this.initialize();
             },
@@ -862,11 +862,17 @@
                 }
                 axios.post('add_breeder_additional', input)
                 .then(response => {
+                    this.breeder_additional = '';
+                    this.add_within = false;
+                    this.add_male = 0;
+                    this.add_female = 0;
+                    this.selected_male_inventory = null;
+                    this.selected_female_inventory = null;
+                    this.add_male_wingband = "";
+                    this.add_female_wingband = "";
                     Materialize.toast('Successfully added breeder', 5000, 'green rounded');
+                    this.submitting_add = false;
                 })
-                .catch(error => {
-                    Materialize.toast('Failed to add breeder', 5000, 'red rounded');
-                });
                 this.getBreederList();
             },
             getValidAdditionalMaleBreeder : function () {
@@ -900,6 +906,7 @@
             },
             
             validateInput : function () {
+                this.submitting_form=true;
                 if(this.within){
                     if(this.selected_male_inv === "" || this.selected_female_inv === "" || this.selected_pen.total_capacity === "" || (this.number_male + this.number_female) === 0 || this.date_added === ""){
                         Materialize.toast('Check your form for incomplete data', 5000, 'red rounded');
@@ -943,6 +950,7 @@
             },
 
             validateAdditionalBreeders : function () {
+                this.submitting_add=true;
                 if(this.add_within){
                     if((this.selected_male_inventory == null && this.add_male!=0) || (this.selected_female_inventory == null && this.add_female!=0) || (this.add_male + this.add_female) === 0){
                         Materialize.toast('Check your form for incomplete data', 5000, 'red rounded');
@@ -1032,5 +1040,17 @@
     #additional_breeder{
         width: 80%;
         height: 90%;
+    }
+    .custom_card{
+        height: 700px;
+    }
+    .custom_card_content{
+        height: 440px;
+    }
+    .custom_card_content .collection{
+        height: 400px;
+    }
+    .custom_content_inventory {
+        height: 180px;
     }
 </style>
