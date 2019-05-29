@@ -25,6 +25,7 @@
     "chart.js": "^2.7.3",
     "laravel-vue-pagination": "^2.1.0",
     "moment": "^2.22.2",
+    "vue-carousel": "^0.18.0",
     "vue-chartjs": "^3.4.0",
     "vue-materialize-datatable": "^0.7.7",
     "vue2-datatable-component": "^2.3.1",

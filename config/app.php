@@ -166,7 +166,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
-        \SocialiteProviders\Manager\ServiceProvider::class
+        \SocialiteProviders\Manager\ServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class
     ],
 
     /*

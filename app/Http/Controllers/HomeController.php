@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Farm landing page
         if(Auth::user()->role_id === 1){
             return view('general.dashboard');
         }else if(Auth::user()->role_id === 2){

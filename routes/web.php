@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('general/home');
 })->middleware('guest');
 
 Route::group(['middleware' => ['web']], function ()
