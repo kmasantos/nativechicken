@@ -66,7 +66,7 @@
                 <!-- Egg Production Form -->
                 <div class="row" v-show="add_record!=null">
                     <div class="col s12 m12 l12">
-                        <form v-on:submit.prevent="addEggProduction" method="post">
+                        <form v-on:submit.prevent="validateInput" method="post">
                             <div class="row valign-wrapper">
                                 <div class="col s9 m19 l9">
                                     <h5>Add Egg Production | {{breeder_tag}}</h5>
@@ -76,39 +76,39 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 m6 l6">
-                                    <label for="date_added">Date Collected</label>
-                                    <datepicker id="date_added" :format="dateFormatter" v-model="date_collected"></datepicker>
+                                <div class="col s12 l6">
+                                    <label for="date_added">Date Collected <span v-if="check_date_collected===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                    <datepicker placeholder="Date when data was gathered" id="date_added" :format="dateFormatter" v-model="date_collected"></datepicker>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 s6 m6 input-field">
-                                    <input v-model.number="total_eggs_intact" class="validate" placeholder="Total Eggs that passes as good" id="intact" type="number" min="0" validate>
-                                    <label class="active" for="intact">Total Eggs Intact</label>
+                                <div class="col s12 l6 input-field">
+                                    <label class="active" for="intact">Total Eggs Intact  <span v-if="check_total_eggs_intact===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                    <input v-model.number="total_eggs_intact" class="validate" placeholder="Total Eggs that passes as good" id="intact" type="number" min="0" validate onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 s6 m6 input-field">
-                                    <input v-model.number="total_egg_weight" class="validate" placeholder="Totall egg weight of all intact eggs" id="total_weight" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                    <label class="active" for="total_weight">Total Egg Weight</label>
+                                <div class="col s12 l6 input-field">
+                                    <input v-model.number="total_egg_weight" class="validate" placeholder="Totall egg weight of all intact eggs" id="total_weight" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$" onkeypress="return event.charCode != 45">
+                                    <label class="active" for="total_weight">Total Egg Weight (g) <span v-if="check_total_egg_weight===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 s6 m6 input-field">
-                                    <input v-model.number="total_broken" class="validate" placeholder="Total Eggs that were broken" id="total_broken" type="number" min="0" validate>
-                                    <label class="active" for="total_broken">Total Eggs Broken</label>
+                                <div class="col s12 l6 input-field">
+                                    <input v-model.number="total_broken" class="validate" placeholder="Total Eggs that were broken" id="total_broken" type="number" min="0" validate onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                    <label class="active" for="total_broken">Total Eggs Broken <span v-if="check_total_broken===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 s6 m6 input-field">
-                                    <input v-model.number="total_rejects" class="validate" placeholder="Total Eggs that doesn't pass as good condition" id="total_rejects" type="number" min="0" validate>
-                                    <label class="active" for="total_rejects">Total Eggs Rejected</label>
+                                <div class="col s12 l6 input-field">
+                                    <input v-model.number="total_rejects" class="validate" placeholder="Total Eggs that doesn't pass as good condition" id="total_rejects" type="number" min="0" validate onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                    <label class="active" for="total_rejects">Total Eggs Rejected <span v-if="check_total_rejects===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 s6 m6 input-field">
+                                <div class="col s12 l6 input-field">
                                     <input v-model="remarks" placeholder="Add remarks" id="egg_prod_remarks" type="text">
-                                    <label class="active" for="egg_prod_remarks">Remarks</label>
+                                    <label class="active" for="egg_prod_remarks">Remarks <i>(Optional)</i></label>
                                 </div>
                             </div>
                             <div class="row center">
@@ -170,20 +170,21 @@
             return {
                 eggprod : {},
                 eggprod_length : 0,
-
-                // form data
                 date_collected : '',
                 total_eggs_intact : '',
                 total_egg_weight : '',
                 total_broken : '',
                 total_rejects : '',
                 remarks : '',
-
                 add_record : null,
                 selected_record : null,
                 hide_record : false,
-
                 selected_eggprod_record : '',
+                check_date_collected : true,
+                check_total_eggs_intact : true,
+                check_total_egg_weight : true,
+                check_total_broken : true,
+                check_total_rejects : true,
             }
         },
         methods : {
@@ -240,6 +241,19 @@
                 });
                 this.fetchEggProductionRecord();
             },
+            validateInput : function () {
+                if(this.date_collected === "") {this.check_date_collected = false;} else {this.check_date_collected = true;}
+                if(this.total_eggs_intact === "") {this.check_total_eggs_intact = false;} else {this.check_total_eggs_intact = true;}
+                if(this.total_egg_weight === "") {this.check_total_egg_weight = false;} else {this.check_total_egg_weight = true;}
+                if(this.total_broken === "") {this.check_total_broken = false;} else {this.check_total_broken = true;}
+                if(this.total_rejects === "") {this.check_total_rejects = false;} else {this.check_total_rejects = true;}
+                if(this.check_date_collected === false || this.check_total_eggs_intact === false || this.check_total_egg_weight === false || this.check_total_broken === false || this.check_total_rejects === false){
+                    return;
+                }else{
+                    this.addEggProduction();
+                }
+                
+            },
             dateFormatter : function (date) {
                 return moment(date).format('YYYY-MM-DD');
             },
@@ -264,3 +278,20 @@
 
     }
 </script>
+
+<style scoped>
+    .input-field input[type=number]:focus + label {
+        color: #607d8b;
+    }
+    .input-field input[type=number]:focus {
+        border-bottom: 1px solid #607d8b;
+        box-shadow: 0 1px 0 0 #546e7a;
+    }
+    .input-field input[type=text]:focus + label {
+        color: #607d8b;
+    }
+    .input-field input[type=text]:focus {
+        border-bottom: 1px solid #607d8b;
+        box-shadow: 0 1px 0 0 #546e7a;
+    }
+</style>

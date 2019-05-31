@@ -167,7 +167,7 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
-        Spatie\Backup\BackupServiceProvider::class
+        App\Providers\GoogleDriveServiceProvider::class,
     ],
 
     /*

@@ -287,19 +287,30 @@ class BreederController extends Controller
 
     public function addFeedingRecords (Request $request)
     {
-        $request->validate([
-            'breeder_id' => 'required',
-            'date_collected' => 'required',
-            'offered' => 'required',
-            'refused' => 'required',
-        ]);
-        $record = new BreederFeeding;
-        $record->breeder_inventory_id = $request->breeder_id;
-        $record->date_collected = $request->date_collected;
-        $record->amount_offered = $request->offered;
-        $record->amount_refused = $request->refused;
-        $record->remarks = $request->remarks;
-        $record->save();
+        if($request->multiple){
+            $start = new Carbon($request->date_start);
+            $end = new Carbon($request->date_end);
+            $difference = $start->diffInDays($end);
+            for($i = 0; $i <= $difference; $i++) {   
+                $day = $start->copy()->addDays($i);
+                $record = new BreederFeeding;
+                $record->breeder_inventory_id = $request->breeder_id;
+                $record->date_collected = $day;
+                $record->amount_offered = $request->offered;
+                $record->amount_refused = $request->refused;
+                $record->remarks = $request->remarks;
+                $record->save();
+            }
+        }else{
+            $record = new BreederFeeding;
+            $record->breeder_inventory_id = $request->breeder_id;
+            $record->date_collected = $request->date_collected;
+            $record->amount_offered = $request->offered;
+            $record->amount_refused = $request->refused;
+            $record->remarks = $request->remarks;
+            $record->save();
+        }
+        
         return response()->json(['status' => 'success', 'message' => 'Feeding record added']);
     }
 

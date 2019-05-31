@@ -551,7 +551,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="modal-action modal-close waves-effect waves-gray btn-flat" type="submit" :disabled="submitting_add">Submit</button>
+                    <button class="modal-action waves-effect waves-gray btn-flat" type="submit" :disabled="submitting_add">Submit</button>
                     <a @click="valid_male_inventory = {}; 
                     valid_female_inventory = {};
                     valid_male_inventory_length = 0;

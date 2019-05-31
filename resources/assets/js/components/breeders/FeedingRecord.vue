@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div id="feeding" class="modal modal-fixed-footer">
-                    <form v-on:submit.prevent="addFeedingRecord" method="post">
+                    <form v-on:submit.prevent="validateInput" method="post">
                         <div class="modal-content">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -64,36 +64,69 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 m12 l12">
-                                    <div class="row">
-                                        <div class="col s12 m6 l6">
+                                    <label for="input_type_label">Multiple Day Input? <i class="orange-text">(Multiple day input will work if you want to add equal values to Feed Offered & Feed Refused for more than one day)</i></label>
+                                    <div class="row" id="input_type_label">
+                                        <div class="col s12 l6">
+                                            <input @change="date_start='';date_end='';" class="with-gap" :value="false" v-model="multiple" type="radio" id="period1"  />
+                                            <label for="period1">No</label>
+                                            <input @change="date_collected=''" class="with-gap" :value="true" v-model="multiple" type="radio" id="period2"  />
+                                            <label for="period2">Yes</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="multiple==false">
+                                        <div class="col s12 m12 l6">
                                             <label for="date_added">Date Collected</label>
-                                            <datepicker id="date_added" :format="customFormatter" v-model="date_collected"></datepicker>
+                                            <datepicker id="date_added" placeholder="Date of feeding" :format="customFormatter" v-model="date_collected"></datepicker>
+                                            <label class="red-text" v-if="check_date_collected==false"><i><i class="fas fa-exclamation-circle"></i> Date collected cannot be null</i></label>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <div class="row">
+                                            <div class="col s12 l6">
+                                                <label for="date_start">Collection Date Start</label>
+                                                <datepicker id="date_start" placeholder="Date of first input to be recorded" :format="customFormatter" v-model="date_start"></datepicker>
+                                                <label class="red-text" v-if="check_date_start==false"><i><i class="fas fa-exclamation-circle"></i> Date start cannot be null</i></label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 l6">
+                                                <label for="date_end">Collection Date End</label>
+                                                <datepicker id="date_end" placeholder="Date of last input to be recorded" :format="customFormatter" v-model="date_end"></datepicker>
+                                                <label class="red-text" v-if="check_date_end==false"><i><i class="fas fa-exclamation-circle"></i> Date end cannot be null</i></label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col s12 s6 m6 input-field">
+                                        <div class="col s12 l6">
+                                            <label for="feed_offered" class="active">Feed Offered (g)</label>
                                             <input v-model.number="offered" class="validate" placeholder="Amount of Feed Offered (g)" id="feed_offered" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$" validate>
-                                            <label for="feed_offered" class="active">Feed Offered</label>
+                                            <label class="red-text" v-if="check_feeding_input==false"><i><i class="fas fa-exclamation-circle"></i> Input for feed offered is required and cannot be equal to 0</i></label>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col s12 s6 m6 input-field">
+                                        <div class="col s12 l6">
+                                            <label for="feed_refused" class="active">Feed Refused (g)</label>
                                             <input v-model.number="refused" class="validate" placeholder="Amount of Feed Refused (g)" id="feed_refused" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="feed_refused" class="active">Feed Refused</label>
+                                            <label class="red-text" v-if="check_refused_input==false"><i><i class="fas fa-exclamation-circle"></i> Input for feed refused is required</i></label>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col s12 s6 m6 input-field">
+                                        <div class="col s12 l6 input-field">
                                             <input v-model="remarks" placeholder="Add remarks" id="remarks" type="text">
                                             <label for="remarks" class="active">Remarks</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6 center">
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <button class="modal-action waves-effect waves-gray btn-flat" type="submit">Submit</button>
                             <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                            <button class="modal-action modal-close waves-effect waves-green btn-flat" type="submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -153,7 +186,16 @@
                 refused : '',
                 remarks : '',
                 selected_feeding_record : '',
-            }
+                date_start: '',
+                date_end: '',
+                multiple: false,
+
+                check_feeding_input : true,
+                check_refused_input : true,
+                check_date_collected : true,
+                check_date_start : true,
+                check_date_end : true,
+            }   
         },
         methods : {
             initialize : function () {
@@ -170,22 +212,37 @@
                 });
             },
             addFeedingRecord : function () {
-                axios.post('breeder_feeding', {
-                    breeder_id : this.breeder,
-                    date_collected : this.customFormatter(this.date_collected),
-                    offered : this.offered,
-                    refused : this.refused,
-                    remarks : this.remarks,
-                })
+                var input = null;
+                if(this.multiple){
+                    input = {
+                        multiple : this.multiple,
+                        breeder_id : this.breeder,
+                        date_start : this.customFormatter(this.date_start),
+                        date_end : this.customFormatter(this.date_end),
+                        offered : this.offered,
+                        refused : this.refused,
+                        remarks : this.remarks,
+                    };
+                }else{
+                    input = {
+                        multiple : this.multiple,
+                        breeder_id : this.breeder,
+                        date_collected : this.customFormatter(this.date_collected),
+                        offered : this.offered,
+                        refused : this.refused,
+                        remarks : this.remarks,
+                    };
+                }
+                axios.post('breeder_feeding', input)
                 .then(response => {
                     if(response.data.error == undefined){
                         this.date_collected = '';
+                        this.date_start = '';
+                        this.date_end = '';
                         this.offered = '';
                         this.refused = '';
                         this.remarks = '';
                         Materialize.toast('Successfully added feeding record', 5000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
                 })
                 .catch(error => {
@@ -207,9 +264,24 @@
             customFormatter : function (date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
             },
+            validateInput : function () {
+                if(this.multiple){
+                    if(this.date_start == "") {this.check_date_start = false} else {this.check_date_start = true}  
+                    if(this.date_end == "") {this.check_date_end = false}  else {this.check_date_end = true} 
+                    if(this.offered == "" || this.offered < 0) {this.check_feeding_input = false} else {this.check_feeding_input = true}
+                    if(this.refused === "") {this.check_refused_input = false} else {this.check_refused_input = true}
+                    if(this.check_date_start === false || this.check_date_end === false || this.check_feeding_input === false || this.check_refused_input === false) {return}
+                }else{
+                    if(this.date_collected == ""){this.check_date_collected = false} else{this.check_date_collected = true} 
+                    if(this.offered == "" || this.offered < 0) {this.check_feeding_input = false} else {this.check_feeding_input = true}
+                    if(this.refused === "") {this.check_refused_input = false} else {this.check_refused_input = true}
+                    if(this.check_date_collected === false || this.check_feeding_input === false || this.check_refused_input === false) {return} 
+                }
+                this.addFeedingRecord();
+            },
             closeFeeding : function () {
                 this.$emit('close_feeding', null)
-            }
+            },
         },
         beforeCreate() {
             $('.tooltipped').tooltip('remove');

@@ -4,17 +4,14 @@
             <div class="card-panel blue-grey lighten-5">
                 <!-- Hatchery List -->
                 <div class="row valign-wrapper" v-show="hide_record==false">
-                    <div class="col s6 m6 l6">
+                    <div class="col s8 l8">
                         <h5>Hatchery Record | {{breeder_tag}}</h5>
                     </div>
-                    <div class="col s2 m2 l2">
-                        <a class="waves-effect waves-orange btn-flat tooltipped orange-text" data-tooltip="Flush All Hatchery Record"><i class="fas fa-ban center"></i></a>
+                    <div class="col s2 l2">
+                        <a @click="add_record=true; hide_record=true, update_record=false" class="waves-effect waves-green btn-flat tooltipped green-text" data-tooltip="Add Hatchery Record"><i class="fas fa-plus-circle left"></i> ADD</a>
                     </div>
-                    <div class="col s2 m2 l2">
-                        <a @click="add_record=true; hide_record=true, update_record=false" class="waves-effect waves-green btn-flat tooltipped green-text" data-tooltip="Add Hatchery Record"><i class="fas fa-plus-circle center"></i></a>
-                    </div>
-                    <div class="col s2 m2 l2">
-                        <a v-on:click="closeHatcheryRecords" class="waves-effect waves-red btn-flat tooltipped red-text" data-tooltip="Close Hatchery Record"><i class="far fa-times-circle center"></i></a>
+                    <div class="col s2 l2">
+                        <a v-on:click="closeHatcheryRecords" class="waves-effect waves-red btn-flat tooltipped red-text" data-tooltip="Close Hatchery Record"><i class="far fa-times-circle left"></i>CLOSE</a>
                     </div>
                 </div>
                 <div v-show="hide_record==false">
@@ -95,26 +92,26 @@
                         <form v-on:submit.prevent="addHatcheryRecord">
                             <div class="row">
                                 <div class="col s6 m6 l6">
-                                    <label for="date_set">Date Eggs Set</label>
+                                    <label for="date_set">Date Eggs Set <span v-if="check_date_eggs_set===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
                                     <datepicker placeholder="Date when eggs are set" id="date_set" :format="customFormatter" v-model="date_eggs_set"></datepicker>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s6 m6 l6">
-                                    <label for="eggs_set">Number of Eggs Set</label>
-                                    <input placeholder="Number of eggs set" id="eggs_set" type="number" min=0 class="validate" v-model.number="number_eggs_set" oninput="this.value = Math.abs(this.value)">
+                                    <label class="active" for="eggs_set">Number of Eggs Set <span v-if="check_date_eggs_set===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                    <input placeholder="Number of eggs set" id="eggs_set" type="number" min=0 class="validate" v-model.number="number_eggs_set" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s6 m6 l6">
-                                    <label for="number_fertile">Number of Eggs Fertile</label>
-                                    <input placeholder="Number of eggs that are fertile" id="number_fertile" type="number" min=0 class="validate" v-model.number="number_fertile" oninput="this.value = Math.abs(this.value)">
+                                    <label class="active" for="number_fertile">Number of Eggs Fertile</label>
+                                    <input placeholder="Number of eggs that are fertile" id="number_fertile" type="number" min=0 class="validate" v-model.number="number_fertile" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s6 m6 l6">
-                                    <label for="number_hatched">Number of Eggs Hatched</label>
-                                    <input placeholder="Number of eggs that hatched" id="number_hatched" type="number" min=0 class="validate" v-model.number="number_hatched" oninput="this.value = Math.abs(this.value)">
+                                    <label class="active" for="number_hatched">Number of Eggs Hatched</label>
+                                    <input placeholder="Number of eggs that hatched" id="number_hatched" type="number" min=0 class="validate" v-model.number="number_hatched" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
                                 </div>
                             </div>
                             <div class="row">
@@ -210,25 +207,25 @@
                                     </div>
                                     <div class="row">
                                         <div class="col s6 m6 l6">
-                                            <label for="eggs_set">Number of Eggs Set</label>
+                                            <label class="active" for="eggs_set">Number of Eggs Set</label>
                                             <input placeholder="Number of eggs set" id="eggs_set" type="number" min=0 class="validate" v-model.number="edit_number_eggs_set" oninput="this.value = Math.abs(this.value)">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s6 m6 l6">
-                                            <label for="number_fertile">Number of Eggs Fertile</label>
+                                            <label class="active" for="number_fertile">Number of Eggs Fertile</label>
                                             <input placeholder="Number of eggs that are fertile" id="number_fertile" type="number" min=0 class="validate" v-model.number="edit_number_fertile" oninput="this.value = Math.abs(this.value)">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s6 m6 l6">
-                                            <label for="number_hatched">Number of Eggs Hatched</label>
+                                            <label class="active" for="number_hatched">Number of Eggs Hatched</label>
                                             <input placeholder="Number of eggs that hatched" id="number_hatched" type="number" min=0 class="validate" v-model.number="edit_number_hatched" oninput="this.value = Math.abs(this.value)">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s6 m6 l6">
-                                            <label for="date_hatched ">Date Eggs Hatched</label>
+                                            <label class="active" for="date_hatched ">Date Eggs Hatched</label>
                                             <datepicker placeholder="Date when eggs hatched" id="date_hatched" :format="customFormatter(edit_date_hatched)" v-model="edit_date_hatched"></datepicker>
                                         </div>
                                     </div>
@@ -371,8 +368,10 @@
                 edit_date_hatched : '',
                 edit_selected_brooder_pen : '',
                 updateinclude_brooder : false,
-
-            }
+                
+                check_date_eggs_set : true,
+                check_number_eggs_set : true,
+            }   
         },
         methods : {
             initialize () {
