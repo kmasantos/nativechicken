@@ -8,14 +8,6 @@
                         <h5>Pens</h5>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <ul class="breadcrumb">
-                            <li><a href="./">Home</a></li>
-                            <li>Pens</li>
-                        </ul>
-                    </div>
-                </div>
                 <form v-on:submit.prevent="searchPen" action="GET">
                     <div class="row valign-wrapper">
                         <div class="col s12 m12 l12 valign">
