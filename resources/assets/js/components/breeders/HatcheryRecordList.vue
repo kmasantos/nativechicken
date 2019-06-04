@@ -89,7 +89,7 @@
                                 <p>(Required Data : <strong>Date Eggs Set</strong>, <strong>Number of Eggs Set</strong>)</p>
                             </div>
                         </div>
-                        <form v-on:submit.prevent="addHatcheryRecord">
+                        <form v-on:submit.prevent="validateMainForm">
                             <div class="row">
                                 <div class="col s6 m6 l6">
                                     <label for="date_set">Date Eggs Set <span v-if="check_date_eggs_set===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
@@ -98,7 +98,7 @@
                             </div>
                             <div class="row">
                                 <div class="col s6 m6 l6">
-                                    <label class="active" for="eggs_set">Number of Eggs Set <span v-if="check_date_eggs_set===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                    <label class="active" for="eggs_set">Number of Eggs Set <span v-if="check_number_eggs_set===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
                                     <input placeholder="Number of eggs set" id="eggs_set" type="number" min=0 class="validate" v-model.number="number_eggs_set" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
                                 </div>
                             </div>
@@ -192,9 +192,9 @@
                                     <p><span><h5><i class="fas fa-exclamation-circle"></i></h5></span> </p>
                                 </div>
                                 <div class="col s11 m11 l11">
-                                    <p><span>Adding complete data in the hatchery record automatically generates <strong>Generation</strong>, <strong>Line</strong>, <strong>Family</strong> and <strong>Brooder</strong> record</span></p>
-                                    <p><span><i class="fas fa-asterisk"></i> You can submit this form without supplying all the data which you can edit in the records list.</span></p>
-                                    <p>(Required Data : <strong>Date Eggs Set</strong>, <strong>Number of Eggs Set</strong>)</p>
+                                    <p>You can supply missing data for this record.</p>
+                                    <p>You can edit this form without supplying all data</p>
+                                    <p>Minimum data to input : <strong>Number of Fertile Eggs</strong></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -202,25 +202,25 @@
                                     <div class="row">
                                         <div class="col s6 m6 l6">
                                             <label for="date_set">Date Eggs Set</label>
-                                            <datepicker placeholder="Date when eggs are set" id="date_set" :format="customFormatter(edit_date_eggs_set)" v-model="edit_date_eggs_set"></datepicker>
+                                            <datepicker placeholder="Date when eggs are set" disabled id="date_set" :format="customFormatter(edit_date_eggs_set)" v-model="edit_date_eggs_set"></datepicker>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s6 m6 l6">
                                             <label class="active" for="eggs_set">Number of Eggs Set</label>
-                                            <input placeholder="Number of eggs set" id="eggs_set" type="number" min=0 class="validate" v-model.number="edit_number_eggs_set" oninput="this.value = Math.abs(this.value)">
+                                            <input placeholder="Number of eggs set" id="eggs_set" disabled type="number" min=0 class="validate" v-model.number="edit_number_eggs_set">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s6 m6 l6">
                                             <label class="active" for="number_fertile">Number of Eggs Fertile</label>
-                                            <input placeholder="Number of eggs that are fertile" id="number_fertile" type="number" min=0 class="validate" v-model.number="edit_number_fertile" oninput="this.value = Math.abs(this.value)">
+                                            <input placeholder="Number of eggs that are fertile" id="number_fertile" type="number" min=0 class="validate" v-model.number="edit_number_fertile" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s6 m6 l6">
                                             <label class="active" for="number_hatched">Number of Eggs Hatched</label>
-                                            <input placeholder="Number of eggs that hatched" id="number_hatched" type="number" min=0 class="validate" v-model.number="edit_number_hatched" oninput="this.value = Math.abs(this.value)">
+                                            <input placeholder="Number of eggs that hatched" id="number_hatched" type="number" min=0 class="validate" v-model.number="edit_number_hatched" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -333,7 +333,7 @@
             Datepicker,
         },
         props: [
-            'breeder','breeder_tag'
+            'breeder','breeder_tag', 'animal_type'
         ],
         data () {
             return {
@@ -549,8 +549,24 @@
                 this.edit_date_hatched = this.selected_hatchery_record.date_hatched;
                 this.edit_selected_brooder_pen = this.selected_hatchery_record.selected_brooder_pen;
             },
-            flushHatchery : function () {
-
+            validateMainForm : function () {
+               if(this.number_eggs_set === '' || this.date_eggs_set === ''){
+                    if(this.date_eggs_set === ''){
+                        this.check_date_eggs_set = false;
+                    }else{
+                        this.check_date_eggs_set = true;
+                    }
+                    if(this.number_eggs_set === ''){
+                        this.check_number_eggs_set = false;
+                    }else{
+                        this.check_number_eggs_set = true;
+                    }
+                    return;
+                }else{
+                    this.check_date_eggs_set = true;
+                    this.check_number_eggs_set = true;
+                    this.addHatcheryRecord();
+                }
             },
             customFormatter : function (date) {
                 return moment(date).format('YYYY-MM-DD');

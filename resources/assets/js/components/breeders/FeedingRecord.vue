@@ -175,7 +175,7 @@
             Datepicker
         },
         props: [
-            'breeder', 'breeder_tag'
+            'breeder', 'breeder_tag', 'animal_type'
         ],
         data()  {
             return {

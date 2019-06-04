@@ -165,6 +165,7 @@
         props :{
             breeder : Number,
             breeder_tag : String,
+            animal_type : Number
         },
         data (){
             return {

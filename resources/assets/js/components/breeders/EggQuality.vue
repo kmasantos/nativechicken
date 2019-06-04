@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div id="eggqualitymaindiv" class="row">
         <div class="col s12 m12 m12">
             <div class="card-panel blue-grey lighten-5">
                 <div class="row">
@@ -18,22 +18,22 @@
                         <table class="responsive-table centered bordered highlight">
                             <thead>
                                 <tr>
-                                    <th class="tooltipped" data-tooltip="Date Collected">Date</th>
-                                    <th class="tooltipped" data-tooltip="Collected at Week">Week</th>
-                                    <th class="tooltipped" data-tooltip="Weight">Wt</th>
-                                    <th class="tooltipped" data-tooltip="Color">C</th>
-                                    <th class="tooltipped" data-tooltip="Shape">S</th>
-                                    <th class="tooltipped" data-tooltip="Length">L</th>
-                                    <th class="tooltipped" data-tooltip="Width">Wd</th>
-                                    <th class="tooltipped" data-tooltip="Albumen Height">AH</th>
-                                    <th class="tooltipped" data-tooltip="Albumen Weight">AW</th>
-                                    <th class="tooltipped" data-tooltip="Yolk Weight">YW</th>
-                                    <th class="tooltipped" data-tooltip="Yolk Color">YC</th>
-                                    <th class="tooltipped" data-tooltip="Shell Weight">SW</th>
-                                    <th class="tooltipped" data-tooltip="Top Shell Thickness">TT</th>
-                                    <th class="tooltipped" data-tooltip="Middle Shell Thickness">MT</th>
-                                    <th class="tooltipped" data-tooltip="Bottom Shell Thickness">BT</th>
-                                    <th class="tooltipped" data-tooltip="Delete"><i class="far fa-trash-alt"></i></th>
+                                    <th class="tooltip" data-tippy-content="Date Collected"><i class="far fa-calendar-alt"></i></th>
+                                    <th class="tooltip" data-tippy-content="Collected at Week"><i class="fas fa-calendar-week"></i></th>
+                                    <th class="tooltip" data-tippy-content="Egg Weight"><i class="fas fa-weight-hanging"></i></th>
+                                    <th class="tooltip" data-tippy-content="Egg Color"><i class="fas fa-palette"></i></th>
+                                    <th class="tooltip" data-tippy-content="Egg Shape"><i class="fas fa-shapes"></i></th>
+                                    <th class="tooltip" data-tippy-content="Egg Length"><i class="fas fa-ruler-vertical"></i></th>
+                                    <th class="tooltip" data-tippy-content="Egg Width"><i class="fas fa-ruler-horizontal"></i></th>
+                                    <th class="tooltip" data-tippy-content="Albumen Height"><i class="fas fa-ruler"></i></th>
+                                    <th class="tooltip" data-tippy-content="Albumen Weight"><i class="fas fa-weight"></i></th>
+                                    <th class="tooltip" data-tippy-content="Yolk Weight"><i class="fas fa-circle"></i></th>
+                                    <th class="tooltip" data-tippy-content="Yolk Color"><i class="fas fa-swatchbook"></i></th>
+                                    <th class="tooltip" data-tippy-content="Shell Weight"><i class="fas fa-balance-scale"></i></th>
+                                    <th class="tooltip" data-tippy-content="Top Shell Thickness"><i class="fas fa-arrow-up"></i></th>
+                                    <th class="tooltip" data-tippy-content="Middle Shell Thickness"><i class="fas fa-grip-lines"></i></th>
+                                    <th class="tooltip" data-tippy-content="Bottom Shell Thickness"><i class="fas fa-arrow-down"></i></th>
+                                    <th class="tooltip" data-tippy-content="Delete"><i class="far fa-trash-alt"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div id="eggquality" class="modal modal-fixed-footer">
-                    <form v-on:submit.prevent="addEggQualityRecord" method="POST">
+                    <form v-on:submit.prevent="validateForm" method="POST">
                         <div class="modal-content">
                             <div class="row">
                                 <div class="col s12 m12 l12">
@@ -107,11 +107,12 @@
                                 <div class="col s12 m12 l12">
                                     <div class="row">
                                         <div class="col s12 m6 l6">
-                                            <label for="date_added">Date Collected</label>
+                                            <label for="date_added">Date Collected <i v-if="check_date_collected===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
                                             <datepicker id="date_added" :format="customFormatter" v-model="date_collected"></datepicker>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <label for="radio_age">Egg Quality at  <i v-if="check_egg_quality_at===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                    <div id="radio_age" class="row">
                                         <div class="col s12 m3 l3">
                                             <input @change="others=false" class="with-gap" name="egg_quality_at" v-model="egg_quality_at" type="radio" id="egg_quality_35" value = "35"/>
                                             <label for="egg_quality_35">35 Weeks of Age</label>
@@ -136,80 +137,135 @@
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
-                                            <input id="egg_weigth" type="number" min=0 class="validate" v-model="egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="egg_weight">Egg Weight (g)</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s12 m6 l6">
-                                            <input id="egg_color" type="text" class="validate" v-model="egg_color" placeholder="e.g. Brown, Cream">
-                                            <label for="egg_color">Egg Color</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s12 m6 l6">
-                                            <input id="egg_shape" type="text" class="validate" v-model="egg_shape" placeholder="e.g. Ovoid">
-                                            <label for="egg_shape">Egg Shape</label>
+                                            <input id="egg_weigth" type="number" min=30 max="55" class="validate" v-model="egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="egg_weight">Egg Weight (g) 
+                                                <i v-if="check_egg_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                                <i v-if="(animal_type === 1 && egg_weight!=='' && (egg_weight<30 || egg_weight>55))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 30g but less than or equal 55g</i>
+                                                <i v-if="(animal_type === 2 && egg_weight!=='' && (egg_weight<40 || egg_weight>70))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 30g but less than or equal 55g</i>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="length" type="number" min=0 class="validate" v-model="egg_length" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="length">Length (mm)</label>
+                                            <label class="active" for="length">Length (mm) <i v-if="check_egg_length===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(animal_type === 1 && egg_length!=='' && (egg_length<30 || egg_length>60))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 30mm but less than or equal 60mm</i>
+                                            <i v-if="(animal_type === 2 && egg_length!=='' && (egg_length<45 || egg_length>60))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 45mm but less than or equal 60mm</i>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="width" type="number" min=0 class="validate" v-model="egg_width" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="width">Width (mm)</label>
+                                            <label class="active" for="width">Width (mm) <i v-if="check_egg_width===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(animal_type === 1 && egg_width!=='' && (egg_width<40 || egg_width>45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal to 40mm but less than or equal to 45mm</i>
+                                            <i v-if="(animal_type === 2 && egg_width!=='' && (egg_width<35 || egg_width>45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 35mm but less than than or equal 45mm</i>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
-                                            <input id="abumen_height" type="number" min=0 class="validate" v-model="albumen_height" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="albumen_height">Albument Height (mm)</label>
+                                            <input id="albumen_height" type="number" min=0 class="validate" v-model="albumen_height" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="albumen_height">Albument Height (mm) <i>(Optional)</i></label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="albumen_weight" type="number" class="validate" v-model="albumen_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="albumen_weight">Albumen Weight (mm)</label>
+                                            <label class="active" for="albumen_weight">Albumen Weight (mm) <i v-if="check_albumen_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="((albumen_weight!=='' && egg_weight!=='') && albumen_weight>egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be less than the egg weight </i>
+                                            <i v-if="((egg_weight!=='' && albumen_weight!=='' && yolk_weight !== '' && shell_weight !== '') && (albumen_weight+yolk_weight+shell_weight)>egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Total input for albumen weight, yolk weight and shell weight should be less than or equal to the egg weight</i>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="yolk_weight" type="number" class="validate" v-model="yolk_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="yolk_weight">Yolk Weight (g)</label>
+                                            <label class="active" for="yolk_weight">Yolk Weight (g) <i v-if="check_yolk_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="((yolk_weight!=='' && egg_weight!=='') && yolk_weight>egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be less than the egg weight </i>
+                                            <i v-if="((egg_weight!=='' && albumen_weight!=='' && yolk_weight !== '' && shell_weight !== '') && (albumen_weight+yolk_weight+shell_weight)>egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Total input for albumen weight, yolk weight and shell weight should be less than or equal to the egg weight</i>
+                                            </label>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="input-field col s12 m6 l6">
-                                            <input id="yolk_color" type="text" class="validate" v-model="yolk_color">
-                                            <label for="yolk_color">Yolk Color</label>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="shell_weight" type="number" class="validate" v-model="shell_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="shell_weight">Shell Weight (g)</label>
+                                            <label class="active" for="shell_weight">Shell Weight (g) <i v-if="check_shell_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="((shell_weight!=='' && egg_weight!=='') && shell_weight>egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be less than the egg weight </i>
+                                            <i v-if="((egg_weight!=='' && albumen_weight!=='' && yolk_weight !== '' && shell_weight !== '') && (albumen_weight+yolk_weight+shell_weight)>egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Total input for albumen weight, yolk weight and shell weight should be less than or equal to the egg weight</i>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="top" type="number" min=0 class="validate" v-model="thickness_top" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="top">Shell Thickness Top (mm)</label>
+                                            <label class="active" for="top">Shell Thickness Top (mm) <i v-if="check_thickness_top===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(thickness_top!=='' && (thickness_top<0.25 || thickness_top>0.45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal to 0.25mm but less than or equal to 0.45mm</i>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="middle" type="number" min=0 class="validate" v-model="thickness_mid" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="middle">Shell Thickness Middle (mm)</label>
+                                            <label class="active" for="middle">Shell Thickness Middle (mm) <i v-if="check_thickness_mid===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(thickness_mid!=='' && (thickness_mid<0.25 || thickness_mid>0.45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal to 0.25mm but less than or equal to 0.45mm</i>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="bottom" type="number" min=0 class="validate" v-model="thickness_bot" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label for="bottom">Shell Thickness Bottom (mm)</label>
+                                            <label class="active" for="bottom">Shell Thickness Bottom (mm) <i v-if="check_thickness_bot===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(thickness_bot!=='' && (thickness_bot<0.25 || thickness_bot>0.45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal to 0.25mm but less than or equal to 0.45mm</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6">
+                                            <label>Egg Color <i v-if="check_egg_color===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                            <select v-model="egg_color" class="browser-default">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option value="Cream" style="background-color:#fefdf8;border-color:1px solid black">Cream</option>
+                                                <option value="Brown" style="background-color:#b3958b;border-color:1px solid black">Brown</option>
+                                                <option value="Dark Brown" style="background-color:#815339;border-color:1px solid black">Dark Brown</option>
+                                                <option value="Light Brown" style="background-color:#a69b97;border-color:1px solid black">Light Brown</option>
+                                                <option value="White" style="background-color:#e1f2fa;border-color:1px solid black">White</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6">
+                                            <label>Egg Shape <i v-if="check_egg_shape===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                            <select v-model="egg_shape" class="browser-default">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option value="Ovoid">Ovoid</option>
+                                                <option value="Circle">Circle</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6">
+                                            <label>Egg Color <i v-if="check_yolk_color===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                            <select v-model="yolk_color" class="browser-default">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option value="1" style="background-color:#f7d483;border-color:1px solid black">1</option>
+                                                <option value="2" style="background-color:#fcd16b;border-color:1px solid black">2</option>
+                                                <option value="3" style="background-color:#fdd25f;border-color:1px solid black">3</option>
+                                                <option value="4" style="background-color:#fed235;border-color:1px solid black">4</option>
+                                                <option value="5" style="background-color:#fecb00;border-color:1px solid black">5</option>
+                                                <option value="6" style="background-color:#ffc700;border-color:1px solid black">6</option>
+                                                <option value="7" style="background-color:#fec200;border-color:1px solid black">7</option>
+                                                <option value="8" style="background-color:#fec200;border-color:1px solid black">8</option>
+                                                <option value="9" style="background-color:#feba01;border-color:1px solid black">9</option>
+                                                <option value="10" style="background-color:#fdb200;border-color:1px solid black">10</option>
+                                                <option value="11" style="background-color:#fea900;border-color:1px solid black">11</option>
+                                                <option value="12" style="background-color:#fe9b00;border-color:1px solid black">12</option>
+                                                <option value="13" style="background-color:#fd9800;border-color:1px solid black">13</option>
+                                                <option value="14" style="background-color:#ff8b00;border-color:1px solid black">14</option>
+                                                <option value="15" style="background-color:#ff7f1a;border-color:1px solid black">15</option>
+                                                <option value="16" style="background-color:#fe6722;border-color:1px solid black">16</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -217,7 +273,7 @@
                         </div>
                         <div class="modal-footer">
                             <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                            <button class="modal-action modal-close waves-effect waves-green btn-flat" type="submit">Submit</button>
+                            <button class="modal-action waves-effect waves-green btn-flat" type="submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -257,8 +313,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a @click.prevent="deleteEggQualityRecord" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
-                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
+                        <a @click.prevent="deleteEggQualityRecord" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-gray btn-flat">Yes</a>
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-gray btn-flat">No</a>
                     </div>
                 </div>
 
@@ -268,6 +324,7 @@
 </template>
 
 <script>
+    import tippy from 'tippy.js';
     import Datepicker from 'vuejs-datepicker';
     Vue.component('pagination', require('laravel-vue-pagination'));
     var moment = require('moment');
@@ -276,7 +333,7 @@
             Datepicker
         },
         props: [
-            'breeder', 'breeder_tag'
+            'breeder', 'breeder_tag', 'animal_type'
         ],
         data()  {
             return {
@@ -301,6 +358,22 @@
                 thickness_bot : '',
 
                 selected_eggqual_record : '',
+
+                check_date_collected : true,
+                check_egg_quality_at : true,
+                check_egg_weight : true,
+                check_egg_color : true,
+                check_egg_shape : true,
+                check_egg_length : true,
+                check_egg_width : true,
+                check_albumen_weight : true,
+                check_yolk_weight : true,
+                check_yolk_color : true,
+                check_shell_weight : true,
+                check_thickness_top : true,
+                check_thickness_mid : true,
+                check_thickness_bot : true,
+                error : [],
             }
         },
         methods : {
@@ -375,6 +448,35 @@
                 });
                 this.fetchEggQualityRecord();
             },
+            validateForm : function () {
+                if(this.date_collected === '' || this.egg_quality_at === '' || this.egg_weight === '' || this.egg_color === '' ||
+                this.egg_shape === '' || this.egg_length === '' || this.egg_width === '' || this.albumen_weight === '' ||
+                this.yolk_weight === '' || this.yolk_color === "" || this.shell_weight === '' || this.thickness_top === '' || 
+                this.thickness_mid === '' || this.thickness_bot === ''){
+                    if(this.date_collected === '') {this.check_date_collected = false} else {this.check_date_collected=true}
+                    if(this.egg_quality_at === '') {this.check_egg_quality_at = false} else {this.check_egg_quality_at = true}
+                    if(this.egg_weight === '') {this.check_egg_weight = false} else {this.check_egg_weight = true}
+                    if(this.egg_color === '') {this.check_egg_color = false} else {this.check_egg_color = true}
+                    if(this.egg_shape === '') {this.check_egg_shape = false} else {this.check_egg_shape = true}
+                    if(this.egg_length === '') {this.check_egg_length = false} else {this.check_egg_length = true}
+                    if(this.egg_width === '') {this.check_egg_width = false} else {this.check_egg_width = true}
+                    if(this.albumen_weight === '') {this.check_albumen_weight = false} else {this.check_albumen_weight = true}
+                    if(this.yolk_weight === '') {this.check_yolk_weight = false} else {this.check_yolk_weight = true}
+                    if(this.yolk_color === '') {this.check_yolk_color = false} else {this.check_yolk_color = true}
+                    if(this.shell_weight === '') {this.check_shell_weight = false} else {this.check_shell_weight = true}
+                    if(this.thickness_top === '') {this.check_thickness_top = false} else {this.check_thickness_top = true}
+                    if(this.thickness_mid === '') {this.check_thickness_mid = false} else {this.check_thickness_mid = true}
+                    if(this.thickness_bot === '') {this.check_thickness_bot = false} else {this.check_thickness_bot = true}
+                    return;
+                }else{
+                    if((this.albumen_weight + this.yolk_weight + this.shell_weight)>this.egg_weight){
+                        Materialize.toast('Total of Albumen Weight ('+this.albumen_weight+'), Yolk Weight ('+this.yolk_weight+') & Shell Weight (' +this.shell_weight+') should be less than or equal to Egg Weight ('+this.egg_weight+')' , 5000, 'rounded')
+                        return;
+                    }
+                    this.addEggQualityRecord();
+                }
+
+            },
             customFormatter : function (date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
             },
@@ -382,27 +484,29 @@
                 this.$emit('close_eggqual', null)
             }
         },
-        beforeCreate() {
-            $('.tooltipped').tooltip('remove');
-        },
         mounted() {
+            tippy('#eggqualitymaindiv', {
+                target : '.tooltip',
+                arrow: true,
+                arrowType: 'round',
+                animation: 'scale',
+                inertia: true,
+            });
             $('#eggquality').modal({
                 dismissible : false,
             });
             $('#delete_eggqual').modal({
                 dismissible : false,
             });
-            $('.tooltipped').tooltip({
-                delay: 50,
-                position: "top",
-            });
-        },
-        created() {
             this.initialize();
         },
-        destroyed () {
-            $('.tooltipped').tooltip('remove');
-            $('.tooltipped').tooltip({delay: 50});
-        },
+        
     }
 </script>
+
+<style scoped>
+    .modal {
+        height: 90%;
+        width: 80%;
+    }
+</style>

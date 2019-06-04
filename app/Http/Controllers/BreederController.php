@@ -1218,7 +1218,7 @@ class BreederController extends Controller
                     ->get();
         return $replacements;
     }
-
+    
     public function convertToArray($string)
     {
         $clean = str_replace(' ', '', $string);
@@ -1231,4 +1231,5 @@ class BreederController extends Controller
         $array = explode(',', $clean);
         return $array;
     }
+
 }

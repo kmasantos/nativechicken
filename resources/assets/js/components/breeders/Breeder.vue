@@ -110,22 +110,22 @@
             </div>
         </div>
         <div v-if="breeder_hatchery!=null">
-            <hatchery-record :breeder="breeder_hatchery" :breeder_tag="selected_breeder_tag" v-on:close_record="breeder_hatchery=null;selected_breeder_tag=null"></hatchery-record>
+            <hatchery-record :breeder="breeder_hatchery" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_record="breeder_hatchery=null;selected_breeder_tag=null"></hatchery-record>
         </div>
         <div v-if="breeder_feeding!=null">
-            <feedingrecord-breeder :breeder="breeder_feeding" :breeder_tag="selected_breeder_tag" v-on:close_feeding="breeder_feeding=null;selected_breeder_tag=null"></feedingrecord-breeder>
+            <feedingrecord-breeder :breeder="breeder_feeding" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_feeding="breeder_feeding=null;selected_breeder_tag=null"></feedingrecord-breeder>
         </div>
         <div v-if="breeder_eggprod!=null">
-            <egg-production :breeder="breeder_eggprod" :breeder_tag="selected_breeder_tag" v-on:close_eggprod="breeder_eggprod=null;selected_breeder_tag=null"></egg-production>
+            <egg-production :breeder="breeder_eggprod" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_eggprod="breeder_eggprod=null;selected_breeder_tag=null"></egg-production>
         </div>
         <div v-if="breeder_eggquality!=null">
-            <eggquality-breeder :breeder="breeder_eggquality" :breeder_tag="selected_breeder_tag" v-on:close_eggqual="breeder_eggquality=null;selected_breeder_tag=null"></eggquality-breeder>
+            <eggquality-breeder :breeder="breeder_eggquality" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_eggqual="breeder_eggquality=null;selected_breeder_tag=null"></eggquality-breeder>
         </div>
         <div v-if="breeder_phenomorpho!=null">
-            <phenomorpho-breeder :breeder="breeder_phenomorpho" :breeder_tag="selected_breeder_tag" v-on:close_phenomorpho="breeder_phenomorpho=null;selected_breeder_tag=null"></phenomorpho-breeder>
+            <phenomorpho-breeder :breeder="breeder_phenomorpho" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_phenomorpho="breeder_phenomorpho=null;selected_breeder_tag=null"></phenomorpho-breeder>
         </div>
         <div v-if="breeder_mortality!=null">
-            <mortality-breeder :breeder="breeder_mortality" :breeder_tag="selected_breeder_tag" v-on:close_mortality="breeder_mortality=null;selected_breeder_tag=null"></mortality-breeder>
+            <mortality-breeder :breeder="breeder_mortality" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_mortality="breeder_mortality=null;selected_breeder_tag=null"></mortality-breeder>
         </div>
         <!-- FAB -->
         <div class="fixed-action-btn">
@@ -584,6 +584,7 @@
                 search : '',
                 breeders : {},
                 breeders_length : 0,
+                animal_type : '',
                 // form data
                 within : true,
                 hide_note : false,
@@ -657,6 +658,7 @@
                 this.getBreederList();
                 this.fetchGeneration();
                 this.fetchPens();
+                this.checkAnimalType();
             },
             getBreederList : function (page = 1) {
                 axios.get('breeder_list?page=' + page)
@@ -999,6 +1001,15 @@
                 setTimeout(function() {
                     that.hide_note = false;
                 }, 3000);
+            },
+            checkAnimalType : function () {
+                axios.get('fetch_animal_type')
+                .then(response => {
+                    this.animal_type = response.data;
+                })
+                .catch(error => {
+                    
+                });
             },
         },
         mounted () {
