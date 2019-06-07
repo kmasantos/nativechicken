@@ -179,7 +179,7 @@
     <div class="slideshow-container">
 
         <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/1RZdMw1/image3.png')"></div>
+            <div class="img" style="background-image:url('https://i.ibb.co/FH2x3Gb/darag1-1.png')"></div>
             <div class="text">Darag Native Chicken</div>
         </div>
         
@@ -188,7 +188,7 @@
             <div class="text">Boholano Native Chicken</div>
         </div>
         <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/4K9Sscp/image2.png')"></div>
+            <div class="img" style="background-image:url('https://i.ibb.co/L6vBFnS/camarinesbreeds.png')"></div>
             <div class="text">Camarines Native Chicken</div>
         </div>
         <div class="mySlides fade">

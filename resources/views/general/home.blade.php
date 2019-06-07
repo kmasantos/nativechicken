@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div id="Data" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;">Data</h5>
+                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-bar_chart"></i> Data</h5>
                 </div>
                 <div class="col s12 l12">
                     <p>Data collected include the following:</p>
@@ -128,7 +128,7 @@
             </div>
             <div class="row">
                 <div id="Summary" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;">Summary Profile of the Philippine Native Chicken and Itik Pinas</h5>
+                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-spiral_note_pad"></i> Summary Profile of the Philippine Native Chicken and Itik Pinas</h5>
                 </div>
                 <div class="col s12 l12">
                     <p>Philippine Native Chickens are usually named after their locality. Boholano, Camarines and Zampen are from the provinces of Bohol, Bicol and Zamboanga Peninsula, respectively, while Darag is the native chicken of Panay Island, West Visayas.</p>
@@ -136,7 +136,7 @@
                     <p>In this information system, Boholano, Camarines, Darag, and Zampen and Itik Pinas (IP) Itim and IP Khaki are described. Their physical characteristics - both quantitative and qualitative features as well as their production performance - are discussed below.</p>
                 </div>
                 <div id="PHNativeChickens" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;">Philippine Native Chickens</h5>
+                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-chicken"></i> Philippine Native Chickens</h5>
                 </div>
                 <div class="col s12 l12">
                     <h6 style="font-size:1.3em;">Physical Characteristics</h6>
@@ -158,13 +158,13 @@
             </div>
             <div class="row">
                 <div id="ChickenBreeds" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;">Philippine Native Chicken Breeds</h5>
+                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-hatched_chick"></i> Philippine Native Chicken Breeds</h5>
                 </div>
             </div>
             <chicken-breeds></chicken-breeds>
             <div class="row">
                 <div id="PHNativeDucks" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;">Philippine Native Ducks (Itik Pinas)</h5>
+                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-duck"></i> Philippine Native Ducks (Itik Pinas)</h5>
                 </div>
                 <div class="col s12 l12">
                     <h6 style="font-size:1.3em;">History of Itik Pinas</h6>
@@ -193,7 +193,7 @@
             </div>
             <div class="row">
                 <div id="DuckBreeds" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;">Philippine Native Duck (Itik Pinas) Breeds</h5>
+                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-hatching_chick"></i> Philippine Native Duck (Itik Pinas) Breeds</h5>
                 </div>
             </div>
             <duck-breeds></duck-breeds>

@@ -1264,6 +1264,9 @@
             });
             $('ul.tabs').tabs();
             $('.tooltipped').tooltip({delay: 50, position: 'top'});
+            tippy('.pheno', {
+                
+            });
         },
 
     }
