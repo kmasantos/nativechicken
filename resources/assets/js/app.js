@@ -18,7 +18,10 @@ Vue.component('v-select', vSelect);
  */
 
 // Public Homepage Components
-Vue.component('publichome-component', require('./components/general/PublicHome.vue'));
+Vue.component('chicken-breeds', require('./components/general/ChickenBreeds.vue'));
+Vue.component('duck-breeds', require('./components/general/DuckBreeds.vue'));
+Vue.component('chicken-breed', require('./components/general/ChickenBreed.vue'));
+Vue.component('duck-breed', require('./components/general/DuckBreed.vue'));
 
 // General Vue Components
 Vue.component('dashboard-component', require('./components/general/Dashboard.vue'));

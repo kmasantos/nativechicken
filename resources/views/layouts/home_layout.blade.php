@@ -13,6 +13,10 @@
     <link href="{{ URL::asset('https://fonts.googleapis.com/icon?family=Material+Icons') }}" rel="stylesheet">
     <title>PAB-IS | Native Chicken and Itik Pinas</title>
     <style>
+        #sidenav-overlay { z-index: 1; }
+        html{
+            scroll-behavior: smooth;
+        }
         .navbar-fixed {
             margin-bottom: 45px; 
         }
@@ -97,9 +101,11 @@
             transition: background-color .6s ease
         }
 
-        .active,
+        .dot:active{
+            background-color: #717171;
+        }
         .dot:hover {
-            background-color: #717171
+            background-color: #717171;
         }
         .fade {
             -webkit-animation-name: fade;
@@ -117,7 +123,25 @@
             from {opacity: .4} 
             to {opacity: 1}
         }
-
+        
+        #home-content h1 h2 h3 h4 h5 h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        #home-content p {
+            font-family: 'Raleway', sans-serif; 
+            font-size: 1.2em;
+            text-indent: 3em;
+            text-align: justify;
+        }
+        #home_content {
+            font-family: 'Raleway', sans-serif; 
+        }
+        #home-content .custom-panel{
+            height: 500px;
+        }
+        #home-content .indent{
+            text-indent: 3em;
+        }
 
     </style>
 </head>
@@ -128,9 +152,23 @@
                 <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo"/></a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down nav-button-div">
+                    <li><a href="#Home">Home</a></li>
+                    <li><a href="#Data" class="menu_links">Data</a></li>
+                    <li><a href="#Summary" class="menu_links">Summary</a></li>
+                    <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
+                    <li><a href="#ChickenBreeds" class="menu_links">Chicken Breeds</a></li>
+                    <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
+                    <li><a href="#DuckBreeds" class="menu_links">Duck Breeds</a></li>
                     <li><a href="{{ route('google_login') }}" class="waves-effect waves-light btn-large blue-grey lighten-1"><i id="gicon" class="fab fa-google left"></i>Login</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
+                    <li><a href="#Home">Home</a></li>
+                    <li><a href="#Data" class="menu_links">Data</a></li>
+                    <li><a href="#Summary" class="menu_links">Summary</a></li>
+                    <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
+                    <li><a href="#ChickenBreeds" class="menu_links">Chicken Breeds</a></li>
+                    <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
+                    <li><a href="#DuckBreeds" class="menu_links">Duck Breeds</a></li>
                     <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
                 </ul>
             </div>
@@ -179,7 +217,12 @@
 
     <main>
         <div class="container" id="app">
-                @yield('content')
+            @yield('content')
+            <div id="back_to_top" class="fixed-action-btn">
+                <a class="btn-floating btn-large blue-grey darken-1" onclick="topFunction()">
+                    <i class="fas fa-chevron-up"></i>
+                </a>
+            </div>
         </div>
     </main>
     <footer class="page-footer blue-grey lighten-3">
@@ -228,7 +271,6 @@
     <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
     <script>
-        $(".button-collapse").sideNav();
         var slideIndex = 1;
 
         var myTimer;
@@ -275,6 +317,32 @@
         slides[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " active";
         }
+        
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+                document.getElementById("back_to_top").style.display = "block";
+            } else {
+                document.getElementById("back_to_top").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+        $( document ).ready(function() {
+            $(".button-collapse").sideNav({
+                closeOnClick: false,
+            });
+            $('.scrollspy').scrollSpy({
+                scrollOfffset: 110,
+                activeClass : null
+            });
+        });
+        
     </script>
 </body>
 </html>
