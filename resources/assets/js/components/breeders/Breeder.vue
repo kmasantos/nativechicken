@@ -819,7 +819,7 @@
                     }else{
                         Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
-                    this.submitting_form=false;
+                    this.submitting_form = false;
                 });
                 this.initialize();
             },

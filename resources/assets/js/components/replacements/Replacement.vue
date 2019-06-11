@@ -93,7 +93,7 @@
                 <feeding-replacement :feed_pen_id="feeding_pen" :feed_pen_number="feeding_number" v-on:close_feeding="feeding_pen=null;feeding_number=null"></feeding-replacement>
             </div>
             <div v-if="phenomorpho_pen!=null">
-                <phenomorpho-replacement :phenomorpho_pen_id="phenomorpho_pen" :phenomorpho_pen_number="phenomorpho_number" v-on:close_phenomorpho="phenomorpho_pen=null;phenomorpho_number=null"></phenomorpho-replacement>
+                <phenomorpho-replacement :animal_type="animal_type.animaltype_id" :phenomorpho_pen_id="phenomorpho_pen" :phenomorpho_pen_number="phenomorpho_number" v-on:close_phenomorpho="phenomorpho_pen=null;phenomorpho_number=null"></phenomorpho-replacement>
             </div>
             <div v-if="growth_pen!=null">
                 <growthrecord-replacement :growth_pen_id="growth_pen" :growth_pen_number="growth_number" v-on:close_growth="growth_pen=null;growth_number=null"></growthrecord-replacement>
@@ -225,6 +225,7 @@
         },
         data () {
             return {
+                animal_type : '',
                 search : '',
                 replacements_loaded : false,
                 replacement_pens : {},
@@ -268,6 +269,7 @@
             initialize : function () {
                 this.getReplacementPens();
                 this.fetchGenerations();
+                this.checkAnimalType();
             },
             getReplacementPens : function (page = 1) {
                 this.replacements_loaded = false;
@@ -395,7 +397,16 @@
             },
             customFormatter : function(date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
-            }
+            },
+            checkAnimalType : function () {
+                axios.get('fetch_animal_type')
+                .then(response => {
+                    this.animal_type = response.data;
+                })
+                .catch(error => {
+                    
+                });
+            },
         },
         created () {
             this.initialize();

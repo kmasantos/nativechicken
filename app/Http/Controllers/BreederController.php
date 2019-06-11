@@ -205,10 +205,10 @@ class BreederController extends Controller
             $movement_replacement_male->save();
             $movement_replacement_female->save();
             $male_replacement_pen->current_capacity = $male_replacement_pen->current_capacity - $request->number_male;
-            $male_replacement_pen->total = $male_replacement_pen->total - $request->number_male;
+            // $male_replacement_pen->total = $male_replacement_pen->total - $request->number_male;
             $male_replacement_pen->save();
             $female_replacement_pen->current_capacity = $female_replacement_pen->current_capacity - $request->number_female;
-            $female_replacement_pen->total = $female_replacement_pen->total - $request->number_female;
+            // $female_replacement_pen->total = $female_replacement_pen->total - $request->number_female;
             $female_replacement_pen->save();
             $male_inventory->save();
             $female_inventory->save();
