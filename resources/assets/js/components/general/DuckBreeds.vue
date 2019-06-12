@@ -1,6 +1,6 @@
 <template>        
     <div id="duck_breed_template" class="row" ref="dbreeds">
-        <div class="col s12 l3 offset-l3">
+        <div class="col s12 l5 offset-l1">
             <div class="row">
                 <div class="col s12 l12">
                     <div class="card">
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="col s12 l3">
+        <div class="col s12 l5">
             <div class="row">
                 <div class="col s12 l12">
                     <div class="card">
