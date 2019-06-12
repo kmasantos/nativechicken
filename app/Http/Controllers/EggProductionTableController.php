@@ -17,7 +17,7 @@ class EggProductionTableController extends Controller
     {
     	
         
-          $eggProd = EggProductionTableModel::paginate(10000);
+          $eggProd = EggProductionTableModel::paginate(1000);
         
    
         return $eggProd;

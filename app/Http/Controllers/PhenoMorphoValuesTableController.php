@@ -15,7 +15,7 @@ class PhenoMorphoValuesTableController extends Controller
     public function getPhenoMorphoValues()
     {
     	   
-    	  $phenoMorphoValues = PhenoMorphoValuesTableModel::paginate(10000);
+    	  $phenoMorphoValues = PhenoMorphoValuesTableModel::paginate(1000);
         return $phenoMorphoValues;
     }
 }

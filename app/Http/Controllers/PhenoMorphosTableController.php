@@ -15,7 +15,7 @@ class PhenoMorphosTableController extends Controller
     public function getPhenoMorphos()
     {
     	   
-    	  $phenoMorphos = PhenoMorphosTableModel::paginate(10000);
+    	  $phenoMorphos = PhenoMorphosTableModel::paginate(1000);
         return $phenoMorphos;
     }
 }

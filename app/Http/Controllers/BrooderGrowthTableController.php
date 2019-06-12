@@ -16,7 +16,7 @@ class BrooderGrowthTableController extends Controller
     public function getBrooderGrowth()
     {
      
-          $growthrecords = BrooderGrowthTableModel::paginate(10000);
+          $growthrecords = BrooderGrowthTableModel::paginate(1000);
         
    
         return $growthrecords;

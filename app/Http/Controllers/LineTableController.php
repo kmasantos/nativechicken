@@ -15,7 +15,7 @@ class LineTableController extends Controller
      public function getLine($generation_id)
     {
         $lines = LineTableModel::where('generation_id', $generation_id)->where('is_active', true)
-        ->paginate(10000);
+        ->paginate(1000);
         return $lines;
     }
 

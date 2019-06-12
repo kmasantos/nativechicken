@@ -19,7 +19,7 @@ class BreederFeedingTableController extends Controller
 
 
         
-          $feedingrecords = BreederFeedingTableModel::paginate(10000);
+          $feedingrecords = BreederFeedingTableModel::paginate(1000);
         
    
         return $feedingrecords;
