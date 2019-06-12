@@ -17,7 +17,7 @@ class EggQualityTableController extends Controller
     {
     	
         
-          $egg_qual = EggQualityTableModel::paginate(100);
+          $egg_qual = EggQualityTableModel::paginate(10000);
         
    
         return $egg_qual;

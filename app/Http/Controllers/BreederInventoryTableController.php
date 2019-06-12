@@ -17,7 +17,7 @@ class BreederInventoryTableController extends Controller
     public function getBreederInventory()
     {
      
-        $breederInventory = BreederInventoryTableModel::paginate(100);
+        $breederInventory = BreederInventoryTableModel::paginate(10000);
 
 
         

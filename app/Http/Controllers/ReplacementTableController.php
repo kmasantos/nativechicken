@@ -15,7 +15,7 @@ class ReplacementTableController extends Controller
     public function getReplacement()
     {
     	
-    	  $replacement = ReplacementTableModel::paginate(100);
+    	  $replacement = ReplacementTableModel::paginate(10000);
     	
    
         return $replacement;

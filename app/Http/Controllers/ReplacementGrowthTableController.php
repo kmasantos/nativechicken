@@ -16,7 +16,7 @@ class ReplacementGrowthTableController extends Controller
     public function getReplacementGrowth()
     {
       
-          $replacement_Growth = ReplacementGrowthTableModel::paginate(100);
+          $replacement_Growth = ReplacementGrowthTableModel::paginate(10000);
         
    
         return $replacement_Growth;

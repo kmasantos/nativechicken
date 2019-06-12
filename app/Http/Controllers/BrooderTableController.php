@@ -15,7 +15,7 @@ class BrooderTableController extends Controller
     public function getBrooder()
     {
     	
-    	  $brooder = BrooderTableModel::paginate(100);
+    	  $brooder = BrooderTableModel::paginate(10000);
     	
    
         return $brooder;

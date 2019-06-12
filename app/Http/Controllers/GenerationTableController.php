@@ -38,7 +38,7 @@ class GenerationTableController extends Controller
 
     	  $generations = GenerationTableModel::where('farm_id', $farm_id)
         ->orderBy('numerical_generation', 'desc')
-        ->paginate(100);
+        ->paginate(10000);
         return $generations;
     }
     public function cullGeneration($generation_id)

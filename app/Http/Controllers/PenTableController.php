@@ -19,7 +19,7 @@ class PenTableController extends Controller
         ->where('is_active', true)
         ->orderBy('type', 'asc')
         ->orderBy('number', 'asc')
-        ->paginate(100);
+        ->paginate(10000);
         return $pens;
     }
 

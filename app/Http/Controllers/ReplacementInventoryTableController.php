@@ -16,7 +16,7 @@ class ReplacementInventoryTableController extends Controller
     public function getReplacementInventory()
     {
    
-           $replacementInventory = ReplacementInventoryTableModel::paginate(100);
+           $replacementInventory = ReplacementInventoryTableModel::paginate(10000);
         
    
        

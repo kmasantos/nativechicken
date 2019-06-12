@@ -15,7 +15,7 @@ class BreederTableController extends Controller
     public function getBreeder()
     {
     	
-    	  $breeder = BreederTableModel::paginate(100);
+    	  $breeder = BreederTableModel::paginate(10000);
     	
    
         return $breeder;

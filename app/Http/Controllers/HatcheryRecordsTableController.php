@@ -17,7 +17,7 @@ class HatcheryRecordsTableController extends Controller
     {
     	
         
-          $hatchery = HatcheryRecordsTableModel::paginate(100);
+          $hatchery = HatcheryRecordsTableModel::paginate(10000);
         
    
         return $hatchery;

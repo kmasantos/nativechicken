@@ -18,7 +18,7 @@ class ReplacementFeedingTableController extends Controller
     	 
 
         
-          $feedingrecords = ReplacementFeedingTableModel::paginate(100);
+          $feedingrecords = ReplacementFeedingTableModel::paginate(10000);
         
    
         return $feedingrecords;

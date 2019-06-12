@@ -15,7 +15,7 @@ class MortalityAndSalesTableController extends Controller
     public function getMortalityAndSales()
     {
     	
-    	  $mort = MortalityAndSalesTableModel::paginate(100);
+    	  $mort = MortalityAndSalesTableModel::paginate(10000);
         return $mort;
     }
 }

@@ -32,7 +32,7 @@ class FamilyTableController extends Controller
 
     	  $families = FamilyTableModel::where('is_active', true)
         ->orderBy('id', 'desc')
-        ->paginate(100);
+        ->paginate(10000);
         return $families;
     }
 
