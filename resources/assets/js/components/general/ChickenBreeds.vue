@@ -35,7 +35,7 @@
                 <div class="col s12 l12">
                     <div class="card">
                         <div class="card-image">
-                            <img src="https://i.ibb.co/SxrVxny/darag.png">
+                            <img src="https://i.ibb.co/VmZftbx/Darag.png">
                             <a @click="selected_breed='Darag Native Chicken';scrollTo('breed_info')" href="#breed_info" class="btn-floating halfway-fab waves-effect waves-light blue-grey lighten-1 tooltip" data-tippy-content="Show Breed Info"><i class="fas fa-info"></i></a>
                         </div>
                         <div class="card-content">
@@ -51,10 +51,10 @@
                     <div class="card">
                         <div class="card-image">
                             <img src="https://i.ibb.co/dcggB07/Zampen.png">
-                            <a @click="selected_breed='Zampen Native Chicken';scrollTo('breed_info')" href="#breed_info" class="btn-floating halfway-fab waves-effect waves-light blue-grey lighten-1 tooltip" data-tippy-content="Show Breed Info"><i class="fas fa-info"></i></a>
+                            <a @click="selected_breed='ZamPen Native Chicken';scrollTo('breed_info')" href="#breed_info" class="btn-floating halfway-fab waves-effect waves-light blue-grey lighten-1 tooltip" data-tippy-content="Show Breed Info"><i class="fas fa-info"></i></a>
                         </div>
                         <div class="card-content">
-                            <span class="card-title center-align">Zampen</span>
+                            <span class="card-title center-align">ZamPen</span>
                         </div>
                     </div>
                 </div>
@@ -70,8 +70,8 @@
             <div id="breed_info" v-if="selected_breed==='Darag Native Chicken'">
                 <chicken-breed :selected="selected_breed='Darag Native Chicken'" v-on:close="selected_breed=null;scrollTo('breeds')"></chicken-breed>
             </div>
-            <div id="breed_info" v-if="selected_breed==='Zampen Native Chicken'">
-                <chicken-breed :selected="selected_breed='Zampen Native Chicken'" v-on:close="selected_breed=null;scrollTo('breeds')"></chicken-breed>
+            <div id="breed_info" v-if="selected_breed==='ZamPen Native Chicken'">
+                <chicken-breed :selected="selected_breed='ZamPen Native Chicken'" v-on:close="selected_breed=null;scrollTo('breeds')"></chicken-breed>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
             <div class="card-panel blue-grey lighten-5">
                 <div class="row valign-wrapper">
                     <div class="col s6 m6 l6">
-                        <h5>Phenotypic & Morphometric | {{breeder_tag}}</h5>
+                        <h5>Phenotypic & Morphometric | <span v-if="breeder.breeder_code===null">{{breeder.breeder_tag}}</span><span else>{{breeder.breeder_code}}</span></h5>
                     </div>
                     <div class="col s3 m3 l3 center">
                         <a class="waves-effect waves-green btn-flat green-text modal-trigger" href="#breeder_phenomorpho"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -39,8 +39,8 @@
                                     <td>{{record.date_collected}}</td>
                                     <td>{{capitalize(record.gender)}}</td>
                                     <td>{{record.tag}}</td>
-                                    <td><i class="fas fa-feather tooltip_data" :data-tippy-content="insertPhenoContent(record.phenotypic)"></i></td>
-                                    <td><i class="fas fa-ruler-horizontal tooltip_data" :data-tippy-content="insertMorphoContent(record.morphometric)"></i></td>
+                                    <td class="tooltip_data" :data-tippy-content="insertPhenoContent(record.phenotypic)"><i class="fas fa-feather"></i></td>
+                                    <td class="tooltip_data" :data-tippy-content="insertMorphoContent(record.morphometric)"><i class="fas fa-ruler-horizontal"></i></td>
                                     <td><a @click="selected_record = record" href="#delete_phenomorpho" class="modal-trigger"><i class="fas fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
@@ -58,7 +58,7 @@
                     <div class="modal-content">
                         <div class="row">
                             <div class="col s12 m12 l12">
-                                <h4>Add Phenotypic and Morphometric Data | {{breeder_tag}}</h4>
+                                <h4>Add Phenotypic and Morphometric Data | <span v-if="breeder.breeder_code===null">{{breeder.breeder_tag}}</span><span else>{{breeder.breeder_code}}</span></h4>
                             </div>
                         </div>
                         <div class="divider"></div>
@@ -113,13 +113,26 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row">
-                                                <div class="col s12 m6 l6 input-field">
+                                            <div class="row" v-if="gender!==null">
+                                                <div class="col s12 m6 l6" v-if="gender==='male'&&breeder.male_wingbands!==null">
+                                                    <label for="male_wingband_tag">Male Wingband ID</label>
+                                                    <v-select v-model="tag" :placeholder="'Select Male Wingband'" :options="JSON.parse(breeder.male_wingbands)" id="male_wingband_tag"></v-select>
+                                                </div>
+                                                <div class="col s12 m6 l6" v-if="gender==='female'&&breeder.female_wingbands!==null">
+                                                    <label for="female_wingband_tag">Female Wingband ID</label>
+                                                    <v-select v-model="tag" :placeholder="'Select Female Wingband'" :options="JSON.parse(breeder.female_wingbands)" id="female_wingband_tag"></v-select>
+                                                </div>
+                                                <div class="col s12 m6 l6 input-field" v-if="(gender==='male'&&breeder.male_wingbands===null) || gender==='female'&&breeder.female_wingbands===null">
                                                     <input v-model="tag" id="tag" type="text" placeholder="Tag or Registry ID">
                                                     <label class="active" for="tag">Registry Tag</label>
                                                 </div>
                                             </div>
+                                            <!-- <div class="row">
+                                                <div class="col s12 m6 l6 input-field">
+                                                    <input v-model="tag" id="tag" type="text" placeholder="Tag or Registry ID">
+                                                    <label class="active" for="tag">Registry Tag</label>
+                                                </div>
+                                            </div> -->
                                             
                                             <div class="row" v-if="animal_type===2" style="border: 0.5px solid black">
                                                 <div class="col s12 m12 l12">
@@ -760,8 +773,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div v-if="animal_type===2" style="border: 0.5px solid black">
-                                                <div class="row">
+                                            <div v-if="animal_type===2">
+                                                <div class="row" style="border: 0.5px solid black">
                                                     <div class="col s12 m12 l12">
                                                         <label>Neck Feather Markings</label>
                                                         <div class="row">
@@ -1193,7 +1206,7 @@
                 this.getBreederPhenoMorpho();
             },
             getBreederPhenoMorpho : function (page = 1) {
-                axios.get('breeder_phenomorpho_records/'+this.breeder+'?page='+page)
+                axios.get('breeder_phenomorpho_records/'+this.breeder.inventory_id+'?page='+page)
                 .then(response => {
                     this.records = response.data;
                     this.records_length = this.records.data.length;
@@ -1211,7 +1224,7 @@
                 }
                 if(this.duck){
                     param = {
-                        breeder_inventory_id : this.breeder,
+                        breeder_inventory_id : this.breeder.inventory_id,
                         duck : this.duck,
                         tag : this.tag,
                         date_collected : this.customFormatter(this.date_collected),
@@ -1241,7 +1254,7 @@
                     }
                 }else{
                     param = {
-                        breeder_inventory_id : this.breeder,
+                        breeder_inventory_id : this.breeder.inventory_id,
                         duck : this.duck,
                         tag : this.tag,
                         date_collected : this.customFormatter(this.date_collected),

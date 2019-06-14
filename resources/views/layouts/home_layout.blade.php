@@ -188,20 +188,20 @@
             <div class="text">Boholano Native Chicken</div>
         </div>
         <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/L6vBFnS/camarinesbreeds.png')"></div>
-            <div class="text">Camarines Native Chicken</div>
+            <div class="img" style="background-image:url('https://i.ibb.co/z5LnxzW/IMG-0600.png')"></div>
+            <div class="text">Camarines Native Chicken © T. Pequeña</div>
         </div>
         <div class="mySlides fade">
-                <div class="img" style="background-image:url('https://i.ibb.co/vhVkDqC/zampen.png')"></div>
+                <div class="img" style="background-image:url('https://i.ibb.co/xFKfW8h/zampencarousel.png')"></div>
                 <div class="text">Zampen Native Chicken</div>
             </div>
         <div class="mySlides fade">
             <div class="img" style="background-image:url('https://i.ibb.co/7VX3NzN/khaki-1.png')"></div>
-            <div class="text">IP Khaki</div>
+            <div class="text">IP Khaki © Karen Dimaranan</div>
         </div>
         <div class="mySlides fade">
             <div class="img" style="background-image:url('https://i.ibb.co/1JWyJFC/itimss.png')"></div>
-            <div class="text">IP Itim</div>
+            <div class="text">IP Itim © Karen Dimaranan</div>
         </div>
     </div>
     <br/>

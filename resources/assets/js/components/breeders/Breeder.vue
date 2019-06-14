@@ -94,7 +94,7 @@
                                     <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_hatchery = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Hatchery Records"><i class="fas fa-crow"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Egg Quality Records"><i class="fas fa-check-double"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Pheno/Morpho Records"><i class="fas fa-feather"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder" class="black-text tooltip" data-tippy-content="Open Pheno/Morpho Records"><i class="fas fa-feather"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_mortality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
                                 </div>
                             </div>

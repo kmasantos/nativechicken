@@ -245,27 +245,15 @@
                                     </div>
                                 </div>
                                 <div class="row" v-else>
-                                    <div class="col s12 m12 l6 right-column-divider">
+                                    <div class="col s12 m12 l12">
                                         <div class="row">
                                             <div class="col s12 m12 l12 center-align custom_subheading">
-                                                MALE <i class="fas fa-mars"></i>
+                                                Total <i class="fas fa-venus-mars"></i>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col s12 m12 l12 center-align emphasis-big">
-                                                {{brooder_male}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col s12 m12 l6">
-                                        <div class="row">
-                                            <div class="col s12 m12 l12 center-align custom_subheading">
-                                                FEMALE <i class="fas fa-venus"></i>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col s12 m12 l12 center-align emphasis-big">
-                                                {{brooder_female}}        
+                                                {{brooder_total}}
                                             </div>
                                         </div>
                                     </div>
@@ -303,8 +291,7 @@ export default {
             replacement_inventory_last_update : null,
 
             brooder_inventory_loading : true,
-            brooder_male : 0,
-            brooder_female : 0,
+            brooder_total : 0,
             brooder_inventory_last_update : null,
             
         }
@@ -382,8 +369,7 @@ export default {
             .then(response => {
                 var inventory = response.data;
                 inventory.forEach(element => {
-                    this.brooder_male = this.brooder_male + element.number_male;
-                    this.brooder_female = this.brooder_female + element.number_female;
+                    this.brooder_total = this.brooder_total + element.total;
                 });
                 this.brooder_inventory_last_update = this.getDateTime();
                 this.brooder_inventory_loading = false;
