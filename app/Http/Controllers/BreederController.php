@@ -314,6 +314,24 @@ class BreederController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Feeding record added']);
     }
 
+    public function editFeedingRecords(Request $request)
+    {
+        $request->validate([
+            'feeding_record' => 'required',
+            'date_collected' => 'required',
+            'feed_offered' => 'required',
+            'feed_refused' => 'required',
+        ]);
+
+        $record = BreederFeeding::where('id', $request->feeding_record)->first();
+        $record->date_collected = $request->date_collected;
+        $record->amount_offered = $request->feed_offered;
+        $record->amount_refused = $request->feed_refused;
+        $record->remarks = $request->remarks;
+        $record->save();
+        return response()->json(['status' => 'success', 'message' => 'Feeding record edited']);
+    }
+
     public function fetchEggProduction ($breeder_id)
     {
         $eggprod = EggProduction::
@@ -603,6 +621,16 @@ class BreederController extends Controller
             }
             return response()->json(['status' => 'success', 'message' => 'Hatchery Record updated']);
         }
+    }
+
+    public function hardDeleteHatcheryRecord(Request $request) 
+    {
+        $request->validate([
+            'delete_record' => 'required'
+        ]);
+        $record = HatcheryRecord::where('id', $request->delete_record)->first();
+        $record->forceDelete();
+        return response()->json(['status' => 'success', 'message' => 'Hatchery Record Deleted Successfully']);
     }
 
     public function hatcheryRecordPage()

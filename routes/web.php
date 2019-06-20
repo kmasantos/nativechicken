@@ -150,6 +150,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('dash_replacement_inventory', 'FarmController@getDashReplacementInventory');
         Route::get('dash_replacement_mortality', 'FarmController@getDashReplacementMortality');
         Route::get('dash_brooders_inventory', 'FarmController@getDashBrooderInventory');
+        Route::get('dash_breeder_eggprod_last', 'FarmController@getDashLastEggProduction');
         
 
         // Breeder Axios Routes
@@ -171,6 +172,7 @@ Route::group(['middleware' => ['web']], function ()
         **/
         Route::get('breeder_feeding/{breeder_id}', 'BreederController@fetchFeedingRecords');
         Route::post('breeder_feeding', 'BreederController@addFeedingRecords');
+        Route::post('edit_breeder_feeding', 'BreederController@editFeedingRecords');
         Route::get('breeder_eggprod/{breeder_id}', 'BreederController@fetchEggProduction');
         Route::post('breeder_add_eggprod', 'BreederController@addEggProduction');
         Route::get('breeder_hatchery/{breeder_inventory}', 'BreederController@getHatcheryParameter');
@@ -186,6 +188,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::delete('cull_breeder/{inventory_id}', 'BreederController@cullBreeder');
         Route::post('add_breeder_additional', 'BreederController@addAdditionalBreeder');
         Route::post('breeder_delete_hatcheryrecord', 'BreederController@deleteHatcheryRecord');
+        Route::post('force_breeder_delete_hatcheryrecord', 'BreederController@hardDeleteHatcheryRecord');
         Route::patch('breeder_edit_hatchery', 'BreederController@editHatcheryRecord');
         Route::delete('breeder_delete_feeding/{record_id}', 'BreederController@deleteFeedingRecord');
         Route::delete('breeder_delete_eggquality/{record_id}', 'BreederController@deleteEggQuality');
@@ -246,6 +249,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('brooder_sale', 'BrooderGrowerController@addSale');
         Route::post('brooder_egg_sale', 'BrooderGrowerController@addEggSale');
         Route::delete('cull_brooder/{inventory_id}', 'BrooderGrowerController@cullBrooder');
+        Route::delete('force_delete_brooder/{inventory_id}', 'BrooderGrowerController@forceDeleteBrooder');
         Route::get('brooder_select_growthrecords/{record}', 'BrooderGrowerController@selectGrowthRecords');
         Route::delete('brooder_delete_growthrecords/{record}', 'BrooderGrowerController@deleteGrowthRecord');
         Route::get('brooder_select_feedingrecords/{record}', 'BrooderGrowerController@selectFeedingRecords');

@@ -216,206 +216,207 @@
 </template>
 
 <script>
-    import Datepicker from 'vuejs-datepicker';
-    var moment = require('moment');
-    Vue.component('pagination', require('laravel-vue-pagination'));
-    export default {
-        components : {
-            Datepicker
+import tippy from 'tippy.js';
+import Datepicker from 'vuejs-datepicker';
+var moment = require('moment');
+Vue.component('pagination', require('laravel-vue-pagination'));
+export default {
+    components : {
+        Datepicker
+    },
+    data () {
+        return {
+            animal_type : '',
+            search : '',
+            replacements_loaded : false,
+            replacement_pens : {},
+            replacement_pens_len : 0,
+            brooders : [],
+            brooders_length : 0,
+            selected_pen : '',
+            selected_pen_number : '',
+            selected_brooder : '',
+
+            // form variables
+            external : false,
+            selected_generation : '',
+            selected_line : '',
+            selected_family : '',
+            date_added : '',
+            total: '',
+            replacement_tag : '',
+            estimate_date_hatched : '',
+
+            generations : [],
+            lines : [],
+            families : [],
+            generations_loaded : false,
+            lines_loaded : false,
+            families_loaded : false,
+
+            inventory_pen : null,
+            inventory_number : null,
+            feeding_pen : null,
+            feeding_number : null,
+            phenomorpho_pen : null,
+            phenomorpho_number : null,
+            growth_pen : null,
+            growth_number : null,
+            button_disabled: false,
+
+        }
+    },
+    methods : {
+        initialize : function () {
+            this.getReplacementPens();
+            this.fetchGenerations();
+            this.checkAnimalType();
         },
-        data () {
-            return {
-                animal_type : '',
-                search : '',
-                replacements_loaded : false,
-                replacement_pens : {},
-                replacement_pens_len : 0,
-                brooders : [],
-                brooders_length : 0,
-                selected_pen : '',
-                selected_pen_number : '',
-                selected_brooder : '',
-
-                // form variables
-                external : false,
-                selected_generation : '',
-                selected_line : '',
-                selected_family : '',
-                date_added : '',
-                total: '',
-                replacement_tag : '',
-                estimate_date_hatched : '',
-
-                generations : [],
-                lines : [],
-                families : [],
-                generations_loaded : false,
-                lines_loaded : false,
-                families_loaded : false,
-
-                inventory_pen : null,
-                inventory_number : null,
-                feeding_pen : null,
-                feeding_number : null,
-                phenomorpho_pen : null,
-                phenomorpho_number : null,
-                growth_pen : null,
-                growth_number : null,
-                button_disabled: false,
-
+        getReplacementPens : function (page = 1) {
+            this.replacements_loaded = false;
+            axios.get('replacement_pens?page='+page)
+            .then(response => {
+                this.replacement_pens_len = response.data.data.length;
+                this.replacement_pens = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            this.replacements_loaded = true;
+        },
+        getBrooderPens : function () {
+            axios.get('replacement_fetch_brooderpens/'+this.selected_family)
+            .then(response => {
+                this.brooders = response.data;
+                this.brooders_length = this.brooders.length;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        searchReplacements : function (page = 1) {
+            this.replacements_loaded = false;
+            axios.get('search_replacement_pens/'+this.search+'?page='+page)
+            .then(response => this.replacement_pens = response.data)
+            .catch(function (error) {
+                console.log(error);
+            });
+            this.replacements_loaded = true;
+        },
+        fetchGenerations : function () {
+            this.generations_loaded = false;
+            axios.get('replacement_fetch_generations')
+            .then(response => {
+                this.generations = response.data;
+                this.generations_loaded = true;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchLines : function () {
+            this.lines_loaded = false;
+            axios.get('replacement_fetch_lines/'+this.selected_generation)
+            .then(response => {
+                this.lines = response.data;
+                this.lines_loaded = true;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchFamilies : function () {
+            this.families_loaded = false;
+            axios.get('replacement_fetch_families/'+this.selected_line)
+            .then(response => {
+                this.families = response.data;
+                this.families_loaded = true;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        addReplacements : async function () {
+            if(this.external==true){
+                this.estimate_date_hatched = this.customFormatter(this.estimate_date_hatched);
             }
-        },
-        methods : {
-            initialize : function () {
-                this.getReplacementPens();
-                this.fetchGenerations();
-                this.checkAnimalType();
-            },
-            getReplacementPens : function (page = 1) {
-                this.replacements_loaded = false;
-                axios.get('replacement_pens?page='+page)
-                .then(response => {
-                    this.replacement_pens_len = response.data.data.length;
-                    this.replacement_pens = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
+            try {
+                const response = await axios.post('add_replacements', {
+                    family_id : this.selected_family,
+                    pen_id : this.selected_pen,
+                    total : this.total,
+                    date_added : this.customFormatter(this.date_added),
+                    external : this.external,
+                    replacement_tag : this.replacement_tag,
+                    brooder_inventory : this.selected_brooder,
+                    estimate_hatch_date : this.estimate_date_hatched,
                 });
-                this.replacements_loaded = true;
-            },
-            getBrooderPens : function () {
-                axios.get('replacement_fetch_brooderpens/'+this.selected_family)
-                .then(response => {
-                    this.brooders = response.data;
-                    this.brooders_length = this.brooders.length;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            searchReplacements : function (page = 1) {
-                this.replacements_loaded = false;
-                axios.get('search_replacement_pens/'+this.search+'?page='+page)
-                .then(response => this.replacement_pens = response.data)
-                .catch(function (error) {
-                    console.log(error);
-                });
-                this.replacements_loaded = true;
-            },
-            fetchGenerations : function () {
-                this.generations_loaded = false;
-                axios.get('replacement_fetch_generations')
-                .then(response => {
-                    this.generations = response.data;
-                    this.generations_loaded = true;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            fetchLines : function () {
-                this.lines_loaded = false;
-                axios.get('replacement_fetch_lines/'+this.selected_generation)
-                .then(response => {
-                    this.lines = response.data;
-                    this.lines_loaded = true;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            fetchFamilies : function () {
-                this.families_loaded = false;
-                axios.get('replacement_fetch_families/'+this.selected_line)
-                .then(response => {
-                    this.families = response.data;
-                    this.families_loaded = true;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            addReplacements : async function () {
-                if(this.external==true){
-                    this.estimate_date_hatched = this.customFormatter(this.estimate_date_hatched);
+                while(response.status==null){
+                    this.button_disabled = true;
                 }
-                try {
-                    const response = await axios.post('add_replacements', {
-                        family_id : this.selected_family,
-                        pen_id : this.selected_pen,
-                        total : this.total,
-                        date_added : this.customFormatter(this.date_added),
-                        external : this.external,
-                        replacement_tag : this.replacement_tag,
-                        brooder_inventory : this.selected_brooder,
-                        estimate_hatch_date : this.estimate_date_hatched,
-                    });
-                    while(response.status==null){
-                        this.button_disabled = true;
-                    }
-                    if(response.status == 200){
-                        this.selected_generation = '';
-                            this.selected_line = '';
-                            this.selected_family = '';
-                            this.selected_pen = '';
-                            this.total = '';
-                            this.date_added = '';
-                            this.external = false;
-                            this.replacement_tag = '';
-                            this.selected_brooder = '';
-                            this.estimate_date_hatched = '';
-                            if(response.data.status == "error"){
-                                Materialize.toast(response.data.message, 3000, 'red rounded');
-                            }else{
-                                Materialize.toast('Successfully added replacements', 3000, 'green rounded');
-                            }
-                            this.getReplacementPens();
-                            this.button_disabled = false;
-                    }else{
-                        Materialize.toast(response.data.message, 3000, 'red rounded');
+                if(response.status == 200){
+                    this.selected_generation = '';
+                        this.selected_line = '';
+                        this.selected_family = '';
+                        this.selected_pen = '';
+                        this.total = '';
+                        this.date_added = '';
+                        this.external = false;
+                        this.replacement_tag = '';
+                        this.selected_brooder = '';
+                        this.estimate_date_hatched = '';
+                        if(response.data.status == "error"){
+                            Materialize.toast(response.data.message, 3000, 'red rounded');
+                        }else{
+                            Materialize.toast('Successfully added replacements', 3000, 'green rounded');
+                        }
+                        this.getReplacementPens();
                         this.button_disabled = false;
-                    }
-                }catch (error) {
-                    Materialize.toast(error, 3000, 'red rounded');
+                }else{
+                    Materialize.toast(response.data.message, 3000, 'red rounded');
                     this.button_disabled = false;
                 }
+            }catch (error) {
+                Materialize.toast(error, 3000, 'red rounded');
+                this.button_disabled = false;
+            }
+            
+        },
+        fetchPenInfo : function (){
+            this.info_loaded = false;
+            axios.get('replacement_pen_info/'+this.selected_pen)
+            .then(response => {
+                this.pen_info = response.data;
+                this.info_loaded = true;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        closeInfoModal : function (){
+            $('#info').modal('close');
+        },
+        customFormatter : function(date_added) {
+            return moment(date_added).format('YYYY-MM-DD');
+        },
+        checkAnimalType : function () {
+            axios.get('fetch_animal_type')
+            .then(response => {
+                this.animal_type = response.data;
+            })
+            .catch(error => {
                 
-            },
-            fetchPenInfo : function (){
-                this.info_loaded = false;
-                axios.get('replacement_pen_info/'+this.selected_pen)
-                .then(response => {
-                    this.pen_info = response.data;
-                    this.info_loaded = true;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            closeInfoModal : function (){
-                $('#info').modal('close');
-            },
-            customFormatter : function(date_added) {
-                return moment(date_added).format('YYYY-MM-DD');
-            },
-            checkAnimalType : function () {
-                axios.get('fetch_animal_type')
-                .then(response => {
-                    this.animal_type = response.data;
-                })
-                .catch(error => {
-                    
-                });
-            },
+            });
         },
-        created () {
-            this.initialize();
-            $('.tooltipped').tooltip({delay: 50});
-        },
-        destroyed () {
-            $('.tooltipped').tooltip('remove');
-        },
-    }
+    },
+    created () {
+        this.initialize();
+        $('.tooltipped').tooltip({delay: 50});
+    },
+    destroyed () {
+        $('.tooltipped').tooltip('remove');
+    },
+}
 </script>
 
 <style>

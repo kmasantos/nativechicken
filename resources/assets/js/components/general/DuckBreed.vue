@@ -5,21 +5,21 @@
                 <div class="row valign-wrapper">
                     <div class="col s10 l10 valign">
                         <h5 style="font-family: 'Poppins', sans-serif;">{{dselected}}</h5>
-                        <i v-if="dselected==='Itik Pinas (IP) Itim'">Developed and maintained by the Bureau of Animal Industry -National Swine and Poultry Research and Development Center<br>Lagalag, Tiaong</i>
-                        <i v-if="dselected==='Itik Pinas (IP) Khaki'">Developed and maintained by the Bureau of Animal Industry -National Swine and Poultry Research and Development Center<br>Lagalag, Tiaong</i>
+                        <i v-if="dselected==='Itik PINAS (IP) Itim'">Developed and maintained by the Bureau of Animal Industry -National Swine and Poultry Research and Development Center<br>Tiaong, Quezon</i>
+                        <i v-if="dselected==='Itik PINAS (IP) Khaki'">Developed and maintained by the Bureau of Animal Industry -National Swine and Poultry Research and Development Center<br>Tiaong, Quezon</i>
                     </div>
                     <div class="col s2 l2 valign">
                         <a @click="dclose" class="waves-effect waves-gray btn-flat tooltip" data-tippy-content="Close"><i class="far fa-times-circle"></i></a>
                     </div>
                 </div>
                 <!-- IP ITIM -->
-                <div v-if="dselected==='Itik Pinas (IP) Itim'">
+                <div v-if="dselected==='Itik PINAS (IP) Itim'">
                     <div class="row">
                         <div class="col s12 l6">
-                            <img class="materialboxed" data-caption="Itik Pinas (IP) Itim Duck (Left) & Drake (Right) © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/YjVM5VC/itim1.jpg">
+                            <img class="materialboxed" data-caption="Itik PINAS (IP) Itim Duck (Left) & Drake (Right) © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/YjVM5VC/itim1.jpg">
                         </div>
                         <div class="col s12 l6">
-                            <img class="materialboxed" data-caption="Itik Pinas (IP) Itim Drake (Left) & Duck (Right) © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/pXNKdLK/itim2.jpg">
+                            <img class="materialboxed" data-caption="Itik PINAS (IP) Itim Drake (Left) & Duck (Right) © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/pXNKdLK/itim2.jpg">
                         </div>
                     </div>
                     <div class="row">
@@ -44,7 +44,7 @@
                                 <li><i class="fas fa-chevron-right"></i> Egg quality traits</li>
                                 <li>
                                     <ul style="play:inline-block; margin-left:2em;">
-                                        <li>- Egg color - Cream</li>
+                                        <li>- Egg color - White</li>
                                         <li>- Shape - Ovoid</li>
                                         <li>- Albumen weight - 35 g</li>
                                         <li>- Yolk weight - 20.6 g</li>
@@ -57,16 +57,16 @@
                 </div>
                 
                 <!-- IP KHAKI -->
-                <div v-if="dselected==='Itik Pinas (IP) Khaki'">
+                <div v-if="dselected==='Itik PINAS (IP) Khaki'">
                     <div class="row">
                         <div class="col s12 l6">
-                            <img class="materialboxed center-image" data-caption="Itik Pinas (IP) Khaki © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/p0mtKjK/khaki1.png">
+                            <img class="materialboxed center-image" data-caption="Itik PINAS (IP) Khaki Duck (Left) and Drake (Right) © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/p0mtKjK/khaki1.png">
                         </div>
                         <div class="col s12 l3">
-                            <img class="materialboxed center-image" data-caption="Itik Pinas (IP) Khaki Drake © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/tYTSk2H/khaki2.png">
+                            <img class="materialboxed center-image" data-caption="Itik PINAS (IP) Khaki Drake © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/tYTSk2H/khaki2.png">
                         </div>
                         <div class="col s12 l3">
-                            <img class="materialboxed center-image" data-caption="Itik Pinas (IP) Khaki Duck © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/3SWh1Kb/khaki3.png">
+                            <img class="materialboxed center-image" data-caption="Itik PINAS (IP) Khaki Duck © Karen Dimaranan" height="400px" width="100%" src="https://i.ibb.co/3SWh1Kb/khaki3.png">
                         </div>
                     </div>
                     <div class="row">

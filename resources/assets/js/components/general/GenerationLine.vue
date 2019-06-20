@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="genline_div">
         <div class="row valign-wrapper">
             <div class="col s12 m8 l8 input-field">
                 <input v-model="search" id="search" type="text">
@@ -44,7 +44,7 @@
                                 <td>{{generation.number}}</td>
                                 <td v-if="generation.is_active">Active</td>
                                 <td v-else>Inactive</td>
-                                <td><a href="#details_modal" @click.prevent="viewDetails(generation.id);selected_generation_number=generation.number" class="modal-trigger"><i class="material-icons">details</i></a></td>
+                                <td><a href="#details_modal" @click.prevent="viewDetails(generation.id);selected_generation_number=generation.number" class="modal-trigger tooltip" data-tippy-content="Show Lines"><i class="material-icons">details</i></a></td>
                                 <td v-if="generation.is_active"><a href="#cull_generation" @click="selected_gen=generation.id;selected_gen_number=generation.number" class="modal-trigger"><i class="fas fa-times-circle"></i></a></td>
                                 <td v-else>-</td>
                             </tr>
@@ -66,8 +66,8 @@
                 <i class="fas fa-plus"></i>
             </a>
             <ul>
-                <li><a href="#add_generation" class="btn-floating blue-grey tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Add Generation"><i class="fas fa-dna"></i></a></li>
-                <li><a href="#add_line" class="btn-floating blue-grey tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Add Line"><i class="fas fa-grip-lines-vertical"></i></a></li>
+                <li><a href="#add_generation" class="btn-floating blue-grey tooltip modal-trigger" data-tippy-content="Add Generation"><i class="fas fa-dna"></i></a></li>
+                <li><a href="#add_line" class="btn-floating blue-grey tooltip modal-trigger" data-tippy-content="Add Line"><i class="fas fa-grip-lines-vertical"></i></a></li>
             </ul>
         </div>
         <div id="add_generation" class="modal modal-fixed-footer">
@@ -152,121 +152,129 @@
 </template>
 
 <script>
-    export default {
-        data () {
-            return {
-                generations : {},
-                line_list : [],
-                generation_list : [],
+import tippy from 'tippy.js';
+export default {
+    data () {
+        return {
+            generations : {},
+            line_list : [],
+            generation_list : [],
 
-                search : '',
-                selected_generation : '',
-                selected_generation_number : '',
-                add_generation : '',
-                line_number : '',
-                generation_details : '',
+            search : '',
+            selected_generation : '',
+            selected_generation_number : '',
+            add_generation : '',
+            line_number : '',
+            generation_details : '',
 
-                gen_len : 0,
-                line_len : 0,
-                gen_list_len : 0,
-                generation_loaded : false,
-                generation_list_loaded : false,
-                line_list_loaded : false,
+            gen_len : 0,
+            line_len : 0,
+            gen_list_len : 0,
+            generation_loaded : false,
+            generation_list_loaded : false,
+            line_list_loaded : false,
 
-                selected_gen: '',
-                selected_gen_number : '',
-            }
+            selected_gen: '',
+            selected_gen_number : '',
+        }
+    },
+    methods : {
+        initialize : function () {
+            this.getGenerations();
+            this.fetchGenerationList();
         },
-        methods : {
-            initialize : function () {
-                this.getGenerations();
-                this.fetchGenerationList();
-            },
-            searchGeneration : function(page = 1){
-                axios.get('search_generation/'+this.search+'?page='+page)
-                .then(response => this.generations = response.data)
-                .catch(error => console.log(error));
-            },
-            getGenerations : function(page = 1){
-                this.generation_loaded = false;
-                axios.get('fetch_generation?page='+page)
-                .then(response => {
-                    this.gen_len = response.data.data.length;
-                    this.generations = response.data;
-                })
-                .catch(error => console.log(error));
-                this.generation_loaded = true;
-            },
-            addGeneration : function(event){
-                axios.post('add_generation', {
-                    generation_number: this.add_generation,
-                })
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.add_generation = '';
-                        Materialize.toast('Generation added', 3000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
-                    }
-                })
-                .catch(function (error) {
-                    Materialize.toast('Add generation failed', 3000, 'red rounded');
-                });
-                this.initialize();
-            },
-            addLine : function(event){
-                axios.post('add_line', {
-                    generation_number: this.selected_generation,
-                    line_number: this.line_number,
-                })
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.selected_generation = '';
-                        this.line_number = '';
-                        Materialize.toast('Line added', 3000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    Materialize.toast('Adding line to generation failed', 3000, 'red rounded');
-                });
-            },
-            viewDetails : function(generation){
-                this.line_list_loaded = false;
-                this.generation_details = generation;
-                axios.get('get_details/'+this.generation_details)
-                .then(response => {
-                    this.line_len = response.data.length;
-                    this.line_list = response.data;
-                })
-                .catch(error => console.log(error));
-                this.line_list_loaded = true;
-            },
-            fetchGenerationList : function (){
-                this.generation_list_loaded = false;
-                axios.get('get_generation_list')
-                .then(response => {
-                    this.gen_list_len = response.data.length;
-                    this.generation_list = response.data;
-                })
-                .catch(error => console.log(error));
-                this.generation_list_loaded = true;
-            },
-            cullGeneration : function (){
-                axios.patch('cull_generation/'+this.selected_gen)
-                .then(response => {
-                    Materialize.toast('Generation culled', 3000, 'green rounded');
-                })
-                .catch(error => {
-                    Materialize.toast('Generation culling failed', 3000, 'red rounded');
-                });
-                this.initialize();
-            }
+        searchGeneration : function(page = 1){
+            axios.get('search_generation/'+this.search+'?page='+page)
+            .then(response => this.generations = response.data)
+            .catch(error => console.log(error));
         },
-        created () {
+        getGenerations : function(page = 1){
+            this.generation_loaded = false;
+            axios.get('fetch_generation?page='+page)
+            .then(response => {
+                this.gen_len = response.data.data.length;
+                this.generations = response.data;
+            })
+            .catch(error => console.log(error));
+            this.generation_loaded = true;
+        },
+        addGeneration : function(event){
+            axios.post('add_generation', {
+                generation_number: this.add_generation,
+            })
+            .then(response => {
+                if(response.data.error == undefined){
+                    this.add_generation = '';
+                    Materialize.toast('Generation added', 3000, 'green rounded');
+                }else{
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            })
+            .catch(function (error) {
+                Materialize.toast('Add generation failed', 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        addLine : function(event){
+            axios.post('add_line', {
+                generation_number: this.selected_generation,
+                line_number: this.line_number,
+            })
+            .then(response => {
+                if(response.data.error == undefined){
+                    this.selected_generation = '';
+                    this.line_number = '';
+                    Materialize.toast('Line added', 3000, 'green rounded');
+                }else{
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                Materialize.toast('Adding line to generation failed', 3000, 'red rounded');
+            });
+        },
+        viewDetails : function(generation){
+            this.line_list_loaded = false;
+            this.generation_details = generation;
+            axios.get('get_details/'+this.generation_details)
+            .then(response => {
+                this.line_len = response.data.length;
+                this.line_list = response.data;
+            })
+            .catch(error => console.log(error));
+            this.line_list_loaded = true;
+        },
+        fetchGenerationList : function (){
+            this.generation_list_loaded = false;
+            axios.get('get_generation_list')
+            .then(response => {
+                this.gen_list_len = response.data.length;
+                this.generation_list = response.data;
+            })
+            .catch(error => console.log(error));
+            this.generation_list_loaded = true;
+        },
+        cullGeneration : function (){
+            axios.patch('cull_generation/'+this.selected_gen)
+            .then(response => {
+                Materialize.toast('Generation culled', 3000, 'green rounded');
+            })
+            .catch(error => {
+                Materialize.toast('Generation culling failed', 3000, 'red rounded');
+            });
             this.initialize();
         }
+    },
+    mounted () {
+        this.initialize();
+        tippy('#genline_div', {
+            target : '.tooltip',
+            arrow: true,
+            arrowType: 'round',
+            animation: 'scale',
+            inertia: true,
+        });
     }
+}
 </script>

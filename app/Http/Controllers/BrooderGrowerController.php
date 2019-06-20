@@ -510,6 +510,30 @@ class BrooderGrowerController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Culled brooders']);
     }
 
+    public function forceDeleteBrooder ($inventory_id) 
+    {   
+        $now = Carbon::now();
+        $inventory = BrooderGrowerInventory::where('id', $inventory_id)->firstOrFail();
+        $brooder_feedings = BrooderGrowerFeeding::where('broodergrower_inventory_id',  $inventory_id)->get();
+        $brooder_grower_growths = BrooderGrowerGrowth::where('broodergrower_inventory_id', $inventory_id)->get();
+        $pen = Pen::where('id', $inventory->pen_id)->firstOrFail();
+        $pen->current_capacity = $pen->current_capacity - $inventory->total;
+        $brooder = BrooderGrower::where('id', $inventory->broodergrower_id)->firstOrFail();
+        foreach($brooder_feedings as $feeding){
+            $feeding->forceDelete();
+        }
+        foreach($brooder_grower_growths as $growth){
+            $growth->forceDelete();
+        }
+        $inventory->forceDelete();
+        $check = BrooderGrowerInventory::where('broodergrower_id', $brooder->id)->get();
+        if($check->isEmpty()){
+            $brooder->forceDelete();
+        }
+        $pen->save();
+        return response()->json(['status' => 'success', 'message' => 'Deleted brooders']);
+    }
+
     /**
      * TODO Refactor for better queries
     */

@@ -106,7 +106,12 @@
                 <div class="background blue-grey darken-1">
 
                 </div>
-                <img class="circle" src="https://image.ibb.co/jdbaXA/farmer.png" alt="farmer">
+                @if (Auth::user()->picture!==null)
+                    <img class="circle" src="{{Auth::user()->picture}}" alt="farmer">
+                @else
+                    <img class="circle" src="https://image.ibb.co/nqiNCA/logo-default.png" alt="farmer">
+                @endif
+                
                 <span class="white-text name">{{Auth::user()->name}}</span>
                 <span class="white-text email">{{Auth::user()->email}}</span>
             </div>

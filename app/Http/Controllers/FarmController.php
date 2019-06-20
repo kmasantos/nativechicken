@@ -67,6 +67,8 @@ class FarmController extends Controller
     public function getDashEggProduction () 
     {
         $now = Carbon::now();
+        $start = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $end = Carbon::now()->endOfMonth()->format('Y-m-d');
         $today = $now->format('Y-m-d');
         $production = EggProduction::join('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
                         ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
@@ -74,23 +76,27 @@ class FarmController extends Controller
                         ->join('lines', 'lines.id', 'families.line_id')
                         ->join('generations', 'generations.id', 'lines.generation_id')
                         ->where('generations.farm_id', Auth::user()->farm_id)
-                        ->where('egg_productions.date_collected', $today)
+                        ->whereBetween('egg_productions.date_collected', [$start, $end])
                         ->select('egg_productions.*')
                         ->get();
+        return $production;
+    }
 
-        $inventory = BreederInventory::join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
-                    ->join('families', 'families.id', 'breeders.family_id')
-                    ->join('lines', 'lines.id', 'families.line_id')
-                    ->join('generations', 'generations.id', 'lines.generation_id')
-                    ->where('generations.farm_id', Auth::user()->farm_id)
-                    ->sum('breeder_inventories.number_female');
+    public function getDashLastEggProduction ()
+    {
+        $start = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
+        $end = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
+        $production = EggProduction::join('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
+                        ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                        ->join('families', 'families.id', 'breeders.family_id')
+                        ->join('lines', 'lines.id', 'families.line_id')
+                        ->join('generations', 'generations.id', 'lines.generation_id')
+                        ->where('generations.farm_id', Auth::user()->farm_id)
+                        ->whereBetween('egg_productions.date_collected', [$start, $end])
+                        ->select('egg_productions.*')
+                        ->get();
         
-        $collection  = collect([
-                            "data" => $production, 
-                            "female" => $inventory,
-                            "date" => $today,
-                        ]);
-        return $collection;
+        return $production;
     }
 
     public function getDashReplacementInventory () 

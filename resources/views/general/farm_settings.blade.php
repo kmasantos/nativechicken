@@ -26,7 +26,7 @@
                         <div class="card-content">
                             <div class="row valign-wrapper">
                                 <div class="col s12 m12 l12 center">
-                                    <img class="responsive-img circle" src="https://image.ibb.co/jdbaXA/farmer.png" height="100px" width="200px">
+                                    <img class="responsive-img circle" src="{{Auth::user()->picture}}" height="100px" width="200px">
                                 </div>
                             </div>
                             <div class="row">

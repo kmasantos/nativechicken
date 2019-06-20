@@ -86,7 +86,7 @@
                             <div class="col s12 m12 l12">
                                 <div class="row">
                                     <div class="col s12 m12 l12 center-align custom_heading">
-                                        EGG PRODUCTION
+                                        THIS MONTH'S EGG PRODUCTION
                                     </div>
                                     <div class="col s12 m12 l12 center-align">
                                         <i>Last Checked:  {{breeder_eggprod_last_update}}</i>
@@ -105,6 +105,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col s12 m12 l12">
+                                        <div class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                               <i>LAST MONTH'S HEN DAY : <strong>{{breeder_lasthen_day}}%</strong></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col s12 m12 l4 right-column-divider">
@@ -116,6 +123,11 @@
                                         <div class="row">
                                             <div class="col s12 m12 l12 center-align emphasis-med">
                                                 {{breeder_intact_eggs}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <i>LAST MONTH'S EGGS INTACT : <strong>{{breeder_lastintact_eggs}}</strong></i>  
                                             </div>
                                         </div>
                                     </div>
@@ -130,6 +142,11 @@
                                                 {{breeder_broken_eggs}}
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <i>LAST MONTH'S EGGS BROKEN : <strong>{{breeder_lastbroken_eggs}}</strong></i>  
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col s12 m12 l4">
                                         <div class="row">
@@ -140,6 +157,11 @@
                                         <div class="row">
                                             <div class="col s12 m12 l12 center-align emphasis-med">
                                                 {{breeder_rejected_eggs}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l12 center-align">
+                                                <i>LAST MONTH'S EGGS REJECTED : <strong>{{breeder_lastrejected_eggs}}</strong></i>  
                                             </div>
                                         </div>
                                     </div>
@@ -275,6 +297,7 @@ export default {
             date : null,
             breeder_inventory_loading : true,
             breeder_eggprod_loading : true,
+            breeder_lasteggprod_loading : true,
             breeder_male : 0,
             breeder_female : 0,
             breeder_inventory_last_update : null,
@@ -283,8 +306,17 @@ export default {
             breeder_broken_eggs : 0,
             breeder_rejected_eggs : 0,
             breeder_hen_day : 0,
+            breeder_eggprod_female : 0,
             breeder_eggprod_last_update : null,
 
+            breeder_lastintact_eggs : 0,
+            breeder_lastegg_weight : 0,
+            breeder_lastbroken_eggs : 0,
+            breeder_lastrejected_eggs : 0,
+            breeder_lasthen_day : 0,
+            breeder_lasteggprod_female: 0,
+            breeder_lasteggprod_last_update : null,
+            
             replacement_inventory_loading : true,
             replacement_male : 0,
             replacement_female : 0,
@@ -310,6 +342,7 @@ export default {
         getBreederSummary : function () {
             this.getBreederInventory();
             this.getBreederEggProd();
+            this.getBreederEggProdLastMonth();
         },
         getReplacementSummary : function () {
             this.getReplacementInventory();
@@ -336,14 +369,37 @@ export default {
             axios.get('farm/dash_breeder_eggprod')
             .then(response => {
                 var eggprod = response.data;
-                eggprod['data'].forEach(element => {
+                eggprod.forEach(element => {
                     this.breeder_intact_eggs = this.breeder_intact_eggs + element.total_eggs_intact;
                     this.breeder_broken_eggs = this.breeder_broken_eggs + element.total_broken;
                     this.breeder_rejected_eggs = this.breeder_rejected_eggs + element.total_rejects; 
+                    this.breeder_eggprod_female = this.breeder_eggprod_female + element.female_inventory;
                 });
-                this.breeder_hen_day = (((this.breeder_intact_eggs + this.breeder_broken_eggs + this.breeder_rejected_eggs)/eggprod['female'])*100).toFixed(2);
+                if(this.breeder_eggprod_female > 0){
+                    this.breeder_hen_day = (((this.breeder_intact_eggs + this.breeder_broken_eggs + this.breeder_rejected_eggs)/this.breeder_eggprod_female)*100).toFixed(2);
+                }
                 this.breeder_eggprod_last_update = this.getDateTime();
                 this.breeder_eggprod_loading = false;
+            })
+            .catch(error => {
+                
+            })
+        },
+        getBreederEggProdLastMonth : function () {
+            axios.get('farm/dash_breeder_eggprod_last')
+            .then(response => {
+                var eggprod = response.data;
+                eggprod.forEach(element => {
+                    this.breeder_lastintact_eggs = this.breeder_lastintact_eggs + element.total_eggs_intact;
+                    this.breeder_lastbroken_eggs = this.breeder_lastbroken_eggs + element.total_broken;
+                    this.breeder_lastrrejected_eggs = this.breeder_lastrrejected_eggs + element.total_rejects; 
+                    this.breeder_lasteggprod_female = this.breeder_lasteggprod_female + element.female_inventory;
+                });
+                if(this.breeder_lasteggprod_female > 0){
+                    this.breeder_lasthen_day = (((this.breeder_lastintact_eggs + this.breeder_lastbroken_eggs + this.breeder_lastrejected_eggs)/this.breeder_lasteggprod_female)*100).toFixed(2);
+                }
+                this.breeder_lasteggprod_last_update = this.getDateTime();
+                this.breeder_lasteggprod_loading = false;
             })
             .catch(error => {
                 

@@ -194,7 +194,7 @@
         </div>
         <div class="mySlides fade">
                 <div class="img" style="background-image:url('https://i.ibb.co/xFKfW8h/zampencarousel.png')"></div>
-                <div class="text">Zampen Native Chicken</div>
+                <div class="text">ZamPen Native Chicken © M.J. Cuadra</div>
             </div>
         <div class="mySlides fade">
             <div class="img" style="background-image:url('https://i.ibb.co/7VX3NzN/khaki-1.png')"></div>
@@ -233,7 +233,7 @@
                     <h5 class="black-text">Philippine Native Chicken and Itik Pinas Breed Information System</h5>
                     <p class="black-text">
                             The "Development of Philippine Native Chicken and Itik Pinas Information System" is a DOST-PCAARRD funded project of the Institute of Animal Science in cooperation with the Institute of Computer Science, University of the Philippines Los Baños. 
-                            The project aims to provide an accessible information source regarding selected Philippine Native Chicken and Itik Pinas Breeds.
+                            The project aims to provide an accessible information source regarding selected Philippine Native Chicken and Itik PINAS Breeds.
                     </p>
                 </div>
                 <div class="col l4 offset-l2 s12">

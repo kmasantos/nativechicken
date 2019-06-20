@@ -18,7 +18,7 @@
                         The project entitled ‘Development of Philippine Native Chicken and Itik Pinas Breed Information System’ is a DOST-PCAARRD funded effort which aims to provide accessible information source regarding selected Philippine Native Chicken and Itik Pinas Breeds.
                     </p>
                     <p style="font-family: 'Raleway', sans-serif;">
-                        The project aims to highlight characteristics and performance of Philippine native chickens and duck improved and kept by partner institutions such as Ubay Stock Farm (Boholano), Bicol University College of Agriculture and Forestry (Camarines), West Visayas State University (Darag), Western Mindanao State University (ZamPen) and the Bureau of Animal Industry-National Swine and Poultry Research and Development Center (Itik Pinas) through a web-based information system.
+                        The project aims to highlight characteristics and performance of Philippine native chickens and duck improved and kept by partner institutions such as DA-Ubay Stock Farm (Boholano), Bicol University College of Agriculture and Forestry (Camarines), West Visayas State University (Darag), Western Mindanao State University (ZamPen) and the Bureau of Animal Industry-National Swine and Poultry Research and Development Center (Itik Pinas) through a web-based information system.
                     </p>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                     <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-spiral_note_pad"></i> Summary Profile of the Philippine Native Chicken and Itik Pinas</h5>
                 </div>
                 <div class="col s12 l12">
-                    <p>Philippine Native Chickens are usually named after their locality. Boholano, Camarines and Zampen are from the provinces of Bohol, Bicol and Zamboanga Peninsula, respectively, while Darag is the native chicken of Panay Island, Western Visayas.</p>
+                    <p>Philippine Native Chickens are usually named after their locality. Boholano, Camarines and ZamPen are from the provinces of Bohol, Bicol and Zamboanga Peninsula, respectively, while Darag is the native chicken of Panay Island, Western Visayas.</p>
                     <p>On the other hand, Itik Pinas is a product of selection and maintained at the Bureau of Animal Industry - National Swine and Poultry Research and Development Center, Tiaong, Quezon. These Philippine native chickens and ducks have identifiable characteristics that make each genetic group unique.</p>
                     <p>In this information system, Boholano, Camarines, Darag, and ZamPen and Itik Pinas (IP) Itim and IP Khaki are described. Their physical characteristics, both qualitative and quantitative features, as well as their production performance are discussed below.</p>
                 </div>
@@ -149,7 +149,6 @@
                     <h6 style="font-size:1.3em;">Production Performance</h6>
                 </div>
                 <div class="col s12 l12">
-                    <p>The following are some of the production indicators and summary of the native chicken’s performance.</p>
                     <p><strong style="font-weight:bold;">Egg production.</strong> Native chickens start to lay eggs at 20 - 22 weeks of age. In terms of egg production of each hen per year, Camarines produce 62 eggs, ZamPen produce 105 eggs and Darag produces the highest number of eggs at 110. Boholano breeds, on average, produce 62 eggs per year per hen.</p>
                     <p>The average egg weight of ZamPen tends to be the heaviest at 43.6 g each, followed by eggs of Darag at 41.36 g. The egg from Camarines and Boholano were both usually at 40 g.</p>
                     <p><strong style="font-weight:bold;">Fertility and Hatchability.</strong> In terms of fertility, the Darag and ZamPen hens have the highest rate at 81-83% on average. This was followed by the Camarines breed at 69% and the Boholano at 63%. Hatchability of eggs from native chickens range from 70-77%.</p>
@@ -170,10 +169,10 @@
                     <h6 style="font-size:1.3em;">History of Itik Pinas</h6>
                 </div>
                 <div class="col s12 l12">
-                    <p>In 2008, the Bureau of Animal Industry through the National Swine and Poultry Research and Development Center (BAI-NSPRDC), Livestock Development Council (LDC), Institute of Animal Science (IAS) - University of the Philippines Los Banos and Duck Industry Association of the Philippines Incorporated (DIAPI), initiated the selection and breeding of the egg type Philippine Mallard duck. A total of 2,000 hatching eggs of Philippine Mallard duck (Anas platyrhynchos domesticus L.) were obtained from three duck farms in provinces of Batangas, Pampanga, and Quezon and set for incubation to produce the foundation stocks.</p>
+                    <p>In 2008, the Bureau of Animal Industry through the National Swine and Poultry Research and Development Center (BAI-NSPRDC) in collaboration with Livestock Development Council (LDC), Institute of Animal Science (IAS) - University of the Philippines Los Banos and Duck Industry Association of the Philippines Incorporated (DIAPI), initiated the selection and breeding of the egg type Philippine Mallard duck. A total of 2,000 hatching eggs of Philippine Mallard duck (<i>Anas platyrhynchos domesticus L.</i>) were obtained from three duck farms in provinces of Batangas, Pampanga, and Quezon and set for incubation to produce the foundation stocks.</p>
                     <p>In 2012, the “Development of Sustainable Breeder Philippine Mallard Duck (PMD) Itik Production System Project” was proposed with the purpose of genetic improvement and development of the signature Philippine duck breed. The project was funded by the Philippine Council on Agriculture, Aquatic and Natural Resources Research and Development (PCAARRD) and implemented by BAI-NSPRDC at Tiaong, Quezon.</p>
                     <p>The Itik Pinas is a breeding true-to-type Philippine Mallard ducks selected for high egg production, predictable performance, and consistent product quality. The selection criteria includes the replacement stock coming from the top 50% egg producing family at 40 weeks of age, with egg weight between 65-70 grams. At 18 weeks of age,  body weight is approximately 1.0 - 1.3 kg and plumage color and pattern should either be black or khaki.</p>
-                    <p>The Itik PINAS (IP) Itim and IP Khaki lines were developed due to the high preference of stakeholders on the plumage black and brown color during the stakeholders’ consultation meeting. Based on the result of phenotypic characterization, both male and female black with white ‘bib’ in their neck and IP Khaki have brown plumage color with uniform body weight at 18 weeks of age, producing the egg size suited for processing of balut and with increased egg production.</p>
+                    <p>The Itik PINAS (IP) Itim and IP Khaki lines were developed due to the high preference of stakeholders on the plumage black and brown color during the stakeholders’ consultation meeting. Currently, both male and female black with white ‘bib’ in their neck and IP Khaki have brown plumage color with uniform body weight at 18 weeks of age, producing the egg size suited for processing of balut and with increased egg production.</p>
                     <p>The project adopted the pyramidal structure of breeding program to distribute the Itik PINAS to the stakeholders. In this structure, there are relatively small number of nucleus breeders which produce purebred stocks of IP Itim and IP Khaki for a larger number of multiplier farms who in turn produce these animals for commercial or small scale duck raisers.</p>
                 </div>
                 <div class="col s12 l12">
@@ -230,12 +229,12 @@
                 <div class="col s4 m4 l2">
                     <div class="row">
                         <div class="col s12 l12 center">
-                            <img src="https://i.ibb.co/M8G658Z/ubay-removebg.png" alt="Ubay Stock Farm" height="120px" border="0">
+                            <img src="https://i.ibb.co/M8G658Z/ubay-removebg.png" alt="DA-Ubay Stock Farm" height="120px" border="0">
                         </div>
                     </div> 
                     <div class="row">
                         <div class="col s12 l12 center-align" style="font-family: 'Raleway', sans-serif;">
-                            Ubay Stock Farm
+                            DA-Ubay Stock Farm
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,9 @@
             <div class="card-panel blue-grey lighten-5">
                 <div class="row valign-wrapper">
                     <div class="col s6 m6 l7">
-                        <h5>Feeding Records | {{breeder_tag}}</h5>
+                        <h5 v-if="breeder.breeder_code!==null">Feeding Records | {{breeder.breeder_code}}</h5>
+                        <h5 v-else>Feeding Records | {{breeder.breeder_tag}}</h5>
+                        <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong></i>
                     </div>
                     <div class="col s3 m3 l3 right-align">
                         <a href="#feeding" class="waves-effect waves-green btn-flat green-text modal-trigger"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -23,12 +25,14 @@
                                     <th>Offered(g)</th>
                                     <th>Refused(g)</th>
                                     <th>Remarks</th>
+                                    <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <tr v-if="feedings_length == 0">
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
@@ -43,6 +47,9 @@
                                     <td>{{feeding.amount_refused}}</td>
                                     <td v-if="feeding.remarks == null">None</td>
                                     <td v-else>{{feeding.remarks}}</td>
+                                    <td><a @click="edit_feeding_record = feeding.feeding_id;
+                                    edit_date_collected=feeding.date_collected;edit_offered=feeding.amount_offered;edit_refused=feeding.amount_refused;edit_remarks=feeding.remarks " 
+                                    href="#edit_feeding_modal" class="modal-trigger"><i class="fas fa-edit"></i></a></td>
                                     <td><a @click="selected_feeding_record = feeding" href="#delete_feeding" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
@@ -59,7 +66,8 @@
                         <div class="modal-content">
                             <div class="row">
                                 <div class="col s12 m12 l12">
-                                    <h4>Feeding Records | {{breeder_tag}}</h4>
+                                    <h4 v-if="breeder.breeder_code!==null">Feeding Records | {{breeder.breeder_code}}</h4>
+                                    <h4 v-else>Feeding Records | {{breeder.breeder_tag}}</h4>
                                 </div>
                             </div>
                             <div class="row">
@@ -116,17 +124,56 @@
                                             <label for="remarks" class="active">Remarks</label>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col s12 l6 center">
-                                            
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button class="modal-action waves-effect waves-gray btn-flat" type="submit">Submit</button>
                             <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="edit_feeding_modal" class="modal modal-fixed-footer">
+                    <form v-on:submit.prevent="editFeedingRecord" method="post">
+                        <div class="modal-content">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <h4>Edit Feeding Entry</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <div class="row">
+                                        <div class="col s12 m12 l6">
+                                            <label for="edit_date_added">Date Collected</label>
+                                            <datepicker id="edit_date_added" placeholder="Date of feeding" :format="customFormatter" v-model="edit_date_collected"></datepicker>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m12 l6">
+                                            <label class="active">Feed Offered (g)</label>
+                                            <input v-model.number="edit_offered" class="validate" placeholder="Amount of Feed Offered (g)" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$" validate>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m12 l6">
+                                            <label class="active">Feed Refused (g)</label>
+                                            <input v-model.number="edit_refused" class="validate" placeholder="Amount of Feed Refused (g)" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$" validate>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m12 l6 input-field">
+                                            <input v-model="edit_remarks" placeholder="Edit remarks" id="edit_remarks" type="text">
+                                            <label for="edit_remarks" class="active">Remarks</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-action waves-effect waves-gray btn-flat modal-close" type="submit">Submit</button>
+                            <a @click="edit_feeding_record=null;edit_date_collected='';edit_offered='';edit_refused='';edit_remarks=''" href="#!" class="modal-action modal-close waves-effect waves-grey btn-flat">Close</a>
                         </div>
                     </form>
                 </div>
@@ -175,7 +222,7 @@
             Datepicker
         },
         props: [
-            'breeder', 'breeder_tag', 'animal_type'
+            'breeder', 'animal_type'
         ],
         data()  {
             return {
@@ -195,6 +242,12 @@
                 check_date_collected : true,
                 check_date_start : true,
                 check_date_end : true,
+
+                edit_feeding_record : null,
+                edit_date_collected : '',
+                edit_offered : '',
+                edit_refused : '',
+                edit_remarks : '',
             }   
         },
         methods : {
@@ -202,7 +255,7 @@
                 this.fetchFeedingRecord();
             },
             fetchFeedingRecord : function (page = 1) {
-                axios.get('breeder_feeding/'+this.breeder+'?page='+page)
+                axios.get('breeder_feeding/'+this.breeder.inventory_id+'?page='+page)
                 .then(response => {
                     this.feedings = response.data;
                     this.feedings_length = this.feedings.data.length;
@@ -250,6 +303,24 @@
                 });
                 this.initialize();
             },
+            editFeedingRecord : function () {
+                axios.post('edit_breeder_feeding', {
+                    feeding_record : this.edit_feeding_record,
+                    date_collected : this.customFormatter(this.edit_date_collected),
+                    feed_offered : this.edit_offered,
+                    feed_refused: this.edit_refused,
+                    remarks: this.edit_remarks,
+                })
+                .then(response => {
+                    this.edit_feeding_record = null;
+                    this.edit_date_collected = '';
+                    this.edit_offered = '';
+                    this.edit_refused = '';
+                    this.edit_remarks = '';
+                    Materialize.toast('Successfully edited feeding record', 5000, 'green rounded');
+                });
+                this.initialize();
+            },
             deleteFeedingRecord : function () {
                 axios.delete('breeder_delete_feeding/' + this.selected_feeding_record.feeding_id)
                 .then(response => {
@@ -283,9 +354,6 @@
                 this.$emit('close_feeding', null)
             },
         },
-        beforeCreate() {
-            $('.tooltipped').tooltip('remove');
-        },
         mounted() {
             $('#feeding').modal({
                 dismissible : false,
@@ -293,13 +361,10 @@
             $('#delete_feeding').modal({
                 dismissible : false,
             });
-
-        },
-        created() {
+            $('#edit_feeding_modal').modal({
+                dismissible : false,
+            });
             this.initialize();
-        },
-        destroyed () {
-            $('.tooltipped').tooltip({delay: 50});
         },
     }
 </script>

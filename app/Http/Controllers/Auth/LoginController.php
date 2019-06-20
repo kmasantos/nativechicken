@@ -9,6 +9,7 @@ use Auth;
 use Socialite;
 use Google_Client;
 use App\Models\User;
+use Crypt;
 
 class LoginController extends Controller
 {
@@ -64,11 +65,17 @@ class LoginController extends Controller
         if(!is_null($findUser) && $findUser->blocked == false){
             if($findUser->role_id == 2){
                 Auth::login($findUser, true);
-                $user->remember_token = $user->token;
+                if($findUser->picture === null){
+                    $findUser->picture = $user->getAvatar();
+                    $findUser->save();
+                }
                 return redirect()->action('AdminController@index');
             }else{
                 Auth::login($findUser, true);
-                $user->remember_token = $user->token;
+                if($findUser->picture === null){
+                    $findUser->picture = $user->getAvatar();
+                    $findUser->save();
+                }
                 return redirect()->action('FarmController@index');
             }
         }else{

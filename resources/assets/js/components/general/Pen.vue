@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="pen_div">
         <!-- MAIN DIV -->
         <div class="row">
             <div class="col s12 m12 l12">
@@ -93,7 +93,7 @@
             </div>
         </div>
         <!-- FAB -->
-        <div class="fixed-action-btn horizontal click-to-toggle tooltipped" data-position="left" data-delay="50" data-tooltip="Add pen">
+        <div class="fixed-action-btn horizontal click-to-toggle tooltip" data-tippy-content="Add pen">
             <a class="btn-floating btn-large blue-grey darken-1 modal-trigger" href="#pen_modal">
                 <i class="fas fa-plus"></i>
             </a>
@@ -150,7 +150,7 @@
                             <h4>Edit Pen {{selected_pen_number}}</h4>
                         </div>
                         <div class="col s12 m12 l3">
-                            <a @click="closeEditModal" href="#delete_pen" class="waves-effect waves-red btn-flat red-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Delete Pen"><i class="far fa-trash-alt left"></i> Delete</a>
+                            <a @click="closeEditModal" href="#delete_pen" class="waves-effect waves-red btn-flat red-text tooltip modal-trigger" data-tippy-content="Delete Pen"><i class="far fa-trash-alt left"></i> Delete</a>
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -194,127 +194,135 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                pens_loaded : false,
-                pens_not_empty : false,
-                search_number : '',
-                search_type : [],
-                pens : {},
-                pens_length : 0,
-                pen_number : '',
-                pen_type : '',
-                pen_capacity : '',
+import tippy from 'tippy.js';
+export default {
+    data() {
+        return {
+            pens_loaded : false,
+            pens_not_empty : false,
+            search_number : '',
+            search_type : [],
+            pens : {},
+            pens_length : 0,
+            pen_number : '',
+            pen_type : '',
+            pen_capacity : '',
 
-                selected_pen : '',
-                selected_pen_number : '',
-                edit_number : '',
-                edit_capacity : '',
-            }
-        },
-        methods : {
-            initialize : function () {
-                this.loadPen();
-            },
-            loadPen : function (page = 1) {
-                this.pens_loaded = false;
-                this.pens_not_empty = false;
-                axios.get('fetch_pens?page='+page)
-                .then(response => {
-                    this.pens = response.data;
-                    this.pens_length = this.pens.data.length;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                this.pens_loaded = true;
-                this.pens_not_empty = true;
-            },
-            searchPen : function (page = 1) {
-                var search_array = new Array(this.search_number, this.search_type);
-                axios.get('search_pens/'+ JSON.stringify(search_array)+'?page='+page)
-                .then(response => {
-                    this.pens = response.data
-                    this.pens_length = this.pens.data.length;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            addPen : function () {
-                axios.post('add_pens', {
-                    pen_number: this.pen_number,
-                    type: this.pen_type,
-                    pen_capacity : this.pen_capacity
-                }).then(response => {
-                    if(response.data.error == undefined){
-                        this.pen_number = '';
-                        this.pen_type = false;
-                        this.pen_capacity = '';
-                        Materialize.toast('Successfully added ' + response.data.message, 3000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
-                    }
-
-                })
-                .catch(error => {
-                    Materialize.toast('Failed to add pen with error : ' + error.message, 3000, 'red rounded');
-                });
-                this.initialize();
-            },
-            editPen : function () {
-                axios.patch('edit_pen', {
-                    pen_id : this.selected_pen,
-                    pen_number: this.edit_number,
-                    type: this.edit_type,
-                    pen_capacity : this.edit_capacity
-                }).then(response => {
-                    if(response.data.error == undefined){
-                        this.selected_pen = '';
-                        this.edit_number = '';
-                        this.edit_capacity = '';
-                        Materialize.toast('Successfully edited ' + response.data.message, 3000, 'green rounded');
-                        this.closeEditModal();
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
-                    }
-
-                })
-                .catch(error => {
-                    Materialize.toast('Failed to edit pen with error : ' + error.message, 3000, 'red rounded');
-                });
-                this.initialize();
-            },
-            deletePen : function (){
-                axios.delete('delete_pen/'+this.selected_pen)
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.selected_pen = '';
-                        $('#delete_pen').modal('close')
-                        Materialize.toast('Successfully deleted ' + response.data.message, 3000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
-                    }
-                })
-                .catch(error => {
-                    Materialize.toast('Failed to deleted pen with error : ' + error.message, 3000, 'red rounded');
-                });
-                this.initialize();
-            },
-            closeEditModal : function () {
-                $('#pen_edit').modal('close');
-            },
-            capitalize : function (string) {
-                var lower = string;
-                var upper = lower.charAt(0).toUpperCase() + lower.substr(1);
-                return upper;
-            },
-        },
-        created() {
-            this.initialize();
+            selected_pen : '',
+            selected_pen_number : '',
+            edit_number : '',
+            edit_capacity : '',
         }
+    },
+    methods : {
+        initialize : function () {
+            this.loadPen();
+        },
+        loadPen : function (page = 1) {
+            this.pens_loaded = false;
+            this.pens_not_empty = false;
+            axios.get('fetch_pens?page='+page)
+            .then(response => {
+                this.pens = response.data;
+                this.pens_length = this.pens.data.length;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            this.pens_loaded = true;
+            this.pens_not_empty = true;
+        },
+        searchPen : function (page = 1) {
+            var search_array = new Array(this.search_number, this.search_type);
+            axios.get('search_pens/'+ JSON.stringify(search_array)+'?page='+page)
+            .then(response => {
+                this.pens = response.data
+                this.pens_length = this.pens.data.length;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        addPen : function () {
+            axios.post('add_pens', {
+                pen_number: this.pen_number,
+                type: this.pen_type,
+                pen_capacity : this.pen_capacity
+            }).then(response => {
+                if(response.data.error == undefined){
+                    this.pen_number = '';
+                    this.pen_type = false;
+                    this.pen_capacity = '';
+                    Materialize.toast('Successfully added ' + response.data.message, 3000, 'green rounded');
+                }else{
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+
+            })
+            .catch(error => {
+                Materialize.toast('Failed to add pen with error : ' + error.message, 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        editPen : function () {
+            axios.patch('edit_pen', {
+                pen_id : this.selected_pen,
+                pen_number: this.edit_number,
+                type: this.edit_type,
+                pen_capacity : this.edit_capacity
+            }).then(response => {
+                if(response.data.error == undefined){
+                    this.selected_pen = '';
+                    this.edit_number = '';
+                    this.edit_capacity = '';
+                    Materialize.toast('Successfully edited ' + response.data.message, 3000, 'green rounded');
+                    this.closeEditModal();
+                }else{
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+
+            })
+            .catch(error => {
+                Materialize.toast('Failed to edit pen with error : ' + error.message, 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        deletePen : function (){
+            axios.delete('delete_pen/'+this.selected_pen)
+            .then(response => {
+                if(response.data.error == undefined){
+                    this.selected_pen = '';
+                    $('#delete_pen').modal('close')
+                    Materialize.toast('Successfully deleted ' + response.data.message, 3000, 'green rounded');
+                }else{
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            })
+            .catch(error => {
+                Materialize.toast('Failed to deleted pen with error : ' + error.message, 3000, 'red rounded');
+            });
+            this.initialize();
+        },
+        closeEditModal : function () {
+            $('#pen_edit').modal('close');
+        },
+        capitalize : function (string) {
+            var lower = string;
+            var upper = lower.charAt(0).toUpperCase() + lower.substr(1);
+            return upper;
+        },
+    },
+    mounted() {
+        this.initialize();
+        tippy('#pen_div', {
+            target : '.tooltip',
+            arrow: true,
+            arrowType: 'round',
+            animation: 'scale',
+            inertia: true,
+        });
     }
+}
 </script>
 
 <style>

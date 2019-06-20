@@ -6,9 +6,9 @@
                     <div class="col s10 l10 valign">
                         <h5 style="font-family: 'Poppins', sans-serif;">{{selected}}</h5>
                         <i v-if="selected==='Boholano Native Chicken'">Developed and maintained by Department of Agriculture - Ubay Stock Farm<br>Ubay, Bohol</i>
-                        <i v-if="selected==='Camarines Native Chicken'">Purified and maintained by Bicol University College of Agriculture and Forestry<br>Bicol Region</i>
+                        <i v-if="selected==='Camarines Native Chicken'">Developed and maintained by Bicol University College of Agriculture and Forestry<br>Guinobatan, Albay</i>
                         <i v-if="selected==='Darag Native Chicken'">Developed and maintained by West Visayas State University<br>La Paz, Iloilo</i>
-                        <i v-if="selected==='ZamPen Native Chicken'">Purified and maintained by Western Mindanao State University<br>San Ramon, Zamboanga</i>
+                        <i v-if="selected==='ZamPen Native Chicken'">Developed and maintained by Western Mindanao State University<br>San Ramon, Zamboanga City</i>
                     </div>
                     <div class="col s2 l2 valign">
                         <a @click="close" class="waves-effect waves-gray btn-flat tooltip" data-tippy-content="Close"><i class="far fa-times-circle"></i></a>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="row">
                         <div class="col s12 l12">
-                            <h6 style="font-family: 'Poppins', sans-serif; font-size:1.3em">History of Camarines Native Chicken Strain</h6>
+                            <h6 style="font-family: 'Poppins', sans-serif; font-size:1.3em">History of Camarines Native Chicken</h6>
                         </div>
                         <div class="col s12 l12">
                             <p>Camarines was developed from the local <i>“Balawon”</i> native chickens in the Bicol Region.</p>
@@ -95,7 +95,7 @@
                         <div class="col s12 l12">
                             <ul style="font-family: 'Raleway', sans-serif; font-size: 1.2em; display:inline-block; margin-left:3em; font-weight:normal font-style:">
                                 <li><i class="fas fa-chevron-right"></i> Age at first lay – 20-22 weeks of age</li>
-                                <li><i class="fas fa-chevron-right"></i> Egg production per hen per year – 100</li>
+                                <li><i class="fas fa-chevron-right"></i> Egg production per hen per year – 62</li>
                                 <li><i class="fas fa-chevron-right"></i> Egg weight – 40 g</li>
                                 <li><i class="fas fa-chevron-right"></i> Fertility of 69% and Hatchability of 70%</li>
                             </ul>
@@ -115,11 +115,11 @@
                     </div>
                     <div class="row">
                         <div class="col s12 l12">
-                            <h6 style="font-family: 'Poppins', sans-serif; font-size:1.3em">History of Darag Native Chicken Strain</h6>
+                            <h6 style="font-family: 'Poppins', sans-serif; font-size:1.3em">History of Darag Native Chicken</h6>
                         </div>
                         <div class="col s12 l12">
                             <p>West Visayas State University (WVSU), Iloilo City started the collection, purification, and development of Darag in 1985 using its Institutional resources.</p>
-                            <p>Dr. Bernabe B. Cocjin, then faculty of the College of Agriculture who later became WVSU President, initiated the collection of the Philippine native chickens in Panay Island with the focus on the yellowish brown plumage and gray leg color. After purification process, the Center for Darag was established at the WVSU College of Agriculture and Forestry in Lambunao, Iloilo in 1991. Budget, facilities, and people were some of the constraints in the center that hampered the operation and eventually decreased the chicken population. To save the program, Dr. Cocjin had no choice but to bring back the production to the main campus of Iloilo City.</p>
+                            <p>Dr. Bernabe B. Cocjin, then faculty of the College of Agriculture who later became WVSU President, initiated the collection of the Philippine native chickens in Panay Island with the focus on the yellowish brown plumage and gray shank color. After purification process, the Center for Darag was established at the WVSU College of Agriculture and Forestry in Lambunao, Iloilo in 1991. Budget, facilities, and people were some of the constraints in the center that hampered the operation and eventually decreased the chicken population. To save the program, Dr. Cocjin had no choice but to bring back the production to the main campus of Iloilo City.</p>
                             <p>From 1997 to 2004, DOST-PCAARRD funded research on the “Improvement, Utilization and Conservation Project for Philippine Chickens in Western Visayas” in collaboration with UP Los Banos, was conducted to produce the elite flock and implement breeding systems that can be used by farmers. In 2006, the progeny of this flock were introduced to the farmers’ field under different farming systems for acclimatization.</p>
                             <p>In 2011, DOST-PCAARRD funded a new project on the sustainable production and commercialization of Darag Chicken. Proof of the development and success of this program was the increasing number of native chicken technology adopters and industry partners that reached a total of 223 in the region. The recently terminated project produced 11, 579 breeders and 105,095 chickens for slaughter.</p>
                             <p>Together with the WVSU Darag team spearheaded by Dr. Ma. Lulu L. Loyola, and the organized group of breeders (Panay Darag Breeders Association, Adventist Development Relief Agency, Cameleon Association Inc., etc.) jointly ensure the sustainable production and stable supply of Darag in the region.</p>
@@ -155,23 +155,23 @@
                 <div v-if="selected==='ZamPen Native Chicken'">
                     <div class="row">
                         <div class="col s12 l5">
-                            <img class="materialboxed" data-caption="Zampen Native Chicken" height="400px" width="100%" src="https://i.ibb.co/T4pktXS/zampen1.png">
+                            <img class="materialboxed" data-caption="Zampen Native Chicken © M.J. Cuadra" height="400px" width="100%" src="https://i.ibb.co/T4pktXS/zampen1.png">
                         </div>
                         <div class="col s12 l4">
-                            <img class="materialboxed" data-caption="Zampen Native Chicken (Rooster)" height="400px" width="100%" src="https://i.ibb.co/QQ8kYdL/image.png">
+                            <img class="materialboxed" data-caption="ZamPen Native Chicken (Rooster) © M.J. Cuadra" height="400px" width="100%" src="https://i.ibb.co/QQ8kYdL/image.png">
                         </div>
                         <div class="col s12 l3">
-                            <img class="materialboxed" data-caption="Zampen Native Chicken (Hen)" height="400px" width="100%" src="https://i.ibb.co/NpDjfyv/zampen2.jpg">
+                            <img class="materialboxed" data-caption="ZamPen Native Chicken (Hen) © M.J. Cuadra" height="400px" width="100%" src="https://i.ibb.co/NpDjfyv/zampen2.jpg">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s12 l12">
-                            <h6 style="font-family: 'Poppins', sans-serif; font-size:1.3em">History of ZamPen Native Chicken Strain</h6>
+                            <h6 style="font-family: 'Poppins', sans-serif; font-size:1.3em">History of ZamPen Native Chicken</h6>
                         </div>
                         <div class="col s12 l12">
                             <p>The ZamPen native chicken was developed from Joloano strain that had undergone a process of breeding and selection to come up a homogenous population.</p>
                             <p>Western Mindanao State University (WMSU) initiated a research project on the purification of the strain last 2013 which was funded by DOST-PCAARRD. The populations were collected from the different parts of Region 9 (Zamboanga Peninsula), particularly in Zamboanga City, Zamboanga del Sur and Zamboanga Del Norte.</p>
-                            <p>Selection of initial breeders were based on physical traits of sexually matured female such as black plumage color, medium sized pea comb, orange iris, full breast and large body size. For the sexually matured males, traits include plumage color of chestnut  to red and black with white tinge in body and tail (“Bulaon”), red pea comb, long neck,  large well-developed breast muscle, large body size, and long legs. These initial breeding stocks were used in the purification process and raised under semi-confinement system at 1:5 male to female ratio. With this process, the 3rd generation came up with common features and is now branded as “ZamPen Native Chicken”. The breed is being maintained by WMSU and some identified breeders/multiplier farms in the region.</p>
+                            <p>Selection of initial breeders were based on physical traits of sexually matured female such as black plumage color, medium sized pea comb, orange iris, full breast and large body size. For the sexually matured males, traits include plumage color of chestnut  to red and black with white tinge in body and tail <i>(“Buyugon”)</i>, red pea comb, long neck,  large well-developed breast muscle, large body size, and long legs. These initial breeding stocks were used in the purification process and raised under semi-confinement system at 1:5 male to female ratio. With this process, the 3rd generation came up with common features and is now branded as “ZamPen Native Chicken”. The breed is being maintained by WMSU and some identified breeders/multiplier farms in the region.</p>
                         </div>
                         <div class="col s12 l12">
                             <h6 style="font-family: 'Poppins', sans-serif; font-size:1.3em">Physical Characteristics</h6>
@@ -179,9 +179,9 @@
                         <div class="col s12 l12">
                             <ul style="font-family: 'Raleway', sans-serif; font-size: 1.2em; display:inline-block; margin-left:3em; font-weight:normal font-style:">
                                 <li><i class="fas fa-chevron-right"></i> Most ZamPen roosters have plain black plumage with red saddle and back, while hens have plain black plumage.</li>
-                                <li><i class="fas fa-chevron-right"></i> ZamPen native chickens have red pea comb, red earlobe, orange iris, black beak, white skin and stands upright. Shanks of roosters are either yellow or gray, while most hens have grey shanks.</li>
+                                <li><i class="fas fa-chevron-right"></i> ZamPen native chickens have red pea comb, red earlobe, orange iris, black beak, white skin and stands upright. Shanks of roosters are either yellow or gray, while most hens have gray shanks.</li>
                                 <li><i class="fas fa-chevron-right"></i> At 16 weeks of age, ZamPen roosters weigh 1.29 kg with a height of 24 cm and body length of about 43 cm. Their chest circumference measures 31 cm while their wingspan is 45 cm. Shank length is 11 cm.</li>
-                                <li><i class="fas fa-chevron-right"></i> Zampen hens weigh 1.1 kg and are 24 cm tall. Their body length is 39 cm, chest circumference is 29 cm and wingspan spreads to 41 cm. Shank length is 9 cm.</li>
+                                <li><i class="fas fa-chevron-right"></i> ZamPen hens weigh 1.1 kg and are 24 cm tall. Their body length is 39 cm, chest circumference is 29 cm and wingspan spreads to 41 cm. Shank length is 9 cm.</li>
                             </ul>
                         </div>
                         <div class="col s12 l12">

@@ -1,10 +1,11 @@
 <template>
-        <div class="row">
+        <div id="brooder_inventory_div" class="row">
             <div class="col s12 m12 l12">
                 <div class="card-panel blue-grey lighten-5">
                     <div class="row valign-wrapper">
                         <div class="col s8 m8 l8">
                             <h5>Pen {{inv_pen_number}} Inventory</h5>
+                            <i>Hover  <i class="far fa-question-circle"></i> for more info</i>
                         </div>
                         <div class="col s4 m4 l4 right-align">
                             <a v-on:click="closeInventory" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
@@ -20,20 +21,17 @@
                                         <th>Line</th>
                                         <th>Gen</th>
                                         <th>Batch Date</th>
-                                        <th><i class="fas fa-mars"></i></th>
-                                        <th><i class="fas fa-venus"></i></th>
                                         <th><i class="fas fa-venus-mars"></i></th>
                                         <th>Added</th>
                                         <!-- <th>Update</th> -->
-                                        <th>Mort/Sale</th>
-                                        <th>Cull</th>
+                                        <th class="tooltip" data-tippy-content="<p><strong>Record Mortality or Sales</strong></p><p><i>Record this inventory's mortality or sales in case of chick death or selling</i></p>">Mort/Sale<sup><i class="far fa-question-circle"></i></sup></th>
+                                        <th class="tooltip" data-tippy-content="<p><strong>Cull Brooder</strong></p><p><i>Cull this inventory and without removing database entry</i></p>"><i class="fas fa-book-dead"><sup><i class="far fa-question-circle"></i></sup></i></th>
+                                        <th class="tooltip" data-tippy-content="<p><strong>Force Delete Brooder</strong></p><p><i>Delete this brooder and all of it's records from the database completely</i></p>"><i class="fas fa-eraser"><sup><i class="far fa-question-circle"></i></sup></i></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr v-if="inventories_length == 0">
-                                        <td>-</td>
-                                        <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
@@ -52,16 +50,12 @@
                                         <td>{{inventory.gen_number}}</td>
                                         <td v-if="inventory.batching_date == null">N/A</td>
                                         <td v-else>{{inventory.batching_date}}</td>
-                                        <td v-if="inventory.number_male == null">N/A</td>
-                                        <td v-else>{{inventory.number_male}}</td>
-                                        <td v-if="inventory.number_female == null">N/A</td>
-                                        <td v-else>{{inventory.number_female}}</td>
                                         <td>{{inventory.total}}</td>
                                         <td>{{inventory.last_update}}</td>
                                         <!-- <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag" href="#update" class="modal-trigger"><i class="fas fa-pen-square"></i></a></td> -->
                                         <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag;getMortalitySale();if(inventory.number_male!=null||inventory.number_female!=null)updated=true;" href="#mortality_sale" class="modal-trigger"><i class="fas fa-dollar-sign"></i></a></td>
-                                        <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag" href="#cull_modal" class="modal-trigger"><i class="fas fa-minus-circle"></i></a></td>
-
+                                        <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag" href="#cull_modal" class="modal-trigger"><i class="fas fa-book-dead"></i></a></td>
+                                        <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.broodergrower_tag" class="modal-trigger" href="#force_delete_modal"><i class="fas fa-eraser"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -75,38 +69,6 @@
                     </div>
                 </div>
 
-                <!-- Update Modal -->
-                <div  id="update" class="modal modal-fixed-footer">
-                    <form method="patch" v-on:submit.prevent="updateBrooderGrower">
-                        <div class="modal-content">
-                            <div class="row">
-                                <div class="col s12 m12 l12">
-                                    <h4>Update {{selected_inventory_tag}}</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m12 l12">
-                                    <div class="row">
-                                        <div class="col s12 s6 m6 input-field">
-                                            <input v-model.number="number_male" class="validate" placeholder="Update number of male" id="male" type="number" min="0">
-                                            <label class="active" for="male">Male</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col s12 s6 m6 input-field">
-                                            <input v-model.number="number_female" class="validate" placeholder="Update number of female" id="female" type="number" min="0">
-                                            <label class="active" for="female">Female</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                            <button href="javascript:void(0)"  class="modal-action modal-close waves-effect waves-green btn-flat" type="submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
                 <div id="mortality_sale" class="modal modal-fixed-footer">
                     <div class="modal-content">
                         <div class="row valign-wrapper">
@@ -125,18 +87,14 @@
                                         <th>Date</th>
                                         <th>Category</th>
                                         <th>Type</th>
-                                        <th>Male</th>
-                                        <th>Female</th>
                                         <th>Total</th>
                                         <th>Price/kg</th>
                                         <th>Reason</th>
                                     </tr>
                                     </thead>
 
-                                    <tbody>
-                                        <tr v-if="records_length === 0">
-                                            <td>-</td>
-                                            <td>-</td>
+                                    <tbody v-if="(Object.entries(records).length === 0 && records.constructor === Object)">
+                                        <tr>
                                             <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
@@ -144,14 +102,12 @@
                                             <td>-</td>
                                             <td>-</td>
                                         </tr>
+                                    </tbody>
+                                    <tbody v-else>
                                         <tr v-for="record in records.data" :key="record.id">
                                             <td>{{record.date}}</td>
                                             <td>{{capitalize(record.category)}}</td>
                                             <td>{{capitalize(record.type)}}</td>
-                                            <td v-if="record.male == null">-</td>
-                                            <td v-else>{{record.male}}</td>
-                                            <td v-if="record.female == null">-</td>
-                                            <td v-else>{{record.female}}</td>
                                             <td>{{record.total}}</td>
                                             <td v-if="record.price == null">-</td>
                                             <td v-else>{{record.price}}</td>
@@ -312,13 +268,24 @@
                 </div>
                 <div id="cull_modal" class="modal">
                     <div class="modal-content">
-                        <h4 class="red-text"><i class="fas fa-exclamation-triangle"></i> Cull Replacement {{selected_inventory_tag}}?</h4>
+                        <h4 class="red-text"><i class="fas fa-exclamation-triangle"></i> Cull Brooder {{selected_inventory_tag}}?</h4>
                         <p>Are you sure you want to <strong>Cull</strong> this brooder group?</p>
                         <p>This action is <strong>irreversible</strong></p>
                     </div>
                     <div class="modal-footer">
+                        <a @click="cullBrooder()"  href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
                         <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
-                        <a @click="cullBrooder()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                    </div>
+                </div>
+                <div id="force_delete_modal" class="modal">
+                    <div class="modal-content">
+                        <h4 class="red-text"><i class="fas fa-exclamation-triangle"></i> Force Delete Brooder {{selected_inventory_tag}}?</h4>
+                        <p>Are you sure you want to <strong>FORCE DELETE</strong> this brooder group?</p>
+                        <p>This action is <strong>irreversible</strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a @click="forceDeleteBrooder()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Yes</a>
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">No</a>
                     </div>
                 </div>
             </div>
@@ -326,197 +293,206 @@
 </template>
 
 <script>
-    import Datepicker from 'vuejs-datepicker';
-    export default {
-        components : {
-            Datepicker
-        },
-        props: [
-            'inv_pen_id', 'inv_pen_number'
-        ],
-        data () {
-            return {
-                inventories : {},
-                inventories_length : 0,
-                selected_inventory_id : '',
-                selected_inventory_tag : '',
-                number_male : '',
-                number_female : '',
+import Datepicker from 'vuejs-datepicker';
+import tippy from 'tippy.js';
+export default {
+    components : {
+        Datepicker
+    },
+    props: [
+        'inv_pen_id', 'inv_pen_number'
+    ],
+    data () {
+        return {
+            inventories : {},
+            inventories_length : 0,
+            selected_inventory_id : '',
+            selected_inventory_tag : '',
+            number_male : '',
+            number_female : '',
 
-                records : {},
-                records_length : 0,
-                updated : false,
+            records : {},
+            records_length : 0,
+            updated : false,
 
-                mort_date_died : '',
-                mort_male : '',
-                mort_female : '',
-                mort_total : '',
-                mort_reason : '',
-                mort_remarks : '',
+            mort_date_died : '',
+            mort_male : '',
+            mort_female : '',
+            mort_total : '',
+            mort_reason : '',
+            mort_remarks : '',
 
-                sale_date : '',
-                sale_male : '',
-                sale_female : '',
-                sale_total : '',
-                sale_price : '',
-                sale_remarks : '',
-            }
+            sale_date : '',
+            sale_male : '',
+            sale_female : '',
+            sale_total : '',
+            sale_price : '',
+            sale_remarks : '',
+        }
+    },
+    methods : {
+        initialize : function () {
+            this.fetchPenInventory();
         },
-        methods : {
-            initialize : function () {
-                this.fetchPenInventory();
-            },
-            fetchPenInventory : function (page = 1) {
-                axios.get('broodergrower_pen_info/'+this.inv_pen_id+'?page='+page)
-                .then(response => {
-                    this.inventories = response.data;
-                    this.inventories_length = this.inventories.data.length;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            updateBrooderGrower : function () {
-                axios.patch('update_broodergrower', {
-                    broodergrower_inventory_id : this.selected_inventory_id,
-                    number_male : this.number_male,
-                    number_female : this.number_female
-                })
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.number_male = '',
-                        this.number_female = '',
-                        Materialize.toast('Successfully updated inventory record', 3000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
-                    }
-                }).catch(error => {
-                    Materialize.toast('Failed to update inventory record', 3000, 'rounded');
-                });
-                this.initialize();
-            },
-            getMortalitySale : function (page = 1) {
-                axios.get('brooder_mortalitysale_record/'+this.selected_inventory_id+'?page='+page)
-                .then(response => {
-                    this.records = response.data;
-                    this.records_length = this.records.data.length;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            },
-            addSalesRecord : function () {
-                axios.post('brooder_sale', {
-                    brooder_id : this.selected_inventory_id,
-                    date : this.customFormatter(this.sale_date),
-                    male : this.sale_male,
-                    female : this.sale_female,
-                    total : this.sale_total,
-                    price : this.sale_price,
-                    remarks : this.sale_remarks,
-                })
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.sale_date = '';
-                        this.sale_male = '';
-                        this.sale_female = '';
-                        this.sale_total = '';
-                        this.sale_remarks = '';
-                        this.sale_price = '';
-                        Materialize.toast('Successfully added sales record', 3000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
-                    }
-                })
-                .catch(error => {
-                    Materialize.toast(error, 3000, 'red rounded');
-                });
-                this.getMortalitySale();
-                this.fetchPenInventory();
-                $('#mortality').modal('close');
-            },
-            addMortalityRecord : function () {
-                axios.post('brooder_mortality', {
-                    brooder_id : this.selected_inventory_id,
-                    date : this.customFormatter(this.mort_date_died),
-                    male : this.mort_male,
-                    female : this.mort_female,
-                    total : this.mort_total,
-                    reason : this.mort_reason,
-                    remarks : this.mort_remarks,
-                })
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.mort_date_died = '';
-                        this.mort_male = '';
-                        this.mort_female = '';
-                        this.mort_tota = '';
-                        this.mort_reason = '';
-                        this.mort_remarks = '';
-                        Materialize.toast('Successfully added mortality record', 3000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
-                    }
-                })
-                .catch(error => {
-                    Materialize.toast(error, 3000, 'red rounded');
-                });
-                this.getMortalitySale();
-                this.fetchPenInventory();
-                $('#mortality').modal('close');
-            },
-            cullBrooder : function () {
-                axios.delete('cull_brooder/'+this.selected_inventory_id)
-                .then(response => {
-                    if(response.data.error == undefined){
-                        this.selected_inventory_id = '';
-                        $('#cull_modal').modal('close')
-                        Materialize.toast('Successfully culled replacement', 5000, 'green rounded');
-                    }else{
-                        Materialize.toast(response.data.error, 5000, 'red rounded');
-                    }
-                })
-                .catch(error => {
-                    Materialize.toast('Failed to cull replacement', 5000, 'red rounded');
-                });
-                this.getMortalitySale();
-                this.fetchPenInventory();
-            },
-            customFormatter : function(date) {
-                return moment(date).format('YYYY-MM-DD');
-            },
-            capitalize : function (string) {
-                var lower = string;
-                var upper = lower.charAt(0).toUpperCase() + lower.substr(1);
-                return upper;
-            },
-            closeInventory : function () {
-                this.$emit('close_inventory', null)
-            }
-        },
-        beforeCreate() {
-            $('.tooltipped').tooltip('remove');
-        },
-        created () {
-            this.initialize();
-        },
-        mounted () {
-            $('#update').modal({
-                dismissible : false,
+        fetchPenInventory : function (page = 1) {
+            axios.get('broodergrower_pen_info/'+this.inv_pen_id+'?page='+page)
+            .then(response => {
+                this.inventories = response.data;
+                this.inventories_length = this.inventories.data.length;
+            })
+            .catch(function (error) {
+                console.log(error);
             });
-            $('#mortality_sale').modal({
-                dismissible : false,
-            });
-            $('#mortality').modal({
-                dismissible : false,
-            });
-            $('#cull_modal').modal({
-                dismissible : false,
-            });
-            $('ul.tabs').tabs();
         },
-        destroyed () {
-            $('.tooltipped').tooltip({delay: 50});
+        getMortalitySale : function (page = 1) {
+            axios.get('brooder_mortalitysale_record/'+this.selected_inventory_id+'?page='+page)
+            .then(response => {
+                this.records = response.data;
+                this.records_length = this.records.data.length;
+            })
+            .catch(error => {
+                console.log(error);
+            });
         },
-    }
+        addSalesRecord : function () {
+            axios.post('brooder_sale', {
+                brooder_id : this.selected_inventory_id,
+                date : this.customFormatter(this.sale_date),
+                male : this.sale_male,
+                female : this.sale_female,
+                total : this.sale_total,
+                price : this.sale_price,
+                remarks : this.sale_remarks,
+            })
+            .then(response => {
+                if(response.data.error == undefined){
+                    this.sale_date = '';
+                    this.sale_male = '';
+                    this.sale_female = '';
+                    this.sale_total = '';
+                    this.sale_remarks = '';
+                    this.sale_price = '';
+                    Materialize.toast('Successfully added sales record', 3000, 'green rounded');
+                }else{
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            })
+            .catch(error => {
+                Materialize.toast(error, 3000, 'red rounded');
+            });
+            this.getMortalitySale();
+            this.fetchPenInventory();
+            $('#mortality').modal('close');
+        },
+        addMortalityRecord : function () {
+            axios.post('brooder_mortality', {
+                brooder_id : this.selected_inventory_id,
+                date : this.customFormatter(this.mort_date_died),
+                male : this.mort_male,
+                female : this.mort_female,
+                total : this.mort_total,
+                reason : this.mort_reason,
+                remarks : this.mort_remarks,
+            })
+            .then(response => {
+                if(response.data.error == undefined){
+                    this.mort_date_died = '';
+                    this.mort_male = '';
+                    this.mort_female = '';
+                    this.mort_tota = '';
+                    this.mort_reason = '';
+                    this.mort_remarks = '';
+                    Materialize.toast('Successfully added mortality record', 3000, 'green rounded');
+                }else{
+                    Materialize.toast(response.data.error, 3000, 'red rounded');
+                }
+            })
+            .catch(error => {
+                Materialize.toast(error, 3000, 'red rounded');
+            });
+            this.getMortalitySale();
+            this.fetchPenInventory();
+            $('#mortality').modal('close');
+        },
+        cullBrooder : function () {
+            axios.delete('cull_brooder/'+this.selected_inventory_id)
+            .then(response => {
+                if(response.data.error == undefined){
+                    this.selected_inventory_id = '';
+                    $('#cull_modal').modal('close')
+                    Materialize.toast('Successfully cull brooder', 5000, 'green rounded');
+                }else{
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
+                }
+            })
+            .catch(error => {
+                Materialize.toast('Failed to cull brooder', 5000, 'red rounded');
+            });
+            this.getMortalitySale();
+            this.fetchPenInventory();
+        },
+        forceDeleteBrooder : function () {
+            axios.delete('force_delete_brooder/'+this.selected_inventory_id)
+            .then(response => {
+                if(response.data.error == undefined){
+                    this.selected_inventory_id = '';
+                    $('#cull_modal').modal('close')
+                    Materialize.toast('Successfully deleted brooder', 5000, 'green rounded');
+                }else{
+                    Materialize.toast(response.data.error, 5000, 'red rounded');
+                }
+            })
+            .catch(error => {
+                Materialize.toast('Failed to delete brooder', 5000, 'red rounded');
+            });
+            this.getMortalitySale();
+            this.fetchPenInventory();
+        },
+        customFormatter : function(date) {
+            return moment(date).format('YYYY-MM-DD');
+        },
+        capitalize : function (string) {
+            var lower = string;
+            var upper = lower.charAt(0).toUpperCase() + lower.substr(1);
+            return upper;
+        },
+        closeInventory : function () {
+            this.$emit('close_inventory', null)
+        }
+    },
+    beforeCreate() {
+        $('.tooltipped').tooltip('remove');
+    },
+    created () {
+        this.initialize();
+    },
+    mounted () {
+        $('#update').modal({
+            dismissible : false,
+        });
+        $('#mortality_sale').modal({
+            dismissible : false,
+        });
+        $('#mortality').modal({
+            dismissible : false,
+        });
+        $('#cull_modal').modal({
+            dismissible : false,
+        });
+        $('#force_delete_modal').modal({
+            dismissible : false,
+        });
+        $('ul.tabs').tabs();
+        tippy('#brooder_inventory_div', {
+            target : '.tooltip',
+            arrow: true,
+            arrowType: 'round',
+            animation: 'scale',
+            inertia: true,
+        });
+    },
+    destroyed () {
+        $('.tooltipped').tooltip({delay: 50});
+    },
+}
 </script>
