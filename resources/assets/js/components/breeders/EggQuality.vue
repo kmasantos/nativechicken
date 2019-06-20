@@ -137,7 +137,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
-                                            <input id="egg_weigth" type="number" min=30 max="55" class="validate" v-model="egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <input v-if="animal_type===1" id="egg_weigth" type="number" min="30" max="55" class="validate" v-model="egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <input v-if="animal_type===2" id="egg_weigth" type="number" min="40" max="70" class="validate" v-model="egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
                                             <label class="active" for="egg_weight">Egg Weight (g) 
                                                 <i v-if="check_egg_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
                                                 <i v-if="(animal_type === 1 && egg_weight!=='' && (egg_weight<30 || egg_weight>55))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 30g but less than or equal 55g</i>
