@@ -168,8 +168,8 @@
                     <li class="tooltip" data-tippy-content="Summary"><a href="#Summary" class="menu_links"><i class="fas fa-book-open"></i></a></li>
                     <li class="tooltip" data-tippy-content="Philippine Native Chickens"><a href="#PHNativeChickens" class="menu_links"><i class="fas fa-feather-alt"></i></a></li>
                     <li class="tooltip" data-tippy-content="Philippine Native Ducks"><a href="#PHNativeDucks" class="menu_links"><i class="fas fa-feather"></i></a></li>
-                    <li class="tooltip" data-tippy-content="News & Events"><a href="#news" class="menu_links"><i class="far fa-newspaper"></i></li>
-                    <li class="tooltip" data-tippy-content="Breeder Directory"><a href="#breeders" class="menu_links"><i class="fas fa-list-alt"></i></li>
+                    <li class="tooltip" data-tippy-content="News & Events"><a href="#news" class="menu_links"><i class="far fa-newspaper"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Breeder Directory"><a href="#breeders" class="menu_links"><i class="fas fa-list-alt"></i></a></li>
                     <li><a href="{{ route('google_login') }}" class="waves-effect waves-light btn-large blue-grey lighten-1"><i id="gicon" class="fab fa-google left"></i>Login</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
@@ -178,8 +178,8 @@
                     <li><a href="#Summary" class="menu_links">Summary</a></li>
                     <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
                     <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
-                    <li><a href="#news" class="menu_links">News & Events</i></li>
-                    <li><a href="#breeders" class="menu_links">Breeder Directory</li>
+                    <li><a href="#news" class="menu_links">News & Events</a></li>
+                    <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
                     <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
                 </ul>
             </div>

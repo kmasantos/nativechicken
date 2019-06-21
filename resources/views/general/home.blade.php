@@ -201,7 +201,7 @@
                 </div>
                 <div class="col s12 l12 center-align">
                     <img src="https://i.ibb.co/qL8dM7v/chicken-drawing-kawaii-2-transparent.png" alt="image © https://ui-ex.com/download.html" height="300px">
-                    <h5 style="font-family: 'Poppins', sans-serif;">Wow, such empty</h5>
+                    <h5 style="font-family: 'Poppins', sans-serif;">Coming soon!</h5>
                 </div>
             </div>
             <div class="row">
@@ -224,7 +224,7 @@
                                 <i class="fas fa-phone-square"></i> 09283164577 | 09327931329 | 09952294871
                             </div>
                             <div>
-                                <i class="fas fa-at"></i> dausf1921@gmail.com | antoniotangayanir@gmail.com | joarenkhee@gmail.com
+                                <i class="fas fa-at"></i> dausf1921@gmail.com | antoniotangayanjr@gmail.com | joarenkhee@gmail.com
                             </div>
                         </div>
                         <div class="col s12 l6">
@@ -429,7 +429,7 @@
                                 <i class="fas fa-address-book"></i> Mr. Ramon Marquez
                             </div>
                             <div>
-                                <i class="fas fa-phone-square"></i> 09209670164
+                                <i class="fas fa-phone-square"></i> 09209670164 | 09228105157
                             </div>
                             <br>
                             <div style="font-weight: bold">

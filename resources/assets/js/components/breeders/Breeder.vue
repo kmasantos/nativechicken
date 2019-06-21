@@ -62,6 +62,7 @@
                                                 <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Family : ' + breeder.family_number"><strong>F: {{breeder.family_number}}</strong></li>
                                                 <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Line : ' + breeder.line_number"><strong>L: {{breeder.line_number}}</strong></li>
                                                 <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Generation : ' + breeder.generation_number"><strong>G: {{breeder.generation_number}}</strong></li>
+                                                <li class="collection-item blue-grey lighten-2 tooltip" :data-tippy-content="'Pen : ' + breeder.pen_number"><strong>P: {{breeder.pen_number}}</strong></li>
                                                 <li class="collection-item blue-grey lighten-2 center-align custom_content_inventory">
                                                     <div class="row">
                                                         <div class="col s12 m12 l12">
@@ -1053,12 +1054,12 @@
         height: 700px;
     }
     .custom_card_content{
-        height: 440px;
+        height: 450px;
     }
     .custom_card_content .collection{
         height: 400px;
     }
     .custom_content_inventory {
-        height: 180px;
+        height: 140px;
     }
 </style>

@@ -44,11 +44,12 @@ class BreederController extends Controller
         ->leftJoin('families', 'breeders.family_id', 'families.id')
         ->leftJoin('lines', 'families.line_id', 'lines.id')
         ->leftJoin('generations', 'lines.generation_id', 'generations.id')
+        ->leftJoin('pens', 'pens.id', 'breeder_inventories.pen_id')
         ->where('total', '>', 0)
         ->where('generations.farm_id', Auth::user()->farm_id)
         ->select('breeder_inventories.*', 'breeders.*','families.*',
         'breeder_inventories.id as inventory_id','breeders.id as breeder_id','families.id as family_id','families.number as family_number',
-        'lines.number as line_number', 'generations.number as generation_number')
+        'lines.number as line_number', 'generations.number as generation_number', 'pens.number as pen_number')
         ->paginate(4);
 
         return $inventories;
@@ -1019,9 +1020,6 @@ class BreederController extends Controller
         return view('chicken.breeder.breeder_inventory');
     }
 
-    /**
-     * TODO Complete function for adding additional breeders to the breeder flock
-     */
     public function addAdditionalBreeder(Request $request)
     {
         $breeder_inventory = BreederInventory::where('id', $request->selected_breeder)->first();
