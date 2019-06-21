@@ -16,6 +16,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>PAB-IS | @yield('title')</title>
     <style>
+        .no-format{
+            all: unset;
+            font-family: 'Raleway', sans-serif; 
+        }
+        .farm-name{
+            font-family: 'Raleway', sans-serif; 
+            text-indent: 0em;
+            text-align: center;
+            font-weight: bold;
+        }
         .pagination li.active {
             background-color : #546e7a;
         }
@@ -95,6 +105,7 @@
         .inline_warning_message {
             color: #ff7043;
         }
+        
     </style>
 </head>
 

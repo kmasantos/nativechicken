@@ -13,6 +13,7 @@
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <link href="{{ URL::asset('https://fonts.googleapis.com/icon?family=Material+Icons') }}" rel="stylesheet">
     <title>PAB-IS | Native Chicken and Itik Pinas</title>
+    @yield('custom-css')
     <style>
         #sidenav-overlay { z-index: 1; }
         html{
@@ -144,7 +145,15 @@
         #home-content .indent{
             text-indent: 3em;
         }
-
+        .no-format{
+            all: unset;
+            font-family: 'Raleway', sans-serif; 
+        }
+        .farm-name{
+            font-family: 'Raleway', sans-serif; 
+            text-indent: 0em;
+            text-align: center;
+        }
     </style>
 </head>
 <body id="home">
@@ -160,7 +169,7 @@
                     <li class="tooltip" data-tippy-content="Philippine Native Chickens"><a href="#PHNativeChickens" class="menu_links"><i class="fas fa-feather-alt"></i></a></li>
                     <li class="tooltip" data-tippy-content="Philippine Native Ducks"><a href="#PHNativeDucks" class="menu_links"><i class="fas fa-feather"></i></a></li>
                     <li class="tooltip" data-tippy-content="News & Events"><a href="#news" class="menu_links"><i class="far fa-newspaper"></i></li>
-                    <li class="tooltip" data-tippy-content="Breeders"><a href="#breeders" class="menu_links"><i class="fas fa-list-alt"></i></li>
+                    <li class="tooltip" data-tippy-content="Breeder Directory"><a href="#breeders" class="menu_links"><i class="fas fa-list-alt"></i></li>
                     <li><a href="{{ route('google_login') }}" class="waves-effect waves-light btn-large blue-grey lighten-1"><i id="gicon" class="fab fa-google left"></i>Login</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
@@ -169,6 +178,8 @@
                     <li><a href="#Summary" class="menu_links">Summary</a></li>
                     <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
                     <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
+                    <li><a href="#news" class="menu_links">News & Events</i></li>
+                    <li><a href="#breeders" class="menu_links">Breeder Directory</li>
                     <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
                 </ul>
             </div>

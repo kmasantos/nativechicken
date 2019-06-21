@@ -200,18 +200,257 @@
                     <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-rolled_up_newspaper"></i> News & Events</h5>
                 </div>
                 <div class="col s12 l12 center-align">
-                    <img src="https://i.ibb.co/qL8dM7v/chicken-drawing-kawaii-2-transparent.png" alt="">
-                    <h5>Wow, such empty</h5>
+                    <img src="https://i.ibb.co/qL8dM7v/chicken-drawing-kawaii-2-transparent.png" alt="image © https://ui-ex.com/download.html" height="300px">
+                    <h5 style="font-family: 'Poppins', sans-serif;">Wow, such empty</h5>
                 </div>
             </div>
             <div class="row">
                     <div id="breeders"  class="col s12 l12 scrollspy">
-                        <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-male-farmer"></i> Breeders</h5>
+                        <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-bookmark_tabs"></i> Breeder Directory</h5>
                     </div>
+                    <div class="row">
+                        <div class="col s12 l6">
+                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of Boholano Breeder Farms</h5>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Department of Agriculture VII – Ubay Stock Farm
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Lomangog, Ubay, Bohol
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Dr. Raul D. Migriño | Elizabeth M. Macalandag | Antonio B. Tangayan Jr. 
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09283164577 | 09327931329 | 09952294871
+                            </div>
+                            <div>
+                                <i class="fas fa-at"></i> dausf1921@gmail.com | antoniotangayanir@gmail.com | joarenkhee@gmail.com
+                            </div>
+                        </div>
+                        <div class="col s12 l6">
+                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of Camarines Breeder Farms</h5>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Randy Buen
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Abuyog East Dist. Sorsogon City, Sorsogon
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Precioso Lumabi
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Del Rosario Bacon Dist. Sorsogon City, Sorsogon
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Danilo Fraginal
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> San Isidro Bacon Dist. Sorsogon City, Sorsogon
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Noe Ocbian
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Monte Carmelo, Castilla, Sorsogon
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Salvador Espena
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> San Fernando, Pto. Diaz, Sorsogon
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Nena Espallardo
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> San Ignacio, Gubat, Sorsogon
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col s12 l6">
+                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of Darag Breeder Farms</h5>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> West Visayas State University Darag Center
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Luna Street, La Paz, Iloilo City
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Dr. Ma. Lulu L. Loyola, Vice President for Research, Extension and Training
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> (033) 3200871 to 78 local 1126 or 1127 | 09202156804
+                            </div>
+                            <div>
+                                <i class="fas fa-at"></i> vpret@wvsu.edu.ph
+                            </div>
+                        </div>
+                        <div class="col s12 l6">
+                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of ZamPen Breeder Farms</h5>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> WMSU-CA Native Chicken Project
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> San Ramon, Zamboanga City
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Jocelyn P. Pedroso, WMSU-CA Dean | Ma. Jocelyn E. Cuadra, Project Staff Contact
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 062-992-4280 | (062) 312-1830 | 09177166495
+                            </div>
+                            <div>
+                                <i class="fas fa-at"></i> mjmec27@gmail.com | mjmec28@yahoo.com
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> BUCOR-SRPPF Native Chicken Project
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> San Ramon, Zamboanga City
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> CSupt. Roberto Veneracion, OIC-BUCOR SRPPF | Wilfredo B. Castillo, Project In-charge
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09174480840
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> JHCSC-Dumingag Native Chicken Project 
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Dapiwak, Dumingag, Zamboanga del Sur
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Dr. Moises Glenn Tangalin
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09988856100
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Jambaro's Farm
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Naga, Zamboanga Sibugay
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Nelia Jambaro
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09177223535
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> GARBEMCO
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Kabasalan, Zamboanga Sibugay
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Lilia Manuel
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09177188854
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Apolinario's Farm
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Cabaluay, Zamboanga City
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Ricardo J. Apolinario, Jr. | Bon Padayhag
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09177085181 | 09265440175
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Dimailig's Farm 
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Lumayang, Zamboanga City
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Virgilio Dimailig
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09171048283
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 l12">
+                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of Itik Pinas Breeder Farms</h5>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Alcasid Duck Farm
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Cuyab Hot Spring Resort, Brgy. Bucal, Calamba, Laguna
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Mr. Anthony Alcasid
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09178008093
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> RCR Egg Dealer and Balut Industry
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Carmen Saragoza, Nueva Ecija
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Mr. Rene Ramos
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09973349484
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Green Rose Duck Farm
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Candelaria, Quezon
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Mr. Ramon Marquez
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09209670164
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> ASDF
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Compostella Valley
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Mr. Isidro Albano
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09176332436
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             <div class="row">
                 <div class="col s12 m12 l12 center-align">
-                    <p style="font-family: 'Raleway', sans-serif;">
+                    <p style="font-family: 'Raleway', sans-serif;text-align: center;">
                         Records included in the information system were therefore collected  by our partner institutions.
                     </p>
                 </div>
