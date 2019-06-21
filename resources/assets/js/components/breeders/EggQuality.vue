@@ -141,7 +141,7 @@
                                             <label class="active" for="egg_weight">Egg Weight (g) 
                                                 <i v-if="check_egg_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
                                                 <i v-if="(animal_type === 1 && egg_weight!=='' && (egg_weight<30 || egg_weight>55))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 30g but less than or equal 55g</i>
-                                                <i v-if="(animal_type === 2 && egg_weight!=='' && (egg_weight<40 || egg_weight>70))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 40g but less than or equal 60g</i>
+                                                <i v-if="(animal_type === 2 && egg_weight!=='' && (egg_weight<40 || egg_weight>90))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 40g but less than or equal 90g</i>
                                             </label>
                                         </div>
                                     </div>

@@ -34,6 +34,7 @@
         .nav-button-div{
             padding-top: 20px;
             padding-bottom: 40px;
+            width: 565px;
         }
         #nav-logo-image {
             padding-left: 10px;
@@ -146,20 +147,20 @@
 
     </style>
 </head>
-<body>
+<body id="home">
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper blue-grey darken-1">
                 <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo"/></a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down nav-button-div">
-                    <li><a href="#Home">Home</a></li>
-                    <li><a href="#Data" class="menu_links">Data</a></li>
-                    <li><a href="#Summary" class="menu_links">Summary</a></li>
-                    <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
-                    <li><a href="#ChickenBreeds" class="menu_links">Chicken Breeds</a></li>
-                    <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
-                    <li><a href="#DuckBreeds" class="menu_links">Duck Breeds</a></li>
+                    <li class="tooltip" data-tippy-content="Home"><a href="#Home"><i class="fas fa-home"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Data"><a href="#Data" class="menu_links"><i class="fas fa-table"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Summary"><a href="#Summary" class="menu_links"><i class="fas fa-book-open"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Philippine Native Chickens"><a href="#PHNativeChickens" class="menu_links"><i class="fas fa-feather-alt"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Philippine Native Ducks"><a href="#PHNativeDucks" class="menu_links"><i class="fas fa-feather"></i></a></li>
+                    <li class="tooltip" data-tippy-content="News & Events"><a href="#news" class="menu_links"><i class="far fa-newspaper"></i></li>
+                    <li class="tooltip" data-tippy-content="Breeders"><a href="#breeders" class="menu_links"><i class="fas fa-list-alt"></i></li>
                     <li><a href="{{ route('google_login') }}" class="waves-effect waves-light btn-large blue-grey lighten-1"><i id="gicon" class="fab fa-google left"></i>Login</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
@@ -167,9 +168,7 @@
                     <li><a href="#Data" class="menu_links">Data</a></li>
                     <li><a href="#Summary" class="menu_links">Summary</a></li>
                     <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
-                    <li><a href="#ChickenBreeds" class="menu_links">Chicken Breeds</a></li>
                     <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
-                    <li><a href="#DuckBreeds" class="menu_links">Duck Breeds</a></li>
                     <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
                 </ul>
             </div>
@@ -233,7 +232,7 @@
                     <h5 class="black-text">Philippine Native Chicken and Itik Pinas Breed Information System</h5>
                     <p class="black-text">
                             The "Development of Philippine Native Chicken and Itik Pinas Information System" is a DOST-PCAARRD funded project of the Institute of Animal Science in cooperation with the Institute of Computer Science, University of the Philippines Los Baños. 
-                            The project aims to provide an accessible information source regarding selected Philippine Native Chicken and Itik PINAS Breeds.
+                            The project aims to provide an accessible information source regarding selected Philippine Native Chicken and Itik PINAS breeds.
                     </p>
                 </div>
                 <div class="col l4 offset-l2 s12">
@@ -268,6 +267,8 @@
             </div>
         </div>
     </footer>
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@4"></script>
     <script type="text/javascript" src="/js/app.js"></script>
     <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
@@ -341,6 +342,13 @@
             $('.scrollspy').scrollSpy({
                 scrollOfffset: 110,
                 activeClass : null
+            });
+            tippy('#home', {
+                target : '.tooltip',
+                arrow: true,
+                arrowType: 'round',
+                animation: 'scale',
+                inertia: true,
             });
         });
         

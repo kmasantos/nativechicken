@@ -134,7 +134,7 @@
                                 <li><i class="fas fa-chevron-right"></i> Darag roosters have plain red plumage. Hens have yellow-brown hackle and brown laced feathers on the body.</li>
                                 <li><i class="fas fa-chevron-right"></i> Darag native chickens have red single comb, white skin, and gray shanks.They are slightly upright.  Most roosters have red ear lobes, brown iris and beak, while hens have red-white earlobes, orange iris and gray beak.</li>
                                 <li><i class="fas fa-chevron-right"></i> At 18 weeks of age, Darag roosters weigh 1.50 kg with a height of 24 cm and body length of about 43 cm. It’s chest circumference measures 31 cm while its wingspan is 49.5 cm. Shank length is 11.6 cm.</li>
-                                <li><i class="fas fa-chevron-right"></i> At the same age, Darag hens is lighter and smaller than the rooster. It’s weight and height are 1.2 kg and 20 cm, respectively. Its body length is 38 cm,  chest circumference is 28 cm, and a wingspan of 41 cm on average. Shank length is 8.6 cm.</li>
+                                <li><i class="fas fa-chevron-right"></i> At the same age, the weight and height of Darag hens are 1.2 kg and 20 cm, respectively. Its body length is 38 cm,  chest circumference is 28 cm, and a wingspan of 41 cm on average. Shank length is 8.6 cm.</li>
                             </ul>
                         </div>
                         <div class="col s12 l12">
@@ -169,7 +169,7 @@
                             <h6 style="font-family: 'Poppins', sans-serif; font-size:1.3em">History of ZamPen Native Chicken</h6>
                         </div>
                         <div class="col s12 l12">
-                            <p>The ZamPen native chicken was developed from Joloano strain that had undergone a process of breeding and selection to come up a homogenous population.</p>
+                            <p>The ZamPen native chicken was developed from Joloano strain that had undergone a process of breeding and selection to come up with a homogenous population.</p>
                             <p>Western Mindanao State University (WMSU) initiated a research project on the purification of the strain last 2013 which was funded by DOST-PCAARRD. The populations were collected from the different parts of Region 9 (Zamboanga Peninsula), particularly in Zamboanga City, Zamboanga del Sur and Zamboanga Del Norte.</p>
                             <p>Selection of initial breeders were based on physical traits of sexually matured female such as black plumage color, medium sized pea comb, orange iris, full breast and large body size. For the sexually matured males, traits include plumage color of chestnut  to red and black with white tinge in body and tail <i>(“Buyugon”)</i>, red pea comb, long neck,  large well-developed breast muscle, large body size, and long legs. These initial breeding stocks were used in the purification process and raised under semi-confinement system at 1:5 male to female ratio. With this process, the 3rd generation came up with common features and is now branded as “ZamPen Native Chicken”. The breed is being maintained by WMSU and some identified breeders/multiplier farms in the region.</p>
                         </div>
