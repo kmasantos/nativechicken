@@ -6,7 +6,7 @@
                     <div class="col s6 m6 l7">
                         <h5 v-if="breeder.breeder_code!==null">Feeding Records | {{breeder.breeder_code}}</h5>
                         <h5 v-else>Feeding Records | {{breeder.breeder_tag}}</h5>
-                        <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong></i>
+                        <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong> Pen: <strong>{{breeder.pen_number}}</strong></i>
                     </div>
                     <div class="col s3 m3 l3 right-align">
                         <a href="#feeding" class="waves-effect waves-green btn-flat green-text modal-trigger"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -50,7 +50,7 @@
                                     <td><a @click="edit_feeding_record = feeding.feeding_id;
                                     edit_date_collected=feeding.date_collected;edit_offered=feeding.amount_offered;edit_refused=feeding.amount_refused;edit_remarks=feeding.remarks " 
                                     href="#edit_feeding_modal" class="modal-trigger"><i class="fas fa-edit"></i></a></td>
-                                    <td><a @click="selected_feeding_record = feeding" href="#delete_feeding" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
+                                    <td><a @click="selected_feeding_record = feeding" href="#delete_feeding" class="modal-trigger"><i class="fas fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>

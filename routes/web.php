@@ -175,10 +175,12 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('edit_breeder_feeding', 'BreederController@editFeedingRecords');
         Route::get('breeder_eggprod/{breeder_id}', 'BreederController@fetchEggProduction');
         Route::post('breeder_add_eggprod', 'BreederController@addEggProduction');
+        Route::patch('breeder_edit_eggprod', 'BreederController@editEggProduction');
         Route::get('breeder_hatchery/{breeder_inventory}', 'BreederController@getHatcheryParameter');
         Route::post('breeder_add_hatchery', 'BreederController@addHatcheryParameter');
         Route::get('breeder_eggquality/{breeder_inventory}', 'BreederController@fetchEggQuality');
         Route::post('breeder_add_eggquality', 'BreederController@addEggQuality');
+        Route::patch('breeder_edit_eggquality', 'BreederController@editEggQuality');
         Route::get('breeder_phenomorpho_records/{inventory_id}', 'BreederController@getPhenoMorphoRecord');
         Route::post('breeder_add_phenomorpho', 'BreederController@addPhenoMorphoRecords');
         Route::get('breeder_mortalitysale_record/{inventory_id}', 'BreederController@getMortalitySale');

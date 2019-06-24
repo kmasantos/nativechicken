@@ -367,6 +367,22 @@ class BreederController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Egg production added']);
     }
 
+    public function editEggProduction (Request $request) 
+    {
+        $inventory = BreederInventory::where('id', $request->inventory_id)->firstOrFail();
+        $eggprod = EggProduction::where("id", $request->record_id)->firstOrFail();
+        $eggprod->date_collected = $request->date_added;
+        $eggprod->total_eggs_intact = $request->total_eggs_intact;
+        $eggprod->total_egg_weight = $request->total_egg_weight;
+        $eggprod->total_broken = $request->total_broken;
+        $eggprod->total_rejects = $request->total_rejects;
+        $eggprod->remarks = $request->remarks;
+        $eggprod->female_inventory = $inventory->number_female;
+        $eggprod->save();
+        
+        return response()->json(['status' => 'success', 'message' => 'Egg production added']);
+    }
+
     public function deleteEggProduction ($record_id)
     {
         $record = EggProduction::where('id', $record_id)->firstOrFail();
@@ -674,6 +690,28 @@ class BreederController extends Controller
         $eggqual->thickness_bot = $request->thickness_bot;
         $eggqual->save();
         return response()->json(['status' => 'success', 'message' => 'Egg quality added']);
+    }
+
+    public function editEggQuality (Request $request) 
+    {
+        $eggqual = EggQuality::where('id', $request->record_id)->firstOrFail();
+        $eggqual->date_collected = $request->date_collected;
+        $eggqual->egg_quality_at = $request->egg_quality_at;
+        $eggqual->weight = $request->egg_weight;
+        $eggqual->color = ucfirst($request->egg_color);
+        $eggqual->shape = ucfirst($request->egg_shape);
+        $eggqual->length = $request->egg_length;
+        $eggqual->width = $request->egg_width;
+        $eggqual->albumen_height = $request->albumen_height;
+        $eggqual->albumen_weight = $request->albumen_weight;
+        $eggqual->yolk_weight = $request->yolk_weight;
+        $eggqual->yolk_color = $request->yolk_color;
+        $eggqual->shell_weight = $request->shell_weight;
+        $eggqual->thickness_top = $request->thickness_top;
+        $eggqual->thickness_mid = $request->thickness_mid;
+        $eggqual->thickness_bot = $request->thickness_bot;
+        $eggqual->save();
+        return response()->json(['status' => 'success', 'message' => 'Egg quality edited']);
     }
 
     public function getPhenoMorphoRecord ($inventory_id)

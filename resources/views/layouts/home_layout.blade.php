@@ -293,22 +293,19 @@
             myTimer = setInterval(function(){plusSlides(1)}, 4000);
         })
 
-        // NEXT AND PREVIOUS CONTROL
         function plusSlides(n){
-        clearInterval(myTimer);
-        if (n < 0){
-            showSlides(slideIndex -= 1);
-        } else {
-        showSlides(slideIndex += 1); 
+            clearInterval(myTimer);
+            if (n < 0){
+                showSlides(slideIndex -= 1);
+            } else {
+            showSlides(slideIndex += 1); 
+            }
+            if (n === -1){
+                myTimer = setInterval(function(){plusSlides(n + 2)}, 4000);
+            } else {
+                myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
+            }
         }
-        if (n === -1){
-            myTimer = setInterval(function(){plusSlides(n + 2)}, 4000);
-        } else {
-            myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
-        }
-        }
-
-        //Controls the current slide and resets interval if needed
         function currentSlide(n){
         clearInterval(myTimer);
         myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
@@ -340,11 +337,9 @@
                 document.getElementById("back_to_top").style.display = "none";
             }
         }
-
-        // When the user clicks on the button, scroll to the top of the document
         function topFunction() {
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
         }
         $( document ).ready(function() {
             $(".button-collapse").sideNav({

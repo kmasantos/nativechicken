@@ -92,9 +92,9 @@
                                 <div class="card-action center-align">
                                     <a href="#additional_breeder" @click="breeder_additional = breeder.inventory_id; selected_additional_tag=breeder.breeder_tag; getValidAdditionalMaleBreeder(); getValidAdditionalFemaleBreeder();" class="black-text tooltip modal-trigger" data-tippy-content="Add Breeder to Family"><i class="fas fa-exchange-alt"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_feeding = breeder" class="black-text tooltip" data-tippy-content="Open Feeding Records"><i class="fas fa-cannabis"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_eggprod = breeder.inventory_id; selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggprod = breeder" class="black-text tooltip" data-tippy-content="Open Egg Production Records"><i class="fas fa-chart-line"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_hatchery = breeder" class="black-text tooltip" data-tippy-content="Open Hatchery Records"><i class="fas fa-crow"></i></a>
-                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Egg Quality Records"><i class="fas fa-check-double"></i></a>
+                                    <a href="javascript:void(0)" @click="breeder_eggquality = breeder" class="black-text tooltip" data-tippy-content="Open Egg Quality Records"><i class="fas fa-check-double"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_phenomorpho = breeder" class="black-text tooltip" data-tippy-content="Open Pheno/Morpho Records"><i class="fas fa-feather"></i></a>
                                     <a href="javascript:void(0)" @click="breeder_mortality = breeder.inventory_id;selected_breeder_tag=breeder.breeder_tag;" class="black-text tooltip" data-tippy-content="Open Mortality & Sales"><i class="fas fa-dollar-sign"></i></a>
                                 </div>
@@ -117,10 +117,10 @@
             <feedingrecord-breeder :breeder="breeder_feeding" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_feeding="breeder_feeding=null;selected_breeder_tag=null"></feedingrecord-breeder>
         </div>
         <div v-if="breeder_eggprod!=null">
-            <egg-production :breeder="breeder_eggprod" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_eggprod="breeder_eggprod=null;selected_breeder_tag=null"></egg-production>
+            <egg-production :breeder="breeder_eggprod" :animal_type="animal_type.animaltype_id" v-on:close_eggprod="breeder_eggprod=null;selected_breeder_tag=null"></egg-production>
         </div>
         <div v-if="breeder_eggquality!=null">
-            <eggquality-breeder :breeder="breeder_eggquality" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_eggqual="breeder_eggquality=null;selected_breeder_tag=null"></eggquality-breeder>
+            <eggquality-breeder :breeder="breeder_eggquality" :animal_type="animal_type.animaltype_id" v-on:close_eggqual="breeder_eggquality=null;selected_breeder_tag=null"></eggquality-breeder>
         </div>
         <div v-if="breeder_phenomorpho!=null">
             <phenomorpho-breeder :breeder="breeder_phenomorpho" :breeder_tag="selected_breeder_tag" :animal_type="animal_type.animaltype_id" v-on:close_phenomorpho="breeder_phenomorpho=null;selected_breeder_tag=null"></phenomorpho-breeder>

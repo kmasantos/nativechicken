@@ -7,7 +7,7 @@
                     <div class="col s8 l8">
                         <h5 v-if="breeder.breeder_code!==null">Hatchery Record | {{breeder.breeder_code}}</h5>
                         <h5 v-else>Hatchery Record | {{breeder.breeder_tag}}</h5>
-                        <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong></i>
+                        <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong> Pen: <strong>{{breeder.pen_number}}</strong></i>
                     </div>
                     <div class="col s2 l2">
                         <a @click="add_record=true; hide_record=true, update_record=false" class="waves-effect waves-green btn-flat tooltip green-text" data-tippy-content="Add Hatchery Record"><i class="fas fa-plus-circle left"></i> ADD</a>

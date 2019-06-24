@@ -4,7 +4,9 @@
             <div class="card-panel blue-grey lighten-5">
                 <div class="row">
                     <div class="col s6 m6 l6">
-                        <h5>Egg Quality Records | {{breeder_tag}}</h5>
+                        <h5 v-if="breeder.breeder_code!==null">Egg Quality Records | {{breeder.breeder_code}}</h5>
+                        <h5 v-else>Egg Quality Records | {{breeder.breeder_tag}}</h5>
+                        <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong> Pen: <strong>{{breeder.pen_number}}</strong></i> 
                     </div>
                     <div class="col s3 m3 l3 right-align">
                         <a href="#eggquality" class="waves-effect waves-green btn-flat green-text modal-trigger"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -33,11 +35,13 @@
                                     <th class="tooltip" data-tippy-content="Top Shell Thickness"><i class="fas fa-arrow-up"></i></th>
                                     <th class="tooltip" data-tippy-content="Middle Shell Thickness"><i class="fas fa-grip-lines"></i></th>
                                     <th class="tooltip" data-tippy-content="Bottom Shell Thickness"><i class="fas fa-arrow-down"></i></th>
-                                    <th class="tooltip" data-tippy-content="Delete"><i class="far fa-trash-alt"></i></th>
+                                    <th class="tooltip" data-tippy-content="Edit"><i class="fas fa-edit"></i></th>
+                                    <th class="tooltip" data-tippy-content="Delete"><i class="fas fa-trash-alt"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-if="eggqualities_length == 0">
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
@@ -84,7 +88,8 @@
                                     <td v-else>{{qualities.thickness_mid.toFixed(3)}}</td>
                                     <td v-if="qualities.thickness_bot == null">-</td>
                                     <td v-else>{{qualities.thickness_bot.toFixed(3)}}</td>
-                                    <td><a @click="selected_eggqual_record = qualities" href="#delete_eggqual" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
+                                    <td><a @click="initializeEdit(qualities)" href="#edit_eggqual_modal" class="modal-trigger"><i class="fas fa-edit"></i></a></td>
+                                    <td><a @click="selected_eggqual_record = qualities" href="#delete_eggqual" class="modal-trigger"><i class="fas fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -100,7 +105,7 @@
                         <div class="modal-content">
                             <div class="row">
                                 <div class="col s12 m12 l12">
-                                    <h4>Egg Quality | {{breeder_tag}}</h4>
+                                    <h4>Egg Quality | {{breeder.breeder_tag}}</h4>
                                 </div>
                             </div>
                             <div class="row">
@@ -138,6 +143,8 @@
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input v-if="animal_type===1" id="egg_weigth" type="number" min="30" max="55" class="validate" v-model="egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <input v-if="animal_type===2" id="egg_weigth" type="number" min="40" max="90" class="validate" v-model="egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            
                                             <label class="active" for="egg_weight">Egg Weight (g) 
                                                 <i v-if="check_egg_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
                                                 <i v-if="(animal_type === 1 && egg_weight!=='' && (egg_weight<30 || egg_weight>55))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 30g but less than or equal 55g</i>
@@ -318,6 +325,190 @@
                     </div>
                 </div>
 
+                <div id="edit_eggqual_modal" class="modal modal-fixed-footer">
+                    <form v-on:submit.prevent="validateEditForm" method="PATCH">
+                        <div class="modal-content">
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <h4>Edit Egg Quality</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12">
+                                    <div class="row">
+                                        <div class="col s12 m6 l6">
+                                            <label for="edit_date_added">Date Collected <i v-if="edit_check_date_collected===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                            <datepicker id="edit_date_added" :format="customFormatter" v-model="edit_date_collected"></datepicker>
+                                        </div>
+                                    </div>
+                                    <label for="edit_radio_age">Egg Quality at  <i v-if="edit_check_egg_quality_at===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                    <div id="edit_radio_age" class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_others=false" class="with-gap" name="egg_quality_at" v-model="edit_egg_quality_at" type="radio" id="edit_egg_quality_35" value = "35"/>
+                                            <label for="edit_egg_quality_35">35 Weeks of Age</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_others=false" class="with-gap" name="egg_quality_at" v-model="edit_egg_quality_at" type="radio" id="edit_egg_quality_40" value = "40"/>
+                                            <label for="edit_egg_quality_40">40 Weeks of Age</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_others=false" class="with-gap" name="egg_quality_at" v-model="edit_egg_quality_at" type="radio" id="edit_egg_quality_60" value = "60"/>
+                                            <label for="edit_egg_quality_60">60 Weeks of Age</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_others=true" class="with-gap" name="egg_quality_at" v-model="edit_egg_quality_at" type="radio" id="edit_egg_quality_others" value = "Others"/>
+                                            <label for="edit_egg_quality_others">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_others">
+                                        <div class="col s12 m6 l6">
+                                            <input v-model="edit_egg_quality_at" type="number" min=0 placeholder="Input egg quality at week"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input v-if="animal_type===1" id="edit_egg_weigth" type="number" min="30" max="55" class="validate" v-model.lazy="edit_egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <input v-if="animal_type===2" id="edit_egg_weigth" type="number" min="40" max="90" class="validate" v-model.lazy="edit_egg_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_egg_weight">Egg Weight (g) 
+                                                <i v-if="edit_check_egg_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                                <i v-if="(animal_type === 1 && edit_egg_weight!=='' && (edit_egg_weight<30 || edit_egg_weight>55))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 30g but less than or equal 55g</i>
+                                                <i v-if="(animal_type === 2 && edit_egg_weight!=='' && (edit_egg_weight<40 || edit_egg_weight>90))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 40g but less than or equal 90g</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_length" type="number" min=0 class="validate" v-model="edit_egg_length" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_length">Length (mm) <i v-if="edit_check_egg_length===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(animal_type === 1 && edit_egg_length!=='' && (edit_egg_length<30 || edit_egg_length>60))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 30mm but less than or equal 60mm</i>
+                                            <i v-if="(animal_type === 2 && edit_egg_length!=='' && (edit_egg_length<45 || edit_egg_length>60))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 45mm but less than or equal 60mm</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_width" type="number" min=0 class="validate" v-model="edit_egg_width" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_width">Width (mm) <i v-if="edit_check_egg_width===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(animal_type === 1 && edit_egg_width!=='' && (edit_egg_width<40 || edit_egg_width>45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal to 40mm but less than or equal to 45mm</i>
+                                            <i v-if="(animal_type === 2 && edit_egg_width!=='' && (edit_egg_width<35 || edit_egg_width>45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal 35mm but less than than or equal 45mm</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_albumen_height" type="number" min=0 class="validate" v-model="edit_albumen_height" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_albumen_height">Albument Height (mm) <i>(Optional)</i></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_albumen_weight" type="number" class="validate" v-model.lazy="edit_albumen_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_albumen_weight">Albumen Weight (mm) <i v-if="edit_check_albumen_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="((edit_albumen_weight!=='' && edit_egg_weight!=='') && edit_albumen_weight>edit_egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be less than the egg weight </i>
+                                            <i v-if="((edit_egg_weight!=='' && edit_albumen_weight!=='' && edit_yolk_weight !== '' && edit_shell_weight !== '') && (edit_albumen_weight+edit_yolk_weight+edit_shell_weight)>=edit_egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Total input for albumen weight, yolk weight and shell weight should be less than or equal to the egg weight</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_yolk_weight" type="number" class="validate" v-model.lazy="edit_yolk_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_yolk_weight">Yolk Weight (g) <i v-if="edit_check_yolk_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="((edit_yolk_weight!=='' && edit_egg_weight!=='') && edit_yolk_weight>edit_egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be less than the egg weight </i>
+                                            <i v-if="((edit_egg_weight!=='' && edit_albumen_weight!=='' && edit_yolk_weight !== '' && edit_shell_weight !== '') && (edit_albumen_weight+edit_yolk_weight+edit_shell_weight)>=edit_egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Total input for albumen weight, yolk weight and shell weight should be less than or equal to the egg weight</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_shell_weight" type="number" class="validate" v-model.lazy="edit_shell_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_shell_weight">Shell Weight (g) <i v-if="edit_check_shell_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="((edit_shell_weight!=='' && edit_egg_weight!=='') && edit_shell_weight>edit_egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be less than the egg weight </i>
+                                            <i v-if="((edit_egg_weight!=='' && edit_albumen_weight!=='' && edit_yolk_weight !== '' && edit_shell_weight !== '') && (edit_albumen_weight+edit_yolk_weight+edit_shell_weight)>=edit_egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Total input for albumen weight, yolk weight and shell weight should be less than or equal to the egg weight</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_top" type="number" min=0 class="validate" v-model="edit_thickness_top" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_top">Shell Thickness Top (mm) <i v-if="edit_check_thickness_top===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(edit_thickness_top!=='' && (edit_thickness_top<0.25 || edit_thickness_top>0.45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal to 0.25mm but less than or equal to 0.45mm</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_middle" type="number" min=0 class="validate" v-model="edit_thickness_mid" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_middle">Shell Thickness Middle (mm) <i v-if="edit_check_thickness_mid===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(edit_thickness_mid!=='' && (edit_thickness_mid<0.25 || edit_thickness_mid>0.45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal to 0.25mm but less than or equal to 0.45mm</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6 l6">
+                                            <input id="edit_bottom" type="number" min=0 class="validate" v-model="edit_thickness_bot" step="0.001" pattern="^\d*(\.\d{0,3})?$">
+                                            <label class="active" for="edit_bottom">Shell Thickness Bottom (mm) <i v-if="edit_check_thickness_bot===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <i v-if="(edit_thickness_bot!=='' && (edit_thickness_bot<0.25 || edit_thickness_bot>0.45))" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be greater than or equal to 0.25mm but less than or equal to 0.45mm</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6">
+                                            <label>Egg Color <i v-if="edit_check_egg_color===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                            <select v-model="edit_egg_color" class="browser-default">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option value="Cream" style="background-color:#fefdf8;border-color:1px solid black">Cream</option>
+                                                <option value="Brown" style="background-color:#b3958b;border-color:1px solid black">Brown</option>
+                                                <option value="Dark Brown" style="background-color:#815339;border-color:1px solid black">Dark Brown</option>
+                                                <option value="Light Brown" style="background-color:#a69b97;border-color:1px solid black">Light Brown</option>
+                                                <option value="White" style="background-color:#e1f2fa;border-color:1px solid black">White</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6">
+                                            <label>Egg Shape <i v-if="edit_check_egg_shape===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                            <select v-model="edit_egg_shape" class="browser-default">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option value="Ovoid">Ovoid</option>
+                                                <option value="Circle">Circle</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6">
+                                            <label>Yolk Color <i v-if="edit_check_yolk_color===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i></label>
+                                            <select v-model="edit_yolk_color" class="browser-default">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option value="1" style="background-color:#f7d483;border-color:1px solid black">1</option>
+                                                <option value="2" style="background-color:#fcd16b;border-color:1px solid black">2</option>
+                                                <option value="3" style="background-color:#fdd25f;border-color:1px solid black">3</option>
+                                                <option value="4" style="background-color:#fed235;border-color:1px solid black">4</option>
+                                                <option value="5" style="background-color:#fecb00;border-color:1px solid black">5</option>
+                                                <option value="6" style="background-color:#ffc700;border-color:1px solid black">6</option>
+                                                <option value="7" style="background-color:#fec200;border-color:1px solid black">7</option>
+                                                <option value="8" style="background-color:#fec200;border-color:1px solid black">8</option>
+                                                <option value="9" style="background-color:#feba01;border-color:1px solid black">9</option>
+                                                <option value="10" style="background-color:#fdb200;border-color:1px solid black">10</option>
+                                                <option value="11" style="background-color:#fea900;border-color:1px solid black">11</option>
+                                                <option value="12" style="background-color:#fe9b00;border-color:1px solid black">12</option>
+                                                <option value="13" style="background-color:#fd9800;border-color:1px solid black">13</option>
+                                                <option value="14" style="background-color:#ff8b00;border-color:1px solid black">14</option>
+                                                <option value="15" style="background-color:#ff7f1a;border-color:1px solid black">15</option>
+                                                <option value="16" style="background-color:#fe6722;border-color:1px solid black">16</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-action waves-effect waves-green btn-flat" type="submit">Submit</button>
+                            <a @click="uninitializeEdit" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -333,7 +524,7 @@
             Datepicker
         },
         props: [
-            'breeder', 'breeder_tag', 'animal_type'
+            'breeder', 'animal_type'
         ],
         data()  {
             return {
@@ -373,7 +564,39 @@
                 check_thickness_top : true,
                 check_thickness_mid : true,
                 check_thickness_bot : true,
-                error : [],
+
+                selected_eggqual_edit : '',
+                edit_others : false,
+                edit_date_collected : '',
+                edit_egg_quality_at : '',
+                edit_egg_weight : '',
+                edit_egg_color : '',
+                edit_egg_shape : '',
+                edit_egg_length : '',
+                edit_egg_width : '',
+                edit_albumen_height : '',
+                edit_albumen_weight : '',
+                edit_yolk_weight : '',
+                edit_yolk_color : '',
+                edit_shell_weight : '',
+                edit_thickness_top : '',
+                edit_thickness_mid : '',
+                edit_thickness_bot : '',
+
+                edit_check_date_collected : true,
+                edit_check_egg_quality_at : true,
+                edit_check_egg_weight : true,
+                edit_check_egg_color : true,
+                edit_check_egg_shape : true,
+                edit_check_egg_length : true,
+                edit_check_egg_width : true,
+                edit_check_albumen_weight : true,
+                edit_check_yolk_weight : true,
+                edit_check_yolk_color : true,
+                edit_check_shell_weight : true,
+                edit_check_thickness_top : true,
+                edit_check_thickness_mid : true,
+                edit_check_thickness_bot : true,
             }
         },
         methods : {
@@ -381,7 +604,7 @@
                 this.fetchEggQualityRecord();
             },
             fetchEggQualityRecord : function (page = 1) {
-                axios.get('breeder_eggquality/'+this.breeder+'?page='+page)
+                axios.get('breeder_eggquality/'+this.breeder.inventory_id+'?page='+page)
                 .then(response => {
                     this.eggqualities = response.data;
                     this.eggqualities_length = this.eggqualities.data.length;
@@ -392,7 +615,7 @@
             },
             addEggQualityRecord : function () {
                 axios.post('breeder_add_eggquality', {
-                    breeder_id : this.breeder,
+                    breeder_id : this.breeder.inventory_id,
                     date_collected : this.customFormatter(this.date_collected),
                     egg_quality_at : this.egg_quality_at,
                     egg_weight : this.egg_weight,
@@ -427,13 +650,13 @@
                         this.thickness_top = '';
                         this.thickness_mid = '';
                         this.thickness_bot = '';
-                        Materialize.toast('Successfully added egg quality record', 3000, 'green rounded');
+                        Materialize.toast('Successfully added egg quality record', 5000, 'green rounded');
                     }else{
-                        Materialize.toast(response.data.error, 3000, 'red rounded');
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
                     }
                 })
                 .catch(error => {
-                    Materialize.toast('Failed to add egg quality record', 3000, 'red rounded');
+                    Materialize.toast('Failed to add egg quality record', 5000, 'red rounded');
                 });
                 this.initialize();
             },
@@ -477,6 +700,101 @@
                 }
 
             },
+            validateEditForm : function () {
+                if(this.edit_date_collected === '' || this.edit_egg_quality_at === '' || this.edit_egg_weight === '' || this.edit_egg_color === '' ||
+                    this.edit_egg_shape === '' || this.edit_egg_length === '' || this.edit_egg_width === '' || this.edit_albumen_weight === '' ||
+                    this.edit_yolk_weight === '' || this.edit_yolk_color === "" || this.edit_shell_weight === '' || this.edit_thickness_top === '' || 
+                    this.edit_thickness_mid === '' || this.edit_thickness_bot === ''){
+                    if(this.edit_date_collected === '') {this.edit_check_date_collected = false} else {this.edit_check_date_collected=true}
+                    if(this.edit_egg_quality_at === '') {this.edit_check_egg_quality_at = false} else {this.edit_check_egg_quality_at = true}
+                    if(this.edit_egg_weight === '') {this.edit_check_egg_weight = false} else {this.edit_check_egg_weight = true}
+                    if(this.edit_egg_color === '') {this.edit_check_egg_color = false} else {this.edit_check_egg_color = true}
+                    if(this.edit_egg_shape === '') {this.edit_check_egg_shape = false} else {this.edit_check_egg_shape = true}
+                    if(this.edit_egg_length === '') {this.edit_check_egg_length = false} else {this.edit_check_egg_length = true}
+                    if(this.edit_egg_width === '') {this.edit_check_egg_width = false} else {this.edit_check_egg_width = true}
+                    if(this.edit_albumen_weight === '') {this.edit_check_albumen_weight = false} else {this.edit_check_albumen_weight = true}
+                    if(this.edit_yolk_weight === '') {this.edit_check_yolk_weight = false} else {this.edit_check_yolk_weight = true}
+                    if(this.edit_yolk_color === '') {this.edit_check_yolk_color = false} else {this.edit_check_yolk_color = true}
+                    if(this.edit_shell_weight === '') {this.edit_check_shell_weight = false} else {this.edit_check_shell_weight = true}
+                    if(this.edit_thickness_top === '') {this.edit_check_thickness_top = false} else {this.edit_check_thickness_top = true}
+                    if(this.edit_thickness_mid === '') {this.edit_check_thickness_mid = false} else {this.edit_check_thickness_mid = true}
+                    if(this.edit_thickness_bot === '') {this.edit_check_thickness_bot = false} else {this.edit_check_thickness_bot = true}
+                    return;
+                }else{
+                    if((this.edit_albumen_weight + this.edit_yolk_weight + this.edit_shell_weight)>this.edit_egg_weight){
+                        Materialize.toast('Total of Albumen Weight ('+this.edit_albumen_weight+'), Yolk Weight ('+this.edit_yolk_weight+') & Shell Weight (' +this.edit_shell_weight+') should be less than or equal to Egg Weight ('+this.edit_egg_weight+')' , 5000, 'rounded')
+                        return;
+                    }
+                    this.editEggQualityRecord();
+                }
+            },
+            initializeEdit : function (data) {
+                this.selected_eggqual_edit = data.qual_id;
+                this.edit_date_collected = data.date_collected;
+                this.edit_egg_quality_at = data.egg_quality_at;
+                this.edit_egg_weight = data.weight;
+                this.edit_egg_color = data.color;
+                this.edit_egg_shape = data.shape;
+                this.edit_egg_length = data.length;
+                this.edit_egg_width = data.width;
+                this.edit_albumen_height = data.albumen_height;
+                this.edit_albumen_weight = data.albumen_weight;
+                this.edit_yolk_weight = data.yolk_weight;
+                this.edit_yolk_color = data.yolk_color;
+                this.edit_shell_weight = data.shell_weight;
+                this.edit_thickness_top = data.thickness_top;
+                this.edit_thickness_mid = data.thickness_mid;
+                this.edit_thickness_bot = data.thickness_bot;
+            },
+            uninitializeEdit() {
+                this.selected_eggqual_edit = '';
+                this.edit_date_collected = '';
+                this.edit_egg_quality_at = '';
+                this.edit_egg_weight = '';
+                this.edit_egg_color = '';
+                this.edit_egg_shape = '';
+                this.edit_egg_length = '';
+                this.edit_egg_width = '';
+                this.edit_albumen_height = '';
+                this.edit_albumen_weight = '';
+                this.edit_yolk_weight = '';
+                this.edit_yolk_color = '';
+                this.edit_shell_weight = '';
+                this.edit_thickness_top = '';
+                this.edit_thickness_mid = '';
+                this.edit_thickness_bot = '';
+            },
+            editEggQualityRecord : function () {
+                axios.patch('breeder_edit_eggquality', {
+                    record_id : this.selected_eggqual_edit,
+                    date_collected : this.customFormatter(this.edit_date_collected),
+                    egg_quality_at : this.edit_egg_quality_at,
+                    egg_weight : this.edit_egg_weight,
+                    egg_color : this.edit_egg_color,
+                    egg_shape : this.edit_egg_shape,
+                    egg_length : this.edit_egg_length,
+                    egg_width : this.edit_egg_width,
+                    albumen_height : this.edit_albumen_height,
+                    albumen_weight : this.edit_albumen_weight,
+                    yolk_weight : this.edit_yolk_weight,
+                    yolk_color : this.edit_yolk_color,
+                    shell_weight : this.edit_shell_weight,
+                    thickness_top : this.edit_thickness_top,
+                    thickness_mid : this.edit_thickness_mid,
+                    thickness_bot : this.edit_thickness_bot,
+                })
+                .then(response => {
+                    if(response.data.error == undefined){
+                        Materialize.toast('Successfully edited egg quality record', 5000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
+                    }
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to edited egg quality record', 5000, 'red rounded');
+                });
+                this.initialize();
+            },
             customFormatter : function (date_added) {
                 return moment(date_added).format('YYYY-MM-DD');
             },
@@ -498,6 +816,9 @@
             $('#delete_eggqual').modal({
                 dismissible : false,
             });
+            $('#edit_eggqual_modal').modal({
+                dismissible : false,
+            });
             this.initialize();
         },
         
@@ -506,7 +827,7 @@
 
 <style scoped>
     .modal {
-        height: 90%;
-        width: 80%;
-    }
+        height: 95%;
+        width: 85%;
+    }   
 </style>

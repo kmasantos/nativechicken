@@ -230,6 +230,19 @@
                         <div class="col s12 l6">
                             <h5 style="font-family: 'Poppins', sans-serif;">Directory of Camarines Breeder Farms</h5>
                             <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Bicol University College of Agriculture and Forestry
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Guinobatan, Albay
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Dr. Teresita B. Pequena
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09267425926 | (052) 484-6336
+                            </div>
+                            <br>
+                            <div style="font-weight: bold">
                                 <i class="fas fa-certificate"></i> Randy Buen
                             </div>
                             <div>
@@ -393,6 +406,19 @@
                     <div class="row">
                         <div class="col s12 l12">
                             <h5 style="font-family: 'Poppins', sans-serif;">Directory of Itik Pinas Breeder Farms</h5>
+                            <div style="font-weight: bold">
+                                <i class="fas fa-certificate"></i> Bureau of Animal Industry - National Swine And Poultry Research And Development Center
+                            </div>
+                            <div>
+                                <i class="fas fa-map-marker-alt"></i> Tiaong, Quezon
+                            </div>
+                            <div>
+                                <i class="fas fa-address-book"></i> Rene C. Santiago, DVM, MSc
+                            </div>
+                            <div>
+                                <i class="fas fa-phone-square"></i> 09172465530 | (042) 585-7727
+                            </div>
+                            <br>
                             <div style="font-weight: bold">
                                 <i class="fas fa-certificate"></i> Alcasid Duck Farm
                             </div>

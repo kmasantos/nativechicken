@@ -4,7 +4,9 @@
             <div class="card-panel blue-grey lighten-5">
                 <div class="row valign-wrapper">
                     <div class="col s6 m6 l6">
-                        <h5>Phenotypic & Morphometric | <span v-if="breeder.breeder_code===null">{{breeder.breeder_tag}}</span><span else>{{breeder.breeder_code}}</span></h5>
+                        <h5 v-if="breeder.breeder_code!==null">Phenotypic & Morphometric Data | {{breeder.breeder_code}}</h5>
+                        <h5 v-else>Phenotypic & Morphometric Data | {{breeder.breeder_tag}}</h5>
+                        <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong> Pen: <strong>{{breeder.pen_number}}</strong></i>
                     </div>
                     <div class="col s3 m3 l3 center">
                         <a class="waves-effect waves-green btn-flat green-text modal-trigger" href="#breeder_phenomorpho"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -21,8 +23,8 @@
                                     <th class="tooltip" data-tippy-content="Date Data Collected"><i class="fas fa-calendar-alt"></i></th>
                                     <th class="tooltip" data-tippy-content="Gender"><i class="fas fa-venus-mars"></i></th>
                                     <th class="tooltip" data-tippy-content="Wingband ID"><i class="fas fa-tag"></i></th>
-                                    <th class="tooltip" data-tippy-content="Phenotypic Data"><i class="fas fa-feather"></i></th>
-                                    <th class="tooltip" data-tippy-content="Morphometric Data"><i class="fas fa-ruler-horizontal"></i></th>
+                                    <th class="tooltip" data-tippy-content="<p><strong>Phenotypic Data</strong></p><p><i>Click the <i class='fas fa-feather'></i> icon on each record to display more info</i></p>"><i class="fas fa-feather"></i></th>
+                                    <th class="tooltip" data-tippy-content="<p><strong>Morphometric Data</strong></p><p><i>Click the <i class='fas fa-ruler-horizontal'></i> icon on each record to display more info</i></p>"><i class="fas fa-ruler-horizontal"></i></th>
                                     <th class="tooltip" data-tippy-content="Delete Record"><i class="fas fa-trash-alt"></i></th>
                                 </tr>
                             </thead>
@@ -1088,10 +1090,20 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Close</a>
                         <button type="submit" class="modal-action waves-effect waves-grey btn-flat">Submit</button>
+                        <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Close</a>
                     </div>
                 </form>
+            </div>
+
+            <div id="edit_morpho" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h4>Modal Header</h4>
+                    <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Close</a>
+                </div>
             </div>
 
             <div id="delete_phenomorpho" class="modal modal-fixed-footer">
@@ -1344,6 +1356,12 @@
                 });
                 this.initialize();
             },
+            initializeEditPheno : function () {
+                
+            },
+            initializeEditMorpho : function () {
+                
+            },
             deletePhenoMorphoData : function () {
                 axios.delete('breeder_delete_phenomorphorecords/'+this.selected_record.values_id)
                 .then(response => {
@@ -1372,7 +1390,8 @@
                                 <li>Beak Color: '+data[9]+'</li>\
                                 <li>Shank Color: '+data[10]+'</li>\
                                 <li>Skin Color: '+data[11]+'</li>\
-                            </ul>'
+                            </ul>\
+                            <span><a href="#edit_pheno" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-feather left"></i>Edit</a></span>'
                 }else if(this.animal_type===2){
                     return '<ul>\
                                 <li><h5>Phenotypic Data</h5></li>\
@@ -1389,7 +1408,8 @@
                                 <li>Bean Color: '+data[10]+'</li>\
                                 <li>Presence of Crest: '+data[11]+'</li>\
                                 <li>Eye Color: '+data[12]+'</li>\
-                            </ul>'
+                            </ul>\
+                            <span><a href="#edit_pheno" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-feather left"></i>Edit</a></span>'
                 }
             },
             insertMorphoContent : function (morphodata){
@@ -1403,7 +1423,8 @@
                                 <li>Chest Circumference: '+data[3]+'</li>\
                                 <li>Wing Span: '+data[4]+' cm</li>\
                                 <li>Shank Length: '+data[5]+' cm</li>\
-                            </ul>'
+                            </ul>\
+                            <span><a href="#edit_morpho" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-ruler-horizontal left"></i>Edit</a></span>'
                 }else if(this.animal_type===2){
                     return '<ul>\
                                 <li><h5>Morphometric Data</h5></li>\
@@ -1415,7 +1436,8 @@
                                 <li>Shank Length: '+data[5]+' cm</li>\
                                 <li>Bill Length: '+data[6]+' cm</li>\
                                 <li>Neck Length: '+data[7]+' cm</li>\
-                            </ul>'
+                            </ul>\
+                            <span><a href="#edit_morpho" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-ruler-horizontal left"></i>Edit</a></span>'
                 }
             },
             customFormatter : function (date_added) {
@@ -1436,6 +1458,9 @@
                 dismissible : false,
             });
             $('#delete_phenomorpho').modal({
+                dismissible : false,
+            });
+            $('#edit_morpho').modal({
                 dismissible : false,
             });
             $('ul.tabs').tabs();

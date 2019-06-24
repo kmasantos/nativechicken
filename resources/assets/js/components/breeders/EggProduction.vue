@@ -5,7 +5,9 @@
                 <!-- Egg Production Record -->
                 <div class="row" v-show="hide_record==false">
                     <div class="col s6 m6 l6">
-                        <h5>Egg Production | {{breeder_tag}}</h5>
+                        <h5 v-if="breeder.breeder_code!==null">Egg Production | {{breeder.breeder_code}}</h5>
+                        <h5 v-else>Egg Production | {{breeder.breeder_tag}}</h5>
+                        <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong> Pen: <strong>{{breeder.pen_number}}</strong></i>
                     </div>
                     <div class="col s3 m3 l3 right-align">
                         <a @click="add_record=true; hide_record=true" class="waves-effect waves-green btn-flat green-text"><i class="fas fa-plus-circle left"></i>Add</a>
@@ -27,12 +29,14 @@
                                         <th>Broken</th>
                                         <th>Rejected</th>
                                         <th>Remarks</th>
-                                        <th>Delete</th>
+                                        <th><i class="fas fa-edit"></i></th>
+                                        <th><i class="fas fa-trash-alt"></i></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr v-if="eggprod_length == 0">
+                                        <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
@@ -50,7 +54,8 @@
                                         <td>{{prod.total_broken}}</td>
                                         <td>{{prod.total_rejects}}</td>
                                         <td>{{prod.remarks}}</td>
-                                        <td><a @click="selected_eggprod_record = prod" href="#delete_eggprod" class="modal-trigger"><i class="far fa-trash-alt"></i></a></td>
+                                        <td><a @click="initializeEdit(prod)" href="#edit_eggprod" class="modal-trigger"><i class="fas fa-edit"></i></a></td>
+                                        <td><a @click="selected_eggprod_record = prod" href="#delete_eggprod" class="modal-trigger"><i class="fas fa-trash-alt"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -69,7 +74,9 @@
                         <form v-on:submit.prevent="validateInput" method="post">
                             <div class="row valign-wrapper">
                                 <div class="col s9 m19 l9">
-                                    <h5>Add Egg Production | {{breeder_tag}}</h5>
+                                    <h5 v-if="breeder.breeder_code!==null">Egg Production | {{breeder.breeder_code}}</h5>
+                                    <h5 v-else>Egg Production | {{breeder.breeder_tag}}</h5>
+                                    <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong> Pen: <strong>{{breeder.pen_number}}</strong></i>
                                 </div>
                                 <div class="col s3 m3 l3 center-align">
                                     <a @click="add_record=null; hide_record=false" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
@@ -120,6 +127,56 @@
                     </div>
                 </div>
 
+                <div id="edit_eggprod" class="modal modal-fixed-footer">
+                    <form v-on:submit.prevent="validateEdit" method="patch">
+                        <div class="modal-content">
+                            <h5 v-if="breeder.breeder_code!==null">Edit Egg Production | {{breeder.breeder_code}}</h5>
+                            <h5 v-else>Edit Egg Production | {{breeder.breeder_tag}}</h5>
+                            <div class="divider"></div>
+                            <div class="row">
+                                <div class="col s12 l6">
+                                    <label for="edit_date_added">Date Collected <span v-if="edit_check_date_collected===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                    <datepicker placeholder="Date when data was gathered" id="edit_date_added" :format="dateFormatter" v-model="edit_date_collected"></datepicker>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l6 input-field">
+                                    <label class="active" for="edit_intact">Total Eggs Intact  <span v-if="edit_check_total_eggs_intact===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                    <input v-model.number="edit_total_eggs_intact" class="validate" placeholder="Total Eggs that passes as good" id="edit_intact" type="number" min="0" validate onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l6 input-field">
+                                    <input v-model.number="edit_total_egg_weight" class="validate" placeholder="Totall egg weight of all intact eggs" id="edit_total_weight" type="number" min="0" step="0.001" pattern="^\d*(\.\d{0,3})?$" onkeypress="return event.charCode != 45">
+                                    <label class="active" for="edit_total_weight">Total Egg Weight (g) <span v-if="edit_check_total_egg_weight===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l6 input-field">
+                                    <input v-model.number="edit_total_broken" class="validate" placeholder="Total Eggs that were broken" id="edit_total_broken" type="number" min="0" validate onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                    <label class="active" for="edit_total_broken">Total Eggs Broken <span v-if="edit_check_total_broken===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l6 input-field">
+                                    <input v-model.number="edit_total_rejects" class="validate" placeholder="Total Eggs that doesn't pass as good condition" id="edit_total_rejects" type="number" min="0" validate onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                    <label class="active" for="edit_total_rejects">Total Eggs Rejected <span v-if="edit_check_total_rejects===false" class="red-text"><i><i class="fas fa-exclamation-circle"></i>Input is required</i></span></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l6 input-field">
+                                    <input v-model="edit_remarks" placeholder="Add remarks" id="edit_egg_prod_remarks" type="text">
+                                    <label class="active" for="edit_egg_prod_remarks">Remarks <i>(Optional)</i></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-flat waves-effect waves-light" type="submit">Edit</button>
+                            <a @click="uninitializeEdit()" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-light btn-flat">Close</a>
+                        </div>
+                    </form>
+                </div>
+
                 <div id="delete_eggprod" class="modal modal-fixed-footer">
                     <div class="modal-content">
                         <div class="row">
@@ -163,8 +220,7 @@
             Datepicker,
         },
         props :{
-            breeder : Number,
-            breeder_tag : String,
+            breeder : Object,
             animal_type : Number
         },
         data (){
@@ -186,6 +242,21 @@
                 check_total_egg_weight : true,
                 check_total_broken : true,
                 check_total_rejects : true,
+
+                edit_date_collected : '',
+                edit_total_eggs_intact : '',
+                edit_total_egg_weight : '',
+                edit_total_broken : '',
+                edit_total_rejects : '',
+                edit_remarks : '',
+                edit_selected_inventory : '',
+                edit_selected_eggprod_record : '',
+                edit_check_date_collected : true,
+                edit_check_total_eggs_intact : true,
+                edit_check_total_egg_weight : true,
+                edit_check_total_broken : true,
+                edit_check_total_rejects : true,
+
             }
         },
         methods : {
@@ -193,7 +264,7 @@
                 this.fetchEggProductionRecord();
             },
             fetchEggProductionRecord : function (page = 1) {
-                axios.get('breeder_eggprod/'+this.breeder+"?page="+page)
+                axios.get('breeder_eggprod/'+this.breeder.inventory_id+"?page="+page)
                 .then(response => {
                     this.eggprod = response.data;
                     this.eggprod_length = this.eggprod.data.length;
@@ -204,7 +275,7 @@
             },
             addEggProduction : function () {
                 axios.post('breeder_add_eggprod', {
-                    breeder_id: this.breeder,
+                    breeder_id: this.breeder.inventory_id,
                     date_added : this.dateFormatter(this.date_collected),
                     total_eggs_intact : this.total_eggs_intact,
                     total_egg_weight : this.total_egg_weight,
@@ -220,6 +291,62 @@
                         this.total_broken = '';
                         this.total_rejects = '';
                         this.remarks = '';
+                        Materialize.toast('Successfully added egg production record', 5000, 'green rounded');
+                    }else{
+                        Materialize.toast(response.data.error, 5000, 'red rounded');
+                    }
+
+                })
+                .catch(error => {
+                    Materialize.toast('Failed to add egg production record', 5000, 'red rounded');
+                });
+                this.initialize();
+            },
+            initializeEdit : function (data) {
+                this.edit_selected_inventory = data.inventory_id;
+                this.edit_selected_eggprod_record = data.eggprod_id;
+                this.edit_date_collected = data.date_collected;
+                this.edit_total_eggs_intact = data.total_eggs_intact;
+                this.edit_total_egg_weight = data.total_egg_weight;
+                this.edit_total_broken = data.total_broken;
+                this.edit_total_rejects = data.total_rejects;
+                this.edit_remarks = data.remarks;
+            },
+            uninitializeEdit : function () {
+                this.edit_selected_inventory = '';
+                this.edit_selected_eggprod_record = '';
+                this.edit_date_collected = '';
+                this.edit_total_eggs_intact = '';
+                this.edit_total_egg_weight = '';
+                this.edit_total_broken = '';
+                this.edit_total_rejects = '';
+                this.edit_remarks = '';
+            },
+            validateEdit : function () {
+                if(this.edit_date_collected === "") {this.edit_check_date_collected = false;} else {this.edit_check_date_collected = true;}
+                if(this.edit_total_eggs_intact === "") {this.edit_check_total_eggs_intact = false;} else {this.edit_check_total_eggs_intact = true;}
+                if(this.edit_total_egg_weight === "") {this.edit_check_total_egg_weight = false;} else {this.edit_check_total_egg_weight = true;}
+                if(this.edit_total_broken === "") {this.edit_check_total_broken = false;} else {this.edit_check_total_broken = true;}
+                if(this.edit_total_rejects === "") {this.edit_check_total_rejects = false;} else {this.edit_check_total_rejects = true;}
+                if(this.edit_check_date_collected === false || this.edit_check_total_eggs_intact === false || this.edit_check_total_egg_weight === false || this.edit_check_total_broken === false || this.edit_check_total_rejects === false){
+                    return;
+                }else{
+                    this.editEggProduction();
+                }
+            },
+            editEggProduction : function () {
+                axios.patch('breeder_edit_eggprod', {
+                    inventory_id : this.edit_selected_inventory,
+                    record_id: this.edit_selected_eggprod_record,
+                    date_added : this.dateFormatter(this.edit_date_collected),
+                    total_eggs_intact : this.edit_total_eggs_intact,
+                    total_egg_weight : this.edit_total_egg_weight,
+                    total_broken : this.edit_total_broken,
+                    total_rejects : this.edit_total_rejects,
+                    remarks : this.edit_remarks,
+                })
+                .then(response => {
+                    if(response.data.error == undefined){
                         Materialize.toast('Successfully added egg production record', 5000, 'green rounded');
                     }else{
                         Materialize.toast(response.data.error, 5000, 'red rounded');
@@ -253,7 +380,6 @@
                 }else{
                     this.addEggProduction();
                 }
-                
             },
             dateFormatter : function (date) {
                 return moment(date).format('YYYY-MM-DD');
@@ -262,17 +388,12 @@
                 this.$emit('close_eggprod', null)
             }
         },
-        created () {
-            this.initialize();
-        },
-        beforeCreate() {
-            $('.tooltipped').tooltip('remove');
-        },
-        destroyed () {
-            $('.tooltipped').tooltip({delay: 50});
-        },
         mounted () {
+            this.initialize();
             $('#delete_eggprod').modal({
+                dismissible : false,
+            });
+            $('#edit_eggprod').modal({
                 dismissible : false,
             });
         }
