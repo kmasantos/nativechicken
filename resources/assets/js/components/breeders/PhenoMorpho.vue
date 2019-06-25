@@ -41,8 +41,8 @@
                                     <td>{{record.date_collected}}</td>
                                     <td>{{capitalize(record.gender)}}</td>
                                     <td>{{record.tag}}</td>
-                                    <td class="tooltip_data" :data-tippy-content="insertPhenoContent(record.phenotypic)"><i class="fas fa-feather"></i></td>
-                                    <td class="tooltip_data" :data-tippy-content="insertMorphoContent(record.morphometric)"><i class="fas fa-ruler-horizontal"></i></td>
+                                    <td @click="initializeEditPheno(record.id, record.phenotypic)" class="tooltip_data" :data-tippy-content="insertPhenoContent(record.phenotypic)"><i class="fas fa-feather"></i></td>
+                                    <td @click="initializeEditMorpho(record.id, record.morphometric)" class="tooltip_data" :data-tippy-content="insertMorphoContent(record.morphometric)"><i class="fas fa-ruler-horizontal"></i></td>
                                     <td><a @click="selected_record = record" href="#delete_phenomorpho" class="modal-trigger"><i class="fas fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
@@ -1097,13 +1097,92 @@
             </div>
 
             <div id="edit_morpho" class="modal modal-fixed-footer">
-                <div class="modal-content">
-                    <h4>Modal Header</h4>
-                    <p>A bunch of text</p>
-                </div>
-                <div class="modal-footer">
-                    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-grey btn-flat">Close</a>
-                </div>
+                <form v-on:submit.prevent="submitEditMorpho">
+                    <div class="modal-content">
+                        <h4>Edit Morpho</h4>
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <div class="row">
+                                    <div class="col s12 l6 m6">
+                                        <label for="edit_height">Height (cm) 
+                                            <span class="red-text" v-if="(animal_type === 1 && edit_height !== '' && edit_height < 15) || animal_type === 1 && edit_height !== '' && edit_height > 50"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 15 to 50 cm</i></span>
+                                            <span class="red-text" v-if="(animal_type === 2 && edit_height !== '' && edit_height < 15) || animal_type === 2 && edit_height !== '' && edit_height > 70"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 15 to 70 cm</i></span>
+                                        </label>
+                                        <input v-if="animal_type===1" id="edit_height" type="number" class="validate" v-model.number="edit_height" min="14" max="51" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                        <input v-if="animal_type===2" id="edit_height" type="number" class="validate" v-model.number="edit_height" min="14" max="71" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 l6 m6">
+                                        <label for="edit_weight">Weight (g) 
+                                            <span class="red-text" v-if="(animal_type === 1 && edit_weight !== '' && edit_weight < 800) || animal_type === 1 && edit_weight !== '' && edit_weight > 3500"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 800 to 3500 g</i></span>
+                                            <span class="red-text" v-if="(animal_type === 2 && edit_weight !== '' && edit_weight < 900) || animal_type === 2 && edit_weight !== '' && edit_weight > 3500"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 900 to 2500 g</i></span>
+                                        </label>
+                                        <input v-if="animal_type===1" id="edit_weight" type="number" class="validate" v-model.number="edit_weight" min="800" max="3500" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                        <input v-if="animal_type===2" id="edit_weight" type="number" class="validate" v-model.number="edit_weight" min="900" max="3500" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 l6 m6">
+                                        <label for="edit_body_length">Body Length (cm) 
+                                            <span class="red-text" v-if="(animal_type === 1 && edit_body_length !== '' && edit_body_length < 15) || animal_type === 1 && edit_body_length !== '' && edit_body_length > 50"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 15 to 50 cm</i></span>
+                                            <span class="red-text" v-if="(animal_type === 2 && edit_body_length !== '' && edit_body_length < 40) || animal_type === 2 && edit_body_length !== '' && edit_body_length > 60"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 40 to 60 cm</i></span>
+                                        </label>
+                                        <input v-if="animal_type===1" id="edit_body_length" type="number" class="validate" v-model.number="edit_body_length" min="14" max="51" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                        <input v-if="animal_type===2" id="edit_body_length" type="number" class="validate" v-model.number="edit_body_length" min="39" max="61" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 l6 m6">
+                                        <label for="edit_chest_circumference">Chest Circumference (cm) 
+                                            <span class="red-text" v-if="(animal_type === 1 && edit_chest_circumference !== '' && edit_chest_circumference < 20) || animal_type === 1 && edit_chest_circumference !== '' && edit_chest_circumference > 40"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 20 to 40 cm</i></span>
+                                            <span class="red-text" v-if="(animal_type === 2 && edit_chest_circumference !== '' && edit_chest_circumference < 20) || animal_type === 2 && edit_chest_circumference !== '' && edit_chest_circumference > 35"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 20 to 35 cm</i></span>
+                                        </label>
+                                        <input v-if="animal_type===1" id="edit_chest_circumference" type="number" class="validate" v-model.number="edit_chest_circumference" min="20" max="40" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                        <input v-if="animal_type===2" id="edit_chest_circumference" type="number" class="validate" v-model.number="edit_chest_circumference" min="20" max="35" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 l6 m6">
+                                        <label for="edit_wing_span">Wing Span (cm)
+                                            <span class="red-text" v-if="(animal_type === 1 && edit_wing_span !== '' && edit_wing_span < 30) || animal_type === 1 && edit_wing_span !== '' && edit_wing_span > 60"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 30 to 60 cm</i></span>
+                                            <span class="red-text" v-if="(animal_type === 2 && edit_wing_span !== '' && edit_wing_span < 45) || animal_type === 2 && edit_wing_span !== '' && edit_wing_span > 70"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 45 to 70 cm</i></span>
+                                        </label>
+                                        <input v-if="animal_type===1" id="edit_wing_span" type="number" class="validate" v-model.number="edit_wing_span" min="30" max="60" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                        <input v-if="animal_type===2" id="edit_wing_span" type="number" class="validate" v-model.number="edit_wing_span" min="45" max="70" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 l6 m6">
+                                        <label for="edit_shank_length">Shank Length (cm)
+                                            <span class="red-text" v-if="(animal_type === 1 && edit_shank_length !== '' && edit_shank_length < 5) || animal_type === 1 && edit_shank_length !== '' && edit_shank_length > 15"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 5 to 15 cm</i></span>
+                                            <span class="red-text" v-if="(animal_type === 2 && edit_shank_length !== '' && edit_shank_length < 1) || animal_type === 2 && edit_shank_length !== '' && edit_shank_length > 10"><i class="fas fa-exclamation-circle"></i> <i>Value should be within 1 to 10 cm</i></span>
+                                        </label>
+                                        <input v-if="animal_type===1" id="edit_shank_length" type="number" class="validate" v-model.number="edit_shank_length" min="5" max="15" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                        <input v-if="animal_type===2" id="edit_shank_length" type="number" class="validate" v-model.number="edit_shank_length" min="1" max="10" step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="animal_type===2">
+                                    <div class="col s12 m6 l6">
+                                        <label for="edit_bill_length">Bill Length (cm)</label>
+                                        <input id="edit_bill_length" type="number" class="validate" v-model.number="edit_bill_length" min=0 step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="animal_type===2">
+                                    <div class="col s12 m6 l6">
+                                        <label for="edit_neck_length">Neck Length (cm)</label>
+                                        <input id="edit_neck_length" type="number" class="validate" v-model.number="edit_neck_length" min=0 step="0.001" pattern="^\d*(\.\d{0,3})?$" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-action waves-grey btn-flat waves-effect waves-light" type="submit" name="action">Submit</button>
+                        <a @click="resetEditMorpho" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-light btn-flat">Close</a>
+                    </div>
+                </form>
+                
             </div>
 
             <div id="delete_phenomorpho" class="modal modal-fixed-footer">
@@ -1209,6 +1288,16 @@
 
                 bill_length : '',
                 neck_length : '',
+                
+                edit_height : '',
+                edit_weight : '',
+                edit_body_length : '',
+                edit_chest_circumference : '',
+                edit_wing_span : '',
+                edit_shank_length : '',
+
+                edit_bill_length : '',
+                edit_neck_length : '',
 
                 selected_record : '',
             }
@@ -1356,10 +1445,55 @@
                 });
                 this.initialize();
             },
-            initializeEditPheno : function () {
+            initializeEditPheno : function (id, data) {
+                console.log(data);
+            },
+            resetEditPheno : function () {
+
+            },
+            initializeEditMorpho : function (id, data) {
+                var value = JSON.parse(data); 
+                if(this.animal_type === 1) {
+                    this.edit_height = value[0];
+                    this.edit_weight = value[1];
+                    this.edit_body_length = value[2];
+                    this.edit_chest_circumference = value[3];
+                    this.edit_wing_span = value[4];
+                    this.edit_shank_length = value[5];
+                }else if(this.animal_type === 2) {
+                    this.edit_height = value[0];
+                    this.edit_weight = value[1];
+                    this.edit_body_length = value[2];
+                    this.edit_chest_circumference = value[3];
+                    this.edit_wing_span = value[4];
+                    this.edit_shank_length = value[5];
+                    this.edit_bill_length = value[6];
+                    this.edit_neck_length = value[7];
+                }
+            },
+            resetEditMorpho : function () {
+                if(this.animal_type === 1) {
+                    this.edit_height = '';
+                    this.edit_weight = '';
+                    this.edit_body_length = '';
+                    this.edit_chest_circumference = '';
+                    this.edit_wing_span = '';
+                    this.edit_shank_length = '';
+                }else if(this.animal_type === 2) {
+                    this.edit_height = '';
+                    this.edit_weight = '';
+                    this.edit_body_length = '';
+                    this.edit_chest_circumference = '';
+                    this.edit_wing_span = '';
+                    this.edit_shank_length = '';
+                    this.edit_bill_length = '';
+                    this.edit_neck_length = '';
+                }
+            },
+            submitEditPheno: function () {
                 
             },
-            initializeEditMorpho : function () {
+            submitEditMorpho : function () {
                 
             },
             deletePhenoMorphoData : function () {

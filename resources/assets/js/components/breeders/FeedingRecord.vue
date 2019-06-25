@@ -21,7 +21,6 @@
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Tag</th>
                                     <th>Offered(g)</th>
                                     <th>Refused(g)</th>
                                     <th>Remarks</th>
@@ -38,11 +37,9 @@
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
-                                    <td>-</td>
                                 </tr>
                                 <tr v-for="feeding in feedings.data" :key="feeding.feeding_id">
                                     <td>{{feeding.date_collected}}</td>
-                                    <td>{{feeding.breeder_tag}}</td>
                                     <td>{{feeding.amount_offered}}</td>
                                     <td>{{feeding.amount_refused}}</td>
                                     <td v-if="feeding.remarks == null">None</td>
