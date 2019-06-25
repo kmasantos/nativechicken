@@ -269,7 +269,7 @@
                 if(this.multiple){
                     input = {
                         multiple : this.multiple,
-                        breeder_id : this.breeder,
+                        breeder_id : this.breeder.inventory_id,
                         date_start : this.customFormatter(this.date_start),
                         date_end : this.customFormatter(this.date_end),
                         offered : this.offered,
@@ -279,7 +279,7 @@
                 }else{
                     input = {
                         multiple : this.multiple,
-                        breeder_id : this.breeder,
+                        breeder_id : this.breeder.inventory_id,
                         date_collected : this.customFormatter(this.date_collected),
                         offered : this.offered,
                         refused : this.refused,
