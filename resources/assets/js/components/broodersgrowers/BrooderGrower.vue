@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="brooder_page_template">
         <div class="row valign-wrapper">
             <div class="col s12 m8 l8 input-field">
                 <input v-model="search" id="search" type="text">
@@ -49,16 +49,16 @@
                                     </div>
                                 </div>
                                 <div class="card-action right-align">
-                                    <a v-if="pen.current_capacity>0" @click="inventory_pen=pen.id; inventory_number=pen.number" href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Pen information">
+                                    <a v-if="pen.current_capacity>0" @click="inventory_pen=pen.id; inventory_number=pen.number" href="javascript:void(0)" class="white-text tooltip" data-tippy-content="Pen Information">
                                         <i class="fas fa-warehouse"></i>
                                     </a>
-                                    <a v-if="pen.total_capacity > pen.current_capacity" @click="selectedpen=pen.id" href="#broodergrowermodal" class="white-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add brooder & grower">
+                                    <a v-if="pen.total_capacity > pen.current_capacity" @click="selectedpen=pen.id" href="#broodergrowermodal" class="white-text tooltip modal-trigger" data-tippy-content="Add Brooder Outside System">
                                         <i class="fas fa-plus-circle"></i>
                                     </a>
-                                    <a v-if="pen.current_capacity>0" @click="feeding_pen=pen.id; feeding_number=pen.number"  href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Feeding records">
+                                    <a v-if="pen.current_capacity>0" @click="feeding_pen=pen.id; feeding_number=pen.number"  href="javascript:void(0)" class="white-text tooltip" data-tippy-content="Feeding Records">
                                         <i class="fas fa-cannabis"></i>
                                     </a>
-                                    <a v-if="pen.current_capacity>0" @click="growth_pen=pen.id; growth_number=pen.number" class="white-text tooltipped" href="javascript:void(0)" data-position="bottom" data-delay="50" data-tooltip="Growth records">
+                                    <a v-if="pen.current_capacity>0" @click="growth_pen=pen.id; growth_number=pen.number" class="white-text tooltip" href="javascript:void(0)" data-tippy-content="Growth Records">
                                         <i class="fas fa-weight"></i>
                                     </a>
                                 </div>
@@ -155,6 +155,7 @@
 </template>
 
 <script>
+    import tippy from 'tippy.js';
     import Datepicker from 'vuejs-datepicker';
     var moment = require('moment');
     export default {
@@ -292,7 +293,14 @@
                 });
             }
         },
-        created() {
+        mounted() {
+            tippy('#brooder_page_template', {
+                target : '.tooltip',
+                arrow: true,
+                arrowType: 'round',
+                animation: 'scale',
+                inertia: true,
+            });
             this.initialize();
         }
     }

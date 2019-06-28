@@ -78,7 +78,9 @@
                     <div class="col s12 m12 l12">
                         <div class="row valign-wrapper">
                             <div class="col s9 m19 l9">
-                                <h5>Add Hatchery Record | {{breeder_tag}}</h5>
+                                <h5 v-if="breeder.breeder_code!==null">Hatchery Record | {{breeder.breeder_code}}</h5>
+                                <h5 v-else>Hatchery Record | {{breeder.breeder_tag}}</h5>
+                                <i>Generation: <strong>{{breeder.generation_number}}</strong> Line: <strong>{{breeder.line_number}}</strong> Family: <strong>{{breeder.family_number}}</strong> Pen: <strong>{{breeder.pen_number}}</strong></i>
                             </div>
                             <div class="col s3 m3 l3 center-align">
                                 <a @click="add_record=false; hide_record=false; selected_generation=null; selected_line=null; selected_family=null; include_brooder=false" class="waves-effect waves-red btn-flat red-text"><i class="far fa-times-circle left"></i>Close</a>
@@ -89,9 +91,10 @@
                                 <p><span><h5><i class="fas fa-exclamation-circle"></i></h5></span> </p>
                             </div>
                             <div class="col s11 m11 l11">
-                                <p><span>Adding complete data in the hatchery record automatically generates <strong>Generation</strong>, <strong>Line</strong>, <strong>Family</strong> and <strong>Brooder</strong> record.</span></p>
-                                <p><span><i class="fas fa-asterisk"></i> You can submit this form without supplying all the data which you can edit in the records list.</span></p>
-                                <p>(Required Data : <strong>Date Eggs Set</strong>, <strong>Number of Eggs Set</strong>)</p>
+                                <p>You can submit this form without supplying all the data</p>
+                                <p>You can edit this form. However, when the all the fields are complete and submitted, it cannot be edited anymore</p>
+                                
+                                <p>(Required Data to Submit Form: <strong>Date Eggs Set</strong>, <strong>Number of Eggs Set</strong>)</p>
                             </div>
                         </div>
                         <form v-on:submit.prevent="validateMainForm">
@@ -197,9 +200,9 @@
                                     <p><span><h5><i class="fas fa-exclamation-circle"></i></h5></span> </p>
                                 </div>
                                 <div class="col s11 m11 l11">
-                                    <p>You can supply missing data for this record.</p>
-                                    <p>You can edit this form without supplying all data</p>
-                                    <p>Minimum data to input : <strong>Number of Fertile Eggs</strong></p>
+                                    <p>You can submit this form without supplying all the data</p>
+                                    <p>You can edit this form. However, when the all the fields are complete and submitted, it cannot be edited anymore</p>
+                                    <p>(Required Data to Submit Form: <strong>Number of Fertile Eggs</strong>)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -275,7 +278,7 @@
                                         <div class="row">
                                             <div class="col s12 m6 l6">
                                                 <label>Place to brooder pen</label>
-                                                <select v-model="selected_brooder_pen" class="browser-default">
+                                                <select v-model="edit_selected_brooder_pen" class="browser-default">
                                                     <option v-if="brooder_pens_length == 0" value="" disabled selected>No brooder pens available</option>
                                                     <option v-else value="" disabled selected>Choose your option</option>
                                                     <option v-for="pen in brooder_pens" :key="pen.id" :value="pen.id">{{pen.number}}</option>

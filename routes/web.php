@@ -183,6 +183,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::patch('breeder_edit_eggquality', 'BreederController@editEggQuality');
         Route::get('breeder_phenomorpho_records/{inventory_id}', 'BreederController@getPhenoMorphoRecord');
         Route::post('breeder_add_phenomorpho', 'BreederController@addPhenoMorphoRecords');
+        Route::patch('breeder_edit_pheno', 'BreederController@editPhenoRecord');
+        Route::patch('breeder_edit_morpho', 'BreederController@editMorphoRecord');
         Route::get('breeder_mortalitysale_record/{inventory_id}', 'BreederController@getMortalitySale');
         Route::post('breeder_mortality', 'BreederController@addMortality');
         Route::post('breeder_sale', 'BreederController@addSale');
@@ -226,14 +228,14 @@ Route::group(['middleware' => ['web']], function ()
         Route::delete('replacement_delete_growthrecords/{record}', 'ReplacementController@deleteGrowthRecord');
         Route::delete('replacement_delete_phenomorphorecords/{record}', 'ReplacementController@deletePhenoMorphoRecord');
         Route::patch('update_replacement_inventory', 'ReplacementController@updateMaleAndFemale');
-        /**
-         * !Old Routes, delete when replaced
-         */
+       
+
         Route::get('broodergrower_list','BrooderGrowerController@getBrooderGrower');
         Route::get('broodergrower_fetch_pens','BrooderGrowerController@fetchPens');
         Route::get('broodergrower_feeding_records/{pen_id}', 'BrooderGrowerController@fetchFeedingRecords');
         Route::get('broodergrower_growth_records/{pen_id}', 'BrooderGrowerController@fetchGrowthRecords');
         Route::post('add_broodergrower_growth', 'BrooderGrowerController@addGrowthRecord');
+        Route::patch('edit_broodergrower_growth', 'BrooderGrowerController@editGrowthRecord');
 
         /**
          * *New Axios Routes for Brooders
@@ -242,8 +244,10 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('broodergrower_fetch_lines/{generation_id}','BrooderGrowerController@fetchLines');
         Route::get('broodergrower_fetch_families/{line_id}','BrooderGrowerController@fetchFamilies');
         Route::get('broodergrower_pens','BrooderGrowerController@getBrooderGrowerPens');
+        Route::get('brooder_inventories_feeding/{pen_id}', 'BrooderGrowerController@getBrooderInventories');
         Route::post('add_broodergrower', 'BrooderGrowerController@addBrooderGrower');
         Route::post('add_broodergrower_feeding', 'BrooderGrowerController@addFeedingRecord');
+        Route::patch('edit_broodergrower_feeding', 'BrooderGrowerController@editFeedingRecord');
         Route::get('broodergrower_pen_info/{pen_id}','BrooderGrowerController@fetchPenInfo');
         Route::patch('update_broodergrower', 'BrooderGrowerController@updateBrooderGrower');
         Route::get('brooder_mortalitysale_record/{inventory_id}', 'BrooderGrowerController@getMortalitySale');
@@ -252,9 +256,9 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('brooder_egg_sale', 'BrooderGrowerController@addEggSale');
         Route::delete('cull_brooder/{inventory_id}', 'BrooderGrowerController@cullBrooder');
         Route::delete('force_delete_brooder/{inventory_id}', 'BrooderGrowerController@forceDeleteBrooder');
-        Route::get('brooder_select_growthrecords/{record}', 'BrooderGrowerController@selectGrowthRecords');
+        // Route::get('brooder_select_growthrecords/{record}', 'BrooderGrowerController@selectGrowthRecords');
         Route::delete('brooder_delete_growthrecords/{record}', 'BrooderGrowerController@deleteGrowthRecord');
-        Route::get('brooder_select_feedingrecords/{record}', 'BrooderGrowerController@selectFeedingRecords');
+        // Route::get('brooder_select_feedingrecords/{record}', 'BrooderGrowerController@selectFeedingRecords');
         Route::delete('brooder_delete_feedingrecords/{record}', 'BrooderGrowerController@deleteFeedingRecord');
         Route::get('search_brooder/{search}', 'BrooderGrowerController@searchBrooderPen');
     });

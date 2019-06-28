@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div id="replacement_page_template" class="row">
         <div class="col s12 m12 l12">
             <!-- Title -->
             <div class="row">
@@ -38,17 +38,17 @@
                                             </div>
                                         </div>
                                         <div class="card-action right-align">
-                                            <a v-if="replacement_pen.current_capacity>0" @click="inventory_pen=replacement_pen.id; inventory_number=replacement_pen.number" href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Pen information">
+                                            <a v-if="replacement_pen.current_capacity>0" @click="inventory_pen=replacement_pen.id; inventory_number=replacement_pen.number" href="javascript:void(0)" class="white-text tooltip" data-tippy-content="Pen Information">
                                                 <i class="fas fa-warehouse"></i>
                                             </a>
-                                            <a href="#add_modal" v-if="replacement_pen.total_capacity > replacement_pen.current_capacity" @click="selected_pen=replacement_pen.id;selected_pen_number=replacement_pen.number" class="white-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Add replacement">
+                                            <a href="#add_modal" v-if="replacement_pen.total_capacity > replacement_pen.current_capacity" @click="selected_pen=replacement_pen.id;selected_pen_number=replacement_pen.number" class="white-text tooltip modal-trigger" data-tippy-content="Add Grower">
                                                 <i class="fas fa-plus-circle"></i>
                                             </a>
-                                            <a v-if="replacement_pen.current_capacity>0" @click="feeding_pen=replacement_pen.id; feeding_number=replacement_pen.number" href="javascript:void(0)" class="white-text tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Feeding records">
+                                            <a v-if="replacement_pen.current_capacity>0" @click="feeding_pen=replacement_pen.id; feeding_number=replacement_pen.number" href="javascript:void(0)" class="white-text tooltip modal-trigger" data-tippy-content="Feeding Records">
                                                 <i class="fas fa-cannabis"></i>
                                             </a>
-                                            <a v-if="replacement_pen.current_capacity>0" @click="phenomorpho_pen=replacement_pen.id; phenomorpho_number=replacement_pen.number" href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Pheno/Morpho Records"><i class="fas fa-feather"></i></a>
-                                            <a v-if="replacement_pen.current_capacity>0" @click="growth_pen=replacement_pen.id; growth_number=replacement_pen.number" href="javascript:void(0)" class="white-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Growth Records"><i class="fas fa-weight"></i></a>
+                                            <a v-if="replacement_pen.current_capacity>0" @click="phenomorpho_pen=replacement_pen.id; phenomorpho_number=replacement_pen.number" href="javascript:void(0)" class="white-text tooltip" data-tippy-content="Open Phenotypic & Morphometric Records"><i class="fas fa-feather"></i></a>
+                                            <a v-if="replacement_pen.current_capacity>0" @click="growth_pen=replacement_pen.id; growth_number=replacement_pen.number" href="javascript:void(0)" class="white-text tooltip" data-tippy-content="Open Growth Records"><i class="fas fa-weight"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -409,12 +409,15 @@ export default {
             });
         },
     },
-    created () {
+    mounted () {
         this.initialize();
-        $('.tooltipped').tooltip({delay: 50});
-    },
-    destroyed () {
-        $('.tooltipped').tooltip('remove');
+        tippy('#replacement_page_template', {
+            target : '.tooltip',
+            arrow: true,
+            arrowType: 'round',
+            animation: 'scale',
+            inertia: true,
+        });
     },
 }
 </script>

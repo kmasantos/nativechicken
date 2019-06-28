@@ -390,10 +390,6 @@ class BreederController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Egg Production record deleted']);
     }
 
-    /**
-     * TODO Modify Hatchery Parameter for later user
-    */
-
     public function getHatcheryParameter($breeder_inventoy)
     {
         $hatchery_records = HatcheryRecord::where('breeder_inventory_id', $breeder_inventoy)->paginate(10);
@@ -435,10 +431,13 @@ class BreederController extends Controller
                     return response()->json( ['error'=>'Brooder pen does not have enough space for the chicks'] );
                 }
                 
+                $family = Family::where('id', $request->family)->firstOrFail();
+                $line = Line::where('id', $family->line_id)->firstOrFail();
+                $generation = Generation::where('id', $line->generation_id)->firstOrFail();
+
                 $code = Auth::user()->getFarm()->code;
                 $timestamp = Carbon::now()->timestamp;
-                $random = random_bytes(1);
-                $tag = $code.bin2hex($random).$timestamp;
+                $tag = $code.$generation->number.$line->number.$family->number.$timestamp;
 
                 $brooder_record = BrooderGrower::where('family_id', $request->family)->first();
                 if($brooder_record==null){
@@ -522,10 +521,15 @@ class BreederController extends Controller
                     return response()->json( ['error'=>'Brooder pen does not have enough space for the chicks'] );
                 }
                 $brooder_pen->current_capacity = $brooder_pen->current_capacity + $request->number_hatched;
+                
+                $family = Family::where('id', $request->family)->firstOrFail();
+                $line = Line::where('id', $family->line_id)->firstOrFail();
+                $generation = Generation::where('id', $line->generation_id)->firstOrFail();
+
                 $code = Auth::user()->getFarm()->code;
                 $timestamp = Carbon::now()->timestamp;
-                $random = random_bytes(1);
-                $tag = $code.bin2hex($random).$timestamp;
+                $tag = $code.$generation->number.$line->number.$family->number.$timestamp;
+
                 $brooder_record = BrooderGrower::where('family_id', $request->family)->first();
                 if($brooder_record==null){
                     $new_brooder = new BrooderGrower;
@@ -598,7 +602,6 @@ class BreederController extends Controller
 
     public function deleteHatcheryRecord (Request $request)
     {
-
         $request->validate([
             'delete_record' => 'required'
         ]);
@@ -846,6 +849,83 @@ class BreederController extends Controller
         $phenomorpho->save();
 
         return response()->json(['status' => 'success', 'message' => 'Phenotypic and Morphometric values saved']);
+    }
+
+    public function editPhenoRecord (Request $request) 
+    {
+        if($request->animal_type === 1){
+            $pheno = collect([
+                $request->plummage_color,
+                $request->plummage_pattern,
+                $request->hackle_color,
+                $request->hackle_pattern,
+                $request->body_carriage,
+                $request->comb_type,
+                $request->comb_color,
+                $request->earlobe_color,
+                $request->iris_color,
+                $request->beak_color,
+                $request->shank_color,
+                $request->skin_color
+            ]);
+        }else if($request->animal_type === 2){
+            $pheno = collect([
+                $request->plummage_color,
+                $request->plummage_pattern,
+                $request->neck_feather,
+                $request->wing_feather,
+                $request->tail_feather,
+                $request->bill_color,
+                $request->bill_shape,
+                $request->bean_color,
+                $request->crest,
+                $request->eye_color,
+                $request->body_carriage,
+                $request->shank_color,
+                $request->skin_color
+            ]);
+        }
+        try {
+            $record = PhenoMorphoValue::where('id', $request->record_id)->firstOrFail();
+        }catch(Exception $exception){
+            return back()->withError($exception->getMessage());
+        }
+        $record->phenotypic = $pheno;
+        $record->save();
+        return response()->json(['status' => 'success', 'message' => 'Phenotypic values edited, please refresh page to update tooltip data']);
+    }
+
+    public function editMorphoRecord (Request $request) 
+    {
+        if($request->animal_type === 1){
+            $morpho = collect([
+                $request->height,
+                $request->weight,
+                $request->body_length,
+                $request->chest_circumference,
+                $request->wing_span,
+                $request->shank_length
+            ]);
+        }else if($request->animal_type === 2){
+            $morpho = collect([
+                $request->height,
+                $request->weight,
+                $request->body_length,
+                $request->chest_circumference,
+                $request->wing_span,
+                $request->shank_length,
+                $request->bill_length,
+                $request->neck_length
+            ]);
+        }
+        try {
+            $record = PhenoMorphoValue::where('id', $request->record_id)->firstOrFail();
+        }catch(Exception $exception){
+            return back()->withError($exception->getMessage());
+        }
+        $record->morphometric = $morpho;
+        $record->save();
+        return response()->json(['status' => 'success', 'message' => 'Morphometric values edited, please refresh page to update tooltip data']);
     }
 
     public function getMortalitySale ($inventory_id)

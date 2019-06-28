@@ -52,9 +52,6 @@ class ReplacementController extends Controller
         return $replacement_pens;
     }
 
-    /**
-     * TODO Delete if needed
-     */
     public function getReplacementList()
     {
         $replacements = Replacement::join('families', 'families.id', 'replacements.family_id')
@@ -68,10 +65,14 @@ class ReplacementController extends Controller
 
     public function addReplacements(Request $request)
     {
+        $family = Family::where('id', $request->family_id)->firstOrFail();
+        $line = Line::where('id', $family->line_id)->firstOrFail();
+        $generation = Generation::where('id', $line->generation_id)->firstOrFail();
+
         $code = Auth::user()->getFarm()->code;
         $timestamp = Carbon::now()->timestamp;
-        $random = random_bytes(1);
-        $tag = $code.bin2hex($random).$timestamp;
+        $tag = $code.$generation->number.$line->number.$family->number.$timestamp;
+
         $request->validate([
             "family_id" => "required",
             "pen_id" => "required",
@@ -151,8 +152,8 @@ class ReplacementController extends Controller
             $inventory->last_update = $request->date_added;
             $inventory->save();
 
-            if($brooder_inventory->total - $request->total == 0){
-                $brooder_inventory->forceDelete();
+            if(($brooder_inventory->total - $request->total) === 0){
+                $brooder_inventory->delete();
             }else{
                 $brooder_inventory->total = $brooder_inventory->total - $request->total;
                 $brooder_inventory->save();
@@ -702,8 +703,8 @@ class ReplacementController extends Controller
     public function getBrooderInventories ($family_id)
     {
         $brooders = BrooderGrowerInventory::
-        leftJoin('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
-        ->leftJoin('pens', 'pens.id','brooder_grower_inventories.pen_id')
+        join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+        ->join('pens', 'pens.id','brooder_grower_inventories.pen_id')
         ->select('brooder_grower_inventories.*', 'brooder_growers.*', 'pens.*',
         'brooder_grower_inventories.id as inv_id', 'brooder_growers.id as bg_id', 'pens.id as pen_id')
         ->where('brooder_growers.family_id', $family_id)

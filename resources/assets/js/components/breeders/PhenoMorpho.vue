@@ -41,8 +41,8 @@
                                     <td>{{record.date_collected}}</td>
                                     <td>{{capitalize(record.gender)}}</td>
                                     <td>{{record.tag}}</td>
-                                    <td @click="initializeEditPheno(record.id, record.phenotypic)" class="tooltip_data" :data-tippy-content="insertPhenoContent(record.phenotypic)"><i class="fas fa-feather"></i></td>
-                                    <td @click="initializeEditMorpho(record.id, record.morphometric)" class="tooltip_data" :data-tippy-content="insertMorphoContent(record.morphometric)"><i class="fas fa-ruler-horizontal"></i></td>
+                                    <td @click="initializeEditPheno(record.id, record.phenotypic)" class="tooltip_data_pheno" :data-tippy-content="insertPhenoContent(record.phenotypic)"><i class="fas fa-feather"></i></td>
+                                    <td @click="initializeEditMorpho(record.id, record.morphometric)" class="tooltip_data_morpho" :data-tippy-content="insertMorphoContent(record.morphometric)"><i class="fas fa-ruler-horizontal"></i></td>
                                     <td><a @click="selected_record = record" href="#delete_phenomorpho" class="modal-trigger"><i class="fas fa-trash-alt"></i></a></td>
                                 </tr>
                             </tbody>
@@ -67,10 +67,11 @@
                         <div class="row">
                             <div class="col s12 m12 l12">
                                 <div class="card">
-                                    <div class="card-content">
-                                        <p><i class="fas fa-exclamation-circle"></i> Click Phenotypic tab to display the phenotypic data form.</p>
-                                        <p><i class="fas fa-exclamation-circle"></i> Click Morphometric tab to display the morphometric data form.</p>
-                                        <p><i class="fas fa-exclamation-circle"></i> Complete Phenotypic and Morphometric Data before submitting the form.</p>
+                                    <div class="card-content green-text">
+                                        <p><i class="fas fa-exclamation"></i> Click Phenotypic tab to display the phenotypic data form</p>
+                                        <p><i class="fas fa-exclamation"></i> Click Morphometric tab to display the morphometric data form</p>
+                                        <p><i class="fas fa-exclamation"></i> Complete Phenotypic and Morphometric Data before submitting the form</p>
+                                        <p><i class="fas fa-exclamation"></i> Choose "Unidentified" if the attribute is not recorded or if it is not present in the breed</p>
                                     </div>
                                     <div class="card-tabs">
                                     <ul class="tabs tabs-fixed-width">
@@ -1099,7 +1100,7 @@
             <div id="edit_morpho" class="modal modal-fixed-footer">
                 <form v-on:submit.prevent="submitEditMorpho">
                     <div class="modal-content">
-                        <h4>Edit Morpho</h4>
+                        <h4>Edit Morphometric Characteristics</h4>
                         <div class="row">
                             <div class="col s12 m12 l12">
                                 <div class="row">
@@ -1182,7 +1183,913 @@
                         <a @click="resetEditMorpho" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-light btn-flat">Close</a>
                     </div>
                 </form>
-                
+            </div>
+
+            <div id="edit_pheno" class="modal modal-fixed-footer">
+                <form v-on:submit.prevent="submitEditPheno">
+                <div class="modal-content">
+                    <h4>Edit Phenotypic Characteristics</h4>
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class="row" v-if="animal_type===2" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Plumage Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_dblack" value="Black"/>
+                                            <label for="edit_plummage_color_dblack">Black</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_dblackbrown" value="Black with Brown"/>
+                                            <label for="edit_plummage_color_dblackbrown">Black with Brown</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_dbrown" value="Brown"/>
+                                            <label for="edit_plummage_color_dbrown">Brown</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_dbrownblack" value="Brown with Black"/>
+                                            <label for="edit_plummage_color_dbrownblack">Brown with Black</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_dnone" value="Unidentified"/>
+                                            <label for="edit_plummage_color_dnone">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=true" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_dothers" value="Others"/>
+                                            <label for="edit_plummage_color_dothers">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_plummage_color_others==true">
+                                        <div class="input-field col s12 m6 l6">
+                                            <label class="active" for="edit_plummage_color_others">Others</label>
+                                            <input v-model="edit_plummage_color" id="edit_plummage_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Plumage Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_white" value="White"/>
+                                            <label for="edit_plummage_color_white">White</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_black" value="Black" />
+                                            <label for="edit_plummage_color_black">Black</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_red" value="Red" />
+                                            <label for="edit_plummage_color_red">Red</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_orange" value="Orange" />
+                                            <label for="edit_plummage_color_orange">Orange</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_brown" value="Brown" />
+                                            <label for="edit_plummage_color_brown">Brown</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_yellow" value="Yellow" />
+                                            <label for="edit_plummage_color_yellow">Yellow</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=false" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_none" value="Unidentified" />
+                                            <label for="edit_plummage_color_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_color_others=true; edit_plummage_color=''" class="with-gap" v-model="edit_plummage_color" type="radio" id="edit_plummage_color_others_rad" value="Others" />
+                                            <label for="edit_plummage_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_plummage_color_others==true">
+                                        <div class="col s12 m6 l6 input-field">
+                                            <label class="active" for="edit_plummage_color_others">Others</label>
+                                            <input v-model="edit_plummage_color" id="edit_plummage_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===2" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Plumage Pattern</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_ddusky" value="Dusky" />
+                                            <label for="edit_plummage_pattern_ddusky">Dusky</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_dmallard" value="Mallard" />
+                                            <label for="edit_plummage_pattern_dmallard">Mallard</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_dplainbrown" value="Plain Brown" />
+                                            <label for="edit_plummage_pattern_dplainbrown">Plain Brown</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_drunner" value="Runner" />
+                                            <label for="edit_plummage_pattern_drunner">Runner</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_drunnermallard" value="Runner/Mallard" />
+                                            <label for="edit_plummage_pattern_drunnermallard">Runner/Mallard</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_dnone" value="Unidentified" />
+                                            <label for="edit_plummage_pattern_dnone">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=true; edit_plummage_pattern=''" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_others_rad" value="Others" />
+                                            <label for="edit_plummage_pattern_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_plummage_pattern_others==true">
+                                        <div class="input-field col s12 m6 l6">
+                                            <label class="active" for="edit_plummage_pattern_others">Others</label>
+                                            <input v-model="edit_plummage_pattern" id="edit_plummage_pattern_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Plumage Pattern</label>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_plain" value="Plain" />
+                                            <label for="edit_plummage_pattern_plain">Plain</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_barred" value="Barred" />
+                                            <label for="edit_plummage_pattern_barred">Barred</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_wild" value="Wild Type" />
+                                            <label for="edit_plummage_pattern_wild">Wild Type</label>
+                                        </div>
+                                        <div class="col s12 m4 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_laced" value="Laced" />
+                                            <label for="edit_plummage_pattern_laced">Laced</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_mottled" value="Mottled" />
+                                            <label for="edit_plummage_pattern_mottled">Mottled</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=false" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_none" value="Unidentified" />
+                                            <label for="edit_plummage_pattern_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_plummage_pattern_others=true; edit_plummage_pattern=''" class="with-gap" v-model="edit_plummage_pattern" type="radio" id="edit_plummage_pattern_others_rad" value="Others" />
+                                            <label for="edit_plummage_pattern_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_plummage_pattern_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_plummage_pattern_others">Others</label>
+                                            <input v-model="edit_plummage_pattern" id="edit_plummage_pattern_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Hackle Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_hackle_color_others=false" class="with-gap" v-model="edit_hackle_color" type="radio" id="edit_hackle_color_yellow" value="Yellow" />
+                                            <label for="edit_hackle_color_yellow">Yellow</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_hackle_color_others=false" class="with-gap" v-model="edit_hackle_color" type="radio" id="edit_hackle_color_orange" value="Orange" />
+                                            <label for="edit_hackle_color_orange">Orange</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_hackle_color_others=false" class="with-gap" v-model="edit_hackle_color" type="radio" id="edit_hackle_color_brown" value="Brown" />
+                                            <label for="edit_hackle_color_brown">Brown</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_hackle_color_others=false" class="with-gap" v-model="edit_hackle_color" type="radio" id="edit_hackle_color_red" value="Red" />
+                                            <label for="edit_hackle_color_red">Red</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_hackle_color_others=false" class="with-gap" v-model="edit_hackle_color" type="radio" id="edit_hackle_color_black" value="Black" />
+                                            <label for="edit_hackle_color_black">Black</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_hackle_color_others=false" class="with-gap" v-model="edit_hackle_color" type="radio" id="edit_hackle_color_none" value="Unidentified" />
+                                            <label for="edit_hackle_color_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_hackle_color_others=true; edit_hackle_color=''" class="with-gap" v-model="edit_hackle_color" type="radio" id="edit_hackle_color_others_rad" value="Others" />
+                                            <label for="edit_hackle_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_hackle_color_others==true">
+                                        <div class="col s12 m6 l6 input-field">
+                                            <label class="active" for="edit_hackle_color_others">Others</label>
+                                            <input v-model="edit_hackle_color" id="edit_hackle_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Hackle Pattern</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_hackle_pattern_others=false" class="with-gap" v-model="edit_hackle_pattern" type="radio" id="edit_hackle_pattern_plain" value="Plain" />
+                                            <label for="edit_hackle_pattern_plain">Plain</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_hackle_pattern_others=false" class="with-gap" v-model="edit_hackle_pattern" type="radio" id="edit_hackle_pattern_laced" value="Laced" />
+                                            <label for="edit_hackle_pattern_laced">Laced</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_hackle_pattern_others=false" class="with-gap" v-model="edit_hackle_pattern" type="radio" id="edit_hackle_pattern_barred" value="Barred" />
+                                            <label for="edit_hackle_pattern_barred">Barred</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_hackle_pattern_others=false" class="with-gap" v-model="edit_hackle_pattern" type="radio" id="edit_hackle_pattern_none" value="Unidentified" />
+                                            <label for="edit_hackle_pattern_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_hackle_pattern_others=true;hackle_pattern=''" class="with-gap" v-model="edit_hackle_pattern" type="radio" id="edit_hackle_pattern_others_rad" value="Others" />
+                                            <label for="edit_hackle_pattern_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_hackle_pattern_others==true">
+                                        <div class="col s12 m6 l6 input-field">
+                                            <label class="active" for="edit_hackle_pattern_others">Others</label>
+                                            <input v-model="edit_hackle_pattern" id="edit_hackle_pattern_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===2" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Body Carriage</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_body_carriage_others=false" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_dhorizontal" value="Horizontal" />
+                                            <label for="edit_body_carriage_dhorizontal">Horizontal</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_body_carriage_others=false" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_dslight" value="Slight Upright" />
+                                            <label for="edit_body_carriage_dslight">Slight Upright</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_body_carriage_others=false" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_dupright" value="Upright" />
+                                            <label for="edit_body_carriage_dupright">Upright</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_body_carriage_others=false" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_dnone" value="Unidentified" />
+                                            <label for="edit_body_carriage_dnone">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_body_carriage_others=true; body_carriage=''" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_dothers_rad" value="Others" />
+                                            <label for="edit_body_carriage_dothers_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_body_carriage_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_body_carriage_dothers">Others</label>
+                                            <input v-model="edit_body_carriage" id="edit_body_carriage_dothers" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Body Carriage</label>
+                                    <div class="row">
+                                        <div class="col s12 l3">
+                                            <input @change="edit_body_carriage_others=false" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_upright" value="Upright" />
+                                            <label for="edit_body_carriage_upright">Upright</label>
+                                        </div>
+                                        <div class="col s12 l3">
+                                            <input @change="edit_body_carriage_others=false" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_slight" value="Slight Upright" />
+                                            <label for="edit_body_carriage_slight">Slight Upright</label>
+                                        </div>
+                                        <div class="col s12 l3">
+                                            <input @change="edit_body_carriage_others=false" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_none" value="Unidentified" />
+                                            <label for="edit_body_carriage_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 l3">
+                                            <input @change="edit_body_carriage_others=true; edit_body_carriage=''" class="with-gap" v-model="edit_body_carriage" type="radio" id="edit_body_carriage_others_rad" value="Others" />
+                                            <label for="edit_body_carriage_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_body_carriage_others==true">
+                                        <div class="col s12 l6">
+                                            <label class="active" for="edit_body_carriage_others">Others</label>
+                                            <input v-model="edit_body_carriage" id="edit_body_carriage_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Comb Type</label>
+                                    <div class="row">
+                                        <div class="col s12 l4">
+                                            <input @change="edit_comb_type_others=false" class="with-gap" v-model="edit_comb_type" type="radio" id="edit_comb_type_single" value="Single"/>
+                                            <label for="edit_comb_type_single">Single</label>
+                                        </div>
+                                        <div class="col s12 l4">
+                                            <input @change="edit_comb_type_others=false" class="with-gap" v-model="edit_comb_type" type="radio" id="edit_comb_type_pea" value="Pea" />
+                                            <label for="edit_comb_type_pea">Pea</label>
+                                        </div>
+                                        <div class="col s12 l4">
+                                            <input @change="edit_comb_type_others=false" class="with-gap" v-model="edit_comb_type" type="radio" id="edit_comb_type_rose" value="Rose" />
+                                            <label for="edit_comb_type_rose">Rose</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l4">
+                                            <input @change="edit_comb_type_others=false" class="with-gap" v-model="edit_comb_type" type="radio" id="edit_comb_type_none" value="Unidentified" />
+                                            <label for="edit_comb_type_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_comb_type_others=true; edit_comb_type=''" class="with-gap" v-model="edit_comb_type" type="radio" id="edit_comb_type_others_rad" value="Others" />
+                                            <label for="edit_comb_type_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_comb_type_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_comb_type_others">Others</label>
+                                            <input v-model="edit_comb_type" id="edit_comb_type_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Comb Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_comb_color_others=false" class="with-gap" v-model="edit_comb_color" type="radio" id="edit_comb_color_red" value="Red" />
+                                            <label for="edit_comb_color_red">Red</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_comb_color_others=false" class="with-gap" v-model="edit_comb_color" type="radio" id="edit_comb_color_pink" value="Pink" />
+                                            <label for="edit_comb_color_pink">Pink</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_comb_color_others=false" class="with-gap" v-model="edit_comb_color" type="radio" id="edit_comb_color_black" value="Black" />
+                                            <label for="edit_comb_color_black">Black</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_comb_color_others=false" class="with-gap" v-model="edit_comb_color" type="radio" id="edit_comb_color_none" value="Unidentified" />
+                                            <label for="edit_comb_color_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_comb_color_others=true;comb_color=''" class="with-gap" v-model="edit_comb_color" type="radio" id="edit_comb_color_others_rad" value="Others" />
+                                            <label for="edit_comb_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_comb_color_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_comb_color_others">Others</label>
+                                            <input v-model="edit_comb_color" id="edit_comb_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Earlobe Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_earlobe_color_others=false" class="with-gap" v-model="edit_earlobe_color" type="radio" id="edit_earlobe_color_white" value="White" />
+                                            <label for="edit_earlobe_color_white">White</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_earlobe_color_others=false" class="with-gap" v-model="edit_earlobe_color" type="radio" id="edit_earlobe_color_red" value="Red" />
+                                            <label for="edit_earlobe_color_red">Red</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_earlobe_color_others=false" class="with-gap" v-model="edit_earlobe_color" type="radio" id="edit_earlobe_color_redwhwhite" value="Red-White" />
+                                            <label for="edit_earlobe_color_redwhwhite">Red-White</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_earlobe_color_others=false" class="with-gap" v-model="edit_earlobe_color" type="radio" id="edit_earlobe_color_none" value="Unidentified" />
+                                            <label for="edit_earlobe_color_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_earlobe_color_others=true; edit_earlobe_color=''" class="with-gap" v-model="edit_earlobe_color" type="radio" id="edit_earlobe_color_others_rad" value="Others" />
+                                            <label for="edit_earlobe_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_earlobe_color_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_earlobe_color_others">Others</label>
+                                            <input v-model="edit_earlobe_color" id="edit_earlobe_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Iris Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_iris_color_others=false" class="with-gap" v-model="edit_iris_color" type="radio" id="edit_iris_color_red" value="Red" />
+                                            <label for="edit_iris_color_red">Red</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_iris_color_others=false" class="with-gap" v-model="edit_iris_color" type="radio" id="edit_iris_color_orange" value="Orange" />
+                                            <label for="edit_iris_color_orange">Orange</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_iris_color_others=false" class="with-gap" v-model="edit_iris_color" type="radio" id="edit_iris_color_brown" value="Brown" />
+                                            <label for="edit_iris_color_brown">Brown</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_iris_color_others=false" class="with-gap" v-model="edit_iris_color" type="radio" id="edit_iris_color_yellow" value="Yellow" />
+                                            <label for="edit_iris_color_yellow">Yellow</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_iris_color_others=false" class="with-gap" v-model="edit_iris_color" type="radio" id="edit_iris_color_none" value="Unidentified" />
+                                            <label for="edit_iris_color_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_iris_color_others=true; edit_iris_color=''" class="with-gap" v-model="edit_iris_color" type="radio" id="edit_iris_color_others_rad" value="Others" />
+                                            <label for="edit_iris_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_iris_color_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_iris_color_others">Others</label>
+                                            <input v-model="edit_iris_color" id="edit_iris_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Beak Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_beak_color_others=false" class="with-gap" v-model="edit_beak_color" type="radio" id="edit_beak_color_white" value="White" />
+                                            <label for="edit_beak_color_white">White</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_beak_color_others=false" class="with-gap" v-model="edit_beak_color" type="radio" id="edit_beak_color_black" value="Black" />
+                                            <label for="edit_beak_color_black">Black</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_beak_color_others=false" class="with-gap" v-model="edit_beak_color" type="radio" id="edit_beak_color_brown" value="Brown" />
+                                            <label for="edit_beak_color_brown">Brown</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_beak_color_others=false" class="with-gap" v-model="edit_beak_color" type="radio" id="edit_beak_color_yellow" value="Yellow" />
+                                            <label for="edit_beak_color_yellow">Yellow</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_beak_color_others=false" class="with-gap" v-model="edit_beak_color" type="radio" id="edit_beak_color_none" value="Unidentified" />
+                                            <label for="edit_beak_color_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_beak_color_others=true; beak_color=''" class="with-gap" v-model="edit_beak_color" type="radio" id="edit_beak_color_others_rad" value="Others" />
+                                            <label for="edit_beak_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_beak_color_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_beak_color_others">Others</label>
+                                            <input v-model="edit_beak_color" id="edit_beak_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===2" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Shank Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_dblack" value="Black" />
+                                            <label for="edit_shank_color_dblack">Black</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_dbrown" value="Brown" />
+                                            <label for="edit_shank_color_dbrown">Brown</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_ddarkbrown" value="Dark Brown" />
+                                            <label for="edit_shank_color_ddarkbrown">Dark Brown</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_ddarkorange" value="Dark Orange" />
+                                            <label for="edit_shank_color_ddarkorange">Dark Orange</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_dorangeblack" value="Orange with Black" />
+                                            <label for="edit_shank_color_dorangeblack">Orange with Black</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_dnone" value="Unidentified" />
+                                            <label for="edit_shank_color_dnone">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=true; edit_shank_color=''" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_dothers_rad" value="Others" />
+                                            <label for="edit_shank_color_dothers_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_shank_color_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_shank_color_dothers">Others</label>
+                                            <input v-model="edit_shank_color" id="edit_shank_color_dothers" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Shank Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_white" value="White" />
+                                            <label for="edit_shank_color_white">White</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_black" value="Black" />
+                                            <label for="edit_shank_color_black">Black</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_yellow" value="Yellow" />
+                                            <label for="edit_shank_color_yellow">Yellow</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_green" value="Green" />
+                                            <label for="edit_shank_color_green">Green</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_grey" value="Grey" />
+                                            <label for="edit_shank_color_grey">Grey</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=false" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_none" value="Unidentified" />
+                                            <label for="edit_shank_color_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_shank_color_others=true; shank_color=''" class="with-gap" v-model="edit_shank_color" type="radio" id="edit_shank_color_others_rad" value="Others" />
+                                            <label for="edit_shank_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_shank_color_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_shank_color_others">Others</label>
+                                            <input v-model="edit_shank_color" id="edit_shank_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===2" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Skin Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_skin_color_others=false" class="with-gap" v-model="edit_skin_color" type="radio" id="edit_skin_color_dwhite" value="White" />
+                                            <label for="edit_skin_color_dwhite">White</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_skin_color_others=false" class="with-gap" v-model="edit_skin_color" type="radio" id="edit_skin_color_dnone" value="Unidentified" />
+                                            <label for="edit_skin_color_dnone">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m4 l4">
+                                            <input @change="edit_skin_color_others=true; edit_skin_color=''" class="with-gap" v-model="edit_skin_color" type="radio" id="edit_skin_color_others_rad" value="Others" />
+                                            <label for="edit_skin_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_skin_color_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_skin_color_others">Others</label>
+                                            <input v-model="edit_skin_color" id="edit_skin_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="animal_type===1" style="border: 0.5px solid black">
+                                <div class="col s12 m12 l12">
+                                    <label>Skin Color</label>
+                                    <div class="row">
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_skin_color_others=false" class="with-gap" v-model="edit_skin_color" type="radio" id="edit_skin_color_white" value="White" />
+                                            <label for="edit_skin_color_white">White</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_skin_color_others=false" class="with-gap" v-model="edit_skin_color" type="radio" id="edit_skin_color_yellow" value="Yellow" />
+                                            <label for="edit_skin_color_yellow">Yellow</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_skin_color_others=false" class="with-gap" v-model="edit_skin_color" type="radio" id="edit_skin_color_none" value="Unidentified" />
+                                            <label for="edit_skin_color_none">Unidentified</label>
+                                        </div>
+                                        <div class="col s12 m3 l3">
+                                            <input @change="edit_skin_color_others=true; edit_skin_color=''" class="with-gap" v-model="edit_skin_color" type="radio" id="edit_skin_color_others_rad" value="Others" />
+                                            <label for="edit_skin_color_others_rad">Others</label>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="edit_skin_color_others==true">
+                                        <div class="col s12 m6 l6">
+                                            <label class="active" for="edit_skin_color_others">Others</label>
+                                            <input v-model="edit_skin_color" id="edit_skin_color_others" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="animal_type===2">
+                                <div class="row" style="border: 0.5px solid black">
+                                    <div class="col s12 m12 l12">
+                                        <label>Neck Feather Markings</label>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input class="with-gap" v-model="edit_neck_feather" type="radio" id="edit_neck_feather_plain" value="Plain" />
+                                                <label for="edit_neck_feather_plain">Plain</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input class="with-gap" v-model="edit_neck_feather" type="radio" id="edit_neck_feather_bibsmall" value="Bib-Small" />
+                                                <label for="edit_neck_feather_bibsmall">With Bib (Small)</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input class="with-gap" v-model="edit_neck_feather" type="radio" id="edit_neck_feather_bibmed" value="Bib-Medium" />
+                                                <label for="edit_neck_feather_bibmed">With Bib (Medium)</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input class="with-gap" v-model="edit_neck_feather" type="radio" id="edit_neck_feather_biblarge" value="Bib-Large" />
+                                                <label for="edit_neck_feather_biblarge">With Bib (Large)</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input class="with-gap" v-model="edit_neck_feather" type="radio" id="edit_neck_feather_none" value="Unidentified" />
+                                                <label for="edit_neck_feather_none">Unidentified</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 0.5px solid black">
+                                    <div class="col s12 m12 l12">
+                                        <label>Wing Feather Color</label>
+                                        <div class="row">
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_wing_feather_others=false" class="with-gap" v-model="edit_wing_feather" type="radio" id="edit_wing_feather_black" value="Black" />
+                                                <label for="edit_wing_feather_black">Black</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_wing_feather_others=false" class="with-gap" v-model="edit_wing_feather" type="radio" id="edit_wing_feather_blackbrown" value="Black with Brown" />
+                                                <label for="edit_wing_feather_blackbrown">Black with Brown</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_wing_feather_others=false" class="with-gap" v-model="edit_wing_feather" type="radio" id="edit_wing_feather_blackwhite" value="Black with White" />
+                                                <label for="edit_wing_feather_blackwhite">Black with White</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_wing_feather_others=false" class="with-gap" v-model="edit_wing_feather" type="radio" id="edit_wing_feather_brown" value="Brown" />
+                                                <label for="edit_wing_feather_brown">Brown</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_wing_feather_others=false" class="with-gap" v-model="edit_wing_feather" type="radio" id="edit_wing_feather_brownwhite" value="Brown with White" />
+                                                <label for="edit_wing_feather_brownwhite">Brown with White</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_wing_feather_others=false" class="with-gap" v-model="edit_wing_feather" type="radio" id="edit_wing_feather_none" value="Unidentified" />
+                                                <label for="edit_wing_feather_none">Unidentified</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_wing_feather_others=true; edit_wing_feather=''" class="with-gap" v-model="edit_wing_feather" type="radio" id="edit_wing_feather_others_rad" value="Others" />
+                                                <label for="edit_wing_feather_others_rad">Others</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" v-if="edit_wing_feather_others==true">
+                                            <div class="col s12 m6 l6">
+                                                <label class="active" for="edit_wing_feather_others">Others</label>
+                                                <input v-model="edit_wing_feather" id="edit_wing_feather_others" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 0.5px solid black">
+                                    <div class="col s12 m12 l12">
+                                        <label>Tail Feather Color</label>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_tail_feather_others=false" class="with-gap" v-model="edit_tail_feather" type="radio" id="edit_tail_feather_black" value="Black" />
+                                                <label for="edit_tail_feather_black">Black</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_tail_feather_others=false" class="with-gap" v-model="edit_tail_feather" type="radio" id="edit_tail_feather_brown" value="Brown" />
+                                                <label for="edit_tail_feather_brown">Brown</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_tail_feather_others=false" class="with-gap" v-model="edit_tail_feather" type="radio" id="edit_tail_feather_brownwhite" value="Brown with White" />
+                                                <label for="edit_tail_feather_brownwhite">Brown with White</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_tail_feather_others=false" class="with-gap" v-model="edit_tail_feather" type="radio" id="edit_tail_feather_none" value="Unidentified" />
+                                                <label for="edit_tail_feather_none">Unidentified</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_tail_feather_others=true; edit_tail_feather=''" class="with-gap" v-model="edit_tail_feather" type="radio" id="edit_tail_feather_others_rad" value="Others" />
+                                                <label for="edit_tail_feather_others_rad">Others</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" v-if="edit_tail_feather_others==true">
+                                            <div class="col s12 m6 l6">
+                                                <label class="active" for="edit_tail_feather_others">Others</label>
+                                                <input v-model="edit_tail_feather" id="edit_tail_feather_others" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 0.5px solid black">
+                                    <div class="col s12 m12 l12">
+                                        <label>Bill Color</label>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_bill_color_others=false" class="with-gap" v-model="edit_bill_color" type="radio" id="edit_bill_color_green" value="Green" />
+                                                <label for="edit_bill_color_green">Green</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_bill_color_others=false" class="with-gap" v-model="edit_bill_color" type="radio" id="edit_bill_color_black" value="Black" />
+                                                <label for="edit_bill_color_black">Black</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_bill_color_others=false" class="with-gap" v-model="edit_bill_color" type="radio" id="edit_bill_color_blackgray" value="Black with Gray" />
+                                                <label for="edit_bill_color_blackgray">Black with Gray</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_bill_color_others=false" class="with-gap" v-model="edit_bill_color" type="radio" id="edit_bill_color_none" value="Unidentified" />
+                                                <label for="edit_bill_color_none">Unidentified</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_bill_color_others=true; edit_bill_color=''" class="with-gap" v-model="edit_bill_color" type="radio" id="edit_bill_color_others_rad" value="Others" />
+                                                <label for="edit_bill_color_others_rad">Others</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" v-if="edit_bill_color_others==true">
+                                            <div class="input-field col s12 m6 l6">
+                                                <label class="active" for="edit_bill_color_others">Others</label>
+                                                <input v-model="edit_bill_color" id="edit_bill_color_others" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 0.5px solid black">
+                                    <div class="col s12 m12 l12">
+                                        <label>Bill Shape</label>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input class="with-gap" v-model="edit_bill_shape" type="radio" id="edit_bill_shape_uniform" value="Uniform" />
+                                                <label for="edit_bill_shape_uniform">Uniform</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input class="edit_with-gap" v-model="edit_bill_shape" type="radio" id="edit_bill_shape_saddle" value="Saddle" />
+                                                <label for="edit_bill_shape_saddle">Saddle</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input class="with-gap" v-model="edit_bill_shape" type="radio" id="edit_bill_shape_none" value="Unidentified" />
+                                                <label for="edit_bill_shape_none">Unidentified</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 0.5px solid black">
+                                    <div class="col s12 m12 l12">
+                                        <label>Bean Color</label>
+                                        <div class="row">
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_bean_color_others=false" class="with-gap" v-model="edit_bean_color" type="radio" id="edit_bean_color_black" value="Black" />
+                                                <label for="edit_bean_color_black">Black</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_bean_color_others=false" class="with-gap" v-model="edit_bean_color" type="radio" id="edit_bean_color_grey" value="Grey" />
+                                                <label for="edit_bean_color_grey">Grey</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_bean_color_others=false" class="with-gap" v-model="edit_bean_color" type="radio" id="edit_bean_color_none" value="Unidentified" />
+                                                <label for="edit_bean_color_none">Unidentified</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_bean_color_others=true; edit_bean_color=''" class="with-gap" v-model="edit_bean_color" type="radio" id="edit_bean_color_others_rad" value="Others" />
+                                                <label for="edit_bean_color_others_rad">Others</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" v-if="edit_bean_color_others==true">
+                                            <div class="input-field col s12 m6 l6">
+                                                <label class="active" for="edit_bean_color_others">Others</label>
+                                                <input v-model="edit_bean_color" id="edit_bean_color_others" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 0.5px solid black">
+                                    <div class="col s12 m12 l12">
+                                        <label>Presence of Crest</label>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_crest_others=false" class="with-gap" v-model="edit_crest" type="radio" id="edit_crest_yes" value="Yes" />
+                                                <label for="edit_crest_yes">Yes</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_crest_others=false" class="with-gap" v-model="edit_crest" type="radio" id="edit_crest_no" value="No" />
+                                                <label for="edit_crest_no">No</label>
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <input @change="edit_crest_others=true" class="with-gap" v-model="edit_crest" type="radio" id="edit_crest_others_rad" value="Others" />
+                                                <label for="edit_crest_others_rad">Others</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" v-if="edit_crest_others==true">
+                                            <div class="input-field col s12 m6 l6">
+                                                <label class="active" for="edit_crest_others">Others</label>
+                                                <input v-model="edit_crest" id="edit_crest_others" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 0.5px solid black">
+                                    <div class="col s12 m12 l12">
+                                        <label>Eye Color</label>
+                                        <div class="row">
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_eye_color_others=false" class="with-gap" v-model="edit_eye_color" type="radio" id="edit_eye_color_black" value="Black" />
+                                                <label for="edit_eye_color_black">Black</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_eye_color_others=false" class="with-gap" v-model="edit_eye_color" type="radio" id="edit_eye_color_brown" value="Brown" />
+                                                <label for="edit_eye_color_brown">Brown</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_eye_color_others=false" class="with-gap" v-model="edit_eye_color" type="radio" id="edit_eye_color_none" value="Unidentified" />
+                                                <label for="edit_eye_color_none">Unidentified</label>
+                                            </div>
+                                            <div class="col s12 m3 l3">
+                                                <input @change="edit_eye_color_others=true" class="with-gap" v-model="edit_eye_color" type="radio" id="edit_eye_color_others_rad" value="Others" />
+                                                <label for="edit_eye_color_others_rad">Others</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" v-if="edit_eye_color_others==true">
+                                            <div class="input-field col s12 m6 l6">
+                                                <label class="active" for="edit_eye_color_others">Others</label>
+                                                <input v-model="edit_eye_color" id="edit_eye_color_others" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="border: 0.5px solid black">
+                                <div class="col s12 m6 l6">
+                                    <label class="active" for="edit_other_features">Others Unique Features</label>
+                                    <input v-model="edit_other_features" id="edit_other_features" type="text" placeholder="e.g. Frizzly, Silky">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-action waves-grey btn-flat waves-effect waves-light" type="submit" name="action">Submit</button>
+                    <a @click="resetEditPheno" href="javascript:void(0)" class="modal-action modal-close waves-effect waves-light btn-flat">Close</a>
+                </div>
+                </form>
             </div>
 
             <div id="delete_phenomorpho" class="modal modal-fixed-footer">
@@ -1299,7 +2206,52 @@
                 edit_bill_length : '',
                 edit_neck_length : '',
 
+                edit_plummage_color_others : false,
+                edit_plummage_color : '',
+                edit_plummage_pattern_others : false,
+                edit_plummage_pattern : '',
+                edit_hackle_color_others : false,
+                edit_hackle_color : '',
+                edit_hackle_pattern_others : false,
+                edit_hackle_pattern : '',
+                edit_body_carriage_others : false,
+                edit_body_carriage : '',
+                edit_comb_type_others : false,
+                edit_comb_type : '',
+                edit_comb_color_others : false,
+                edit_comb_color : '',
+                edit_earlobe_color_others : false,
+                edit_earlobe_color : '',
+                edit_iris_color_others : false,
+                edit_iris_color : '',
+                edit_beak_color_others : false,
+                edit_beak_color : '',
+                edit_shank_color_others : false,
+                edit_shank_color : '',
+                edit_skin_color_others : false,
+                edit_skin_color : '',
+                edit_other_features : '',
+
+                edit_neck_feather : '',
+                edit_wing_feather_others : false,
+                edit_wing_feather : '',
+                edit_tail_feather_others : false,
+                edit_tail_feather : '',
+                edit_bill_color_others : false,
+                edit_bill_color : '',
+                edit_bill_shape : '',
+                edit_bean_color_others : false,
+                edit_bean_color : '',
+                edit_crest_others : false,
+                edit_crest : '',
+                edit_eye_color_others : false,
+                edit_eye_color : '',
+
+                edit_record : '',
                 selected_record : '',
+
+                pheno_tooltip : '',
+                morpho_tooltip : '',
             }
         },
         methods : {
@@ -1446,12 +2398,120 @@
                 this.initialize();
             },
             initializeEditPheno : function (id, data) {
-                console.log(data);
+                this.edit_record = id;
+                var value = JSON.parse(data); 
+                if(this.animal_type === 1) {
+                    this.edit_plummage_color_others = false;
+                    this.edit_plummage_color = value[0];
+                    this.edit_plummage_pattern_others = false;
+                    this.edit_plummage_pattern = value[1];
+                    this.edit_hackle_color_others = false;
+                    this.edit_hackle_color = value[2];
+                    this.edit_hackle_pattern_others = false;
+                    this.edit_hackle_pattern = value[3];
+                    this.edit_body_carriage_others = false;
+                    this.edit_body_carriage = value[4];
+                    this.edit_comb_type_others = false;
+                    this.edit_comb_type = value[5];
+                    this.edit_comb_color_others = false;
+                    this.edit_comb_color = value[6];
+                    this.edit_earlobe_color_others = false;
+                    this.edit_earlobe_color = value[7];
+                    this.edit_iris_color_others = false;
+                    this.edit_iris_color = value[8];
+                    this.edit_beak_color_others = false;
+                    this.edit_beak_color = value[9];
+                    this.edit_shank_color_others = false;
+                    this.edit_shank_color = value[10];
+                    this.edit_skin_color_others = false;
+                    this.edit_skin_color = value[11];
+                    this.edit_other_features = value[12];
+                }else if(this.animal_type === 2) {
+                    this.edit_plummage_color_others = false;
+                    this.edit_plummage_color = value[0];
+                    this.edit_plummage_pattern_others = false;
+                    this.edit_plummage_pattern = value[1];
+                    this.edit_neck_feather = value[2];
+                    this.edit_wing_feather_others = false;
+                    this.edit_wing_feather = value[3];
+                    this.edit_tail_feather_others = false;
+                    this.edit_tail_feather = value[4];
+                    this.edit_bill_color_others = false;
+                    this.edit_bill_color = value[5];
+                    this.edit_bill_shape = value[6];
+                    this.edit_bean_color_others = false;
+                    this.edit_bean_color = value[7];
+                    this.edit_crest_others = false;
+                    this.edit_crest = value[8];
+                    this.edit_eye_color_others = false;
+                    this.edit_eye_color = value[9];
+                    this.edit_body_carriage_others = false; 
+                    this.edit_body_carriage = value[10];
+                    this.edit_shank_color_others = false;
+                    this.edit_shank_color = value[11];
+                    this.edit_skin_color_others = false;
+                    this.edit_skin_color = value[12];
+                    this.edit_other_features = value[13];
+                }
             },
             resetEditPheno : function () {
-
+                this.edit_record = '';
+                if(this.animal_type === 1) {
+                    this.edit_plummage_color_others = false;
+                    this.edit_plummage_color = '';
+                    this.edit_plummage_pattern_others = false;
+                    this.edit_plummage_pattern = '';
+                    this.edit_hackle_color_others = false;
+                    this.edit_hackle_color = '';
+                    this.edit_hackle_pattern_others = false;
+                    this.edit_hackle_pattern = '';
+                    this.edit_body_carriage_others = false;
+                    this.edit_body_carriage = '';
+                    this.edit_comb_type_others = false;
+                    this.edit_comb_type = '';
+                    this.edit_comb_color_others = false;
+                    this.edit_comb_color = '';
+                    this.edit_earlobe_color_others = false;
+                    this.edit_earlobe_color = '';
+                    this.edit_iris_color_others = false;
+                    this.edit_iris_color = '';
+                    this.edit_beak_color_others = false;
+                    this.edit_beak_color = '';
+                    this.edit_shank_color_others = false;
+                    this.edit_shank_color = '';
+                    this.edit_skin_color_others = false;
+                    this.edit_skin_color = '';
+                    this.edit_other_features = '';
+                }else if(this.animal_type === 2) {
+                    this.edit_plummage_color_others = false;
+                    this.edit_plummage_color = '';
+                    this.edit_plummage_pattern_others = false;
+                    this.edit_plummage_pattern = '';
+                    this.edit_neck_feather = '';
+                    this.edit_wing_feather_others = false;
+                    this.edit_wing_feather = '';
+                    this.edit_tail_feather_others = false;
+                    this.edit_tail_feather = '';
+                    this.edit_bill_color_others = false;
+                    this.edit_bill_color = '';
+                    this.edit_bill_shape = '';
+                    this.edit_bean_color_others = false;
+                    this.edit_bean_color = '';
+                    this.edit_crest_others = false;
+                    this.edit_crest = '';
+                    this.edit_eye_color_others = false;
+                    this.edit_eye_color = '';
+                    this.edit_body_carriage_others = false; 
+                    this.edit_body_carriage = '';
+                    this.edit_shank_color_others = false;
+                    this.edit_shank_color = '';
+                    this.edit_skin_color_others = false;
+                    this.edit_skin_color = '';
+                    this.edit_other_features = '';
+                }
             },
             initializeEditMorpho : function (id, data) {
+                this.edit_record = id;
                 var value = JSON.parse(data); 
                 if(this.animal_type === 1) {
                     this.edit_height = value[0];
@@ -1472,6 +2532,7 @@
                 }
             },
             resetEditMorpho : function () {
+                this.edit_record = '';
                 if(this.animal_type === 1) {
                     this.edit_height = '';
                     this.edit_weight = '';
@@ -1491,10 +2552,89 @@
                 }
             },
             submitEditPheno: function () {
-                
+               var param = null;
+                if(this.animal_type === 1) {
+                    param = {
+                        record_id : this.edit_record,
+                        animal_type : this.animal_type,
+                        plummage_color : this.edit_plummage_color,
+                        plummage_pattern : this.edit_plummage_pattern,
+                        hackle_color : this.edit_hackle_color,
+                        hackle_pattern : this.edit_hackle_pattern,
+                        body_carriage : this.edit_body_carriage,
+                        comb_type : this.edit_comb_type,
+                        comb_color : this.edit_comb_color,
+                        earlobe_color : this.edit_earlobe_color,
+                        iris_color : this.edit_iris_color,
+                        beak_color : this.edit_beak_color,
+                        shank_color : this.edit_shank_color,
+                        skin_color : this.edit_skin_color,
+                        other_features : this.edit_other_features,
+                    }
+                }else if(this.animal_type === 2) {
+                    param = {
+                        record_id : this.edit_record,
+                        animal_type : this.animal_type,
+                        plummage_color : this.edit_plummage_color,
+                        plummage_pattern : this.edit_plummage_pattern,
+                        neck_feather : this.edit_neck_feather,
+                        wing_feather : this.edit_wing_feather,
+                        tail_feather : this.edit_tail_feather,
+                        bill_color : this.edit_bill_color,
+                        bill_shape : this.edit_bill_shape,
+                        bean_color : this.edit_bean_color,
+                        crest : this.edit_crest,
+                        eye_color : this.edit_eye_color,
+                        body_carriage : this.edit_body_carriage,
+                        shank_color : this.edit_shank_color,
+                        skin_color : this.edit_skin_color,
+                        other_features : this.edit_other_features,
+                    }
+                }
+                axios.patch('breeder_edit_pheno', param)
+                .then(response => {
+                    Materialize.toast(response.data.message, 5000, 'green rounded');
+                    this.initialize();
+                })
+                .catch(error => {
+                    Materialize.toast(error.response.data, 5000, 'red rounded');
+                });
             },
             submitEditMorpho : function () {
-                
+                var param = null;
+                if(this.animal_type === 1) {
+                    param = {
+                        record_id : this.edit_record,
+                        animal_type : this.animal_type,
+                        height : this.edit_height,
+                        weight : this.edit_weight,
+                        body_length : this.edit_body_length,
+                        chest_circumference : this.edit_chest_circumference,
+                        wing_span : this.edit_wing_span,
+                        shank_length : this.edit_shank_length,
+                    }
+                }else if(this.animal_type === 2) {
+                    param = {
+                        record_id : this.edit_record,
+                        animal_type : this.animal_type,
+                        height : this.edit_height,
+                        weight : this.edit_weight,
+                        body_length : this.edit_body_length,
+                        chest_circumference : this.edit_chest_circumference,
+                        wing_span : this.edit_wing_span,
+                        shank_length : this.edit_shank_length,
+                        bill_length : this.edit_bill_length,
+                        neck_length : this.edit_neck_length,
+                    }
+                }
+                axios.patch('breeder_edit_morpho', param)
+                .then(response => {
+                    Materialize.toast(response.data.message, 5000, 'green rounded');
+                    this.initialize();
+                })
+                .catch(error => {
+                    Materialize.toast(error.response.data, 5000, 'red rounded');
+                });
             },
             deletePhenoMorphoData : function () {
                 axios.delete('breeder_delete_phenomorphorecords/'+this.selected_record.values_id)
@@ -1512,6 +2652,7 @@
                 if(this.animal_type===1){
                     return '<ul>\
                                 <li><h5>Phenotypic Data</h5></li>\
+                                <li><i style="font-size:0.7em">* Click outside tooltip to close</i></li>\
                                 <li>Plumage Color: '+data[0]+'</li>\
                                 <li>Plumage Pattern: '+data[1]+'</li>\
                                 <li>Hackle Color: '+data[2]+'</li>\
@@ -1525,10 +2666,11 @@
                                 <li>Shank Color: '+data[10]+'</li>\
                                 <li>Skin Color: '+data[11]+'</li>\
                             </ul>\
-                            <span><a href="#edit_pheno" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-feather left"></i>Edit</a></span>'
+                            <div><a href="#edit_pheno" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-feather left"></i>Edit</a></div>'
                 }else if(this.animal_type===2){
                     return '<ul>\
                                 <li><h5>Phenotypic Data</h5></li>\
+                                <li><i style="font-size:0.7em">* Click outside tooltip to close</i></li>\
                                 <li>Plumage Color: '+data[0]+'</li>\
                                 <li>Plumage Pattern: '+data[1]+'</li>\
                                 <li>Body Carriage: '+data[2]+'</li>\
@@ -1543,14 +2685,15 @@
                                 <li>Presence of Crest: '+data[11]+'</li>\
                                 <li>Eye Color: '+data[12]+'</li>\
                             </ul>\
-                            <span><a href="#edit_pheno" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-feather left"></i>Edit</a></span>'
+                            <div><a href="#edit_pheno" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-feather left"></i>Edit</a></div>'
                 }
             },
             insertMorphoContent : function (morphodata){
                 var data = JSON.parse(morphodata); 
                 if(this.animal_type===1){
-                    return '<ul>\
+                   return '<ul>\
                                 <li><h5>Morphometric Data</h5></li>\
+                                <li><i style="font-size:0.7em">* Click outside tooltip to close</i></li>\
                                 <li>Height: '+data[0]+' cm</li>\
                                 <li>Weight: '+data[1]+' g</li>\
                                 <li>Body Length: '+data[2]+' cm</li>\
@@ -1558,10 +2701,11 @@
                                 <li>Wing Span: '+data[4]+' cm</li>\
                                 <li>Shank Length: '+data[5]+' cm</li>\
                             </ul>\
-                            <span><a href="#edit_morpho" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-ruler-horizontal left"></i>Edit</a></span>'
+                            <div><a href="#edit_morpho" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-ruler-horizontal left"></i>Edit</a></div>';
                 }else if(this.animal_type===2){
                     return '<ul>\
                                 <li><h5>Morphometric Data</h5></li>\
+                                <li><i style="font-size:0.7em">* Click outside tooltip to close</i></li>\
                                 <li>Height: '+data[0]+' cm</li>\
                                 <li>Weight: '+data[1]+' g</li>\
                                 <li>Body Length: '+data[2]+' cm</li>\
@@ -1571,7 +2715,7 @@
                                 <li>Bill Length: '+data[6]+' cm</li>\
                                 <li>Neck Length: '+data[7]+' cm</li>\
                             </ul>\
-                            <span><a href="#edit_morpho" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-ruler-horizontal left"></i>Edit</a></span>'
+                            <div><a href="#edit_morpho" class="waves-effect waves-white btn-flat white-text modal-trigger"><i class="fas fa-ruler-horizontal left"></i>Edit</a></div>';
                 }
             },
             customFormatter : function (date_added) {
@@ -1597,6 +2741,9 @@
             $('#edit_morpho').modal({
                 dismissible : false,
             });
+            $('#edit_pheno').modal({
+                dismissible : false,
+            });
             $('ul.tabs').tabs();
             tippy('#pheno_morpho_template', {
                 target : '.tooltip',
@@ -1608,7 +2755,20 @@
                 multiple: true,
             });
             tippy('#pheno_morpho_template', {
-                target : '.tooltip_data',
+                target : '.tooltip_data_pheno',
+                trigger: 'click',
+                interactive: true,
+                arrow: true,
+                arrowType: 'round',
+                animation: 'fade',
+                multiple: true,
+                size: "large",
+                onShow (){
+                    
+                }
+            });
+            tippy('#pheno_morpho_template', {
+                target : '.tooltip_data_morpho',
                 trigger: 'click',
                 interactive: true,
                 arrow: true,

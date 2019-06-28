@@ -2,7 +2,7 @@ nav, main, footer {
     padding-left: 250px;
 }
 
-@media only screen and (max-width : 600px) {
+@media only screen and (max-width : 992px) {
     nav, main, footer {
         padding-left: 0;
     }
