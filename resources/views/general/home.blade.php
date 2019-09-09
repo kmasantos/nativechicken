@@ -196,15 +196,6 @@
             </div>
             <duck-breeds></duck-breeds>
             <div class="row">
-                <div id="news" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-rolled_up_newspaper"></i> News & Events</h5>
-                </div>
-                <div class="col s12 l12 center-align">
-                    <img src="https://i.ibb.co/qL8dM7v/chicken-drawing-kawaii-2-transparent.png" alt="image © https://ui-ex.com/download.html" height="300px">
-                    <h5 style="font-family: 'Poppins', sans-serif;">Coming soon!</h5>
-                </div>
-            </div>
-            <div class="row">
                     <div id="breeders"  class="col s12 l12 scrollspy">
                         <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-bookmark_tabs"></i> Breeder Directory</h5>
                     </div>

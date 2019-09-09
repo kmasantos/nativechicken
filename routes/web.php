@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('general/home');
 })->middleware('guest');
 
+Route::get('/news', 'NewsController@index')->middleware('guest')->name('news');
+
 Route::group(['middleware' => ['web']], function ()
 {
     Auth::routes();

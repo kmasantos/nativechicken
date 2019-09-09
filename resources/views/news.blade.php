@@ -92,24 +92,6 @@
             position: absolute;
             top: 0
         }
-
-        .dot {
-            cursor: pointer;
-            height: 15px;
-            width: 15px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color .6s ease
-        }
-
-        .dot:active{
-            background-color: #717171;
-        }
-        .dot:hover {
-            background-color: #717171;
-        }
         .fade {
             -webkit-animation-name: fade;
             -webkit-animation-duration: 1.5s;
@@ -155,21 +137,20 @@
             text-align: center;
         }
     </style>
-</head>
-<body id="home">
+</head><body id="home">
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper blue-grey darken-1">
                 <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo"/></a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down nav-button-div">
-                    <li class="tooltip" data-tippy-content="Home"><a href="#Home"><i class="fas fa-home"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Data"><a href="#Data" class="menu_links"><i class="fas fa-table"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Summary"><a href="#Summary" class="menu_links"><i class="fas fa-book-open"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Philippine Native Chickens"><a href="#PHNativeChickens" class="menu_links"><i class="fas fa-feather-alt"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Philippine Native Ducks"><a href="#PHNativeDucks" class="menu_links"><i class="fas fa-feather"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Home"><a href="{{ url('/#Home') }}"><i class="fas fa-home"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Data"><a href="{{ url('/#Data') }}" class="menu_links"><i class="fas fa-table"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Summary"><a href="{{ url('/#Summary') }}" class="menu_links"><i class="fas fa-book-open"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Philippine Native Chickens"><a href="{{ url('/#PHNativeChickens') }}" class="menu_links"><i class="fas fa-feather-alt"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Philippine Native Ducks"><a href="{{ url('/#PHNativeDucks') }}" class="menu_links"><i class="fas fa-feather"></i></a></li>
                     <li class="tooltip" data-tippy-content="News & Events"><a href="{{ route('news') }}" class="menu_links"><i class="far fa-newspaper"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Breeder Directory"><a href="#breeders" class="menu_links"><i class="fas fa-list-alt"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Breeder Directory"><a href="{{ url('/#breeders') }}" class="menu_links"><i class="fas fa-list-alt"></i></a></li>
                     <li><a href="{{ route('google_login') }}" class="waves-effect waves-light btn-large blue-grey lighten-1"><i id="gicon" class="fab fa-google left"></i>Login</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
@@ -185,50 +166,33 @@
             </div>
         </nav>
     </div>
-
-    {{-- SLIDER --}}
-    <div class="slideshow-container">
-
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/FH2x3Gb/darag1-1.png')"></div>
-            <div class="text">Darag Native Chicken</div>
-        </div>
-        
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/qYDGLVP/boholano-2.png')"></div>
-            <div class="text">Boholano Native Chicken</div>
-        </div>
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/z5LnxzW/IMG-0600.png')"></div>
-            <div class="text">Camarines Native Chicken © T. Pequeña</div>
-        </div>
-        <div class="mySlides fade">
-                <div class="img" style="background-image:url('https://i.ibb.co/xFKfW8h/zampencarousel.png')"></div>
-                <div class="text">ZamPen Native Chicken © M.J. Cuadra</div>
-            </div>
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/7VX3NzN/khaki-1.png')"></div>
-            <div class="text">IP Khaki © Karen Dimaranan</div>
-        </div>
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/1JWyJFC/itimss.png')"></div>
-            <div class="text">IP Itim © Karen Dimaranan</div>
-        </div>
-    </div>
-    <br/>
-    <div style='text-align: center;'>
-        <span class="dot" onclick='currentSlide(1)'></span>
-        <span class="dot" onclick='currentSlide(2)'></span>
-        <span class="dot" onclick='currentSlide(3)'></span>
-        <span class="dot" onclick='currentSlide(4)'></span>
-        <span class="dot" onclick='currentSlide(5)'></span>
-        <span class="dot" onclick='currentSlide(6)'></span>
-        </div>
-    </div>
-
     <main>
         <div class="container" id="app">
-            @yield('content')
+            <div class="row">
+                <div id="news" class="col s12 l12 scrollspy">
+                    <h1 style="font-family: 'Poppins', sans-serif;"><i class="em em-rolled_up_newspaper"></i> News & Events</h1>
+                </div>
+                <div class="col s12 l12">
+                  <h3>News Title</h3>
+                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                </div>
+                <div class="col s12 l12">
+                  <h3>News Title</h3>
+                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                </div>
+                <div class="col s12 l12">
+                  <h3>News Title</h3>
+                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                </div>
+                <div class="col s12 l12">
+                  <h3>News Title</h3>
+                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                </div>
+                <div class="col s12 l12">
+                  <h3>News Title</h3>
+                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                </div>
+            </div>
             <div id="back_to_top" class="fixed-action-btn">
                 <a class="btn-floating btn-large blue-grey darken-1" onclick="topFunction()">
                     <i class="fas fa-chevron-up"></i>
@@ -284,79 +248,33 @@
     <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
     <script>
-        var slideIndex = 1;
+    
+      window.onscroll = function() {scrollFunction()};
 
-        var myTimer;
+      function scrollFunction() {
+          if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+              document.getElementById("back_to_top").style.display = "block";
+          } else {
+              document.getElementById("back_to_top").style.display = "none";
+          }
+      }
 
-        window.addEventListener("load",function() {
-            showSlides(slideIndex);
-            myTimer = setInterval(function(){plusSlides(1)}, 4000);
-        })
-
-        function plusSlides(n){
-            clearInterval(myTimer);
-            if (n < 0){
-                showSlides(slideIndex -= 1);
-            } else {
-            showSlides(slideIndex += 1); 
-            }
-            if (n === -1){
-                myTimer = setInterval(function(){plusSlides(n + 2)}, 4000);
-            } else {
-                myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
-            }
-        }
-        function currentSlide(n){
-        clearInterval(myTimer);
-        myTimer = setInterval(function(){plusSlides(n + 1)}, 4000);
-        showSlides(slideIndex = n);
-        }
-
-        function showSlides(n){
-        var i;
-        var slides = document.getElementsByClassName("mySlides");
-        var dots = document.getElementsByClassName("dot");
-        if (n > slides.length) {slideIndex = 1}
-        if (n < 1) {slideIndex = slides.length}
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex-1].style.display = "block";
-        dots[slideIndex-1].className += " active";
-        }
-        
-        window.onscroll = function() {scrollFunction()};
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
-                document.getElementById("back_to_top").style.display = "block";
-            } else {
-                document.getElementById("back_to_top").style.display = "none";
-            }
-        }
-        function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-        }
-        $( document ).ready(function() {
-            $(".button-collapse").sideNav({
-                closeOnClick: false,
-            });
-            $('.scrollspy').scrollSpy({
-                scrollOfffset: 110,
-                activeClass : null
-            });
-            tippy('#home', {
-                target : '.tooltip',
-                arrow: true,
-                arrowType: 'round',
-                animation: 'scale',
-                inertia: true,
-            });
-        });
+      $( document ).ready(function() {
+          $(".button-collapse").sideNav({
+              closeOnClick: false,
+          });
+          $('.scrollspy').scrollSpy({
+              scrollOfffset: 110,
+              activeClass : null
+          });
+          tippy('#home', {
+              target : '.tooltip',
+              arrow: true,
+              arrowType: 'round',
+              animation: 'scale',
+              inertia: true,
+          });
+      });
         
     </script>
 </body>
