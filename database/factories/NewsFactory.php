@@ -1,0 +1,11 @@
+<?php
+
+use Faker\Generator as Faker;
+use App\Models\News;
+
+$factory->define(News::class, function (Faker $faker) {
+    return [
+        'title' => $faker->text(200),
+        'content' => '<h1>At certe gravius.</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Hic quoque suus est de summoque bono dissentiens dici vere Peripateticus non potest. <i>Sic enim censent, oportunitatis esse beate vivere.</i> Sed tamen enitar et, si minus multa mihi occurrent, non fugiam ista popularia. Sed quanta sit alias, nunc tantum possitne esse tanta. <mark>Quibus ego vehementer assentior.</mark> <a href="http://loripsum.net/" target="_blank">Duo Reges: constructio interrete.</a> Ab his oratores, ab his imperatores ac rerum publicarum principes extiterunt. Dicet pro me ipsa virtus nec dubitabit isti vestro beato M. <i>Certe non potest.</i> Haec et tu ita posuisti, et verba vestra sunt. </p><blockquote cite="http://loripsum.net">Simul atque natum animal est, gaudet voluptate et eam appetit ut bonum, aspernatur dolorem ut malum.</blockquote><dl><dt><dfn>Reguli reiciendam;</dfn></dt><dd>Non est igitur summum malum dolor.</dd><dt><dfn>Frater et T.</dfn></dt><dd>Neque solum ea communia, verum etiam paria esse dixerunt.</dd><dt><dfn>Certe non potest.</dfn></dt><dd>Cum ageremus, inquit, vitae beatum et eundem supremum diem, scribebamus haec.</dd><dt><dfn>Optime, inquam.</dfn></dt><dd>Quis suae urbis conservatorem Codrum, quis Erechthei filias non maxime laudat?</dd></dl><p>Ut in geometria, prima si dederis, danda sunt omnia. Et si turpitudinem fugimus in statu et motu corporis, quid est cur pulchritudinem non sequamur? Hos contra singulos dici est melius. Quid igitur dubitamus in tota eius natura quaerere quid sit effectum? </p><p><a href="http://loripsum.net/" target="_blank">Quare attende, quaeso.</a> Nec enim, dum metuit, iustus est, et certe, si metuere destiterit, non erit; Cum autem venissemus in Academiae non sine causa nobilitata spatia, solitudo erat ea, quam volueramus. Egone non intellego, quid sit don Graece, Latine voluptas? Sin tantum modo ad indicia veteris memoriae cognoscenda, curiosorum. Roges enim Aristonem, bonane ei videantur haec: vacuitas doloris, divitiae, valitudo; <b>Sed ille, ut dixi, vitiose.</b> <a href="http://loripsum.net/" target="_blank">Sed haec nihil sane ad rem;</a> </p>',
+    ];
+});

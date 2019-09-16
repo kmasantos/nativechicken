@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Farm;
 use App\Models\Role;
 use App\Models\Breed;
+use App\Models\News;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -36,9 +38,14 @@ class AdminController extends Controller
         return view('admin.user');
     }
 
-    public function contentManagementPage()
+    public function newsManagementPage()
     {
-        return view('admin.content');
+        return view('admin.news');
+    }
+
+    public function reportsManagementPage()
+    {
+        return view('admin.reports');
     }
 
     public function farmStatusPage() 
@@ -134,6 +141,13 @@ class AdminController extends Controller
     /**
      ** Helper Functions
     **/
+
+    public function getNewsList(Request $request)
+    {
+        $news = News::paginate(10);
+        return $news;
+    }
+
     public function getUserList ()
     {
         $users = User::join('farms', 'users.farm_id', 'farms.id')

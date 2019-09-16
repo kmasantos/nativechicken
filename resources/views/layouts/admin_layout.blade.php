@@ -104,7 +104,8 @@
         </div>
         <li><a href="{{route('admin.index')}}"><i class="fas fa-columns waves-effect waves-indigo darken-1"></i> Dashboard</a></li>
         <li><a href="{{route('admin.user_management')}}"><i class="fas fa-users-cog"></i> User Management</a></li>
-        <li><a href="{{route('admin.content_management')}}"><i class="fas fa-pencil-alt"></i> Content Management</a></li>
+        <li><a href="{{route('admin.news_management')}}"><i class="fas fa-newspaper"></i> News Management</a></li>
+        <li><a href="{{route('admin.reports_management')}}"><i class="fas fa-pencil-alt"></i> Reports Management</a></li>
         <li><a href="{{route('admin.farm_status')}}"><i class="fab fa-houzz"></i> Farm Status</a></li>
         <li><a href="{{route('logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>

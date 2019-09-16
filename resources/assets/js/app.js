@@ -85,6 +85,7 @@ Vue.component('growthrecord-broodergrower', require('./components/broodersgrower
 
 // Admin Vue Components
 Vue.component('user-management', require('./components/admin/UserManagement.vue'));
+Vue.component('news-management', require('./components/admin/NewsManagement.vue'));
 
 /**
  ** Others
