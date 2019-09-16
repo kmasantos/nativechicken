@@ -141,6 +141,7 @@
                     await this.editNews(this.formData);
                 }
                 else {
+                    await this.addNews(this.formData);
                 }
 
             },
@@ -153,18 +154,25 @@
                     }
                 }
             },
-            addNews: async function () {
-
+            addNews: async function (news) {
+                try {
+                    const response = await axios.post('news', { ...news });
+                    this.isEditMode = false;
+                    this.setFormData(null);
+                    this.getNewsList(this.currentPage);
+                } catch (error) {
+                    console.error(error);
+                }
             },
             editNews: async function (news) {
                 if (confirm('Do you want to edit this news?')) {
-                    // try {
+                    try {
                         const response = await axios.put('news', { ...news });
                         this.isEditMode = false;
                         this.setFormData(null);
                         this.getNewsList(this.currentPage);
-                    // } catch (error) {
-                    // }
+                    } catch (error) {
+                    }
                 }
             },
             archiveNews: async function (news) {

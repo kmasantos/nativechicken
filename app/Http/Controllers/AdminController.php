@@ -139,17 +139,15 @@ class AdminController extends Controller
 
     // News
 
-    public function addNews(Request $request, $news_id)
+    public function addNews(Request $request)
     {
-        $news = News::find($news_id);
-        if ($news) {
-            $news->title = $request->title;
-            $news->content = $request->content;
-            $news->updated_at = now();
-        }
+        $news = new News;
+        $news->title = $request->title;
+        $news->content = $request->content;
+        $news->save();
 
-        else return response()->json([
-            'error' => 'News Not Found'
+       return response()->json([
+            'news' => $news
         ]);
     }
 
