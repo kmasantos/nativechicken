@@ -10,6 +10,18 @@ window.Vue = require('vue');
 window.moment = require('moment');
 import vSelect from 'vue-select';
 
+Vue.filter('truncate', function (value, max) {
+    if (value.length >= max) {
+        return `${value.slice(0, max)}...`;
+    }
+    else
+        return value;
+});
+
+Vue.filter('formatDate', function (date) {
+    return moment(date).format('MMM D, YYYY h:mm:ss a');
+});
+
 Vue.component('v-select', vSelect);
 /**
  * Next, we will create a fresh Vue application instance and attach it to

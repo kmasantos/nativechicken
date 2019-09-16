@@ -32,6 +32,7 @@
     "vue-materialize-datatable": "^0.7.7",
     "vue-select": "3.2.0",
     "vue2-datatable-component": "^2.3.1",
+    "vue2-editor": "2.10.2",
     "vuejs-datepicker": "^1.5.3"
   }
 }

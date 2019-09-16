@@ -136,7 +136,63 @@ class AdminController extends Controller
         }
         return response()->json(['error' => "Failed to edit ".$user->name]);
     }
-    
+
+    // News
+
+    public function addNews(Request $request, $news_id)
+    {
+        $news = News::find($news_id);
+        if ($news) {
+            $news->title = $request->title;
+            $news->content = $request->content;
+            $news->updated_at = now();
+        }
+
+        else return response()->json([
+            'error' => 'News Not Found'
+        ]);
+    }
+
+    public function editNews(Request $request)
+    {
+        $news = News::find($request->id);
+        if ($news) {
+            $news->title = $request->title;
+            $news->content = $request->content;
+            $news->updated_at = now();
+            $news->save();
+            return response()->json([
+                'news' => $news
+            ]);
+        }
+
+        else return response()->json([
+            'error' => 'News Not Found'
+        ], 404);
+    }
+
+
+    public function publishNews($news_id)
+    {
+        $news = News::find($news_id);
+        $news->published_at = now();
+        $news->save();
+
+        return response()->json([
+            'news' => $news
+        ]);
+    }
+
+    public function archiveNews($news_id)
+    {
+        $news = News::find($news_id);
+        $news->archived_at = now();
+        $news->save();
+
+        return response()->json([
+            'news' => $news
+        ]);
+    }
 
     /**
      ** Helper Functions

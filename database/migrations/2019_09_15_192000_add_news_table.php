@@ -18,6 +18,7 @@ class AddNewsTable extends Migration
             $table->text('title');
             $table->longText('content');
             $table->dateTime('published_at')->nullable();
+            $table->dateTime('archived_at')->nullable();
             $table->timestamps();
         });
     }

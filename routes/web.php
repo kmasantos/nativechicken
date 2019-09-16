@@ -278,7 +278,11 @@ Route::group(['middleware' => ['web']], function ()
          * * Axios Routes for Admin
          */
         Route::get('news', 'AdminController@getNewsList');
-        
+        Route::post('news', 'AdminController@addNews');
+        Route::put('news', 'AdminController@editNews');
+        Route::patch('news/publish/{news_id}', 'AdminController@publishNews');
+        Route::patch('news/archive/{news_id}', 'AdminController@archiveNews');
+
         Route::get('user_list', 'AdminController@getUserList');
         Route::get('breed_list', 'AdminController@getBreedList');
 
