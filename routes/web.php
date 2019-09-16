@@ -16,6 +16,11 @@ Route::get('/', function () {
 })->middleware('guest');
 
 Route::get('/news', 'NewsController@index')->middleware('guest')->name('news');
+Route::get('/news/{id}', 'NewsController@getNewsPage')->middleware('guest')->name('news_page');
+
+// Route::get('/news', 'NewsController@index')->middleware('guest')->name('news');
+// Route::get('/news/{id}', 'NewsController@getNewsPage')->middleware('guest')->name('news_page');
+
 Route::get('/reports', 'ReportsController@index')->middleware('guest')->name('reports');
 
 Route::group(['middleware' => ['web']], function ()
