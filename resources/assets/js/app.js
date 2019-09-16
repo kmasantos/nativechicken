@@ -98,10 +98,14 @@ Vue.component('growthrecord-broodergrower', require('./components/broodersgrower
 // Admin Vue Components
 Vue.component('user-management', require('./components/admin/UserManagement.vue'));
 Vue.component('news-management', require('./components/admin/NewsManagement.vue'));
+Vue.component('reports-management', require('./components/admin/ReportsManagement.vue'));
 
 /**
  ** Others
  **/
+
+Vue.component('news-page', require('./components/NewsPageComponent.vue'));
+
 Vue.component('pagination', require('laravel-vue-pagination'));
 const app = new Vue({
     el: '#app',

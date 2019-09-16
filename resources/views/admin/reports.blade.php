@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <news-management></news-management>
+    <reports-management></reports-management>
 @endsection
 
 @section('customscripts')

@@ -35,7 +35,6 @@
         .nav-button-div{
             padding-top: 20px;
             padding-bottom: 40px;
-            width: 565px;
         }
         #nav-logo-image {
             padding-left: 10px;
@@ -92,6 +91,24 @@
             position: absolute;
             top: 0
         }
+
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color .6s ease
+        }
+
+        .dot:active{
+            background-color: #717171;
+        }
+        .dot:hover {
+            background-color: #717171;
+        }
         .fade {
             -webkit-animation-name: fade;
             -webkit-animation-duration: 1.5s;
@@ -137,7 +154,8 @@
             text-align: center;
         }
     </style>
-</head><body id="home">
+</head>
+<body id="home">
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper blue-grey darken-1">
@@ -150,6 +168,7 @@
                     <li class="tooltip" data-tippy-content="Philippine Native Chickens"><a href="{{ url('/#PHNativeChickens') }}" class="menu_links"><i class="fas fa-feather-alt"></i></a></li>
                     <li class="tooltip" data-tippy-content="Philippine Native Ducks"><a href="{{ url('/#PHNativeDucks') }}" class="menu_links"><i class="fas fa-feather"></i></a></li>
                     <li class="tooltip" data-tippy-content="News & Events"><a href="{{ route('news') }}" class="menu_links"><i class="far fa-newspaper"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Yearly Reports"><a href="{{ route('reports') }}" class="menu_links"><i class="far fa-sticky-note"></i></a></li>
                     <li class="tooltip" data-tippy-content="Breeder Directory"><a href="{{ url('/#breeders') }}" class="menu_links"><i class="fas fa-list-alt"></i></a></li>
                     <li><a href="{{ route('google_login') }}" class="waves-effect waves-light btn-large blue-grey lighten-1"><i id="gicon" class="fab fa-google left"></i>Login</a></li>
                 </ul>
@@ -160,6 +179,7 @@
                     <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
                     <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
                     <li><a href="{{ route('news') }}" class="menu_links">News & Events</a></li>
+                    <li><a href="{{ route('reports') }}" class="menu_links">Yearly Reports</a></li>
                     <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
                     <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
                 </ul>

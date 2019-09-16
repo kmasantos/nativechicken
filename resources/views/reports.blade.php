@@ -35,7 +35,6 @@
         .nav-button-div{
             padding-top: 20px;
             padding-bottom: 40px;
-            width: 565px;
         }
         #nav-logo-image {
             padding-left: 10px;
@@ -92,6 +91,24 @@
             position: absolute;
             top: 0
         }
+
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color .6s ease
+        }
+
+        .dot:active{
+            background-color: #717171;
+        }
+        .dot:hover {
+            background-color: #717171;
+        }
         .fade {
             -webkit-animation-name: fade;
             -webkit-animation-duration: 1.5s;
@@ -137,7 +154,8 @@
             text-align: center;
         }
     </style>
-</head><body id="home">
+</head>
+<body id="home">
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper blue-grey darken-1">
@@ -150,6 +168,7 @@
                     <li class="tooltip" data-tippy-content="Philippine Native Chickens"><a href="{{ url('/#PHNativeChickens') }}" class="menu_links"><i class="fas fa-feather-alt"></i></a></li>
                     <li class="tooltip" data-tippy-content="Philippine Native Ducks"><a href="{{ url('/#PHNativeDucks') }}" class="menu_links"><i class="fas fa-feather"></i></a></li>
                     <li class="tooltip" data-tippy-content="News & Events"><a href="{{ route('news') }}" class="menu_links"><i class="far fa-newspaper"></i></a></li>
+                    <li class="tooltip" data-tippy-content="Yearly Reports"><a href="{{ route('reports') }}" class="menu_links"><i class="far fa-sticky-note"></i></a></li>
                     <li class="tooltip" data-tippy-content="Breeder Directory"><a href="{{ url('/#breeders') }}" class="menu_links"><i class="fas fa-list-alt"></i></a></li>
                     <li><a href="{{ route('google_login') }}" class="waves-effect waves-light btn-large blue-grey lighten-1"><i id="gicon" class="fab fa-google left"></i>Login</a></li>
                 </ul>
@@ -160,6 +179,7 @@
                     <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
                     <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
                     <li><a href="{{ route('news') }}" class="menu_links">News & Events</a></li>
+                    <li><a href="{{ route('reports') }}" class="menu_links">Yearly Reports</a></li>
                     <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
                     <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
                 </ul>
@@ -170,27 +190,7 @@
         <div class="container" id="app">
             <div class="row">
                 <div id="news" class="col s12 l12 scrollspy">
-                    <h1 style="font-family: 'Poppins', sans-serif;"><i class="em em-card_index"></i> Reports</h1>
-                </div>
-                <div class="col s12 l12">
-                  <h3>Report Title</h3>
-                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-                </div>
-                <div class="col s12 l12">
-                  <h3>Report Title</h3>
-                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-                </div>
-                <div class="col s12 l12">
-                  <h3>Report Title</h3>
-                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-                </div>
-                <div class="col s12 l12">
-                  <h3>Report Title</h3>
-                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-                </div>
-                <div class="col s12 l12">
-                  <h3>Report Title</h3>
-                    <p class="flow-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                    <h1 style="font-family: 'Poppins', sans-serif;"><i class="em em-spiral_note_pad"></i> Yearly Reports</h1>
                 </div>
             </div>
             <div id="back_to_top" class="fixed-action-btn">

@@ -76,13 +76,22 @@
         <div id="news_modal" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="col s12 m12 l12">
-                    <div class="input-field col s12">
-                        <h6>News Title: </h6>
-                        <textarea id="textarea1" class="materialize-textarea" v-model="formData.title"></textarea>
+                    <ul class="tabs">
+                        <li class="tab col s3"><a class="active" href="#newsData">News Data</a></li>
+                        <li class="tab col s3"><a href="#preview">Preview</a></li>
+                    </ul>
+                    <div id="newsData">
+                        <div class="input-field col s12">
+                            <h5>News Title: </h5>
+                            <textarea id="textarea1" class="materialize-textarea" v-model="formData.title"></textarea>
+                        </div>
+                        <div class="input-field col s12">
+                            <h5>News Content: </h5>
+                            <vue-editor id='editor' v-model='formData.content' :customModules='customModulesForEditor' :editorOptions='editorSettings'></vue-editor>
+                        </div>
                     </div>
-                    <div class="input-field col s12">
-                        <h6>News Content: </h6>
-                        <vue-editor v-model="formData.content"></vue-editor>
+                    <div id="preview">
+                        <div v-html="formData.content"></div>
                     </div>
                 </div>
             </div>
@@ -98,6 +107,7 @@
 
     import moment from 'moment';
     import { VueEditor } from 'vue2-editor';
+    import ImageResize from 'quill-image-resize-module';
 
     export default {
         data () {
@@ -110,6 +120,14 @@
                     title: '',
                     content: ''
                 },
+                customModulesForEditor: [
+                    { alias: 'imageResize', module: ImageResize }
+                ],
+                editorSettings: {
+                    modules: {
+                        imageResize: true,
+                    }
+                }
             }
         },
         components: {
@@ -198,6 +216,7 @@
                 $('.modal').modal({
                     dismissible: false,
                 });
+                $('ul.tabs').tabs();
             });
             this.getNewsList(this.currentPage);
         },
@@ -208,4 +227,11 @@
 </script>
 
 <style>
+    #news_modal{
+        height: 100%;
+        width: 80%;
+    }
+    #editor {
+        height: 600px;
+    }
 </style>
