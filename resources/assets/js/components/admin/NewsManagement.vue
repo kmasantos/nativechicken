@@ -40,18 +40,18 @@
                         <td v-if="n.updated_at!=null" class="center-align">{{n.updated_at | formatDate}}</td>
                         <td v-else class="center-align">-</td>
                         <td>
-                            <div class="row">
-                                <div v-if="n.published_at !== null && n.archived_at === null">
+                            <div class="row valign-wrapper">
+                                <div class="col s6 m6" v-if="n.published_at !== null && n.archived_at === null">
                                     <a href="javascript:void(0);" @click.prevent="archiveNews(n)" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Archive News">
                                         <i class="fas fa-archive left"></i>
                                     </a>
                                 </div>
-                                <div v-if="n.published_at === null && n.archived_at === null">
+                                <div class="col s6 m6" v-if="n.published_at === null && n.archived_at === null">
                                     <a href="javascript:void(0);" @click.prevent="publishNews(n)" class="indigo-text darken-1 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Publish News">
                                         <i class="fas fa-check left"></i>   
                                     </a>
                                 </div>
-                                <div>
+                                <div class="col s6 m6">
                                     <a ref="javascript:void(0);" @click.prevent="goToNews(n.id)" class="indigo-text darken-1 tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Edit News">
                                         <i class="fas fa-edit left"></i>
                                     </a>

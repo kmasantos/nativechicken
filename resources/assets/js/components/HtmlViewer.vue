@@ -1,22 +1,23 @@
 <template>
-    <div class="ql-editor">
-        <div v-html="content">
-        </div>
-    </div>
+  <div v-html='content'></div>
 </template>
 
 <script>
-    export default {
-      props: ['htmlData'],
-      data: function () {
-          return {
-            content: this.htmlData
-          }
-      }
+
+  import 'quill/dist/quill.core.css';
+  import 'quill/dist/quill.snow.css';
+
+  export default {
+    props: ['data'],
+    data: function () {
+        return {
+          content: this.data
+        }
+    },
+    mounted() {
     }
+  }
+
 </script>
 <style scoped>
-  @import '~vue2-editor/dist/vue2-editor.css';
-  @import '~quill/dist/quill.snow.css';
-  @import '~quill/dist/quill.bubble.css';
 </style>
