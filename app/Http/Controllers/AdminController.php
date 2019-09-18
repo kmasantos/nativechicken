@@ -43,6 +43,16 @@ class AdminController extends Controller
         return view('admin.news');
     }
 
+    public function addNewsPage()
+    {
+        return view('admin.add_news');
+    }
+
+    public function editNewsPage()
+    {
+        return view('admin.edit_news');
+    }
+
     public function reportsManagementPage()
     {
         return view('admin.reports');
@@ -187,6 +197,14 @@ class AdminController extends Controller
         $news->archived_at = now();
         $news->save();
 
+        return response()->json([
+            'news' => $news
+        ]);
+    }
+
+    public function getNews($news_id)
+    {
+        $news = News::find($news_id);
         return response()->json([
             'news' => $news
         ]);

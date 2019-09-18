@@ -192,7 +192,7 @@
                 <div id="news" class="col s12 l12">
                   <h3>{{ $news->title }}</h3>
                   <h6>{{ date("F j, Y H:i:s", strtotime($news->published_at)) }}</h6>
-                  <news-page html-data="{{ $news->content }}"></news-page>
+                  <html-viewer html-data="{{ $news->content }}"></html-viewer>
                 </div>
             </div>
             <div id="back_to_top" class="fixed-action-btn">

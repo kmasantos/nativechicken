@@ -55,12 +55,18 @@
                 background-color : #3f51b5;
             }
             .side-nav li>a>i{
+                font-size: 14;
                 color: #3f51b5;
             }
 
             .side-nav li :hover{
                 background-color: #3f51b5;
             }
+
+            .side-nav .collapsible-body li a, .side-nav.fixed .collapsible-body li a {
+                padding-left: 48px;
+            }
+
             [type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after{
                 border: 2px solid #3f51b5;
                 border-top-color: #3f51b5;
@@ -104,7 +110,19 @@
         </div>
         <li><a href="{{route('admin.index')}}"><i class="fas fa-columns waves-effect waves-indigo darken-1"></i> Dashboard</a></li>
         <li><a href="{{route('admin.user_management')}}"><i class="fas fa-users-cog"></i> User Management</a></li>
-        <li><a href="{{route('admin.news_management')}}"><i class="fas fa-newspaper"></i> News Management</a></li>
+        <li>
+            <ul class="collapsible collapsible-accordion" style='padding-top: 0px;'>
+            <li>
+                <a class="collapsible-header" style="padding-left: 27px;">News Management<i class="fas fa-newspaper"></i></a>
+                <div class="collapsible-body">
+                <ul>
+                    <li><a href="{{route('admin.news_management')}}">View All News</a></li>
+                    <li><a href="{{route('admin.add_news')}}">Add News</a></li>
+                </ul>
+                </div>
+            </li>
+            </ul>
+        </li>
         <li><a href="{{route('admin.reports_management')}}"><i class="fas fa-pencil-alt"></i> Reports Management</a></li>
         <li><a href="{{route('admin.farm_status')}}"><i class="fab fa-houzz"></i> Farm Status</a></li>
         <li><a href="{{route('logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>

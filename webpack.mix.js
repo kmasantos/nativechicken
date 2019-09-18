@@ -1,4 +1,5 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
+require('laravel-mix-alias');
 
 /*
  |--------------------------------------------------------------------------
@@ -15,3 +16,5 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .sourceMaps()
     .sass('resources/assets/sass/app.scss', 'public/css')
     .disableSuccessNotifications();
+
+// mix.alias('@node_modules', '/node_modules/');

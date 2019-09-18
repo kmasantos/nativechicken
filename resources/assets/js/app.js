@@ -97,6 +97,8 @@ Vue.component('growthrecord-broodergrower', require('./components/broodersgrower
 
 // Admin Vue Components
 Vue.component('user-management', require('./components/admin/UserManagement.vue'));
+Vue.component('add-news', require('./components/admin/AddNews.vue'));
+Vue.component('edit-news', require('./components/admin/EditNews.vue'));
 Vue.component('news-management', require('./components/admin/NewsManagement.vue'));
 Vue.component('reports-management', require('./components/admin/ReportsManagement.vue'));
 
@@ -104,9 +106,11 @@ Vue.component('reports-management', require('./components/admin/ReportsManagemen
  ** Others
  **/
 
-Vue.component('news-page', require('./components/NewsPageComponent.vue'));
+Vue.component('html-viewer', require('./components/HtmlViewer.vue'));
+Vue.component('rich-text-editor', require('./components/RichTextEditor.vue'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
+
 const app = new Vue({
     el: '#app',
 });

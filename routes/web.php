@@ -274,6 +274,9 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('/',['as' => 'admin.index', 'uses' => 'AdminController@index']);
         Route::get('/user_management',['as' => 'admin.user_management', 'uses' => 'AdminController@userManagementPage']);
         Route::get('/news_management',['as' => 'admin.news_management', 'uses' => 'AdminController@newsManagementPage']);
+        Route::get('/news_management/add_news',['as' => 'admin.add_news', 'uses' => 'AdminController@addNewsPage']);
+        Route::get('/news_management/edit_news/{id}',['as' => 'admin.edit_news', 'uses' => 'AdminController@editNewsPage']);
+
         Route::get('/reports_management',['as' => 'admin.reports_management', 'uses' => 'AdminController@reportsManagementPage']);
         Route::get('/farm_status',['as' => 'admin.farm_status', 'uses' => 'AdminController@farmStatusPage']);
 
@@ -283,6 +286,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('news', 'AdminController@getNewsList');
         Route::post('news', 'AdminController@addNews');
         Route::put('news', 'AdminController@editNews');
+        Route::get('news/{news_id}', 'AdminController@getNews');
+
         Route::patch('news/publish/{news_id}', 'AdminController@publishNews');
         Route::patch('news/archive/{news_id}', 'AdminController@archiveNews');
 
