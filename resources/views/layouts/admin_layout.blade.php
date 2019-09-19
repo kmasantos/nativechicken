@@ -113,7 +113,7 @@
         <li>
             <ul class="collapsible collapsible-accordion" style='padding-top: 0px;'>
             <li>
-                <a class="collapsible-header" style="padding-left: 27px;">News Management<i class="fas fa-newspaper"></i></a>
+                <a class="collapsible-header" style="padding-left: 27px;"> News Management<i class="fas fa-newspaper"></i></a>
                 <div class="collapsible-body">
                 <ul>
                     <li><a href="{{route('admin.news_management')}}">View All News</a></li>
@@ -123,7 +123,19 @@
             </li>
             </ul>
         </li>
-        <li><a href="{{route('admin.reports_management')}}"><i class="fas fa-pencil-alt"></i> Reports Management</a></li>
+        <li>
+            <ul class="collapsible collapsible-accordion" style='padding-top: 0px;'>
+            <li>
+                <a class="collapsible-header" style="padding-left: 27px;"> Reports Management<i class="fas fa-pencil-alt"></i></a>
+                <div class="collapsible-body">
+                <ul>
+                    <li><a href="{{route('admin.reports_management')}}">View All Reports</a></li>
+                    <li><a href="{{route('admin.add_report')}}">Add Reports</a></li>
+                </ul>
+                </div>
+            </li>
+            </ul>
+        </li>
         <li><a href="{{route('admin.farm_status')}}"><i class="fab fa-houzz"></i> Farm Status</a></li>
         <li><a href="{{route('logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>

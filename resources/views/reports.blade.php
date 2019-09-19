@@ -192,6 +192,15 @@
                 <div id="news" class="col s12 l12 scrollspy">
                     <h1 style="font-family: 'Poppins', sans-serif;"><i class="em em-spiral_note_pad"></i> Yearly Reports</h1>
                 </div>
+                <!-- @forelse ($news as $n)
+                    <div class="col s12 l12">
+                        <h3>{{ $n->title }}</h3>
+                        <h6>{{ date("F j, Y H:i:s", strtotime($n->published_at)) }}</h6>
+                        <p class="flow-text">{{ $n->content }}<a href="{{ url('news/'.$n->id) }}">...Read More</a></p>
+                    </div>
+                @empty
+                    <h3>No News</h3>
+                @endforelse -->
             </div>
             <div id="back_to_top" class="fixed-action-btn">
                 <a class="btn-floating btn-large blue-grey darken-1" onclick="topFunction()">

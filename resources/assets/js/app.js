@@ -9,7 +9,8 @@ require('./bootstrap');
 window.Vue = require('vue');
 window.moment = require('moment');
 import vSelect from 'vue-select';
-
+import dropdown from 'vue-dropdowns';
+    
 Vue.filter('truncate', function (value, max) {
     if (value.length >= max) {
         return `${value.slice(0, max)}...`;
@@ -100,6 +101,9 @@ Vue.component('user-management', require('./components/admin/UserManagement.vue'
 Vue.component('add-news', require('./components/admin/AddNews.vue'));
 Vue.component('edit-news', require('./components/admin/EditNews.vue'));
 Vue.component('news-management', require('./components/admin/NewsManagement.vue'));
+
+Vue.component('add-report', require('./components/admin/AddReport.vue'));
+Vue.component('edit-report', require('./components/admin/EditReport.vue'));
 Vue.component('reports-management', require('./components/admin/ReportsManagement.vue'));
 
 /**
@@ -110,6 +114,7 @@ Vue.component('html-viewer', require('./components/HtmlViewer.vue'));
 Vue.component('rich-text-editor', require('./components/RichTextEditor.vue'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('dropdown', dropdown);
 
 const app = new Vue({
     el: '#app',

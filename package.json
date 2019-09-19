@@ -32,6 +32,8 @@
     "tippy.js": "4.3.5",
     "vue-carousel": "^0.18.0",
     "vue-chartjs": "^3.4.0",
+    "vue-dropdowns": "1.0.6",
+    "vue-dynamic-dropdown": "1.0.11",
     "vue-materialize-datatable": "^0.7.7",
     "vue-quill-editor": "3.0.6",
     "vue-select": "3.2.0",

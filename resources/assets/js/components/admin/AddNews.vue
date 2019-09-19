@@ -1,5 +1,10 @@
 <template>
-    <div class='row'>
+  <div>
+    <a @click.prevent='showPreview = !showPreview' class="waves-effect waves-light btn-large">
+      {{ showPreview ? 'Hide' : 'Show' }} Preview
+    </a>
+    <div v-html='content' style="border: 1px solid black; margin: 32px; padding: 32px;" v-if='showPreview' ></div>
+    <div class='row' v-else>
       <div class='col s12 m12 l12'>
           <div class='row'>
             <div class='input-field col s12'>
@@ -21,6 +26,7 @@
           </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -42,6 +48,7 @@
     },
     data () {
       return {
+        showPreview: false,
         title: null,
         content: null,
         editorOptions: {

@@ -278,6 +278,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('/news_management/edit_news/{id}',['as' => 'admin.edit_news', 'uses' => 'AdminController@editNewsPage']);
 
         Route::get('/reports_management',['as' => 'admin.reports_management', 'uses' => 'AdminController@reportsManagementPage']);
+        Route::get('/reports_management/add_report',['as' => 'admin.add_report', 'uses' => 'AdminController@addReportPage']);
+        Route::get('/reports_management/edit_report/{id}',['as' => 'admin.edit_report', 'uses' => 'AdminController@editReportPage']);
         Route::get('/farm_status',['as' => 'admin.farm_status', 'uses' => 'AdminController@farmStatusPage']);
 
         /**
@@ -290,6 +292,15 @@ Route::group(['middleware' => ['web']], function ()
 
         Route::patch('news/publish/{news_id}', 'AdminController@publishNews');
         Route::patch('news/archive/{news_id}', 'AdminController@archiveNews');
+
+        Route::get('reports', 'AdminController@getReportsList');
+        Route::post('reports', 'AdminController@addReport');
+        Route::put('reports', 'AdminController@editReport');
+        Route::get('reports/{report_id}', 'AdminController@getReport');
+
+        Route::patch('reports/publish/{report_id}', 'AdminController@publishReport');
+        Route::patch('reports/archive/{report_id}', 'AdminController@archiveReport');
+
 
         Route::get('user_list', 'AdminController@getUserList');
         Route::get('breed_list', 'AdminController@getBreedList');

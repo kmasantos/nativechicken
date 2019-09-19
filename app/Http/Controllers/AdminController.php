@@ -9,6 +9,7 @@ use App\Models\Farm;
 use App\Models\Role;
 use App\Models\Breed;
 use App\Models\News;
+use App\Models\Report;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -43,6 +44,21 @@ class AdminController extends Controller
         return view('admin.news');
     }
 
+    public function addReportPage()
+    {
+        return view('admin.add_report');
+    }
+
+    public function editReportPage()
+    {
+        return view('admin.edit_report');
+    }
+
+    public function reportsManagementPage()
+    {
+        return view('admin.reports');
+    }
+
     public function addNewsPage()
     {
         return view('admin.add_news');
@@ -51,11 +67,6 @@ class AdminController extends Controller
     public function editNewsPage()
     {
         return view('admin.edit_news');
-    }
-
-    public function reportsManagementPage()
-    {
-        return view('admin.reports');
     }
 
     public function farmStatusPage() 
@@ -210,6 +221,71 @@ class AdminController extends Controller
         ]);
     }
 
+    // reports
+
+    public function addReport(Request $request)
+    {
+        $report = new Report;
+        $report->title = $request->title;
+        $report->content = $request->content;
+        $report->year = $request->year;
+        $report->save();
+
+       return response()->json([
+            'report' => $report
+        ]);
+    }
+
+    public function editReport(Request $request)
+    {
+        $report = Report::find($request->id);
+        if ($report) {
+            $report->title = $request->title;
+            $report->content = $request->content;
+            $report->year = $request->year;
+            $report->save();
+            return response()->json([
+                'reports' => $report
+            ]);
+        }
+
+        else return response()->json([
+            'error' => 'Report Not Found'
+        ], 404);
+    }
+
+
+    public function publishReport($report_id)
+    {
+        $report = Report::find($report_id);
+        $report->published_at = now();
+        $report->save();
+
+        return response()->json([
+            'report' => $report
+        ]);
+    }
+
+    public function archiveReport($report_id)
+    {
+        $report = Report::find($report_id);
+        $report->archived_at = now();
+        $report->save();
+
+        return response()->json([
+            'report' => $report
+        ]);
+    }
+
+    public function getReport($report_id)
+    {
+        $report = Report::find($report_id);
+        return response()->json([
+            'report' => $report
+        ]);
+    }
+
+
     /**
      ** Helper Functions
     **/
@@ -218,6 +294,12 @@ class AdminController extends Controller
     {
         $news = News::paginate(10);
         return $news;
+    }
+
+    public function getReportsList(Request $request)
+    {
+        $reports = Report::paginate(10);
+        return $reports;
     }
 
     public function getUserList ()
