@@ -189,19 +189,11 @@
     <main>
         <div class="container" id="app">
             <div class="row">
-                <div id="news" class="col s12 l12 scrollspy">
-                    <h1 style="font-family: 'Poppins', sans-serif;"><i class="em em-rolled_up_newspaper"></i> News & Events</h1>
+                <div id="news" class="col s12 l12">
+                    <h3>{{ $report->title }}</h3>
+                    <h6>{{ date("F j, Y H:i:s", strtotime($report->published_at)) }}</h6>
+                    <html-viewer data="{{ $report->content }}"></html-viewer>
                 </div>
-                @forelse ($news as $n)
-                    <div class="col s12 l12">
-                        <h3>{{ $n->title }}</h3>
-                        <h6>{{ date("F j, Y H:i:s", strtotime($n->published_at)) }}</h6>
-                        <p class="flow-text">{{ $n->content }}...</p>
-                        <a href="{{ url('news/'.$n->id) }}">Read More</a>
-                    </div>
-                @empty
-                    <h3>No News</h3>
-                @endforelse
             </div>
             <div id="back_to_top" class="fixed-action-btn">
                 <a class="btn-floating btn-large blue-grey darken-1" onclick="topFunction()">

@@ -19,7 +19,7 @@ Route::get('/news', 'NewsController@index')->middleware('guest')->name('news');
 Route::get('/news/{id}', 'NewsController@getNewsPage')->middleware('guest')->name('news_page');
 
 Route::get('/reports', 'ReportsController@index')->middleware('guest')->name('reports');
-Route::get('/reports/{id}', 'NewsController@getNewsPage')->middleware('guest')->name('news_page');
+Route::get('/reports/{id}', 'ReportsController@getReportPage')->middleware('guest')->name('report_page');
 
 Route::group(['middleware' => ['web']], function ()
 {

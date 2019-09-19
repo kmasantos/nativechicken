@@ -189,18 +189,29 @@
     <main>
         <div class="container" id="app">
             <div class="row">
-                <div id="news" class="col s12 l12 scrollspy">
+                <div id="reports" class="col s9 m9 l9">
                     <h1 style="font-family: 'Poppins', sans-serif;"><i class="em em-spiral_note_pad"></i> Yearly Reports</h1>
+                    @forelse ($reports as $report)
+                        <div id="{{ $report->year }}" class="col s12 l12 section scrollspy">
+                            <!-- <h3>{{ $report->title }}</h3> -->
+                            <h3>{{ $report->year }} Yearly Report</h3>
+                            <h6>{{ date("F j, Y H:i:s", strtotime($report->published_at)) }}</h6>
+                            <p class="flow-text">{{ $report->content }}...</p>
+                            <a href="{{ url('reports/'.$report->id) }}">Read More</a>
+                        </div>
+                    @empty
+                        <h3>No News</h3>
+                    @endforelse
                 </div>
-                <!-- @forelse ($news as $n)
-                    <div class="col s12 l12">
-                        <h3>{{ $n->title }}</h3>
-                        <h6>{{ date("F j, Y H:i:s", strtotime($n->published_at)) }}</h6>
-                        <p class="flow-text">{{ $n->content }}<a href="{{ url('news/'.$n->id) }}">...Read More</a></p>
-                    </div>
-                @empty
-                    <h3>No News</h3>
-                @endforelse -->
+                <div class="col s3 m3 l3">
+                    <ul class="section table-of-contents" style='position: fixed;'>
+                        @forelse ($reports as $report)
+                        <li><a href="{{ '#'.$report->year }}">{{ $report->year }}</a></li>
+                    @empty
+                        <h3>No News</h3>
+                    @endforelse
+                    </ul>
+                </div>
             </div>
             <div id="back_to_top" class="fixed-action-btn">
                 <a class="btn-floating btn-large blue-grey darken-1" onclick="topFunction()">
@@ -273,8 +284,6 @@
               closeOnClick: false,
           });
           $('.scrollspy').scrollSpy({
-              scrollOfffset: 110,
-              activeClass : null
           });
           tippy('#home', {
               target : '.tooltip',
