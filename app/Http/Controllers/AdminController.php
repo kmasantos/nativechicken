@@ -243,6 +243,7 @@ class AdminController extends Controller
             $report->title = $request->title;
             $report->content = $request->content;
             $report->year = $request->year;
+            $report->updated_at = now();
             $report->save();
             return response()->json([
                 'reports' => $report

@@ -3,7 +3,9 @@
     <a @click.prevent='showPreview = !showPreview;' class='waves-effect waves-light btn-large'>
       {{ showPreview ? 'Hide' : 'Show' }} Preview
     </a>
-    <div v-html='content' style='border: 1px solid black; margin: 32px; padding: 32px;' v-if='showPreview' ></div>
+    <div v-html='content' style='border: 1px solid black; margin: 32px; padding: 32px;' v-if='showPreview' >
+      
+    </div>
     <div class='row' v-else>
       <div class='col s12 m12 l12'>
           <div class='row'>
