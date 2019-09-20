@@ -105,6 +105,7 @@ Vue.component('news-management', require('./components/admin/NewsManagement.vue'
 Vue.component('add-report', require('./components/admin/AddReport.vue'));
 Vue.component('edit-report', require('./components/admin/EditReport.vue'));
 Vue.component('reports-management', require('./components/admin/ReportsManagement.vue'));
+Vue.component('farm-status', require('./components/admin/FarmSummary.vue'));
 
 /**
  ** Others

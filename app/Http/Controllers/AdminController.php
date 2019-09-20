@@ -69,9 +69,9 @@ class AdminController extends Controller
         return view('admin.edit_news');
     }
 
-    public function farmStatusPage() 
+    public function farmSummaryPage() 
     {
-        return view('admin.status');
+        return view('admin.farm_summary');
     }
     
     public function createUser(Request $request) 
@@ -284,6 +284,13 @@ class AdminController extends Controller
         return response()->json([
             'report' => $report
         ]);
+    }
+
+    // Farm Status
+
+    public function getFarmSummary(Request $request)
+    {
+        $user_id = $request->id;
     }
 
 

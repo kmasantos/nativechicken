@@ -280,7 +280,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('/reports_management',['as' => 'admin.reports_management', 'uses' => 'AdminController@reportsManagementPage']);
         Route::get('/reports_management/add_report',['as' => 'admin.add_report', 'uses' => 'AdminController@addReportPage']);
         Route::get('/reports_management/edit_report/{id}',['as' => 'admin.edit_report', 'uses' => 'AdminController@editReportPage']);
-        Route::get('/farm_status',['as' => 'admin.farm_status', 'uses' => 'AdminController@farmStatusPage']);
+        Route::get('/farm_summary',['as' => 'admin.farm_summary', 'uses' => 'AdminController@farmSummaryPage']);
 
         /**
          * * Axios Routes for Admin
