@@ -301,6 +301,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::patch('reports/publish/{report_id}', 'AdminController@publishReport');
         Route::patch('reports/archive/{report_id}', 'AdminController@archiveReport');
 
+        Route::get('summary/{id}', 'AdminController@getFarmSummary');
 
         Route::get('user_list', 'AdminController@getUserList');
         Route::get('breed_list', 'AdminController@getBreedList');
@@ -308,6 +309,11 @@ Route::group(['middleware' => ['web']], function ()
         Route::post('create_user', 'AdminController@createUser');
         Route::patch('block_user/{user_id}', 'AdminController@blockUnblockUser');
         Route::put('edit_user', 'AdminController@editUser');
+
+        Route::get('summary/feeding_performance/{id}', 'AdminController@getFeedingPerformanceData');
+        Route::get('summary/hatchery/{id}', 'AdminController@getHatcherydata');
+        Route::get('summary/sales/{id}', 'AdminController@getSales');
+
     });
 });
 

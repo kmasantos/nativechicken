@@ -1,11 +1,11 @@
 @extends('layouts.admin_layout')
 
 @section('title')
-    Farm Status
+    Farm Summary
 @endsection
 
 @section('content')
-    <farm-status></farm-status>
+    <farm-summary></farm-summary>
 @endsection
 
 @section('customscripts')

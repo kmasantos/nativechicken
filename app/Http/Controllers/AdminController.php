@@ -8,6 +8,13 @@ use App\Models\User;
 use App\Models\Farm;
 use App\Models\Role;
 use App\Models\Breed;
+use App\Models\Generation;
+use App\Models\EggProduction;
+use App\Models\EggQuality;
+use App\Models\HatcheryRecord;
+use App\Models\BreederFeeding;
+use App\Models\ReplacementFeeding;
+use App\Models\BrooderGrowerFeeding;
 use App\Models\News;
 use App\Models\Report;
 use Carbon\Carbon;
@@ -290,14 +297,166 @@ class AdminController extends Controller
 
     public function getFarmSummary(Request $request)
     {
-        $user_id = $request->id;
+        $farm_id = $request->id;
+
+        $feeding_data = $this->getFeedingPerformanceData($farm_id);
+
+        return response()->json([
+            // 'farm_id' => $farm_id,
+            // 'animal_type' => $animal_type,
+            // 'egg_production' => $egg_production,
+            // 'egg_quality' => $egg_quality,
+            // 'hatchery_record' => $hatchery_record,
+            'feeding_data' => $feeding_data,
+        ]);
+        
     }
 
+    public function getSales(Request $request)
+    {   
+
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
+
+        $hatchery_data = HatcheryRecord::join('breeder_inventories', 'breeder_inventories.id', 'hatchery_records.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('hatchery_records.*', 'generations.number')
+                ->withTrashed()->get()->groupBy('number')
+                ->map(function ($gen) {
+                    return $gen->reduce(function ($acc, $item) {
+
+                        $acc['eggs_set'] += $item['number_eggs_set'];
+                        $acc['eggs_fertile'] += $item['number_fertile'];
+                        $acc['eggs_hatched'] += $item['number_hatched'];
+                        
+                        if ($acc['eggs_set'] != 0) {
+                            $acc['fertility'] = number_format(($acc['eggs_fertile'] / $acc['eggs_set']) * 100, 2, '.', "");
+                            $acc['hatchability'] = number_format(($acc['eggs_hatched'] / $acc['eggs_set']) * 100, 2, '.', "");
+                        }
+
+                        return $acc;
+                    }, [
+                        'eggs_set' => null,
+                        'eggs_fertile' => null,
+                        'eggs_hatched' => null,
+                        'fertility' => null,
+                        'hatchability' => null,
+                    ]);
+                });
+            
+        return response()->json([
+            'hatchery_data' => $hatchery_data,
+            'farm_generations' => $farm_generations,
+        ]);
+    }
+
+    public function getHatcherydata(Request $request)
+    {   
+
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
+
+        $hatchery_data = HatcheryRecord::join('breeder_inventories', 'breeder_inventories.id', 'hatchery_records.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('hatchery_records.*', 'generations.number')
+                ->withTrashed()->get()->groupBy('number')
+                ->map(function ($gen) {
+                    return $gen->reduce(function ($acc, $item) {
+
+                        $acc['eggs_set'] += $item['number_eggs_set'];
+                        $acc['eggs_fertile'] += $item['number_fertile'];
+                        $acc['eggs_hatched'] += $item['number_hatched'];
+                        
+                        if ($acc['eggs_set'] != 0) {
+                            $acc['fertility'] = number_format(($acc['eggs_fertile'] / $acc['eggs_set']) * 100, 2, '.', "");
+                            $acc['hatchability'] = number_format(($acc['eggs_hatched'] / $acc['eggs_set']) * 100, 2, '.', "");
+                        }
+
+                        return $acc;
+                    }, [
+                        'eggs_set' => null,
+                        'eggs_fertile' => null,
+                        'eggs_hatched' => null,
+                        'fertility' => null,
+                        'hatchability' => null,
+                    ]);
+                });
+            
+        return response()->json([
+            'hatchery_data' => $hatchery_data,
+            'farm_generations' => $farm_generations,
+        ]);
+    }
+
+    public function getFeedingPerformanceData(Request $request)
+    {   
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
+
+        $breeder_feeding = $this->computeFeedingPerformance(BreederFeeding::join('breeder_inventories', 'breeder_inventories.id', 'breeder_feedings.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('breeder_feedings.*', 'generations.number')
+                ->withTrashed()->get());
+
+        $replacement_feeding = $this->computeFeedingPerformance(ReplacementFeeding::join('replacement_inventories', 'replacement_inventories.id', 'replacement_feedings.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('replacement_feedings.*', 'generations.number')
+                ->withTrashed()->get());
+
+        $brooder_feeding = $this->computeFeedingPerformance(BrooderGrowerFeeding::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_feedings.broodergrower_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('brooder_grower_feedings.*', 'generations.number')
+                ->withTrashed()->get());
+
+        return response()->json([
+            'farm_generations' => $farm_generations,
+            'breeder_feeding' => $breeder_feeding,
+            'replacement_feeding' => $replacement_feeding,
+            'brooder_feeding' => $brooder_feeding,
+        ]);
+    }
 
     /**
      ** Helper Functions
     **/
+    public function computeFeedingPerformance($data)
+    {
+        return $data->groupBy('number')
+            ->map(function ($gen) {
+                return $gen->reduce(function ($acc, $item) {
 
+                    $acc['total_fed'] += $item['amount_offered'];
+                    $acc['total_refused'] += $item['amount_refused'];
+                    $acc['total_consumption'] = $acc['total_fed'] - $acc['total_refused'];
+
+                    return $acc;
+                }, [
+                    'total_fed' => null,
+                    'total_refused' => null,
+                    'total_consumption' => null,
+                ]);
+            });
+    }
     public function getNewsList(Request $request)
     {
         $news = News::paginate(10);

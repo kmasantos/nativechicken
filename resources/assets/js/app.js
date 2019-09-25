@@ -10,7 +10,7 @@ window.Vue = require('vue');
 window.moment = require('moment');
 import vSelect from 'vue-select';
 import dropdown from 'vue-dropdowns';
-    
+
 Vue.filter('truncate', function (value, max) {
     if (value.length >= max) {
         return `${value.slice(0, max)}...`;
@@ -105,7 +105,7 @@ Vue.component('news-management', require('./components/admin/NewsManagement.vue'
 Vue.component('add-report', require('./components/admin/AddReport.vue'));
 Vue.component('edit-report', require('./components/admin/EditReport.vue'));
 Vue.component('reports-management', require('./components/admin/ReportsManagement.vue'));
-Vue.component('farm-status', require('./components/admin/FarmSummary.vue'));
+Vue.component('farm-summary', require('./components/admin/FarmSummary.vue'));
 
 /**
  ** Others
