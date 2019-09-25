@@ -313,6 +313,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('summary/feeding_performance/{id}', 'AdminController@getFeedingPerformanceData');
         Route::get('summary/hatchery/{id}', 'AdminController@getHatcherydata');
         Route::get('summary/sales/{id}', 'AdminController@getSales');
+        Route::get('summary/egg_quality/{id}', 'AdminController@getEggQualityData');
+        Route::get('summary/egg_production/{id}', 'AdminController@getEggProductionData');
 
     });
 });

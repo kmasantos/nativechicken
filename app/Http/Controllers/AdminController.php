@@ -312,44 +312,179 @@ class AdminController extends Controller
         
     }
 
-    public function getSales(Request $request)
-    {   
-
+    public function getEggProductionData(Request $request)
+    {
         $farm_id = $request->id;
         $farm_generations = Generation::where('farm_id', $farm_id)->get();
 
-        $hatchery_data = HatcheryRecord::join('breeder_inventories', 'breeder_inventories.id', 'hatchery_records.breeder_inventory_id')
+        $egg_production = EggProduction::join('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
                 ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
                 ->join('families', 'families.id', 'breeders.family_id')
                 ->join('lines', 'lines.id', 'families.line_id')
                 ->join('generations', 'generations.id', 'lines.generation_id')
                 ->where('generations.farm_id', $farm_id)
-                ->select('hatchery_records.*', 'generations.number')
-                ->withTrashed()->get()->groupBy('number')
+                ->select('egg_productions.*', 'generations.number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('number')
                 ->map(function ($gen) {
                     return $gen->reduce(function ($acc, $item) {
 
-                        $acc['eggs_set'] += $item['number_eggs_set'];
-                        $acc['eggs_fertile'] += $item['number_fertile'];
-                        $acc['eggs_hatched'] += $item['number_hatched'];
-                        
-                        if ($acc['eggs_set'] != 0) {
-                            $acc['fertility'] = number_format(($acc['eggs_fertile'] / $acc['eggs_set']) * 100, 2, '.', "");
-                            $acc['hatchability'] = number_format(($acc['eggs_hatched'] / $acc['eggs_set']) * 100, 2, '.', "");
+                        $acc['total_broken'] += $item['total_broken'];
+                        $acc['total_rejects'] += $item['total_rejects'];
+                        $acc['total_intact'] += $item['total_eggs_intact'];
+                        $acc['total_weight'] += $item['total_egg_weight'];
+
+                        if($item['female_inventory']) {
+                            $acc['inventory'] += $item['female_inventory'];
+                            $acc['compute'] += $acc['total_intact'] + $acc['total_broken'] + $acc['total_rejects'];
                         }
 
                         return $acc;
                     }, [
-                        'eggs_set' => null,
-                        'eggs_fertile' => null,
-                        'eggs_hatched' => null,
-                        'fertility' => null,
-                        'hatchability' => null,
+                        'total_broken' => null,
+                        'total_rejects' => null,
+                        'total_intact' => null,
+                        'total_weight' => null,
+                        'inventory' => null,
+                        'compute' => null,
                     ]);
                 });
+
+        return response()->json([
+            'egg_production' => $egg_production,
+            'farm_generations' => $farm_generations,
+        ]);
+    }
+
+    public function getSales(Request $request)
+    {   
+
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
             
         return response()->json([
-            'hatchery_data' => $hatchery_data,
+            'farm_generations' => $farm_generations,
+        ]);
+    }
+
+    public function getEggQualityData(Request $request)
+    {   
+
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
+
+        $egg_quality = EggQuality::join('breeder_inventories', 'breeder_inventories.id', 'egg_qualities.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('egg_qualities.*', 'generations.number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('number')
+                ->map(function ($gen) {
+                    $data = $gen
+                        ->groupBy('egg_quality_at')
+                        ->map(function ($array) {
+                            if ($array) {
+                                return $array->reduce(function ($acc, $item) use($array) {
+                                    $count =  $array->count();
+
+                                    $acc['weight_sum'] += $item->weight;
+                                    $weight_mean = $acc['weight_sum'] / $count;
+                                    $acc['weight_variance'] += pow($item->weight - $weight_mean, 2);
+                                    $acc['weight'] = [ 'mean' => $weight_mean, 'std' => (float) sqrt($acc['weight_variance'] / $count) ];
+
+                                    $acc['length_sum'] += $item->length;
+                                    $length_mean = $acc['length_sum'] / $count;
+                                    $acc['length_variance'] += pow($item->length - $length_mean, 2);
+                                    $acc['length'] = [ 'mean' => $length_mean, 'std' => (float) sqrt($acc['length_variance'] / $count) ];
+
+                                    $acc['width_sum'] += $item->width;
+                                    $width_mean = $acc['width_sum'] / $count;
+                                    $acc['width_variance'] += pow($item->width - $width_mean, 2);
+                                    $acc['width'] = [ 'mean' => $width_mean, 'std' => (float) sqrt($acc['width_variance'] / $count) ];
+                                
+                                    if (($item->thickness_top && $item->thickness_top > 0) 
+                                        && ($item->thickness_mid && $item->thickness_mid > 0)
+                                        && ($item->thickness_bot && $item->thickness_bot > 0)) {
+                                        $shell_thickness = ($item->thickness_top + $item->thickness_mid + $item->thickness_bot) / 3;
+                                        $acc['shell_thickness_sum'] += $shell_thickness;
+                                        $shell_thickness_mean = $acc['shell_thickness_sum'] / $count;
+                                        $acc['shell_thickness_variance'] += pow($shell_thickness - $shell_thickness_mean, 2);
+                                        $acc['shell_thickness'] = [ 'mean' => $shell_thickness_mean, 'std' => (float) sqrt($acc['shell_thickness_variance'] / $count) ];
+                                    }
+
+                                    if ($item->shell_weight && $item->shell_weight > 0) {
+                                        $acc['shell_weight_sum'] += $item->shell_weight;
+                                        $shell_weight_mean = $acc['shell_weight_sum'] / $count;
+                                        $acc['shell_weight_variance'] += pow($item->shell_weight - $shell_weight_mean, 2);
+                                        $acc['shell_weight'] = [ 'mean' => $shell_weight_mean, 'std' => (float) sqrt($acc['shell_weight_variance'] / $count) ];
+                                    }
+
+                                    if ($item->yolk_weight && $item->yolk_weight > 0) {
+                                        $acc['yolk_weight_sum'] += $item->yolk_weight;
+                                        $yolk_weight_mean = $acc['yolk_weight_sum'] / $count;
+                                        $acc['yolk_weight_variance'] += pow($item->yolk_weight - $yolk_weight_mean, 2);
+                                        $acc['yolk_weight'] = [ 'mean' => $yolk_weight_mean, 'std' => (float) sqrt($acc['yolk_weight_variance'] / $count) ];
+                                    }
+
+                                    if ($item->albumen_height && $item->albumen_height > 0) {
+                                        $acc['albumen_height_sum'] += $item->albumen_height;
+                                        $albumen_height_mean = $acc['albumen_height_sum'] / $count;
+                                        $acc['albumen_height_variance'] += pow($item->albumen_height - $albumen_height_mean, 2);
+                                        $acc['albumen_height'] = [ 'mean' => $albumen_height_mean, 'std' => (float) sqrt($acc['albumen_height_variance'] / $count) ];
+                                    }
+
+                                    if ($item->albumen_weight && $item->albumen_weight > 0) {
+                                        $acc['albumen_weight_sum'] += $item->albumen_weight;
+                                        $albumen_weight_mean = $acc['albumen_weight_sum'] / $count;
+                                        $acc['albumen_weight_variance'] += pow($item->albumen_weight - $albumen_weight_mean, 2);
+                                        $acc['albumen_weight'] = [ 'mean' => $albumen_weight_mean, 'std' => (float) sqrt($acc['albumen_weight_variance'] / $count) ];
+                                    }
+
+                                    
+                                    return $acc;
+                                }, [
+                                    'weight' => null,
+                                    'weight_sum' => 0,
+                                    'weight_variance' => 0,
+                                    'length' => null,
+                                    'length_sum' => 0,
+                                    'length_variance' => 0,
+                                    'width' => null,
+                                    'width_sum' => 0,
+                                    'width_variance' => 0,
+                                    'shell_thickness' => null,
+                                    'shell_thickness_sum' => 0,
+                                    'shell_thickness_variance' => 0,
+                                    'shell_weight' => null,
+                                    'shell_weight_sum' => 0,
+                                    'shell_weight_variance' => 0,
+                                    'yolk_weight' => null,
+                                    'yolk_weight_sum' => 0,
+                                    'yolk_weight_variance' => 0,
+                                    'albumen_height' => null,
+                                    'albumen_height_sum' => 0,
+                                    'albumen_height_variance' => 0,
+                                    'albumen_weight' => null,
+                                    'albumen_weight_sum' => 0,
+                                    'albumen_weight_variance' => 0,
+                                    'shape' => $array->mode('shape')[0],
+                                    'color' => $array->mode('color')[0],
+                                ]);
+                            }
+
+                            return [];
+                        });
+                    return $data;
+                });
+
+            
+        return response()->json([
+            'egg_quality' => $egg_quality,
             'farm_generations' => $farm_generations,
         ]);
     }
@@ -367,7 +502,9 @@ class AdminController extends Controller
                 ->join('generations', 'generations.id', 'lines.generation_id')
                 ->where('generations.farm_id', $farm_id)
                 ->select('hatchery_records.*', 'generations.number')
-                ->withTrashed()->get()->groupBy('number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('number')
                 ->map(function ($gen) {
                     return $gen->reduce(function ($acc, $item) {
 
@@ -439,6 +576,7 @@ class AdminController extends Controller
     /**
      ** Helper Functions
     **/
+
     public function computeFeedingPerformance($data)
     {
         return $data->groupBy('number')

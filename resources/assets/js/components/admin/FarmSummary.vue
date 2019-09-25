@@ -70,7 +70,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <!-- <tr>
                             <td>Phenotypic - Replacement</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
@@ -129,8 +129,8 @@
                                     </a>
                                 </div>
                             </td>
-                        </tr>
-                        <!-- <tr>
+                        </tr> -->
+                        <tr>
                             <td>Feeding Perfomance</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
@@ -139,18 +139,18 @@
                                     </a>
                                 </div>
                             </td>
-                        </tr> -->
+                        </tr>
                         <tr>
                             <td>Egg Production</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getEggProduction(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
                             </td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <td>Hatchery</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
@@ -159,22 +159,22 @@
                                     </a>
                                 </div>
                             </td>
-                        </tr> -->
+                        </tr>
                         <tr>
                             <td>Egg Quality</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getEggQuality(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>Mortality</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getHatcherySummary(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
@@ -184,12 +184,12 @@
                             <td>Sales</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getHatcherySummary(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
                     </div>
@@ -214,9 +214,113 @@
             }
         },
         methods : {
+            getEggProduction: async function(farmId) {
+                const response = await axios.get('summary/egg_production/' + farmId);
+                const { farm_generations, egg_production } = response.data;
+                if (!egg_production || egg_production.length === 0) {
+                    return alert('No data available to generate csv!');
+                }
+
+                const csvData = farm_generations.reduce((acc, val) => {
+                    
+                    const genNumber = val.number;
+                    
+                    if (egg_production[genNumber]) {
+                        const {
+                            total_intact, total_broken, total_rejects, total_weight
+                        } = egg_production[genNumber];
+
+                        let henDay = '';
+
+                        if (egg_production[genNumber].compute && egg_production[genNumber].inventory) {
+                            henDay = (egg_production[genNumber].compute / egg_production[genNumber].inventory).toFixed(2);
+                        }
+
+                        const data = [
+                            `${genNumber}, ${henDay}, ${total_intact}, ${total_broken}, ${total_rejects}, ${total_weight && total_weight.toFixed(2)}`
+                        ];
+                        
+                        return acc + data.join('\n') + '\n'; 
+                    }
+
+                    const data = [
+                        `${genNumber}`
+                    ];
+                    
+                    return acc + data.join('\n') + '\n'; 
+
+                }, 'Generation, Hen Day, Total Intact, Total Broken, Total Rejects, Total Egg Weight (g) \n');
+                this.downloadCSV(csvData, 'egg_production');
+            },
+            getEggQuality: async function(farmId) {
+                const qualityAt = [35, 40, 60];
+                const response = await axios.get('summary/egg_quality/' + farmId);
+                const { farm_generations, egg_quality } = response.data;
+
+                function createQualityString(eggQualityName, qualityData, prop) {
+                    const string = qualityAt.reduce((acc, week) => {
+                        if (qualityData[week] && qualityData[week][prop]) {
+                             acc.push(qualityData[week][prop].mean, qualityData[week][prop].std);
+                        }
+                        else {
+                            acc.push('', '');
+                        }
+                        return acc;
+                    }, []).join(',');
+                    return `${eggQualityName},${string}`;
+                }
+
+                function createShapeColor(qualityData, prop) {
+                    const string = qualityAt.reduce((acc, week) => {
+                        if (qualityData[week] && qualityData[week][prop]) {
+                             acc.push(qualityData[week][prop]);
+                        }
+                        else {
+                            acc.push('');
+                        }
+                        return acc;
+                    }, []).join(',');
+                    return `${string}`;
+                }
+
+                if (!egg_quality || egg_quality.length === 0) {
+                    return alert('No data available to generate csv!');
+                }
+
+                const csvData = farm_generations.reduce((acc, val) => {
+                    const genNumber = val.number;
+                    const qualityData = egg_quality[genNumber];
+                    if (qualityData) {
+                        const data = [
+                            `${genNumber},${createQualityString('Egg Weight (g)', qualityData, 'weight')}`,
+                            `   ,${createQualityString('Egg Length (mm)', qualityData, 'length')}`,
+                            `   ,${createQualityString('Egg Width (mm)', qualityData, 'width')}`,
+                            `   ,${createQualityString('Shell Thickness (mm)', qualityData, 'shell_thickness')}`,
+                            `   ,${createQualityString('Shell Weight (g)', qualityData, 'shell_weight')}`,
+                            `   ,${createQualityString('Yolk Weight (g)', qualityData, 'yolk_weight')}`,
+                            `   ,${createQualityString('Albumen Weight (g)', qualityData, 'albumen_weight')}`,
+                            `   ,${createQualityString('Albumen Height (mm)', qualityData, 'albumen_height')}`,
+                            `   ,   ,Week 35, Week 40, Week 60,    ,    ,    `,
+                            `   ,Egg Shape, ${createShapeColor(qualityData, 'shape')},    ,    ,    `,
+                            `   ,Egg Color, ${createShapeColor(qualityData, 'color')},    ,    ,    `,
+                        ]
+                        return acc + data.join('\n') + '\n';
+                    }
+
+                    const data = `${genNumber},,,,,,,\n`;
+                    return acc + data;
+
+                }, 'Generation, Eggs Quality, Week 35 (Mean), Week 35 (SD), Week 40 (Mean), Week 40 (SD), Week 60 (Mean), Week 60 (SD)\n');
+                this.downloadCSV(csvData, 'egg_quality');
+            },
             getHatcherySummary: async function(farmId) {
                 const response = await axios.get('summary/hatchery/' + farmId);
                 const { farm_generations, hatchery_data } = response.data;
+
+                if (!hatchery_data || hatchery_data.length === 0) {
+                    return alert('No data available to generate csv!');
+                }
+
                 const csvData = farm_generations.reduce((acc, val) => {
                     
                     const genNumber = val.number;
@@ -252,11 +356,13 @@
                     const breederData = breeder_feeding[genNumber];
                     const replacementData = replacement_feeding[genNumber];
 
-                    const row1 = `${genNumber},Total Fed,${get(brooderData, 'total_fed', '')},${get(replacementData, 'total_fed', '')},${get(breederData, 'total_fed', '')}`;
-                    const row2 = `,Total Refused, ${get(brooderData, 'total_refused', '')},${get(replacementData, 'total_refused', '')},${get(breederData, 'total_refused', '')}`;
-                    const row3 = `,Total Consumption, ${get(brooderData, 'total_consumption', '')},${get(replacementData, 'total_consumption', '')},${get(breederData, 'total_consumption', '')}`;
+                    const data = [
+                        `${genNumber},Total Fed,${get(brooderData, 'total_fed', '')},${get(replacementData, 'total_fed', '')},${get(breederData, 'total_fed', '')}`,
+                        `,Total Refused, ${get(brooderData, 'total_refused', '')},${get(replacementData, 'total_refused', '')},${get(breederData, 'total_refused', '')}`,
+                        `,Total Consumption, ${get(brooderData, 'total_consumption', '')},${get(replacementData, 'total_consumption', '')},${get(breederData, 'total_consumption', '')}`,
+                    ];
 
-                    return acc + [row1, row2, row3].join('\n') + '\n';
+                    return acc + data.join('\n') + '\n';
     
                 }, 'Generation, Feeding Perfomance, Brooders, Replacements, Breeder\n');
 
@@ -288,6 +394,13 @@
                 });
             });
             this.getUserList();
+            // this.getEggProduction(1);
+            // this.getEggProduction(2);
+            // this.getEggProduction(3);
+            // this.getEggProduction(4);
+            // this.getEggProduction(5);
+            // this.getEggProduction(6);
+            // this.getEggProduction(7);
         },
         created() {
             $(document).ready(function(){
@@ -301,17 +414,4 @@
 </script>
 
 <style>
-    #block_user_modal{
-        max-height: 30%;
-        width: 35%;
-    }
-    #edit_user_modal{
-        max-height: 55%;
-        max-width: 45%;
-    }
-    #delete_user_modal{
-        max-height: 50%;
-        max-width: 45%;
-    }
-    
 </style>
