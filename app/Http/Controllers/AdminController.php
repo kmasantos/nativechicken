@@ -15,6 +15,7 @@ use App\Models\HatcheryRecord;
 use App\Models\BreederFeeding;
 use App\Models\ReplacementFeeding;
 use App\Models\BrooderGrowerFeeding;
+use App\Models\MortalitySale;
 use App\Models\News;
 use App\Models\Report;
 use Carbon\Carbon;
@@ -295,23 +296,6 @@ class AdminController extends Controller
 
     // Farm Status
 
-    public function getFarmSummary(Request $request)
-    {
-        $farm_id = $request->id;
-
-        $feeding_data = $this->getFeedingPerformanceData($farm_id);
-
-        return response()->json([
-            // 'farm_id' => $farm_id,
-            // 'animal_type' => $animal_type,
-            // 'egg_production' => $egg_production,
-            // 'egg_quality' => $egg_quality,
-            // 'hatchery_record' => $hatchery_record,
-            'feeding_data' => $feeding_data,
-        ]);
-        
-    }
-
     public function getEggProductionData(Request $request)
     {
         $farm_id = $request->id;
@@ -357,13 +341,99 @@ class AdminController extends Controller
         ]);
     }
 
+    public function getMortality(Request $request)
+    {
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
+
+        $breeder_data = $this->computeMortality(MortalitySale::join('breeder_inventories', 'breeder_inventories.id', 'mortality_sales.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->whereIn('mortality_sales.type', ["breeder", "egg"])
+                ->where('mortality_sales.category',"died")
+                ->select('mortality_sales.*', 'generations.number')
+                ->withTrashed()
+                ->get());
+
+        $replacement_data = $this->computeMortality(MortalitySale::join('replacement_inventories', 'replacement_inventories.id', 'mortality_sales.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('mortality_sales.type', "replacement")
+                ->where('mortality_sales.category',"died")
+                ->select('mortality_sales.*', 'generations.number')
+                ->withTrashed()
+                ->get());
+
+        $brooder_data = $this->computeMortality(MortalitySale::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'mortality_sales.brooder_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('mortality_sales.type', "brooder")
+                ->where('mortality_sales.category',"died")
+                ->select('mortality_sales.*', 'generations.number')
+                ->withTrashed()
+                ->get());
+
+
+        return response()->json([
+            'farm_generations' => $farm_generations,
+            'brooder_data' => $brooder_data,
+            'breeder_data' => $breeder_data,
+            'replacement_data' => $replacement_data,
+        ]);
+    }
+
     public function getSales(Request $request)
     {   
 
         $farm_id = $request->id;
         $farm_generations = Generation::where('farm_id', $farm_id)->get();
-            
+        
+        $replacement_data = $this->computeSales(MortalitySale::join('replacement_inventories', 'replacement_inventories.id', 'mortality_sales.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('mortality_sales.type', "replacement")
+                ->where('mortality_sales.category', "sold")
+                ->select('mortality_sales.*', 'generations.number')
+                ->withTrashed()->get());
+
+        $breeder_data = $this->computeSales(MortalitySale::join('breeder_inventories', 'breeder_inventories.id', 'mortality_sales.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->whereIn('mortality_sales.type', ["breeder", "egg"])
+                ->where('mortality_sales.category', "sold")
+                ->select('mortality_sales.*', 'generations.number')
+                ->withTrashed()->get());
+        
+        $brooder_data = $this->computeSales(MortalitySale::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'mortality_sales.brooder_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('mortality_sales.type', "brooder")
+                ->where('mortality_sales.category', "sold")
+                ->select('mortality_sales.*', 'generations.number')
+                ->withTrashed()->get());
+
         return response()->json([
+            'replacement_data' => $replacement_data,
+            'breeder_data' => $breeder_data,
+            'brooder_data' => $brooder_data,
             'farm_generations' => $farm_generations,
         ]);
     }
@@ -576,6 +646,60 @@ class AdminController extends Controller
     /**
      ** Helper Functions
     **/
+
+    public function computeMortality($data)
+    {
+        return $data
+            ->groupBy('number')
+            ->map(function ($gen) {
+                return $gen
+                    ->groupBy('reason')
+                    ->map(function ($reason) {
+                        return $reason->reduce(function ($acc, $item) {
+
+                            $acc['male'] += $item['male'];
+                            $acc['female'] += $item['female'];
+
+                            return $acc;
+                        }, [
+                            'male' => 0,
+                            'female' => 0
+                        ]);
+                    });
+            });
+    }
+
+    public function computeSales($data)
+    {
+        return $data
+            ->groupBy('number')
+            ->map(function ($gen) {
+                return $gen->reduce(function ($acc, $item) use ($gen) {
+
+                    $count = $gen->count();
+
+                    $acc['male'] += $item['male'];
+                    $acc['female'] += $item['female'];
+                    $acc['total'] += $item['total'];
+                    
+                    $acc['price_sum'] += $item->price;
+                    $price_mean = $acc['price_sum'] / $count;
+                    $acc['price_variance'] += pow($item->price - $price_mean, 2);
+                    $acc['price_mean'] = $price_mean;
+                    $acc['price_sd'] = (float) sqrt($acc['price_variance'] / $count);
+
+                    return $acc;
+                }, [
+                    'price_mean' => null,
+                    'price_sd' => null,
+                    'price_sum' => 0,
+                    'price_variance' => 0,
+                    'total' => null,
+                    'female' => null,
+                    'male' => null,
+                ]);
+            });
+    }
 
     public function computeFeedingPerformance($data)
     {

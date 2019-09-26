@@ -301,8 +301,6 @@ Route::group(['middleware' => ['web']], function ()
         Route::patch('reports/publish/{report_id}', 'AdminController@publishReport');
         Route::patch('reports/archive/{report_id}', 'AdminController@archiveReport');
 
-        Route::get('summary/{id}', 'AdminController@getFarmSummary');
-
         Route::get('user_list', 'AdminController@getUserList');
         Route::get('breed_list', 'AdminController@getBreedList');
 
@@ -313,6 +311,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('summary/feeding_performance/{id}', 'AdminController@getFeedingPerformanceData');
         Route::get('summary/hatchery/{id}', 'AdminController@getHatcherydata');
         Route::get('summary/sales/{id}', 'AdminController@getSales');
+        Route::get('summary/mortality/{id}', 'AdminController@getMortality');
         Route::get('summary/egg_quality/{id}', 'AdminController@getEggQualityData');
         Route::get('summary/egg_production/{id}', 'AdminController@getEggProductionData');
 

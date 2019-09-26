@@ -170,11 +170,11 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <td>Mortality</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a @click.prevent="getHatcherySummary(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getMortality(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
@@ -184,12 +184,12 @@
                             <td>Sales</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a @click.prevent="getHatcherySummary(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getSales(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
                             </td>
-                        </tr> -->
+                        </tr>
                     </tbody>
                 </table>
                     </div>
@@ -211,9 +211,83 @@
             return {
                 users : {},
                 currentUser: null,
+                stgs: {
+                    'brooder_data' : 'Brooder',
+                    'replacement_data' : 'Replacement',
+                    'breeder_data' : 'Breeder',
+                }
             }
         },
         methods : {
+            getMortality: async function(farmId) {
+                const response = await axios.get('summary/mortality/' + farmId);
+
+                const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
+                const reasons = ['Sickness', 'Trauma - Natural', 'Trauma - Predatory'];
+                const { farm_generations } = response.data;
+
+                const csvData = farm_generations.reduce((acc, val) => {
+                    
+                    const genNumber = val.number
+
+                    const data = stages.map(stage => {
+                        const row = response.data[stage][genNumber];
+
+                        if (row) {
+                            const stageData = reasons.reduce((a, reason) => {
+                                const sd = row[reason];
+
+                                a[0].push(sd && sd.male > 0 ? sd.male : '');
+                                a[1].push(sd && sd.female > 0 ? sd.female : '');
+
+                                return a;
+                            }, [
+                                [`${this.stgs[stage] === 'Brooder' ? genNumber : '' },${this.stgs[stage]} (Male)`],
+                                [`,${this.stgs[stage]} (Female)`],
+                            ]);
+
+                            return [
+                                stageData[0].join(','),
+                                stageData[1].join(','),
+                            ].join('\n');
+                        }
+
+                        else {
+                            return [
+                                `${this.stgs[stage] === 'Brooder' ? genNumber : '' },${this.stgs[stage]} (Male)`,
+                                `,${this.stgs[stage]} (Female)`,
+                            ].join('\n'); 
+                        }
+                    });
+                    return acc + data.join('\n') + '\n'; 
+
+                }, 'Generation, Stage, Sickness, Trauma - Natural, Trauma - Predatory\n');
+                this.downloadCSV(csvData, 'mortality');
+            },
+            getSales: async function(farmId) {
+                const response = await axios.get('summary/sales/' + farmId);
+                const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
+                const { farm_generations } = response.data;
+
+                const csvData = farm_generations.reduce((acc, val) => {
+                    
+                    const genNumber = val.number
+    
+                    const data = stages.map(item => {
+                        const d = response.data[item][genNumber];
+                        const head = `${item === 'brooder_data' ? genNumber : ''},${this.stgs[item]}`;
+                        let tail = ''
+                        if (d) {
+                            tail = `,${d.male},${d.female},${d.total},${d.price_mean.toFixed(2)},${d.price_sd.toFixed(2)}`;
+                        }
+
+                        return head + tail;
+                    });
+                    return acc + data.join('\n') + '\n'; 
+
+                }, 'Generation, Stage, Male, Female, Total, Price (Mean), Price (SD)\n');
+                this.downloadCSV(csvData, 'sales');
+            },
             getEggProduction: async function(farmId) {
                 const response = await axios.get('summary/egg_production/' + farmId);
                 const { farm_generations, egg_production } = response.data;
@@ -393,22 +467,10 @@
                     dismissible: false,
                 });
             });
-            this.getUserList();
-            // this.getEggProduction(1);
-            // this.getEggProduction(2);
-            // this.getEggProduction(3);
-            // this.getEggProduction(4);
-            // this.getEggProduction(5);
-            // this.getEggProduction(6);
-            // this.getEggProduction(7);
+            // this.getUserList();
+            this.getMortality(16);
         },
         created() {
-            $(document).ready(function(){
-                $('.tooltipped').tooltip({delay: 50});
-                $('.modal').modal({
-                    dismissible: false,
-                });
-            });
         }
     }
 </script>
