@@ -227,33 +227,36 @@
                     
                     const genNumber = val.number;
 
-                    const data = days.map(day => {
-                        const dd = growth_records[genNumber][day];
-                        const array = [];
-                        if (dd) {
-                            array.push(
-                                day === 0 ? genNumber : '',
-                                `Day ${day}`,
-                                this.formatFloat(dd.male_mean),
-                                this.formatFloat(dd.male_sd),
-                                this.formatFloat(dd.female_mean),
-                                this.formatFloat(dd.female_sd),
-                                this.formatFloat(dd.total_mean),
-                                this.formatFloat(dd.total_sd),
-                            );
-                        }
-                        else {
-                            array.push(
-                                day === 0 ? genNumber : '',
-                                `Day ${day}`,
-                            );
-                        }
+                    if (growth_records[genNumber]) {
+                        const data = days.map(day => {
+                            const dd = growth_records[genNumber][day];
+                            const array = [];
+                            if (dd) {
+                                array.push(
+                                    day === 0 ? genNumber : '',
+                                    `Day ${day}`,
+                                    this.formatFloat(dd.male_mean),
+                                    this.formatFloat(dd.male_sd),
+                                    this.formatFloat(dd.female_mean),
+                                    this.formatFloat(dd.female_sd),
+                                    this.formatFloat(dd.total_mean),
+                                    this.formatFloat(dd.total_sd),
+                                );
+                            }
+                            else {
+                                array.push(
+                                    day === 0 ? genNumber : '',
+                                    `Day ${day}`,
+                                );
+                            }
 
-                        return array.join(',');
-                    });
-
-                    return acc + data.join('\n') + '\n'; 
-
+                            return array.join(',');
+                        });
+                        return acc + data.join('\n') + '\n'; 
+                    }
+                    else {
+                        return acc + `${genNumber}\n`;
+                    }    
                 }, 'Generation, Age, Male (Mean), Male (SD), Female (Mean), Female (SD), Total (Mean), Total (SD)\n');
                 console.dir(csvData);
                 this.downloadCSV(csvData, 'growth_records');
@@ -512,11 +515,7 @@
                     dismissible: false,
                 });
             });
-            // this.getUserList();
-            this.getGrowthRecord(3);
-            // for (let i = 1; i <= 31; i++) {
-            //     this.getGrowthRecord(i);
-            // }
+            this.getUserList();
         },
         created() {
         }
