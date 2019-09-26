@@ -119,17 +119,17 @@
                                     </a>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>Growth Records</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;"  href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getGrowthRecord(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
                             </td>
-                        </tr> -->
+                        </tr>
                         <tr>
                             <td>Feeding Perfomance</td>
                             <td>
@@ -219,6 +219,45 @@
             }
         },
         methods : {
+            getGrowthRecord: async function(farmId) {
+                const response = await axios.get('summary/growth/' + farmId);
+                const { farm_generations, growth_records } = response.data;
+                const days = [ 0, 21, 45, 75, 100];
+                const csvData = farm_generations.reduce((acc, val) => {
+                    
+                    const genNumber = val.number;
+
+                    const data = days.map(day => {
+                        const dd = growth_records[genNumber][day];
+                        const array = [];
+                        if (dd) {
+                            array.push(
+                                day === 0 ? genNumber : '',
+                                `Day ${day}`,
+                                this.formatFloat(dd.male_mean),
+                                this.formatFloat(dd.male_sd),
+                                this.formatFloat(dd.female_mean),
+                                this.formatFloat(dd.female_sd),
+                                this.formatFloat(dd.total_mean),
+                                this.formatFloat(dd.total_sd),
+                            );
+                        }
+                        else {
+                            array.push(
+                                day === 0 ? genNumber : '',
+                                `Day ${day}`,
+                            );
+                        }
+
+                        return array.join(',');
+                    });
+
+                    return acc + data.join('\n') + '\n'; 
+
+                }, 'Generation, Age, Male (Mean), Male (SD), Female (Mean), Female (SD), Total (Mean), Total (SD)\n');
+                console.dir(csvData);
+                this.downloadCSV(csvData, 'growth_records');
+            },
             getMortality: async function(farmId) {
                 const response = await axios.get('summary/mortality/' + farmId);
 
@@ -459,6 +498,12 @@
                 } catch (error) {
                 }
             },
+            formatFloat: function(val) {
+                if (val) {
+                    return val.toFixed(2);  
+                }
+                else return '';
+            },
         },
         mounted() {
             $(document).ready(function(){
@@ -468,7 +513,10 @@
                 });
             });
             // this.getUserList();
-            this.getMortality(16);
+            this.getGrowthRecord(3);
+            // for (let i = 1; i <= 31; i++) {
+            //     this.getGrowthRecord(i);
+            // }
         },
         created() {
         }

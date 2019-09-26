@@ -312,6 +312,7 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('summary/hatchery/{id}', 'AdminController@getHatcherydata');
         Route::get('summary/sales/{id}', 'AdminController@getSales');
         Route::get('summary/mortality/{id}', 'AdminController@getMortality');
+        Route::get('summary/growth/{id}', 'AdminController@getGrowthRecords');
         Route::get('summary/egg_quality/{id}', 'AdminController@getEggQualityData');
         Route::get('summary/egg_production/{id}', 'AdminController@getEggProductionData');
 

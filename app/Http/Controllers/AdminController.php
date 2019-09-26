@@ -18,6 +18,8 @@ use App\Models\BrooderGrowerFeeding;
 use App\Models\MortalitySale;
 use App\Models\News;
 use App\Models\Report;
+use App\Models\BrooderGrowerGrowth;
+use App\Models\ReplacementGrowth;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -295,6 +297,37 @@ class AdminController extends Controller
     }
 
     // Farm Status
+
+    public function getGrowthRecords(Request $request)
+    {
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
+
+        $brooder_data = BrooderGrowerGrowth::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_growths.broodergrower_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('brooder_grower_growths.*', 'generations.number')
+                ->withTrashed()
+                ->get();
+        $grower_data = ReplacementGrowth::join('replacement_inventories', 'replacement_inventories.id', 'replacement_growths.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('replacement_growths.*', 'generations.number')
+                ->withTrashed()->get();
+    
+        $joined = $this->computeGrowth($brooder_data->concat($grower_data));
+
+        return response()->json([
+            'growth_records' => $joined,
+            'farm_generations' => $farm_generations,
+        ]);
+    }
 
     public function getEggProductionData(Request $request)
     {
@@ -646,7 +679,54 @@ class AdminController extends Controller
     /**
      ** Helper Functions
     **/
+    public function computeGrowth($data)
+    {
+        return $data
+            ->groupBy('number')
+            ->map(function ($gen) {
+                return $gen
+                    ->groupBy('collection_day')
+                    ->map(function ($day) {
+                        return $day->reduce(function ($acc, $item) use ($day) {
+                            
+                            $count = $day->count();
 
+                            $acc['male_sum'] += $item->male_weight;
+                            $male_mean = $acc['male_sum'] / $count;
+                            $acc['male_variance'] += pow($item->male_weight - $male_mean, 2);
+                            $acc['male_mean'] = $male_mean;
+                            $acc['male_sd'] = (float) sqrt($acc['male_variance'] / $count);
+                            
+                            $acc['female_sum'] += $item->female_weight;
+                            $female_mean = $acc['female_sum'] / $count;
+                            $acc['female_variance'] += pow($item->female_weight - $female_mean, 2);
+                            $acc['female_mean'] = $female_mean;
+                            $acc['female_sd'] = (float) sqrt($acc['female_variance'] / $count);
+
+                            $acc['total_sum'] += $item->total_weight;
+                            $total_mean = $acc['total_sum'] / $count;
+                            $acc['total_variance'] += pow($item->total_weight - $total_mean, 2);
+                            $acc['total_mean'] = $total_mean;
+                            $acc['total_sd'] = (float) sqrt($acc['total_variance'] / $count);
+
+                            return $acc;
+                        }, [
+                            'total_mean' => null,
+                            'total_sd' => null,
+                            'total_sum' => 0,
+                            'total_variance' => 0,
+                            'female_mean' => null,
+                            'female_sd' => null,
+                            'female_sum' => 0,
+                            'female_variance' => 0,
+                            'male_mean' => null,
+                            'male_sd' => null,
+                            'male_sum' => 0,
+                            'male_variance' => 0,
+                        ]);
+                    });
+            });
+    }
     public function computeMortality($data)
     {
         return $data
