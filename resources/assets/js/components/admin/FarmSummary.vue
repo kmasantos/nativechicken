@@ -45,7 +45,13 @@
                                     >
                                         Generation
                                     </a>
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 modal-trigger center-align btn" data-position="bottom" data-delay="50" data-tooltip="Generation Summary">
+                                    <a 
+                                        @click.prevent="setCurrentUser(user.farm_id); getGenerations(user.farm_id)"
+                                        href="#family_modal"
+                                        style="margin: 4px;"
+                                        class="indigo white-text darken-1 modal-trigger center-align btn" 
+                                        data-position="bottom" data-delay="50" data-tooltip="Generation Summary"
+                                    >
                                         Family
                                     </a>
                                 </div>
@@ -199,6 +205,153 @@
                 <a @click.prevent="setCurrentUser(null)" href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat">Close</a>
             </div>
         </div>
+        <div id="family_modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <select v-model="selectedGeneration" class="browser-default">
+                            <option disabled>Choose a generation</option>
+                            <option v-for="generation in generations" :key="generation.id" v-bind:value="generation">{{generation.number}}</option>
+                        </select>
+                    </div>
+                    <div class="col s12 m12 l12">
+                        <table class="bordered highlight responsive-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="center-align">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr>
+                                    <td>Phenotypic - Replacement</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Phenotypic - Breeder</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Morphometric - Replacement</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Morphometric - Breeder</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Morphometric - Replacement</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <!-- <tr>
+                                    <td>Growth Records</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a @click.prevent="getGrowthRecord(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Feeding Perfomance</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a @click.prevent="getFeedingSummary(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td>Egg Production</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a @click.prevent="getFamEggProduction(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>Hatchery</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a @click.prevent="getHatcherySummary(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Egg Quality</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a @click.prevent="getEggQuality(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <!-- <tr>
+                                    <td>Mortality</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a @click.prevent="getMortality(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sales</td>
+                                    <td>
+                                        <div class="col s12 m12 l12 center">
+                                            <a @click.prevent="getSales(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                                Generate CSV
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>  
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a @click.prevent="setCurrentUser(null); generations = null; selectedGeneration = null;" href="javascript:void(0);" class="modal-action modal-close waves-effect waves-indigo btn-flat">Close</a>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -211,6 +364,8 @@
             return {
                 users : {},
                 currentUser: null,
+                generations: null,
+                selectedGeneration: null,
                 stgs: {
                     'brooder_data' : 'Brooder',
                     'replacement_data' : 'Replacement',
@@ -219,6 +374,54 @@
             }
         },
         methods : {
+
+            // Fam
+
+            getFamEggProduction: async function(selectedGeneration) {
+                const response = await axios.get('summary/fam_egg_production/' + selectedGeneration.id);
+                const { lines, egg_production } = response.data;
+
+                if (egg_production && egg_production.length === 0) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line) => {
+                    
+                    const { number: lineNumber, families } = line;
+
+                    const lineData = egg_production[lineNumber];
+
+                    if (lineData) {
+                        const familiesData = families.map(({ number: famNumber }, index) => {
+                            const famData = lineData[famNumber];
+                            return [
+                                index === 0 ? lineNumber : '',
+                                famNumber,
+                                get(famData, 'compute', null) && get(famData, 'inventory', null) 
+                                    ? this.formatFloat(get(famData, 'compute', null) / get(famData, 'inventory', null))
+                                    : '',
+                                get(famData, 'total_intact', ''),
+                                get(famData, 'total_broken', ''),
+                                get(famData, 'total_rejects', ''),
+                                this.formatFloat(get(famData, 'total_weight', '')),
+                            ];
+                        });
+
+                        return acc + familiesData.join('\n') + '\n'; 
+                    }
+                    else {
+                        return acc + [
+                            lineNumber,
+                            famNumber,
+                        ].join('\n') + '\n'; 
+                    }
+
+                }, 'Line, Family, Hen Day, Total Intact, Total Broken, Total Rejects, Total Egg Weight (g) \n');
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_egg_production`);
+            },
+
+            // Generation
+
             getGrowthRecord: async function(farmId) {
                 const response = await axios.get('summary/growth/' + farmId);
                 const { farm_generations, growth_records } = response.data;
@@ -258,7 +461,6 @@
                         return acc + `${genNumber}\n`;
                     }    
                 }, 'Generation, Age, Male (Mean), Male (SD), Female (Mean), Female (SD), Total (Mean), Total (SD)\n');
-                console.dir(csvData);
                 this.downloadCSV(csvData, 'growth_records');
             },
             getMortality: async function(farmId) {
@@ -494,7 +696,14 @@
             setCurrentUser: function(farmId) {
                 this.currentUser = farmId;
             },
-            getUserList : async function (page = 1) {
+            getGenerations: async function(farmId) {
+                try {
+                    const response = await axios.get('generations/' + farmId);
+                    this.generations = response.data.generations;
+                } catch (error) {
+                }
+            },
+            getUserList: async function (page = 1) {
                 try {
                     const response = await axios.get('user_list?page=' + page);
                     this.users = response.data;
@@ -502,20 +711,23 @@
                 }
             },
             formatFloat: function(val) {
-                if (val) {
+                if (val && val !== '') {
                     return val.toFixed(2);  
                 }
                 else return '';
             },
         },
         mounted() {
-            $(document).ready(function(){
-                $('.tooltipped').tooltip({delay: 50});
+            this.getUserList();
+            // this.getFamEggProduction({ id: 3, number: '0007' });
+            $(document).ready(function() {
                 $('.modal').modal({
                     dismissible: false,
+                    complete: function() {
+                        setCurrentUser(null); generations = null; selectedGeneration = null;
+                    }
                 });
             });
-            this.getUserList();
         },
         created() {
         }

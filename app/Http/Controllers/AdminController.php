@@ -17,6 +17,7 @@ use App\Models\ReplacementFeeding;
 use App\Models\BrooderGrowerFeeding;
 use App\Models\MortalitySale;
 use App\Models\News;
+use App\Models\Line;
 use App\Models\Report;
 use App\Models\BrooderGrowerGrowth;
 use App\Models\ReplacementGrowth;
@@ -298,6 +299,61 @@ class AdminController extends Controller
 
     // Farm Status
 
+    // Family
+
+    public function getFamEggProdData(Request $request)
+    {
+        $gen_id = $request->id;
+        $farm_id = Generation::where('id', $gen_id)->first()->farm_id;
+        $lines = Line::where('generation_id', $gen_id)->with('families')->get();
+
+        $egg_production = EggProduction::join('breeder_inventories', 'breeder_inventories.id', 'egg_productions.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('egg_productions.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('line_number')
+                ->map(function ($line) {
+                    return $line
+                        ->groupBy('family_number')
+                        ->map(function ($fam) {
+                            return $fam->reduce(function ($acc, $item) {
+
+                                $acc['total_broken'] += $item['total_broken'];
+                                $acc['total_rejects'] += $item['total_rejects'];
+                                $acc['total_intact'] += $item['total_eggs_intact'];
+                                $acc['total_weight'] += $item['total_egg_weight'];
+
+                                if($item['female_inventory']) {
+                                    $acc['inventory'] += $item['female_inventory'];
+                                    $acc['compute'] += $acc['total_intact'] + $acc['total_broken'] + $acc['total_rejects'];
+                                }
+
+                                return $acc;
+                            }, [
+                                'total_broken' => null,
+                                'total_rejects' => null,
+                                'total_intact' => null,
+                                'total_weight' => null,
+                                'inventory' => null,
+                                'compute' => null,
+                            ]);
+                        });
+                });
+
+        return response()->json([
+            'egg_production' => $egg_production,
+            'lines' => $lines,
+            'gen_id' => $gen_id,
+        ]);
+    }
+
+    // Generation
     public function getGrowthRecords(Request $request)
     {
         $farm_id = $request->id;
@@ -425,7 +481,7 @@ class AdminController extends Controller
     }
 
     public function getSales(Request $request)
-    {   
+    {  
 
         $farm_id = $request->id;
         $farm_generations = Generation::where('farm_id', $farm_id)->get();
@@ -799,6 +855,18 @@ class AdminController extends Controller
                 ]);
             });
     }
+
+    public function getGenerations(Request $request)
+    {
+        $farm_id = $request->id;
+        $generations = Generation::where('farm_id', $farm_id)
+            ->orderBy('numerical_generation', 'desc')->get();
+
+        return response()->json([
+            'generations' => $generations,
+        ]);
+    }
+
     public function getNewsList(Request $request)
     {
         $news = News::paginate(10);

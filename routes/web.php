@@ -303,11 +303,13 @@ Route::group(['middleware' => ['web']], function ()
 
         Route::get('user_list', 'AdminController@getUserList');
         Route::get('breed_list', 'AdminController@getBreedList');
+        Route::get('generations/{id}', 'AdminController@getGenerations');
 
         Route::post('create_user', 'AdminController@createUser');
         Route::patch('block_user/{user_id}', 'AdminController@blockUnblockUser');
         Route::put('edit_user', 'AdminController@editUser');
 
+        // Generation
         Route::get('summary/feeding_performance/{id}', 'AdminController@getFeedingPerformanceData');
         Route::get('summary/hatchery/{id}', 'AdminController@getHatcherydata');
         Route::get('summary/sales/{id}', 'AdminController@getSales');
@@ -315,6 +317,10 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('summary/growth/{id}', 'AdminController@getGrowthRecords');
         Route::get('summary/egg_quality/{id}', 'AdminController@getEggQualityData');
         Route::get('summary/egg_production/{id}', 'AdminController@getEggProductionData');
+
+        // Fam
+
+        Route::get('summary/fam_egg_production/{id}', 'AdminController@getFamEggProdData');
 
     });
 });
