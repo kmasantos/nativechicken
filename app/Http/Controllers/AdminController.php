@@ -301,6 +301,55 @@ class AdminController extends Controller
 
     // Family
 
+    public function getFamHatcherydata(Request $request)
+    {   
+
+        $gen_id = $request->id;
+        $farm_id = Generation::where('id', $gen_id)->first()->farm_id;
+        $lines = Line::where('generation_id', $gen_id)->with('families')->get();
+
+        $hatchery_data = HatcheryRecord::join('breeder_inventories', 'breeder_inventories.id', 'hatchery_records.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id',$farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('hatchery_records.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('line_number')
+                ->map(function ($line) {
+                    return $line
+                        ->groupBy('family_number')
+                        ->map(function ($fam) {
+                            return $fam->reduce(function ($acc, $item) {
+                                $acc['eggs_set'] += $item['number_eggs_set'];
+                                $acc['eggs_fertile'] += $item['number_fertile'];
+                                $acc['eggs_hatched'] += $item['number_hatched'];
+                                
+                                if ($acc['eggs_set'] != 0) {
+                                    $acc['fertility'] = number_format(($acc['eggs_fertile'] / $acc['eggs_set']) * 100, 2, '.', "");
+                                    $acc['hatchability'] = number_format(($acc['eggs_hatched'] / $acc['eggs_set']) * 100, 2, '.', "");
+                                }
+
+                                return $acc;
+                            }, [
+                                'eggs_set' => null,
+                                'eggs_fertile' => null,
+                                'eggs_hatched' => null,
+                                'fertility' => null,
+                                'hatchability' => null,
+                            ]);
+                        });
+                });
+            
+        return response()->json([
+            'hatchery_data' => $hatchery_data,
+            'lines' => $lines,
+        ]);
+    }
+
     public function getFamEggProdData(Request $request)
     {
         $gen_id = $request->id;
@@ -348,8 +397,7 @@ class AdminController extends Controller
 
         return response()->json([
             'egg_production' => $egg_production,
-            'lines' => $lines,
-            'gen_id' => $gen_id,
+            'lines' => $lines
         ]);
     }
 

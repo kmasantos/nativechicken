@@ -303,21 +303,21 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- <tr>
+                                <tr>
                                     <td>Hatchery</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getHatcherySummary(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamHatchery(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>Egg Quality</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getEggQuality(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getEggQuality(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
@@ -327,7 +327,7 @@
                                     <td>Mortality</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getMortality(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getMortality(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
@@ -337,7 +337,7 @@
                                     <td>Sales</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getSales(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getSales(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
@@ -377,6 +377,45 @@
 
             // Fam
 
+            getFamHatchery: async function(selectedGeneration) {
+                const response = await axios.get('summary/fam_hatchery/' + selectedGeneration.id);
+                const { lines, hatchery_data } = response.data;
+                console.dir(lines, hatchery_data);
+                if (hatchery_data && hatchery_data.length === 0) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line) => {
+                    
+                    const { number: lineNumber, families } = line;
+
+                    const lineData = hatchery_data[lineNumber];
+
+                    if (lineData) {
+                        const familiesData = families.map(({ number: famNumber }, index) => {
+                            const famData = lineData[famNumber];
+                            return [
+                                index === 0 ? lineNumber : '',
+                                famNumber,
+                                get(famData, 'eggs_set', ''),
+                                get(famData, 'eggs_fertile', ''),
+                                get(famData, 'eggs_hatched', ''),
+                                get(famData, 'fertility', ''),
+                                get(famData, 'hatchability', ''),
+                            ];
+                        });
+                        return acc + familiesData.join('\n') + '\n'; 
+                    }
+                    else {
+                        return acc + [
+                            lineNumber
+                        ].join('\n') + '\n'; 
+                    }
+
+                }, 'Line, Family, Eggs Set, Eggs Fertile, Eggs Hatched, Fertility, Hachability \n');
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_egg_production`);
+            },
+        
             getFamEggProduction: async function(selectedGeneration) {
                 const response = await axios.get('summary/fam_egg_production/' + selectedGeneration.id);
                 const { lines, egg_production } = response.data;
@@ -411,8 +450,7 @@
                     }
                     else {
                         return acc + [
-                            lineNumber,
-                            famNumber,
+                            lineNumber
                         ].join('\n') + '\n'; 
                     }
 
@@ -719,15 +757,10 @@
         },
         mounted() {
             this.getUserList();
-            // this.getFamEggProduction({ id: 3, number: '0007' });
-            $(document).ready(function() {
-                $('.modal').modal({
-                    dismissible: false,
-                    complete: function() {
-                        setCurrentUser(null); generations = null; selectedGeneration = null;
-                    }
-                });
-            });
+
+            // for (let id = 1; id <= 50; id++) {
+                // this.getFamHatchery({ id: 6 });
+            // }
         },
         created() {
         }
