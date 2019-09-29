@@ -273,21 +273,21 @@
                                         </div>
                                     </td>
                                 </tr> -->
-                                <!-- <tr>
+                                <tr>
                                     <td>Growth Records</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getGrowthRecord(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamGrowthRecord(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>Feeding Perfomance</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getFeedingSummary(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFeedingSummary(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
@@ -392,6 +392,47 @@
         methods : {
 
             // Fam
+
+            getFamGrowthRecord: async function(selectedGeneration) {
+                const days = [ 0, 21, 45, 75, 100];
+                const response = await axios.get('summary/fam_growth/' + selectedGeneration.id);
+                
+                const { lines, growth_records } = response.data;
+
+                if (this.checkAllEmpty([growth_records])) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line, lIndex) => {
+                    const { number: lineNumber, families } = line;
+
+                    const lineData = growth_records[lineNumber];
+
+                    const familiesData = families.map(({ number: famNumber }, fIndex) => {
+                        const famData = lineData[famNumber];
+                        const daysData = days.map((day, dIndex)=> {
+                            return [
+                                lineNumber,
+                                famNumber,
+                                day,
+                                this.formatFloat(get(famData, `${day}.male_mean`, '')),
+                                this.formatFloat(get(famData, `${day}.male_sd`, '')),
+                                this.formatFloat(get(famData, `${day}.female_mean`, '')),
+                                this.formatFloat(get(famData, `${day}.female_sd`, '')),
+                                this.formatFloat(get(famData, `${day}.total_mean`, '')),
+                                this.formatFloat(get(famData, `${day}.total_sd`, '')),
+                            ].join(',');
+                        });
+
+                        return daysData.join('\n');
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+
+
+                }, 'Line, Family, Age, Male (Mean), Male (SD), Female (Mean), Female (SD), Total (Mean), Total (SD) \n');
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_growth_record`);
+            },
 
             getFamEggQuality: async function(selectedGeneration) {
                 const qualityAt = [35, 40, 60];
@@ -968,6 +1009,7 @@
             this.getUserList();
 
             // for (let id = 1; id <= 50; id++) {
+                // this.getFamGrowthRecord({ id: 10 })
             // }
         },
         created() {

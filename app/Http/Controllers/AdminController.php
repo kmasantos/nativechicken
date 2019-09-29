@@ -301,6 +301,48 @@ class AdminController extends Controller
 
     // Family
 
+    public function getFamGrowthRecords(Request $request)
+    {   
+
+        $gen_id = $request->id;
+        $farm_id = Generation::where('id', $gen_id)->first()->farm_id;
+        $lines = Line::where('generation_id', $gen_id)->with('families')->get();
+        
+        $brooder_data = BrooderGrowerGrowth::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_growths.broodergrower_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('brooder_grower_growths.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()
+                ->get();
+
+        $replacement_data = ReplacementGrowth::join('replacement_inventories', 'replacement_inventories.id', 'replacement_growths.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('replacement_growths.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()
+                ->get();
+
+        $joined = $brooder_data
+                    ->concat($replacement_data)
+                    ->groupBy('line_number')
+                    ->map(function ($line) {
+                        return $this->computeGrowth($line->groupBy('family_number'));
+                    });
+
+        return response()->json([
+            'growth_records' => $joined,
+            'lines' => $lines,
+        ]);
+    }
+
     public function getFamEggQualityData(Request $request)
     {   
 
@@ -566,7 +608,9 @@ class AdminController extends Controller
                 ->where('generations.farm_id', $farm_id)
                 ->select('brooder_grower_growths.*', 'generations.number')
                 ->withTrashed()
-                ->get();
+                ->get()
+                ->groupBy('number');
+
         $grower_data = ReplacementGrowth::join('replacement_inventories', 'replacement_inventories.id', 'replacement_growths.replacement_inventory_id')
                 ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
                 ->join('families', 'families.id', 'replacements.family_id')
@@ -574,7 +618,8 @@ class AdminController extends Controller
                 ->join('generations', 'generations.id', 'lines.generation_id')
                 ->where('generations.farm_id', $farm_id)
                 ->select('replacement_growths.*', 'generations.number')
-                ->withTrashed()->get();
+                ->withTrashed()->get()
+                ->groupBy('number');
     
         $joined = $this->computeGrowth($brooder_data->concat($grower_data));
 
@@ -940,7 +985,6 @@ class AdminController extends Controller
     public function computeGrowth($data)
     {
         return $data
-            ->groupBy('number')
             ->map(function ($gen) {
                 return $gen
                     ->groupBy('collection_day')
