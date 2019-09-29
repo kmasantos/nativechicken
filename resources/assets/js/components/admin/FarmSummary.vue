@@ -283,16 +283,16 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- <tr>
+                                <tr>
                                     <td>Feeding Perfomance</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getFeedingSummary(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamFeedingPerformance(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
                                     </td>
-                                </tr> -->
+                                </tr>
                                 <tr>
                                     <td>Egg Production</td>
                                     <td>
@@ -386,12 +386,64 @@
                     'albumen_height': 'Albumen Height (mm)',
                     'shape': 'Egg Shape',
                     'color': 'Egg Color',
+                },
+                fp: {
+                    'total_fed': 'Total Fed',
+                    'total_refused': 'Total Refused',
+                    'total_consumption': 'Total Consumption',
                 }
             }
         },
         methods : {
 
             // Fam
+
+            getFamFeedingPerformance: async function(selectedGeneration) {
+                const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
+                const feedPerf = [
+                    'total_fed',
+                    'total_refused',
+                    'total_consumption',
+                ];
+                const response = await axios.get('summary/fam_feeding_performance/' + selectedGeneration.id);
+                console.dir(response.data);
+
+                const { 
+                    lines, breeder_data, brooder_data, replacement_data
+                } = response.data;
+
+                if (this.checkAllEmpty([breeder_data, brooder_data, replacement_data])) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line, lIndex) => {
+                    
+                    const { number: lineNumber, families } = line;
+
+                    const familiesData = families.map(({ number: famNumber }, fIndex) => {
+                        const feedData = feedPerf.map(f => {
+
+                            const stagesData = stages.map(stage => {
+                                return get(response.data, `${stage}.${lineNumber}.${famNumber}.${f}`, '');
+                            });
+
+                            return [
+                                lineNumber,
+                                famNumber,
+                                this.fp[f],
+                                ...stagesData,
+                            ].join(',');
+                        });
+
+                        return feedData.join('\n');
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+
+                }, 'Line, Family, Feeding Performance, Brooders, Replacements, Breeder \n');
+                // console.table(csvData);
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_feeding_performance`);
+            },
 
             getFamGrowthRecord: async function(selectedGeneration) {
                 const days = [ 0, 21, 45, 75, 100];
@@ -1006,10 +1058,10 @@
             }
         },
         mounted() {
-            this.getUserList();
+            // this.getUserList();
 
             // for (let id = 1; id <= 50; id++) {
-                // this.getFamGrowthRecord({ id: 10 })
+                this.getFamFeedingPerformance({ id: 4 })
             // }
         },
         created() {

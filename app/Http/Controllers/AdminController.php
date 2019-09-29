@@ -301,6 +301,62 @@ class AdminController extends Controller
 
     // Family
 
+    public function getFamFeedPerformance(Request $request)
+    {
+        $gen_id = $request->id;
+        $farm_id = Generation::where('id', $gen_id)->first()->farm_id;
+        $lines = Line::where('generation_id', $gen_id)->with('families')->get();
+
+        $breeder_data = BreederFeeding::join('breeder_inventories', 'breeder_inventories.id', 'breeder_feedings.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id',$farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('breeder_feedings.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get()
+                ->groupBy('line_number')
+                ->map(function ($line) {
+                    return $this->computeFeedingPerformance($line->groupBy('family_number'));
+                });
+
+        $replacement_data = ReplacementFeeding::join('replacement_inventories', 'replacement_inventories.id', 'replacement_feedings.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id',$farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('replacement_feedings.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get()
+                ->groupBy('line_number')
+                ->map(function ($line) {
+                    return $this->computeFeedingPerformance($line->groupBy('family_number'));
+                });
+
+        $brooder_data = BrooderGrowerGrowth::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_growths.broodergrower_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('brooder_grower_growths.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get()
+                ->groupBy('line_number')
+                ->map(function ($line) {
+                    return $this->computeFeedingPerformance($line->groupBy('family_number'));
+                });
+
+        return response()->json([
+            'breeder_data' => $breeder_data,
+            'replacement_data' => $replacement_data,
+            'brooder_data' => $brooder_data,
+            'lines' => $lines,
+        ]);
+    }
+
     public function getFamGrowthRecords(Request $request)
     {   
 
@@ -854,7 +910,7 @@ class AdminController extends Controller
                 ->join('generations', 'generations.id', 'lines.generation_id')
                 ->where('generations.farm_id', $farm_id)
                 ->select('breeder_feedings.*', 'generations.number')
-                ->withTrashed()->get());
+                ->withTrashed()->get()->groupBy('number'));
 
         $replacement_feeding = $this->computeFeedingPerformance(ReplacementFeeding::join('replacement_inventories', 'replacement_inventories.id', 'replacement_feedings.replacement_inventory_id')
                 ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
@@ -863,7 +919,7 @@ class AdminController extends Controller
                 ->join('generations', 'generations.id', 'lines.generation_id')
                 ->where('generations.farm_id', $farm_id)
                 ->select('replacement_feedings.*', 'generations.number')
-                ->withTrashed()->get());
+                ->withTrashed()->get()->groupBy('number'));
 
         $brooder_feeding = $this->computeFeedingPerformance(BrooderGrowerFeeding::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'brooder_grower_feedings.broodergrower_inventory_id')
                 ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
@@ -872,7 +928,7 @@ class AdminController extends Controller
                 ->join('generations', 'generations.id', 'lines.generation_id')
                 ->where('generations.farm_id', $farm_id)
                 ->select('brooder_grower_feedings.*', 'generations.number')
-                ->withTrashed()->get());
+                ->withTrashed()->get()->groupBy('number'));
 
         return response()->json([
             'farm_generations' => $farm_generations,
@@ -1083,7 +1139,7 @@ class AdminController extends Controller
 
     public function computeFeedingPerformance($data)
     {
-        return $data->groupBy('number')
+        return $data
             ->map(function ($gen) {
                 return $gen->reduce(function ($acc, $item) {
 
