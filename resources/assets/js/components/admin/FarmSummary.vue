@@ -327,7 +327,7 @@
                                     <td>Mortality</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getMortality(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamMortality(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
@@ -370,12 +370,71 @@
                     'brooder_data' : 'Brooder',
                     'replacement_data' : 'Replacement',
                     'breeder_data' : 'Breeder',
+                },
+                gndrs: {
+                    male: 'Male',
+                    female: 'Female'
                 }
             }
         },
         methods : {
 
             // Fam
+            getFamMortality: async function(selectedGeneration) {
+                const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
+                const reasons = ['Sickness', 'Trauma - Natural', 'Trauma - Predatory'];
+                const genders = ['male', 'female'];
+                const response = await axios.get('summary/fam_mortality/' + selectedGeneration.id);
+
+                const { 
+                    lines, breeder_data, brooder_data, replacement_data
+                } = response.data;
+
+                if (this.checkAllEmpty([breeder_data, brooder_data, replacement_data])) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line, lIndex) => {
+                    
+                    const { number: lineNumber, families } = line;
+
+                    const familiesData = families.map((fam, fIndex) => {
+
+                        const { number: famNumber } = fam;
+
+                        const stagesData = stages.reduce((as, stage, sIndex) => {
+                            
+                            const stageData = get(response.data, `${stage}.${lineNumber}.${famNumber}`, null);
+                            
+                            const gData = genders.map((gender, gIndex) => {
+                                const rData = reasons.map(reason => {
+                                    return get(stageData, `${reason}.${gender}`, null);
+                                });
+                                
+                                return [
+                                    fIndex === 0 && gIndex === 0 && sIndex === 0 ? lineNumber : '',
+                                    gIndex === 0 && sIndex === 0 ? famNumber : '',
+                                    `${this.stgs[stage]} (${this.gndrs[gender]})`,
+                                    ...rData
+                                ].join(',');
+
+                            });
+
+                            as.push(gData.join('\n'));
+
+                            return as;
+
+                        }, []);
+
+                        return stagesData.join('\n');
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+
+                }, 'Line, Family, Stage, Sickness, Trauma - Natural, Trauma - Predatory \n');
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_mortality`);
+            },
+
             getFamSales: async function(selectedGeneration) {
                 const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
                 const response = await axios.get('summary/fam_sales/' + selectedGeneration.id);
@@ -425,7 +484,7 @@
             getFamHatchery: async function(selectedGeneration) {
                 const response = await axios.get('summary/fam_hatchery/' + selectedGeneration.id);
                 const { lines, hatchery_data } = response.data;
-                console.dir(lines, hatchery_data);
+
                 if (hatchery_data && hatchery_data.length === 0) {
                     return alert('No data to generate csv');
                 }
@@ -822,6 +881,7 @@
             this.getUserList();
 
             // for (let id = 1; id <= 50; id++) {
+                // this.getFamMortality({ id:40 });
             // }
         },
         created() {
