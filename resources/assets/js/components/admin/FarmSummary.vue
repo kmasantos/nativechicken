@@ -208,13 +208,13 @@
         <div id="family_modal" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
-                    <div class="col s12 m12 l12">
+                    <div class="col s6 m6 l6">
+                        <label>Choose a generation</label>
                         <select v-model="selectedGeneration" class="browser-default">
-                            <option disabled>Choose a generation</option>
                             <option v-for="generation in generations" :key="generation.id" v-bind:value="generation">{{generation.number}}</option>
                         </select>
                     </div>
-                    <div class="col s12 m12 l12">
+                    <div class="col s12 m12 l12" v-if="selectedGeneration">
                         <table class="bordered highlight responsive-table">
                             <thead>
                                 <tr>
@@ -323,7 +323,7 @@
                                         </div>
                                     </td>
                                 </tr> -->
-                                <!-- <tr>
+                                <tr>
                                     <td>Mortality</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
@@ -337,12 +337,12 @@
                                     <td>Sales</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getSales(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamSales(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
                                     </td>
-                                </tr> -->
+                                </tr>
                             </tbody>
                         </table>
                     </div>  
@@ -357,7 +357,7 @@
 
 <script>
 
-    import { get } from 'lodash';
+    import { get, isObject, isArray } from 'lodash';
 
     export default {
         data () {
@@ -376,6 +376,51 @@
         methods : {
 
             // Fam
+            getFamSales: async function(selectedGeneration) {
+                const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
+                const response = await axios.get('summary/fam_sales/' + selectedGeneration.id);
+                const { 
+                    lines, breeder_data, brooder_data, replacement_data
+                } = response.data;
+
+                if (this.checkAllEmpty([breeder_data, brooder_data, replacement_data])) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line, lIndex) => {
+                    
+                    const { number: lineNumber, families } = line;
+
+                    const familiesData = families.map((fam, fIndex) => {
+
+                        const { number: famNumber } = fam;
+
+                        const stagesData = stages.map((stage, sIndex) => {
+                            
+                            const stageData = get(response.data, `${stage}.${lineNumber}.${famNumber}`, null);
+
+                            return [
+                                fIndex === 0 && sIndex === 0 ? lineNumber : '',
+                                sIndex === 0 ? famNumber : '',
+                                this.stgs[stage],
+                                get(stageData, 'male', ''),
+                                get(stageData, 'female', ''),
+                                get(stageData, 'total', ''),
+                                this.formatFloat(get(stageData, 'price_mean', '')),
+                                this.formatFloat(get(stageData, 'price_sd', '')),
+                            ].join(',');
+
+                        }, []);
+
+                        return stagesData.join('\n');
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+
+                }, 'Line, Family, Stage, Male, Female, Total, Price (Mean), Price (SD) \n');
+
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number})_sales`);
+            },
 
             getFamHatchery: async function(selectedGeneration) {
                 const response = await axios.get('summary/fam_hatchery/' + selectedGeneration.id);
@@ -413,7 +458,7 @@
                     }
 
                 }, 'Line, Family, Eggs Set, Eggs Fertile, Eggs Hatched, Fertility, Hachability \n');
-                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_egg_production`);
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_hatchery`);
             },
         
             getFamEggProduction: async function(selectedGeneration) {
@@ -754,12 +799,29 @@
                 }
                 else return '';
             },
+            checkAllEmpty: function(array) {
+                return array.every(val => {
+                    if (val) {
+                        if (isObject(val)) {
+                            return Object.entries(val).length === 0;
+                        }
+                        else if (isArray(val)) {
+                            return val.length === 0;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                });
+            }
         },
         mounted() {
             this.getUserList();
 
             // for (let id = 1; id <= 50; id++) {
-                // this.getFamHatchery({ id: 6 });
             // }
         },
         created() {

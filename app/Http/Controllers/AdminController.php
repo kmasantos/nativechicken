@@ -301,6 +301,66 @@ class AdminController extends Controller
 
     // Family
 
+    public function getFamSales(Request $request)
+    {   
+
+        $gen_id = $request->id;
+        $farm_id = Generation::where('id', $gen_id)->first()->farm_id;
+        $lines = Line::where('generation_id', $gen_id)->with('families')->get();
+        
+        $breeder_data = MortalitySale::join('breeder_inventories', 'breeder_inventories.id', 'mortality_sales.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->whereIn('mortality_sales.type', ["breeder", "egg"])
+                ->where('mortality_sales.category', "sold")
+                ->select('mortality_sales.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('line_number')
+                ->map(function ($line) { return $this->computeSales($line->groupBy('family_number')); });
+
+        $replacement_data = MortalitySale::join('replacement_inventories', 'replacement_inventories.id', 'mortality_sales.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->where('mortality_sales.type', "replacement")
+                ->where('mortality_sales.category', "sold")
+                ->select('mortality_sales.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('line_number')
+                ->map(function ($line) { return $this->computeSales($line->groupBy('family_number')); });
+
+        $brooder_data = MortalitySale::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'mortality_sales.brooder_inventory_id')
+                ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
+                ->join('families', 'families.id', 'brooder_growers.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->where('mortality_sales.type', "brooder")
+                ->where('mortality_sales.category', "sold")
+                ->select('mortality_sales.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('line_number')
+                ->map(function ($line) { return $this->computeSales($line->groupBy('family_number')); });
+
+        return response()->json([
+            'breeder_data' => $breeder_data,
+            'replacement_data' => $replacement_data,
+            'brooder_data' => $brooder_data,
+            'lines' => $lines,
+        ]);
+    }
+
     public function getFamHatcherydata(Request $request)
     {   
 
@@ -543,7 +603,7 @@ class AdminController extends Controller
                 ->where('mortality_sales.type', "replacement")
                 ->where('mortality_sales.category', "sold")
                 ->select('mortality_sales.*', 'generations.number')
-                ->withTrashed()->get());
+                ->withTrashed()->get()->groupBy('number'));
 
         $breeder_data = $this->computeSales(MortalitySale::join('breeder_inventories', 'breeder_inventories.id', 'mortality_sales.breeder_inventory_id')
                 ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
@@ -554,7 +614,7 @@ class AdminController extends Controller
                 ->whereIn('mortality_sales.type', ["breeder", "egg"])
                 ->where('mortality_sales.category', "sold")
                 ->select('mortality_sales.*', 'generations.number')
-                ->withTrashed()->get());
+                ->withTrashed()->get()->groupBy('number'));
         
         $brooder_data = $this->computeSales(MortalitySale::join('brooder_grower_inventories', 'brooder_grower_inventories.id', 'mortality_sales.brooder_inventory_id')
                 ->join('brooder_growers', 'brooder_growers.id', 'brooder_grower_inventories.broodergrower_id')
@@ -565,7 +625,7 @@ class AdminController extends Controller
                 ->where('mortality_sales.type', "brooder")
                 ->where('mortality_sales.category', "sold")
                 ->select('mortality_sales.*', 'generations.number')
-                ->withTrashed()->get());
+                ->withTrashed()->get()->groupBy('number'));
 
         return response()->json([
             'replacement_data' => $replacement_data,
@@ -856,11 +916,10 @@ class AdminController extends Controller
     public function computeSales($data)
     {
         return $data
-            ->groupBy('number')
-            ->map(function ($gen) {
-                return $gen->reduce(function ($acc, $item) use ($gen) {
+            ->map(function ($sales) {
+                return $sales->reduce(function ($acc, $item) use ($sales) {
 
-                    $count = $gen->count();
+                    $count = $sales->count();
 
                     $acc['male'] += $item['male'];
                     $acc['female'] += $item['female'];
