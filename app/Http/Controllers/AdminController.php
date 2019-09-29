@@ -300,6 +300,38 @@ class AdminController extends Controller
     // Farm Status
 
     // Family
+
+    public function getFamEggQualityData(Request $request)
+    {   
+
+        $gen_id = $request->id;
+        $farm_id = Generation::where('id', $gen_id)->first()->farm_id;
+        $lines = Line::where('generation_id', $gen_id)->with('families')->get();
+
+        $egg_quality = EggQuality::join('breeder_inventories', 'breeder_inventories.id', 'egg_qualities.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('egg_qualities.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get()
+                ->groupBy('line_number')
+                ->map(function ($line) {
+                    return $line->groupBy('family_number')
+                        ->map(function ($fam) {
+                            return $this->computeEggQuality($fam->groupBy('egg_quality_at'));
+                        });
+                });
+
+            
+        return response()->json([
+            'egg_quality' => $egg_quality,
+            'lines' => $lines,
+        ]);
+    }
+
     public function getFamMortality(Request $request)
     {   
 
@@ -711,101 +743,7 @@ class AdminController extends Controller
                 ->get()
                 ->groupBy('number')
                 ->map(function ($gen) {
-                    $data = $gen
-                        ->groupBy('egg_quality_at')
-                        ->map(function ($array) {
-                            if ($array) {
-                                return $array->reduce(function ($acc, $item) use($array) {
-                                    $count =  $array->count();
-
-                                    $acc['weight_sum'] += $item->weight;
-                                    $weight_mean = $acc['weight_sum'] / $count;
-                                    $acc['weight_variance'] += pow($item->weight - $weight_mean, 2);
-                                    $acc['weight'] = [ 'mean' => $weight_mean, 'std' => (float) sqrt($acc['weight_variance'] / $count) ];
-
-                                    $acc['length_sum'] += $item->length;
-                                    $length_mean = $acc['length_sum'] / $count;
-                                    $acc['length_variance'] += pow($item->length - $length_mean, 2);
-                                    $acc['length'] = [ 'mean' => $length_mean, 'std' => (float) sqrt($acc['length_variance'] / $count) ];
-
-                                    $acc['width_sum'] += $item->width;
-                                    $width_mean = $acc['width_sum'] / $count;
-                                    $acc['width_variance'] += pow($item->width - $width_mean, 2);
-                                    $acc['width'] = [ 'mean' => $width_mean, 'std' => (float) sqrt($acc['width_variance'] / $count) ];
-                                
-                                    if (($item->thickness_top && $item->thickness_top > 0) 
-                                        && ($item->thickness_mid && $item->thickness_mid > 0)
-                                        && ($item->thickness_bot && $item->thickness_bot > 0)) {
-                                        $shell_thickness = ($item->thickness_top + $item->thickness_mid + $item->thickness_bot) / 3;
-                                        $acc['shell_thickness_sum'] += $shell_thickness;
-                                        $shell_thickness_mean = $acc['shell_thickness_sum'] / $count;
-                                        $acc['shell_thickness_variance'] += pow($shell_thickness - $shell_thickness_mean, 2);
-                                        $acc['shell_thickness'] = [ 'mean' => $shell_thickness_mean, 'std' => (float) sqrt($acc['shell_thickness_variance'] / $count) ];
-                                    }
-
-                                    if ($item->shell_weight && $item->shell_weight > 0) {
-                                        $acc['shell_weight_sum'] += $item->shell_weight;
-                                        $shell_weight_mean = $acc['shell_weight_sum'] / $count;
-                                        $acc['shell_weight_variance'] += pow($item->shell_weight - $shell_weight_mean, 2);
-                                        $acc['shell_weight'] = [ 'mean' => $shell_weight_mean, 'std' => (float) sqrt($acc['shell_weight_variance'] / $count) ];
-                                    }
-
-                                    if ($item->yolk_weight && $item->yolk_weight > 0) {
-                                        $acc['yolk_weight_sum'] += $item->yolk_weight;
-                                        $yolk_weight_mean = $acc['yolk_weight_sum'] / $count;
-                                        $acc['yolk_weight_variance'] += pow($item->yolk_weight - $yolk_weight_mean, 2);
-                                        $acc['yolk_weight'] = [ 'mean' => $yolk_weight_mean, 'std' => (float) sqrt($acc['yolk_weight_variance'] / $count) ];
-                                    }
-
-                                    if ($item->albumen_height && $item->albumen_height > 0) {
-                                        $acc['albumen_height_sum'] += $item->albumen_height;
-                                        $albumen_height_mean = $acc['albumen_height_sum'] / $count;
-                                        $acc['albumen_height_variance'] += pow($item->albumen_height - $albumen_height_mean, 2);
-                                        $acc['albumen_height'] = [ 'mean' => $albumen_height_mean, 'std' => (float) sqrt($acc['albumen_height_variance'] / $count) ];
-                                    }
-
-                                    if ($item->albumen_weight && $item->albumen_weight > 0) {
-                                        $acc['albumen_weight_sum'] += $item->albumen_weight;
-                                        $albumen_weight_mean = $acc['albumen_weight_sum'] / $count;
-                                        $acc['albumen_weight_variance'] += pow($item->albumen_weight - $albumen_weight_mean, 2);
-                                        $acc['albumen_weight'] = [ 'mean' => $albumen_weight_mean, 'std' => (float) sqrt($acc['albumen_weight_variance'] / $count) ];
-                                    }
-
-                                    
-                                    return $acc;
-                                }, [
-                                    'weight' => null,
-                                    'weight_sum' => 0,
-                                    'weight_variance' => 0,
-                                    'length' => null,
-                                    'length_sum' => 0,
-                                    'length_variance' => 0,
-                                    'width' => null,
-                                    'width_sum' => 0,
-                                    'width_variance' => 0,
-                                    'shell_thickness' => null,
-                                    'shell_thickness_sum' => 0,
-                                    'shell_thickness_variance' => 0,
-                                    'shell_weight' => null,
-                                    'shell_weight_sum' => 0,
-                                    'shell_weight_variance' => 0,
-                                    'yolk_weight' => null,
-                                    'yolk_weight_sum' => 0,
-                                    'yolk_weight_variance' => 0,
-                                    'albumen_height' => null,
-                                    'albumen_height_sum' => 0,
-                                    'albumen_height_variance' => 0,
-                                    'albumen_weight' => null,
-                                    'albumen_weight_sum' => 0,
-                                    'albumen_weight_variance' => 0,
-                                    'shape' => $array->mode('shape')[0],
-                                    'color' => $array->mode('color')[0],
-                                ]);
-                            }
-
-                            return [];
-                        });
-                    return $data;
+                    return $this->computeEggQuality($gen->groupBy('egg_quality_at'));
                 });
 
             
@@ -902,6 +840,103 @@ class AdminController extends Controller
     /**
      ** Helper Functions
     **/
+
+    public function computeEggQuality($data)
+    {
+        return $data->map(function ($array) {
+            if ($array) {
+                return $array->reduce(function ($acc, $item) use($array) {
+                    $count =  $array->count();
+
+                    $acc['weight_sum'] += $item->weight;
+                    $weight_mean = $acc['weight_sum'] / $count;
+                    $acc['weight_variance'] += pow($item->weight - $weight_mean, 2);
+                    $acc['weight'] = [ 'mean' => $weight_mean, 'std' => (float) sqrt($acc['weight_variance'] / $count) ];
+
+                    $acc['length_sum'] += $item->length;
+                    $length_mean = $acc['length_sum'] / $count;
+                    $acc['length_variance'] += pow($item->length - $length_mean, 2);
+                    $acc['length'] = [ 'mean' => $length_mean, 'std' => (float) sqrt($acc['length_variance'] / $count) ];
+
+                    $acc['width_sum'] += $item->width;
+                    $width_mean = $acc['width_sum'] / $count;
+                    $acc['width_variance'] += pow($item->width - $width_mean, 2);
+                    $acc['width'] = [ 'mean' => $width_mean, 'std' => (float) sqrt($acc['width_variance'] / $count) ];
+                
+                    if (($item->thickness_top && $item->thickness_top > 0) 
+                        && ($item->thickness_mid && $item->thickness_mid > 0)
+                        && ($item->thickness_bot && $item->thickness_bot > 0)) {
+                        $shell_thickness = ($item->thickness_top + $item->thickness_mid + $item->thickness_bot) / 3;
+                        $acc['shell_thickness_sum'] += $shell_thickness;
+                        $shell_thickness_mean = $acc['shell_thickness_sum'] / $count;
+                        $acc['shell_thickness_variance'] += pow($shell_thickness - $shell_thickness_mean, 2);
+                        $acc['shell_thickness'] = [ 'mean' => $shell_thickness_mean, 'std' => (float) sqrt($acc['shell_thickness_variance'] / $count) ];
+                    }
+
+                    if ($item->shell_weight && $item->shell_weight > 0) {
+                        $acc['shell_weight_sum'] += $item->shell_weight;
+                        $shell_weight_mean = $acc['shell_weight_sum'] / $count;
+                        $acc['shell_weight_variance'] += pow($item->shell_weight - $shell_weight_mean, 2);
+                        $acc['shell_weight'] = [ 'mean' => $shell_weight_mean, 'std' => (float) sqrt($acc['shell_weight_variance'] / $count) ];
+                    }
+
+                    if ($item->yolk_weight && $item->yolk_weight > 0) {
+                        $acc['yolk_weight_sum'] += $item->yolk_weight;
+                        $yolk_weight_mean = $acc['yolk_weight_sum'] / $count;
+                        $acc['yolk_weight_variance'] += pow($item->yolk_weight - $yolk_weight_mean, 2);
+                        $acc['yolk_weight'] = [ 'mean' => $yolk_weight_mean, 'std' => (float) sqrt($acc['yolk_weight_variance'] / $count) ];
+                    }
+
+                    if ($item->albumen_height && $item->albumen_height > 0) {
+                        $acc['albumen_height_sum'] += $item->albumen_height;
+                        $albumen_height_mean = $acc['albumen_height_sum'] / $count;
+                        $acc['albumen_height_variance'] += pow($item->albumen_height - $albumen_height_mean, 2);
+                        $acc['albumen_height'] = [ 'mean' => $albumen_height_mean, 'std' => (float) sqrt($acc['albumen_height_variance'] / $count) ];
+                    }
+
+                    if ($item->albumen_weight && $item->albumen_weight > 0) {
+                        $acc['albumen_weight_sum'] += $item->albumen_weight;
+                        $albumen_weight_mean = $acc['albumen_weight_sum'] / $count;
+                        $acc['albumen_weight_variance'] += pow($item->albumen_weight - $albumen_weight_mean, 2);
+                        $acc['albumen_weight'] = [ 'mean' => $albumen_weight_mean, 'std' => (float) sqrt($acc['albumen_weight_variance'] / $count) ];
+                    }
+
+                    
+                    return $acc;
+                }, [
+                    'weight' => null,
+                    'weight_sum' => 0,
+                    'weight_variance' => 0,
+                    'length' => null,
+                    'length_sum' => 0,
+                    'length_variance' => 0,
+                    'width' => null,
+                    'width_sum' => 0,
+                    'width_variance' => 0,
+                    'shell_thickness' => null,
+                    'shell_thickness_sum' => 0,
+                    'shell_thickness_variance' => 0,
+                    'shell_weight' => null,
+                    'shell_weight_sum' => 0,
+                    'shell_weight_variance' => 0,
+                    'yolk_weight' => null,
+                    'yolk_weight_sum' => 0,
+                    'yolk_weight_variance' => 0,
+                    'albumen_height' => null,
+                    'albumen_height_sum' => 0,
+                    'albumen_height_variance' => 0,
+                    'albumen_weight' => null,
+                    'albumen_weight_sum' => 0,
+                    'albumen_weight_variance' => 0,
+                    'shape' => $array->mode('shape')[0],
+                    'color' => $array->mode('color')[0],
+                ]);
+            }
+
+            return [];
+        });
+    }
+
     public function computeGrowth($data)
     {
         return $data

@@ -313,16 +313,16 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- <tr>
+                                <tr>
                                     <td>Egg Quality</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a @click.prevent="getEggQuality(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamEggQuality(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
                                     </td>
-                                </tr> -->
+                                </tr>
                                 <tr>
                                     <td>Mortality</td>
                                     <td>
@@ -374,12 +374,99 @@
                 gndrs: {
                     male: 'Male',
                     female: 'Female'
+                },
+                eq: {
+                    'weight': 'Egg Weight (g)',
+                    'length': 'Egg Length (mm)',
+                    'width': 'Egg Width (mm)',
+                    'shell_thickness': 'Shell Thickness (mm)',
+                    'shell_weight': 'Shell Weight (g)',
+                    'yolk_weight': 'Yolk Weight (g)',
+                    'albumen_weight': 'Albumen Weight (g)',
+                    'albumen_height': 'Albumen Height (mm)',
+                    'shape': 'Egg Shape',
+                    'color': 'Egg Color',
                 }
             }
         },
         methods : {
 
             // Fam
+
+            getFamEggQuality: async function(selectedGeneration) {
+                const qualityAt = [35, 40, 60];
+                const eggQuality = [
+                    'weight',
+                    'length',
+                    'width',
+                    'shell_thickness',
+                    'shell_weight',
+                    'yolk_weight',
+                    'albumen_weight',
+                    'albumen_height',
+                ];
+                const response = await axios.get('summary/fam_egg_quality/' + selectedGeneration.id);
+                
+                const { lines, egg_quality } = response.data;
+                
+                if (egg_quality && egg_quality.length === 0) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line) => {
+                    
+                    const { number: lineNumber, families } = line;
+
+                    const lineData = egg_quality[lineNumber];
+
+                    const familiesData = families.map(({ number: famNumber }, index) => {
+
+                        const famData = get(lineData, `${famNumber}`, null);
+ 
+                        const eggData = eggQuality.map(eq => {         
+                            const qaData = qualityAt.map(week => {
+                                return [
+                                    this.formatFloat(get(famData, `${week}.${eq}.mean`, '')),
+                                    this.formatFloat(get(famData, `${week}.${eq}.std`, ''))
+                                ].join(',');
+                            });
+                            return [
+                                lineNumber,
+                                famNumber,
+                                this.eq[eq],
+                                ...qaData
+                            ].join(','); 
+                        });
+
+                        const secondPart = ['shape', 'color'].map(eq => {
+                            const qaData = qualityAt.map(week => {
+                                return [
+                                    get(famData, `${week}.${eq}`, '')
+                                ].join(',');
+                            });
+                            return [
+                                '',
+                                '',
+                                this.eq[eq],
+                                ...qaData
+                            ].join(',');
+                        });
+
+                        return [
+                            ...eggData,
+                            ',,,Week 35, Week 40, Week 60',
+                            ...secondPart,
+                            ''
+                        ].join('\n');
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+ 
+                }, 'Line, Family, Egg Quality, Week 35 (Mean), Week 35 (SD), Week 40 (Mean), Week 40 (SD), Week 60 (Mean), Week 60 (SD) \n');
+
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_egg_quality`);
+            },
+
             getFamMortality: async function(selectedGeneration) {
                 const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
                 const reasons = ['Sickness', 'Trauma - Natural', 'Trauma - Predatory'];
@@ -478,7 +565,7 @@
 
                 }, 'Line, Family, Stage, Male, Female, Total, Price (Mean), Price (SD) \n');
 
-                this.downloadCSV(csvData, `generation_${selectedGeneration.number})_sales`);
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_sales`);
             },
 
             getFamHatchery: async function(selectedGeneration) {
@@ -881,7 +968,6 @@
             this.getUserList();
 
             // for (let id = 1; id <= 50; id++) {
-                // this.getFamMortality({ id:40 });
             // }
         },
         created() {
