@@ -310,6 +310,8 @@ Route::group(['middleware' => ['web']], function ()
         Route::put('edit_user', 'AdminController@editUser');
 
         // Generation
+        Route::get('summary/morpho_breeder/{id}', 'AdminController@getMorphoBreeder');
+        Route::get('summary/morpho_repla/{id}', 'AdminController@getMorphoRepla');
         Route::get('summary/feeding_performance/{id}', 'AdminController@getFeedingPerformanceData');
         Route::get('summary/hatchery/{id}', 'AdminController@getHatcherydata');
         Route::get('summary/sales/{id}', 'AdminController@getSales');

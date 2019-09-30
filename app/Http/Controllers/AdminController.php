@@ -21,6 +21,7 @@ use App\Models\Line;
 use App\Models\Report;
 use App\Models\BrooderGrowerGrowth;
 use App\Models\ReplacementGrowth;
+use App\Models\PhenoMorphoValue;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -651,6 +652,226 @@ class AdminController extends Controller
     }
 
     // Generation
+
+    public function getMorphoRepla(Request $request)
+    {   
+
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
+        $animal_type = Farm::where('farms.id', $farm_id)->join('breeds', 'breeds.id', 'farms.breedable_id')
+                        ->select('breeds.animaltype_id')
+                        ->first()->animaltype_id;
+
+        $morph_repla = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('replacement_inventories', 'replacement_inventories.id', 'pheno_morphos.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('pheno_morpho_values.*', 'generations.number')
+                ->withTrashed()->get()
+                ->groupBy('number')
+                ->map(function ($gen) use ($animal_type) {
+                    return $gen->groupBy('gender')
+                        ->map(function ($gender) use ($animal_type) {
+                            return $gender->reduce(function ($acc, $element) use ($gender, $animal_type) {
+                                
+                                $count = $gender->count();
+
+                                $morphometric = str_replace('[', '', $element->morphometric);
+                                $morphometric = explode(',', str_replace(']', '', $morphometric));
+
+                                $acc['height_sum'] += floatval($morphometric[0]);
+                                $height_mean = $acc['height_sum'] / $count;
+                                $acc['height_variance'] += pow(floatval($morphometric[0]) - $height_mean, 2);
+                                $acc['height'] = [ 'mean' => $height_mean, 'sd' => (float) sqrt($acc['height_variance'] / $count) ];
+
+                                $acc['weight_sum'] += floatval($morphometric[1]);
+                                $weight_mean = $acc['weight_sum'] / $count;
+                                $acc['weight_variance'] += pow(floatval($morphometric[1]) - $weight_mean, 2);
+                                $acc['weight'] = [ 'mean' => $weight_mean, 'sd' => (float) sqrt($acc['weight_variance'] / $count) ];
+
+                                $acc['blength_sum'] += floatval($morphometric[2]);
+                                $blength_mean = $acc['blength_sum'] / $count;
+                                $acc['blength_variance'] += pow(floatval($morphometric[2]) - $blength_mean, 2);
+                                $acc['blength'] = [ 'mean' => $blength_mean, 'sd' => (float) sqrt($acc['blength_variance'] / $count) ];
+
+                                $acc['ccircumference_sum'] += floatval($morphometric[3]);
+                                $ccircumference_mean = $acc['ccircumference_sum'] / $count;
+                                $acc['ccircumference_variance'] += pow(floatval($morphometric[3]) - $ccircumference_mean, 2);
+                                $acc['ccircumference'] = [ 'mean' => $ccircumference_mean, 'sd' => (float) sqrt($acc['ccircumference_variance'] / $count) ];
+
+                                $acc['wspan_sum'] += floatval($morphometric[4]);
+                                $wspan_mean = $acc['wspan_sum'] / $count;
+                                $acc['wspan_variance'] += pow(floatval($morphometric[4]) - $wspan_mean, 2);
+                                $acc['wspan'] = [ 'mean' => $wspan_mean, 'sd' => (float) sqrt($acc['wspan_variance'] / $count) ];
+
+                                $acc['slength_sum'] += floatval($morphometric[5]);
+                                $slength_mean = $acc['slength_sum'] / $count;
+                                $acc['slength_variance'] += pow(floatval($morphometric[5]) - $slength_mean, 2);
+                                $acc['slength'] = [ 'mean' => $slength_mean, 'sd' => (float) sqrt($acc['slength_variance'] / $count) ];
+
+                                if ($animal_type !== 1) {
+                                    $acc['billlen_sum'] += floatval($morphometric[5]);
+                                    $billlen_mean = $acc['billlen_sum'] / $count;
+                                    $acc['billlen_variance'] += pow(floatval($morphometric[5]) - $billlen_mean, 2);
+                                    $acc['billlen'] = [ 'mean' => $billlen_mean, 'sd' => (float) sqrt($acc['billlen_variance'] / $count) ];
+
+                                    $acc['nlength_sum'] += floatval($morphometric[5]);
+                                    $nlength_mean = $acc['nlength_sum'] / $count;
+                                    $acc['nlength_variance'] += pow(floatval($morphometric[5]) - $nlength_mean, 2);
+                                    $acc['nlength'] = [ 'mean' => $nlength_mean, 'sd' => (float) sqrt($acc['nlength_variance'] / $count) ];
+                                }
+
+
+                                return $acc;
+                            }, [
+                                'height' => null,
+                                'height_sum' => 0,
+                                'height_variance' => 0,
+                                'weight' => null,
+                                'weight_sum' => 0,
+                                'weight_variance' => 0,
+                                'blength' => null,
+                                'blength_sum' => 0,
+                                'blength_variance' => 0,
+                                'ccircumference' => null,
+                                'ccircumference_sum' => 0,
+                                'ccircumference_variance' => 0,
+                                'wspan' => null,
+                                'wspan_sum' => 0,
+                                'wspan_variance' => 0,
+                                'slength' => null,
+                                'slength_sum' => 0,
+                                'slength_variance' => 0,
+                                'billlen' => null,
+                                'billlen_sum' => 0,
+                                'billlen_variance' => 0,
+                                'nlength' => null,
+                                'nlength_sum' => 0,
+                                'nlength_variance' => 0,
+                            ]);
+                        });
+                });
+
+        return response()->json([
+            'morph_repla' => $morph_repla,
+            'farm_generations' => $farm_generations,
+            'animal_type' => $animal_type,
+        ]);
+    }
+
+    public function getMorphoBreeder(Request $request)
+    {   
+
+        $farm_id = $request->id;
+        $farm_generations = Generation::where('farm_id', $farm_id)->get();
+        $animal_type = Farm::where('farms.id', $farm_id)->join('breeds', 'breeds.id', 'farms.breedable_id')
+                        ->select('breeds.animaltype_id')
+                        ->first()->animaltype_id;
+
+        $morph_breeder = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('breeder_inventories', 'breeder_inventories.id', 'pheno_morphos.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->select('pheno_morpho_values.*', 'generations.number')
+                ->withTrashed()
+                ->get()
+                ->groupBy('number')
+                ->map(function ($gen) use ($animal_type) {
+                    return $gen->groupBy('gender')
+                        ->map(function ($gender) use ($animal_type) {
+                            return $gender->reduce(function ($acc, $element) use ($gender, $animal_type) {
+                                
+                                $count = $gender->count();
+
+                                $morphometric = str_replace('[', '', $element->morphometric);
+                                $morphometric = explode(',', str_replace(']', '', $morphometric));
+
+                                $acc['height_sum'] += floatval($morphometric[0]);
+                                $height_mean = $acc['height_sum'] / $count;
+                                $acc['height_variance'] += pow(floatval($morphometric[0]) - $height_mean, 2);
+                                $acc['height'] = [ 'mean' => $height_mean, 'sd' => (float) sqrt($acc['height_variance'] / $count) ];
+
+                                $acc['weight_sum'] += floatval($morphometric[1]);
+                                $weight_mean = $acc['weight_sum'] / $count;
+                                $acc['weight_variance'] += pow(floatval($morphometric[1]) - $weight_mean, 2);
+                                $acc['weight'] = [ 'mean' => $weight_mean, 'sd' => (float) sqrt($acc['weight_variance'] / $count) ];
+
+                                $acc['blength_sum'] += floatval($morphometric[2]);
+                                $blength_mean = $acc['blength_sum'] / $count;
+                                $acc['blength_variance'] += pow(floatval($morphometric[2]) - $blength_mean, 2);
+                                $acc['blength'] = [ 'mean' => $blength_mean, 'sd' => (float) sqrt($acc['blength_variance'] / $count) ];
+
+                                $acc['ccircumference_sum'] += floatval($morphometric[3]);
+                                $ccircumference_mean = $acc['ccircumference_sum'] / $count;
+                                $acc['ccircumference_variance'] += pow(floatval($morphometric[3]) - $ccircumference_mean, 2);
+                                $acc['ccircumference'] = [ 'mean' => $ccircumference_mean, 'sd' => (float) sqrt($acc['ccircumference_variance'] / $count) ];
+
+                                $acc['wspan_sum'] += floatval($morphometric[4]);
+                                $wspan_mean = $acc['wspan_sum'] / $count;
+                                $acc['wspan_variance'] += pow(floatval($morphometric[4]) - $wspan_mean, 2);
+                                $acc['wspan'] = [ 'mean' => $wspan_mean, 'sd' => (float) sqrt($acc['wspan_variance'] / $count) ];
+
+                                $acc['slength_sum'] += floatval($morphometric[5]);
+                                $slength_mean = $acc['slength_sum'] / $count;
+                                $acc['slength_variance'] += pow(floatval($morphometric[5]) - $slength_mean, 2);
+                                $acc['slength'] = [ 'mean' => $slength_mean, 'sd' => (float) sqrt($acc['slength_variance'] / $count) ];
+
+                                if ($animal_type !== 1) {
+                                    $acc['billlen_sum'] += floatval($morphometric[5]);
+                                    $billlen_mean = $acc['billlen_sum'] / $count;
+                                    $acc['billlen_variance'] += pow(floatval($morphometric[5]) - $billlen_mean, 2);
+                                    $acc['billlen'] = [ 'mean' => $billlen_mean, 'sd' => (float) sqrt($acc['billlen_variance'] / $count) ];
+
+                                    $acc['nlength_sum'] += floatval($morphometric[5]);
+                                    $nlength_mean = $acc['nlength_sum'] / $count;
+                                    $acc['nlength_variance'] += pow(floatval($morphometric[5]) - $nlength_mean, 2);
+                                    $acc['nlength'] = [ 'mean' => $nlength_mean, 'sd' => (float) sqrt($acc['nlength_variance'] / $count) ];
+                                }
+
+
+                                return $acc;
+                            }, [
+                                'height' => null,
+                                'height_sum' => 0,
+                                'height_variance' => 0,
+                                'weight' => null,
+                                'weight_sum' => 0,
+                                'weight_variance' => 0,
+                                'blength' => null,
+                                'blength_sum' => 0,
+                                'blength_variance' => 0,
+                                'ccircumference' => null,
+                                'ccircumference_sum' => 0,
+                                'ccircumference_variance' => 0,
+                                'wspan' => null,
+                                'wspan_sum' => 0,
+                                'wspan_variance' => 0,
+                                'slength' => null,
+                                'slength_sum' => 0,
+                                'slength_variance' => 0,
+                                'billlen' => null,
+                                'billlen_sum' => 0,
+                                'billlen_variance' => 0,
+                                'nlength' => null,
+                                'nlength_sum' => 0,
+                                'nlength_variance' => 0,
+                            ]);
+                        });
+                });
+
+        return response()->json([
+            'morph_breeder' => $morph_breeder,
+            'farm_generations' => $farm_generations,
+            'animal_type' => $animal_type,
+        ]);
+    }
+
     public function getGrowthRecords(Request $request)
     {
         $farm_id = $request->id;

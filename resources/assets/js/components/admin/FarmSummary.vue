@@ -95,12 +95,13 @@
                                     </a>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>Morphometric - Replacement</td>
                             <td>
+                                <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getMorpoRepla(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
@@ -110,22 +111,12 @@
                             <td>Morphometric - Breeder</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getMorpoBreeder(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Morphometric - Replacement</td>
-                            <td>
-                                <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
-                                        Generate CSV
-                                    </a>
-                                </div>
-                            </td>
-                        </tr> -->
                         <tr>
                             <td>Growth Records</td>
                             <td>
@@ -262,16 +253,6 @@
                                             </a>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>Morphometric - Replacement</td>
-                                    <td>
-                                        <div class="col s12 m12 l12 center">
-                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
-                                                Generate CSV
-                                            </a>
-                                        </div>
-                                    </td>
                                 </tr> -->
                                 <tr>
                                     <td>Growth Records</td>
@@ -391,6 +372,14 @@
                     'total_fed': 'Total Fed',
                     'total_refused': 'Total Refused',
                     'total_consumption': 'Total Consumption',
+                },
+                mC: {
+                    'height': 'Height (cm)',
+                    'weight': 'Weight (g)',
+                    'blength': 'Body Length (cm)',
+                    'ccircumference': 'Chest Circumeference (cm)',
+                    'wspan': 'Wing Span (cm)',
+                    'slength': 'Shank Length (cm)',
                 }
             }
         },
@@ -406,8 +395,6 @@
                     'total_consumption',
                 ];
                 const response = await axios.get('summary/fam_feeding_performance/' + selectedGeneration.id);
-                console.dir(response.data);
-
                 const { 
                     lines, breeder_data, brooder_data, replacement_data
                 } = response.data;
@@ -441,7 +428,6 @@
                     return acc + familiesData.join('\n') + '\n';
 
                 }, 'Line, Family, Feeding Performance, Brooders, Replacements, Breeder \n');
-                // console.table(csvData);
                 this.downloadCSV(csvData, `generation_${selectedGeneration.number}_feeding_performance`);
             },
 
@@ -743,7 +729,101 @@
             },
 
             // Generation
+            getMorpoRepla: async function(farmId) {
+                const response = await axios.get('summary/morpho_repla/' + farmId);
 
+                const morphoChar = [
+                    'height',
+                    'weight',
+                    'blength',
+                    'ccircumference',
+                    'wspan',
+                    'slength',
+                ];
+
+                // 'billlen',
+                //     'nlength',
+                const genders = [
+                    'male', 'female'
+                ];
+                const { farm_generations, morph_repla, animal_type } = response.data;
+
+                const csvData = farm_generations.reduce((acc, val) => {
+
+                    const genNumber = val.number;
+
+                    const mcData = morphoChar.map((morpho, mIndex) => {
+
+                        const gData = genders.map(gender => {
+                            const mean = this.formatFloat(get(morph_repla, `${genNumber}.${gender}.${morpho}.mean`, ''));
+                            const sd = this.formatFloat(get(morph_repla, `${genNumber}.${gender}.${morpho}.sd`, ''));
+                            return [
+                                mean,
+                                sd
+                            ].join(',');
+                        }).join(',');
+
+                        return [
+                            mIndex === 0 ? genNumber : '',
+                            this.mC[morpho],
+                            gData
+                        ];
+
+                    });
+
+                    return acc + mcData.join('\n') + '\n';
+            
+                }, 'Generation, Morphometric Characteristics, Male (Mean), Male (SD), Female (Mean), Female (SD) \n');
+                this.downloadCSV(csvData, 'morpho_replacment');
+            },
+            getMorpoBreeder: async function(farmId) {
+                const response = await axios.get('summary/morpho_breeder/' + farmId);
+
+                const morphoChar = [
+                    'height',
+                    'weight',
+                    'blength',
+                    'ccircumference',
+                    'wspan',
+                    'slength',
+                ];
+
+                // 'billlen',
+                //     'nlength',
+                const genders = [
+                    'male', 'female'
+                ];
+                const { farm_generations, morph_breeder, animal_type } = response.data;
+
+                const csvData = farm_generations.reduce((acc, val) => {
+
+                    const genNumber = val.number;
+
+                    const mcData = morphoChar.map((morpho, mIndex) => {
+
+                        const gData = genders.map(gender => {
+                            const mean = this.formatFloat(get(morph_breeder, `${genNumber}.${gender}.${morpho}.mean`, ''));
+                            const sd = this.formatFloat(get(morph_breeder, `${genNumber}.${gender}.${morpho}.sd`, ''));
+
+                            return [
+                                mean,
+                                sd
+                            ].join(',');
+                        }).join(',');
+
+                        return [
+                            mIndex === 0 ? genNumber : '',
+                            this.mC[morpho],
+                            gData
+                        ];
+
+                    });
+
+                    return acc + mcData.join('\n') + '\n';
+            
+                }, 'Generation, Morphometric Characteristics, Male (Mean), Male (SD), Female (Mean), Female (SD) \n');
+                this.downloadCSV(csvData, 'morpho_breeder');
+            },
             getGrowthRecord: async function(farmId) {
                 const response = await axios.get('summary/growth/' + farmId);
                 const { farm_generations, growth_records } = response.data;
@@ -1033,9 +1113,10 @@
                 }
             },
             formatFloat: function(val) {
-                if (val && val !== '') {
-                    return val.toFixed(2);  
+                if (val !== null && val !== undefined && val !== '') {    
+                    return val.toFixed(2);
                 }
+                
                 else return '';
             },
             checkAllEmpty: function(array) {
@@ -1060,9 +1141,10 @@
         mounted() {
             // this.getUserList();
 
-            // for (let id = 1; id <= 50; id++) {
-                this.getFamFeedingPerformance({ id: 4 })
+            // for (let i = 1; i <= 31; i++) {
+                this.getMorpoRepla(2);
             // }
+
         },
         created() {
         }
