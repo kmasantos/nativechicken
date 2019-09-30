@@ -302,6 +302,182 @@ class AdminController extends Controller
 
     // Family
 
+    public function getFamPhenoRepla(Request $request)
+    {
+        $gen_id = $request->id;
+        $farm_id = Generation::where('id', $gen_id)->first()->farm_id;
+        $lines = Line::where('generation_id', $gen_id)->with('families')->get();
+
+        $pheno_repla = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('replacement_inventories', 'replacement_inventories.id', 'pheno_morphos.replacement_inventory_id')
+                ->join('replacements', 'replacements.id', 'replacement_inventories.replacement_id')
+                ->join('families', 'families.id', 'replacements.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('pheno_morpho_values.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get()
+                ->groupBy('line_number')
+                ->map(function ($line) {
+                    return $line
+                        ->groupBy('family_number')
+                        ->map(function ($fam) {
+                            return $fam
+                                ->groupBy('gender')
+                                ->map(function ($gender) use ($fam){
+                                    return $gender->reduce(function ($acc, $element) use ($fam, $gender) {
+
+                                        $phenotypic = str_replace('[', '', $element->phenotypic);
+                                        $phenotypic = explode(',', str_replace(']', '', $phenotypic));
+
+                                        $plummage_color = $phenotypic[0];
+                                        $plummage_pattern = $phenotypic[1];
+                                        $hackle_color = $phenotypic[2];
+                                        $hackle_pattern = $phenotypic[3];
+                                        $body_carriage = $phenotypic[4];
+                                        $comb_type = $phenotypic[5];
+                                        $comb_color = $phenotypic[6];
+                                        $earlobe_color = $phenotypic[7];
+                                        $iris_color = $phenotypic[8];
+                                        $beak_color = $phenotypic[9];
+                                        $shank_color = $phenotypic[10];
+                                        $skin_color = $phenotypic[11];
+
+                                        $acc['total'] = $gender->count();
+                                        $acc['percentage'] = ($gender->count() / $fam->count()) * 100;
+
+                                        $acc = $this->computePheno($acc, 'plummage_color', $plummage_color);
+                                        $acc = $this->computePheno($acc, 'plummage_pattern', $plummage_pattern);
+                                        $acc = $this->computePheno($acc, 'hackle_color', $hackle_color);
+                                        $acc = $this->computePheno($acc, 'hackle_pattern', $hackle_pattern);
+                                        $acc = $this->computePheno($acc, 'body_carriage', $body_carriage);
+                                        $acc = $this->computePheno($acc, 'comb_type', $comb_type);
+                                        $acc = $this->computePheno($acc, 'comb_color', $comb_color);
+                                        $acc = $this->computePheno($acc, 'earlobe_color', $earlobe_color);
+                                        $acc = $this->computePheno($acc, 'iris_color', $iris_color);
+                                        $acc = $this->computePheno($acc, 'beak_color', $beak_color);
+                                        $acc = $this->computePheno($acc, 'shank_color', $shank_color);
+                                        $acc = $this->computePheno($acc, 'skin_color', $skin_color);
+
+                                        return $acc;
+                                    }, [
+                                        'total' => null,
+                                        'percentage' => null,
+                                        'pc' => null,
+                                        'plummage_color' => null,
+                                        'plummage_pattern' => null,
+                                        'hackle_color' => null,
+                                        'hackle_pattern' => null,
+                                        'body_carriage' => null,
+                                        'comb_type' => null,
+                                        'comb_color' => null,
+                                        'earlobe_color' => null,
+                                        'iris_color' => null,
+                                        'beak_color' => null,
+                                        'shank_color' => null,
+                                        'skin_color' => null,
+                                    ]);
+                                });
+                        });
+
+                    
+                });
+
+        return response()->json([
+            'pheno_repla' => $pheno_repla,
+            'lines' => $lines,
+        ]);
+    }
+
+    public function getFamPhenoBreeder(Request $request)
+    {
+        $gen_id = $request->id;
+        $farm_id = Generation::where('id', $gen_id)->first()->farm_id;
+        $lines = Line::where('generation_id', $gen_id)->with('families')->get();
+
+        $pheno_breeder = PhenoMorphoValue::join('pheno_morphos', 'pheno_morphos.values_id', 'pheno_morpho_values.id')
+                ->join('breeder_inventories', 'breeder_inventories.id', 'pheno_morphos.breeder_inventory_id')
+                ->join('breeders', 'breeders.id', 'breeder_inventories.breeder_id')
+                ->join('families', 'families.id', 'breeders.family_id')
+                ->join('lines', 'lines.id', 'families.line_id')
+                ->join('generations', 'generations.id', 'lines.generation_id')
+                ->where('generations.farm_id', $farm_id)
+                ->where('generations.id', $gen_id)
+                ->select('pheno_morpho_values.*', 'lines.number as line_number', 'families.number as family_number')
+                ->withTrashed()->get()
+                ->groupBy('line_number')
+                ->map(function ($line) {
+                    return $line
+                        ->groupBy('family_number')
+                        ->map(function ($fam) {
+                            return $fam
+                                ->groupBy('gender')
+                                ->map(function ($gender) use ($fam){
+                                    return $gender->reduce(function ($acc, $element) use ($fam, $gender) {
+
+                                        $phenotypic = str_replace('[', '', $element->phenotypic);
+                                        $phenotypic = explode(',', str_replace(']', '', $phenotypic));
+
+                                        $plummage_color = $phenotypic[0];
+                                        $plummage_pattern = $phenotypic[1];
+                                        $hackle_color = $phenotypic[2];
+                                        $hackle_pattern = $phenotypic[3];
+                                        $body_carriage = $phenotypic[4];
+                                        $comb_type = $phenotypic[5];
+                                        $comb_color = $phenotypic[6];
+                                        $earlobe_color = $phenotypic[7];
+                                        $iris_color = $phenotypic[8];
+                                        $beak_color = $phenotypic[9];
+                                        $shank_color = $phenotypic[10];
+                                        $skin_color = $phenotypic[11];
+
+                                        $acc['total'] = $gender->count();
+                                        $acc['percentage'] = ($gender->count() / $fam->count()) * 100;
+
+                                        $acc = $this->computePheno($acc, 'plummage_color', $plummage_color);
+                                        $acc = $this->computePheno($acc, 'plummage_pattern', $plummage_pattern);
+                                        $acc = $this->computePheno($acc, 'hackle_color', $hackle_color);
+                                        $acc = $this->computePheno($acc, 'hackle_pattern', $hackle_pattern);
+                                        $acc = $this->computePheno($acc, 'body_carriage', $body_carriage);
+                                        $acc = $this->computePheno($acc, 'comb_type', $comb_type);
+                                        $acc = $this->computePheno($acc, 'comb_color', $comb_color);
+                                        $acc = $this->computePheno($acc, 'earlobe_color', $earlobe_color);
+                                        $acc = $this->computePheno($acc, 'iris_color', $iris_color);
+                                        $acc = $this->computePheno($acc, 'beak_color', $beak_color);
+                                        $acc = $this->computePheno($acc, 'shank_color', $shank_color);
+                                        $acc = $this->computePheno($acc, 'skin_color', $skin_color);
+
+                                        return $acc;
+                                    }, [
+                                        'total' => null,
+                                        'percentage' => null,
+                                        'pc' => null,
+                                        'plummage_color' => null,
+                                        'plummage_pattern' => null,
+                                        'hackle_color' => null,
+                                        'hackle_pattern' => null,
+                                        'body_carriage' => null,
+                                        'comb_type' => null,
+                                        'comb_color' => null,
+                                        'earlobe_color' => null,
+                                        'iris_color' => null,
+                                        'beak_color' => null,
+                                        'shank_color' => null,
+                                        'skin_color' => null,
+                                    ]);
+                                });
+                        });
+
+                    
+                });
+
+        return response()->json([
+            'pheno_breeder' => $pheno_breeder,
+            'lines' => $lines,
+        ]);
+    }
+
     public function getFamMorphoRepla(Request $request)
     {
         $gen_id = $request->id;

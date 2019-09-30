@@ -36,7 +36,7 @@
                             <td>{{user.farm_name}}</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <!-- <a 
+                                    <a 
                                         @click.prevent="setCurrentUser(user.farm_id)"
                                         href="#generation_modal"
                                         style="margin: 4px;"
@@ -44,7 +44,7 @@
                                         data-position="bottom" data-delay="50" data-tooltip="Generation Summary"
                                     >
                                         Generation
-                                    </a> -->
+                                    </a>
                                     <a 
                                         @click.prevent="setCurrentUser(user.farm_id); getGenerations(user.farm_id)"
                                         href="#family_modal"
@@ -213,11 +213,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- <tr>
+                                <tr>
                                     <td>Phenotypic - Replacement</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamPhenoRepla(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
@@ -227,12 +227,12 @@
                                     <td>Phenotypic - Breeder</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamPhenoBreeder(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
                                     </td>
-                                </tr> -->
+                                </tr>
                                 <tr>
                                     <td>Morphometric - Replacement</td>
                                     <td>
@@ -516,7 +516,113 @@
         methods : {
 
             // Fam
-            
+
+            getFamPhenoRepla: async function(selectedGeneration) {
+                const response = await axios.get('summary/fam_pheno_repla/' + selectedGeneration.id);
+                const genders = [ 'male', 'female' ];
+
+                const { lines, pheno_repla } = response.data;
+                
+                if (this.checkAllEmpty([pheno_repla])) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line) => {
+                    
+                    const { number: lineNumber, families } = line;
+
+                    const familiesData = families.map(({ number: famNumber }, fIndex) => {
+
+                        const familyData = pheno_repla[lineNumber];
+
+                        const pData = this.phenos.map(pheno => {
+                            const { values, prop, label } = pheno;
+
+                            const valData = values.map((value, vIndex) => {
+                                const gData =  genders.map(gender => {
+                                    return [
+                                        this.formatFloat(get(familyData, `${famNumber}.${gender}.${prop}."${value}".count`, '')),
+                                        this.formatFloat(get(familyData, `${famNumber}.${gender}.${prop}."${value}".percentage`, '')),
+                                    ].join(',')
+                                });
+                                return [
+                                    lineNumber,
+                                    famNumber,
+                                    value,
+                                    gData
+                                ].join(',')
+                            });
+                            
+                            return [
+                                ['Line', 'Family', label, 'Male Count', 'Male Percentage', 'Female Count', 'Female Percentage'].join(','),
+                                ...valData
+                            ].join('\n');
+
+                        });
+
+                        return pData.join('\n');
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+
+                }, '\n');
+
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_pheno_replacement`);
+            },
+
+            getFamPhenoBreeder: async function(selectedGeneration) {
+                const response = await axios.get('summary/fam_pheno_breeder/' + selectedGeneration.id);
+                const genders = [ 'male', 'female' ];
+
+                const { lines, pheno_breeder } = response.data;
+                
+                if (this.checkAllEmpty([pheno_breeder])) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = lines.reduce((acc, line) => {
+                    
+                    const { number: lineNumber, families } = line;
+
+                    const familiesData = families.map(({ number: famNumber }, fIndex) => {
+
+                        const familyData = pheno_breeder[lineNumber];
+
+                        const pData = this.phenos.map(pheno => {
+                            const { values, prop, label } = pheno;
+
+                            const valData = values.map((value, vIndex) => {
+                                const gData =  genders.map(gender => {
+                                    return [
+                                        this.formatFloat(get(familyData, `${famNumber}.${gender}.${prop}."${value}".count`, '')),
+                                        this.formatFloat(get(familyData, `${famNumber}.${gender}.${prop}."${value}".percentage`, '')),
+                                    ].join(',')
+                                });
+                                return [
+                                    lineNumber,
+                                    famNumber,
+                                    value,
+                                    gData
+                                ].join(',')
+                            });
+                            
+                            return [
+                                ['Line', 'Family', label, 'Male Count', 'Male Percentage', 'Female Count', 'Female Percentage'].join(','),
+                                ...valData
+                            ].join('\n');
+
+                        });
+
+                        return pData.join('\n');
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+
+                }, '\n');
+
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_pheno_breeder`);
+            },
+
             getFamMorphoRepla: async function(selectedGeneration) {
                 const response = await axios.get('summary/fam_morpho_repla/' + selectedGeneration.id);
 
@@ -573,7 +679,7 @@
                     return acc + familiesData.join('\n') + '\n';
             
                 }, 'Line, Family, Morphometric Characteristics, Male (Mean), Male (SD), Female (Mean), Female (SD) \n');
-                // this.downloadCSV(csvData, `generation_${selectedGeneration.number}_morpho_repla`);
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_morpho_repla`);
             },
 
             getFamMorphoBreeder: async function(selectedGeneration) {
@@ -1503,10 +1609,6 @@
         },
         mounted() {
             this.getUserList();
-
-            // for (let i = 1; i <= 50; i++) {
-            //     this.getFamMorphoRepla({ id: i });
-            // }
 
         },
         created() {

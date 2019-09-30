@@ -325,8 +325,8 @@ Route::group(['middleware' => ['web']], function ()
         // Fam
         Route::get('summary/fam_morpho_breeder/{id}', 'AdminController@getFamMorphoBreeder');
         Route::get('summary/fam_morpho_repla/{id}', 'AdminController@getFamMorphoRepla');
-        // Route::get('summary/fam_pheno_repla/{id}', 'AdminController@getPhenoRepla');
-        // Route::get('summary/fam_pheno_breeder/{id}', 'AdminController@getPhenoBreeder');
+        Route::get('summary/fam_pheno_repla/{id}', 'AdminController@getFamPhenoRepla');
+        Route::get('summary/fam_pheno_breeder/{id}', 'AdminController@getFamPhenoBreeder');
         Route::get('summary/fam_feeding_performance/{id}', 'AdminController@getFamFeedPerformance');
         Route::get('summary/fam_hatchery/{id}', 'AdminController@getFamHatcherydata');
         Route::get('summary/fam_sales/{id}', 'AdminController@getFamSales');
