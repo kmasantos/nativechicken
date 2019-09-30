@@ -748,6 +748,10 @@
                 ];
                 const { farm_generations, morph_repla, animal_type } = response.data;
 
+                if (this.checkAllEmpty([morph_repla])) {
+                    return alert('No data to generate csv');
+                }
+
                 const csvData = farm_generations.reduce((acc, val) => {
 
                     const genNumber = val.number;
@@ -774,7 +778,7 @@
                     return acc + mcData.join('\n') + '\n';
             
                 }, 'Generation, Morphometric Characteristics, Male (Mean), Male (SD), Female (Mean), Female (SD) \n');
-                this.downloadCSV(csvData, 'morpho_replacment');
+                // this.downloadCSV(csvData, 'morpho_replacment');
             },
             getMorpoBreeder: async function(farmId) {
                 const response = await axios.get('summary/morpho_breeder/' + farmId);
@@ -794,7 +798,9 @@
                     'male', 'female'
                 ];
                 const { farm_generations, morph_breeder, animal_type } = response.data;
-
+                if (this.checkAllEmpty([morph_breeder])) {
+                    return alert('No data to generate csv');
+                }
                 const csvData = farm_generations.reduce((acc, val) => {
 
                     const genNumber = val.number;
@@ -1139,10 +1145,9 @@
             }
         },
         mounted() {
-            // this.getUserList();
+            this.getUserList();
 
             // for (let i = 1; i <= 31; i++) {
-                this.getMorpoRepla(2);
             // }
 
         },
