@@ -36,7 +36,7 @@
                             <td>{{user.farm_name}}</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a 
+                                    <!-- <a 
                                         @click.prevent="setCurrentUser(user.farm_id)"
                                         href="#generation_modal"
                                         style="margin: 4px;"
@@ -44,7 +44,7 @@
                                         data-position="bottom" data-delay="50" data-tooltip="Generation Summary"
                                     >
                                         Generation
-                                    </a>
+                                    </a> -->
                                     <a 
                                         @click.prevent="setCurrentUser(user.farm_id); getGenerations(user.farm_id)"
                                         href="#family_modal"
@@ -76,11 +76,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr>
+                        <tr>
                             <td>Phenotypic - Replacement</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getPhenoRepla(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
@@ -90,16 +90,15 @@
                             <td>Phenotypic - Breeder</td>
                             <td>
                                 <div class="col s12 m12 l12 center">
-                                    <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                    <a @click.prevent="getPhenoBreeder(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
                                     </a>
                                 </div>
                             </td>
-                        </tr> -->
+                        </tr>
                         <tr>
                             <td>Morphometric - Replacement</td>
                             <td>
-                                <td>
                                 <div class="col s12 m12 l12 center">
                                     <a @click.prevent="getMorpoRepla(currentUser)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                         Generate CSV
@@ -233,12 +232,12 @@
                                             </a>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td>Morphometric - Replacement</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamMorphoRepla(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
@@ -248,12 +247,12 @@
                                     <td>Morphometric - Breeder</td>
                                     <td>
                                         <div class="col s12 m12 l12 center">
-                                            <a style="margin: 4px;" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
+                                            <a @click.prevent="getFamMorphoBreeder(selectedGeneration)" href="javascript:void(0)" class="indigo white-text darken-1 center-align btn">
                                                 Generate CSV
                                             </a>
                                         </div>
                                     </td>
-                                </tr> -->
+                                </tr>
                                 <tr>
                                     <td>Growth Records</td>
                                     <td>
@@ -380,12 +379,261 @@
                     'ccircumference': 'Chest Circumeference (cm)',
                     'wspan': 'Wing Span (cm)',
                     'slength': 'Shank Length (cm)',
-                }
+                },
+                phenos: [
+                    { 
+                        label: 'Plummage Color (%)', prop: 'plummage_color', 
+                        values: [
+                            'White',
+                            'Black',
+                            'Red',
+                            'Orange',
+                            'Brown',
+                            'Yellow',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Plummage Pattern (%)', prop: 'plummage_pattern', 
+                        values: [
+                            'Plain',
+                            'Barred',
+                            'Wild Type',
+                            'Laced',
+                            'Molted',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Hackle Color (%)', prop: 'hackle_color', 
+                        values: [
+                            'Yellow',
+                            'Orange',
+                            'Brown',
+                            'Red',
+                            'Black',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Hackle Pattern (%)', prop: 'hackle_pattern', 
+                        values: [
+                            'Plain',
+                            'Laced',
+                            'Barred',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Body Carriage (%)', prop: 'body_carriage', 
+                        values: [
+                            'Upright',
+                            'Slight Upright',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Comb Type (%)', prop: 'comb_type', 
+                        values: [
+                            'Single',
+                            'Pea',
+                            'Rose',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Comb Color (%)', prop: 'comb_color', 
+                        values: [
+                            'Red',
+                            'Pink',
+                            'Black',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Earlobe Color (%)', prop: 'earlobe_color', 
+                        values: [
+                            'White',
+                            'Red',
+                            'Red-white',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Iris Color (%)', prop: 'iris_color', 
+                        values: [
+                            'Red',
+                            'Orange',
+                            'Brown',
+                            'Yellow',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Beak Color (%)', prop: 'beak_color', 
+                        values: [
+                            'White',
+                            'Black',
+                            'Brown',
+                            'Yellow',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Shank Color (%)', prop: 'shank_color', 
+                        values: [
+                            'White',
+                            'Black',
+                            'Yellow',
+                            'Green',
+                            'Gray',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                    { 
+                        label: 'Skin Color (%)', prop: 'skin_color', 
+                        values: [
+                            'White',
+                            'Yellow',
+                            'Unidentified',
+                            'Others',
+                        ]
+                    },
+                ]
             }
         },
         methods : {
 
             // Fam
+            
+            getFamMorphoRepla: async function(selectedGeneration) {
+                const response = await axios.get('summary/fam_morpho_repla/' + selectedGeneration.id);
+
+                const morphoChar = [
+                    'height',
+                    'weight',
+                    'blength',
+                    'ccircumference',
+                    'wspan',
+                    'slength',
+                ];
+
+                // 'billlen',
+                //     'nlength',
+                const genders = [
+                    'male', 'female'
+                ];
+
+                const { lines, morpho_repla, animal_type } = response.data;
+                if (this.checkAllEmpty([morpho_repla])) {
+                    return alert('No data to generate csv');
+                }
+                const csvData = lines.reduce((acc, line) => {
+
+                    const { number: lineNumber, families } = line;
+
+                    const familiesData = families.map(({ number: famNumber }, fIndex) => {
+
+                        const mcData = morphoChar.map((morpho, mIndex) => {
+
+                            const gData = genders.map(gender => {
+                                const mean = this.formatFloat(get(morpho_repla, `${lineNumber}.${famNumber}.${gender}.${morpho}.mean`, ''));
+                                const sd = this.formatFloat(get(morpho_repla, `${lineNumber}.${famNumber}.${gender}.${morpho}.sd`, ''));
+
+                                return [
+                                    mean,
+                                    sd
+                                ].join(',');
+                            }).join(',');
+
+                            return [
+                                lineNumber,
+                                famNumber,
+                                this.mC[morpho],
+                                gData
+                            ];
+
+                        });
+
+                        return mcData.join('\n');
+
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+            
+                }, 'Line, Family, Morphometric Characteristics, Male (Mean), Male (SD), Female (Mean), Female (SD) \n');
+                // this.downloadCSV(csvData, `generation_${selectedGeneration.number}_morpho_repla`);
+            },
+
+            getFamMorphoBreeder: async function(selectedGeneration) {
+                const response = await axios.get('summary/fam_morpho_breeder/' + selectedGeneration.id);
+
+                const morphoChar = [
+                    'height',
+                    'weight',
+                    'blength',
+                    'ccircumference',
+                    'wspan',
+                    'slength',
+                ];
+
+                // 'billlen',
+                //     'nlength',
+                const genders = [
+                    'male', 'female'
+                ];
+
+                const { lines, morpho_breeder, animal_type } = response.data;
+                if (this.checkAllEmpty([morpho_breeder])) {
+                    return alert('No data to generate csv');
+                }
+                const csvData = lines.reduce((acc, line) => {
+
+                    const { number: lineNumber, families } = line;
+
+                    const familiesData = families.map(({ number: famNumber }, fIndex) => {
+
+                        const mcData = morphoChar.map((morpho, mIndex) => {
+
+                            const gData = genders.map(gender => {
+                                const mean = this.formatFloat(get(morpho_breeder, `${lineNumber}.${famNumber}.${gender}.${morpho}.mean`, ''));
+                                const sd = this.formatFloat(get(morpho_breeder, `${lineNumber}.${famNumber}.${gender}.${morpho}.sd`, ''));
+
+                                return [
+                                    mean,
+                                    sd
+                                ].join(',');
+                            }).join(',');
+
+                            return [
+                                lineNumber,
+                                famNumber,
+                                this.mC[morpho],
+                                gData
+                            ];
+
+                        });
+
+                        return mcData.join('\n');
+
+                    });
+
+                    return acc + familiesData.join('\n') + '\n';
+            
+                }, 'Line, Family, Morphometric Characteristics, Male (Mean), Male (SD), Female (Mean), Female (SD) \n');
+                this.downloadCSV(csvData, `generation_${selectedGeneration.number}_morpho_breeder`);
+            },
 
             getFamFeedingPerformance: async function(selectedGeneration) {
                 const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
@@ -729,6 +977,98 @@
             },
 
             // Generation
+            getPhenoBreeder: async function(farmId) {
+                const response = await axios.get('summary/pheno_breeder/' + farmId);
+                const genders = [ 'male', 'female' ];
+
+                const { farm_generations, pheno_breeder } = response.data;
+                
+                if (this.checkAllEmpty([pheno_breeder])) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = farm_generations.reduce((acc, val) => {
+                    
+                    const genNumber = val.number;
+
+                    const generaData = pheno_breeder[genNumber];
+
+                    const pData = this.phenos.map(pheno => {
+                        const { values, prop, label } = pheno;
+
+                        const valData = values.map((value, vIndex) => {
+                            const gData =  genders.map(gender => {
+                                return [
+                                    this.formatFloat(get(generaData, `${gender}.${prop}."${value}".count`, '')),
+                                    this.formatFloat(get(generaData, `${gender}.${prop}."${value}".percentage`, '')),
+                                ].join(',')
+                            });
+
+                            return [
+                                vIndex === 0 ? genNumber : '',
+                                value,
+                                gData
+                            ].join(',')
+                        });
+                        return [
+                            ['Generation', label, 'Male Count', 'Male Percentage', 'Female Count', 'Female Percentage'].join(','),
+                            ...valData
+                        ].join('\n');
+
+                    });
+
+                    return acc + pData.join('\n') + '\n';
+
+                }, '\n');
+
+                this.downloadCSV(csvData, 'pheno_breeder');
+            },
+            getPhenoRepla: async function(farmId) {
+                const response = await axios.get('summary/pheno_repla/' + farmId);
+                const genders = [ 'male', 'female' ];
+
+                const { farm_generations, pheno_repla } = response.data;
+
+                if (this.checkAllEmpty([pheno_repla])) {
+                    return alert('No data to generate csv');
+                }
+
+                const csvData = farm_generations.reduce((acc, val) => {
+                    
+                    const genNumber = val.number;
+
+                    const generaData = pheno_repla[genNumber];
+
+                    const pData = this.phenos.map(pheno => {
+                        const { values, prop, label } = pheno;
+
+                        const valData = values.map((value, vIndex) => {
+                            const gData =  genders.map(gender => {
+                                return [
+                                    this.formatFloat(get(generaData, `${gender}.${prop}."${value}".count`, '')),
+                                    this.formatFloat(get(generaData, `${gender}.${prop}."${value}".percentage`, '')),
+                                ].join(',')
+                            });
+
+                            return [
+                                vIndex === 0 ? genNumber : '',
+                                value,
+                                gData
+                            ].join(',')
+                        });
+                        return [
+                            ['Generation', label, 'Male Count', 'Male Percentage', 'Female Count', 'Female Percentage'].join(','),
+                            ...valData
+                        ].join('\n');
+
+                    });
+
+                    return acc + pData.join('\n') + '\n';
+
+                }, '\n');
+
+                this.downloadCSV(csvData, 'pheno_replacement');
+            },
             getMorpoRepla: async function(farmId) {
                 const response = await axios.get('summary/morpho_repla/' + farmId);
 
@@ -834,6 +1174,11 @@
                 const response = await axios.get('summary/growth/' + farmId);
                 const { farm_generations, growth_records } = response.data;
                 const days = [ 0, 21, 45, 75, 100];
+
+                if (this.checkAllEmpty([growth_records])) {
+                    return alert('No data to generate csv');
+                }
+
                 const csvData = farm_generations.reduce((acc, val) => {
                     
                     const genNumber = val.number;
@@ -876,7 +1221,11 @@
 
                 const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
                 const reasons = ['Sickness', 'Trauma - Natural', 'Trauma - Predatory'];
-                const { farm_generations } = response.data;
+                const { farm_generations, brooder_data, replacement_data, breeder_data } = response.data;
+                
+                if (this.checkAllEmpty([brooder_data, replacement_data, breeder_data])) {
+                    return alert('No data to generate csv');
+                }
 
                 const csvData = farm_generations.reduce((acc, val) => {
                     
@@ -919,7 +1268,11 @@
             getSales: async function(farmId) {
                 const response = await axios.get('summary/sales/' + farmId);
                 const stages = ['brooder_data', 'replacement_data', 'breeder_data'];
-                const { farm_generations } = response.data;
+                const { farm_generations, brooder_data, replacement_data, breeder_data } = response.data;
+
+                if (this.checkAllEmpty([brooder_data, replacement_data, breeder_data])) {
+                    return alert('No data to generate csv');
+                }
 
                 const csvData = farm_generations.reduce((acc, val) => {
                     
@@ -1076,6 +1429,10 @@
                     farm_generations, brooder_feeding, replacement_feeding, breeder_feeding
                 } = response.data;
 
+                if (this.checkAllEmpty([brooder_feeding, replacement_feeding, breeder_feeding])) {
+                    return alert('No data to generate csv');
+                }
+
                 const csvData = farm_generations.reduce((acc, val) => {
                     const genNumber = val.number;
                     const brooderData = brooder_feeding[genNumber];
@@ -1147,7 +1504,8 @@
         mounted() {
             this.getUserList();
 
-            // for (let i = 1; i <= 31; i++) {
+            // for (let i = 1; i <= 50; i++) {
+            //     this.getFamMorphoRepla({ id: i });
             // }
 
         },

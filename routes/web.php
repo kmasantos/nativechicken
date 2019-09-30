@@ -312,6 +312,8 @@ Route::group(['middleware' => ['web']], function ()
         // Generation
         Route::get('summary/morpho_breeder/{id}', 'AdminController@getMorphoBreeder');
         Route::get('summary/morpho_repla/{id}', 'AdminController@getMorphoRepla');
+        Route::get('summary/pheno_repla/{id}', 'AdminController@getPhenoRepla');
+        Route::get('summary/pheno_breeder/{id}', 'AdminController@getPhenoBreeder');
         Route::get('summary/feeding_performance/{id}', 'AdminController@getFeedingPerformanceData');
         Route::get('summary/hatchery/{id}', 'AdminController@getHatcherydata');
         Route::get('summary/sales/{id}', 'AdminController@getSales');
@@ -321,6 +323,10 @@ Route::group(['middleware' => ['web']], function ()
         Route::get('summary/egg_production/{id}', 'AdminController@getEggProductionData');
 
         // Fam
+        Route::get('summary/fam_morpho_breeder/{id}', 'AdminController@getFamMorphoBreeder');
+        Route::get('summary/fam_morpho_repla/{id}', 'AdminController@getFamMorphoRepla');
+        // Route::get('summary/fam_pheno_repla/{id}', 'AdminController@getPhenoRepla');
+        // Route::get('summary/fam_pheno_breeder/{id}', 'AdminController@getPhenoBreeder');
         Route::get('summary/fam_feeding_performance/{id}', 'AdminController@getFamFeedPerformance');
         Route::get('summary/fam_hatchery/{id}', 'AdminController@getFamHatcherydata');
         Route::get('summary/fam_sales/{id}', 'AdminController@getFamSales');
