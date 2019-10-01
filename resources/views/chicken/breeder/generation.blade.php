@@ -137,7 +137,7 @@
 @endsection
 
 @section('customscripts')
-    <script type="text/javascript" src="/js/breeder/generation.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/breeder/generation.js') }}"></script>
     <script>
         function getGenerationID(generation_id)
         {

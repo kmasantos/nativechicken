@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="/thirdparty/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/thirdparty/semantic/dist/semantic.min.css') }}">
 
     <title>Document</title>
 </head>
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
-    <script src="/thirdparty/semantic/dist/semantic.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/thirdparty/jquery-3.3.1.js') }}"></script>
+    <script src="{{ asset('/thirdparty/semantic/dist/semantic.min.js') }}"></script>
 </body>
 </html>

@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Poppins|Raleway&display=swap" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="/thirdparty/fontawesome-free-5.6.0-web/css/all.min.css">
-    <link type="text/css" rel="stylesheet" href="/thirdparty/materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/thirdparty/fontawesome-free-5.6.0-web/css/all.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('/thirdparty/materialize/css/materialize.min.css') }}"  media="screen,projection"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <link href="{{ URL::asset('https://fonts.googleapis.com/icon?family=Material+Icons') }}" rel="stylesheet">
@@ -246,9 +246,9 @@
     </footer>
     <script src="https://unpkg.com/popper.js@1"></script>
     <script src="https://unpkg.com/tippy.js@4"></script>
-    <script type="text/javascript" src="/js/app.js"></script>
-    <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/thirdparty/jquery-3.3.1.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/thirdparty/materialize/js/materialize.min.js') }}"></script>
     <script>
     
       window.onscroll = function() {scrollFunction()};

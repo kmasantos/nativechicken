@@ -8,9 +8,9 @@
     <!--Import Google Icon Font-->
     <link href="{{ URL::asset('https://fonts.googleapis.com/icon?family=Material+Icons') }}" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="/thirdparty/fontawesome-free-5.6.0-web/css/all.min.css">
-    <link type="text/css" rel="stylesheet" href="/thirdparty/materialize/css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="/css/application_materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/thirdparty/fontawesome-free-5.6.0-web/css/all.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('/thirdparty/materialize/css/materialize.min.css') }}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/css/application_materialize.css') }}"  media="screen,projection"/>
     @yield('customcss')
     <title>PAB-IS | @yield('title')</title>
     <style>
@@ -145,10 +145,10 @@
         </div>
     </main>
 
-    <script type="text/javascript" src="/js/app.js"></script>
-    <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
-    <script type="text/javascript" src="/js/application_materialize.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/thirdparty/jquery-3.3.1.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/thirdparty/materialize/js/materialize.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/application_materialize.js') }}"></script>
     <script>
         $('.modal').modal({
             dismissible: false,

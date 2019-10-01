@@ -4,9 +4,9 @@
     <!--Import Google Icon Font-->
     <link href="{{ URL::asset('https://fonts.googleapis.com/icon?family=Material+Icons') }}" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="/thirdparty/fontawesome-free-5.6.0-web/css/all.min.css">
-    <link type="text/css" rel="stylesheet" href="/thirdparty/materialize/css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="/css/application_materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/thirdparty/fontawesome-free-5.6.0-web/css/all.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('/thirdparty/materialize/css/materialize.min.css') }}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/css/application_materialize.css') }}}"  media="screen,projection"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     @yield('customcss')
@@ -219,10 +219,10 @@
             @yield('content')
         </div>
     </main>
-    <script type="text/javascript" src="/js/app.js"></script>
-    <script type="text/javascript" src="/thirdparty/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="/thirdparty/materialize/js/materialize.min.js"></script>
-    <script type="text/javascript" src="/js/application_materialize.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/thirdparty/jquery-3.3.1.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/thirdparty/materialize/js/materialize.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/application_materialize.js') }}"></script>
     @yield('customscripts')
 </body>
 </html>
