@@ -72,8 +72,7 @@
             display: none;
             height: 540px;
             width: 90%;
-            margin-left: 12rem;
-            margin-right: 12rem;
+            margin: 0 auto;
         }
         .mySlides .img{
             background-color: #cccccc; 
@@ -90,7 +89,8 @@
             padding-bottom: 12px;
             position: absolute;
             bottom: 0;
-            width: 100%;
+            width: 90%;
+            margin: 0 auto;
             text-align: center;
             background-color: #000000;
             opacity: 0.5;  
