@@ -91,13 +91,11 @@
             padding-bottom: 12px;
             position: absolute;
             bottom: 0;
-            width: 100%;
+            width: 90%;
             margin: 0 auto;
             text-align: center;
             background-color: #000000;
             opacity: 0.5;
-            padding-left: 12rem;
-            padding-right: 12rem;
         }
 
         .numbertext {
