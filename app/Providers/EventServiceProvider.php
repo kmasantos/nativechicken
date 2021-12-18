@@ -16,10 +16,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
-        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+        /*\SocialiteProviders\Manager\SocialiteWasCalled::class => [
             // add your listeners (aka providers) here
             'SocialiteProviders\\Google\\GoogleExtendSocialite@handle',
-        ],
+        ],*/
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LoginActivity',
         ],
