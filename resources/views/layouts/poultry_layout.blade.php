@@ -111,7 +111,7 @@
 
 <body>
     {{-- Side navigation --}}
-    <ul id="slide-out" class="side-nav fixed blue-grey lighten-2">
+    <ul id="slide-out" class="side-nav blue-grey lighten-2">
         <li>
             <div class="user-view">
                 <div class="background blue-grey darken-1">
@@ -210,8 +210,8 @@
     {{-- Top navigation --}}
     <nav id="application_top_nav" class="blue-grey darken-1">
         <div class="nav-wrapper">
-            <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only"><i class="material-icons">menu</i></a>
-            <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo" height="100px" width="250px"/></a>
+           <a href="#" data-activates="slide-out" class="button-collapse" style="display:block"><i class="material-icons show-on-large">menu</i></a>
+           <a href="{{route('farm.index')}}" class="brand-logo center"><img id="poultry-logo" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo" height="100px" width="250px"/></a>
         </div>
     </nav>
     <main>

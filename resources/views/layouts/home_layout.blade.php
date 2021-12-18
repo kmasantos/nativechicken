@@ -38,8 +38,8 @@
         }
         #nav-logo-image {
             padding-left: 10px;
-            height: 100px; 
-            width: 250px;
+            height: 150px; 
+            width: 375px;
         }
         body {
             display: flex;
@@ -158,19 +158,18 @@
 <body id="home">
     <div class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper blue-grey darken-1">
-                <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo"/></a>
+            <div class="nav-wrapper grey darken-4">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down nav-button-div">
-                    <li class="tooltip" data-tippy-content="Home"><a href="#Home"><i class="fas fa-home"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Data"><a href="#Data" class="menu_links"><i class="fas fa-table"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Summary"><a href="#Summary" class="menu_links"><i class="fas fa-book-open"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Philippine Native Chickens"><a href="#PHNativeChickens" class="menu_links"><i class="fas fa-feather-alt"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Philippine Native Ducks"><a href="#PHNativeDucks" class="menu_links"><i class="fas fa-feather"></i></a></li>
-                    <li class="tooltip" data-tippy-content="News & Events"><a href="{{ route('news') }}" class="menu_links"><i class="far fa-newspaper"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Yearly Reports"><a href="{{ route('reports') }}" class="menu_links"><i class="far fa-sticky-note"></i></a></li>
-                    <li class="tooltip" data-tippy-content="Breeder Directory"><a href="#breeders" class="menu_links"><i class="fas fa-list-alt"></i></a></li>
-                    <li><a href="{{ route('google_login') }}" class="waves-effect waves-light btn-large blue-grey lighten-1"><i id="gicon" class="fab fa-google left"></i>Login</a></li>
+                <ul class="hide-on-med-and-down nav-button-div">
+                    <li class="tooltip"><a href="https://www.gov.ph">GOVPH</a></li>
+                    <li class="tooltip"><a href="#Home">Home</a></li>
+                    <li class="tooltip"><a href="#Data" class="menu_links">Data</a></li>
+                    <li class="tooltip"><a href="#Summary" class="menu_links">Summary</a></li>
+                    <li class="tooltip"><a href="#PHNativeChickens" class="menu_links">Philippine Native Chickens</a></li>
+                    <li class="tooltip">Philippine Native Ducks</a></li>
+                    <li class="tooltip"><a href="#news" class="menu_links">News and Events</a></li>
+                    <li class="tooltip"><a href="#breeders" class="menu_links">Breeder Directory</a></li>
+                    <li><a href="{{ route('google_login') }}">Log In</li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li><a href="#Home">Home</a></li>
@@ -183,6 +182,11 @@
                     <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
                     <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
                 </ul>
+            </div>
+        </nav>
+        <nav>
+            <div class="nav-wrapper blue-grey darken-1">
+                <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo"/></a>
             </div>
         </nav>
     </div>
