@@ -173,7 +173,7 @@
                     <li class="tooltip"><a href="#Data" class="menu_links">Data</a></li>
                     <li class="tooltip"><a href="#Summary" class="menu_links">Summary</a></li>
                     <li class="tooltip"><a href="#PHNativeChickens" class="menu_links">Philippine Native Chickens</a></li>
-                    <li class="tooltip">Philippine Native Ducks</a></li>
+                    <li class="tooltip"><a href="#PHNativeDucks" class="menu_links">Philippine Native Ducks</a></li>
                     <li class="tooltip"><a href="#news" class="menu_links">News and Events</a></li>
                     <li class="tooltip"><a href="#breeders" class="menu_links">Breeder Directory</a></li>
                     <li><a href="{{ route('google_login') }}">Log In</li>
