@@ -170,14 +170,14 @@
             <div class="nav-wrapper grey darken-3">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="hide-on-med-and-down nav-button-div">
-                    <li class="tooltip"><a href="https://www.gov.ph">GOVPH</a></li>
-                    <li class="tooltip"><a href="#Home">Home</a></li>
-                    <li class="tooltip"><a href="#Data" class="menu_links">Data</a></li>
-                    <li class="tooltip"><a href="#Summary" class="menu_links">Summary</a></li>
-                    <li class="tooltip"><a href="#PHNativeChickens" class="menu_links">Philippine Native Chickens</a></li>
-                    <li class="tooltip"><a href="#PHNativeDucks" class="menu_links">Philippine Native Ducks</a></li>
-                    <li class="tooltip"><a href="#news" class="menu_links">News and Events</a></li>
-                    <li class="tooltip"><a href="#breeders" class="menu_links">Breeder Directory</a></li>
+                    <li><a href="https://www.gov.ph">GOVPH</a></li>
+                    <li><a href="#Home">Home</a></li>
+                    <li><a href="#Data" class="menu_links">Data</a></li>
+                    <li><a href="#Summary" class="menu_links">Summary</a></li>
+                    <li><a href="#PHNativeChickens" class="menu_links">Philippine Native Chickens</a></li>
+                    <li><a href="#PHNativeDucks" class="menu_links">Philippine Native Ducks</a></li>
+                    <li><a href="#news" class="menu_links">News and Events</a></li>
+                    <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
                     <li><a href="{{ route('google_login') }}">Log In</li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
