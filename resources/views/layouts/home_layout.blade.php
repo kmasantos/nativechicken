@@ -22,14 +22,21 @@
         .navbar-fixed {
             margin-bottom: 45px; 
         }
-        nav {
+        nav#govph {
             height: 110px;
+        }
+        nav#nativepoultry {
+            height: 150px;
         }
         #gicon{
             margin-top: -5px;
         }
-        .nav-wrapper{
+        nav#govph .nav-wrapper{
             height: 110px;
+            padding-top: 5px;
+        }
+        nav#nativepoultry .nav-wrapper{
+            height: 150px;
             padding-top: 5px;
         }
         .nav-button-div{
@@ -157,7 +164,7 @@
 </head>
 <body id="home">
     <div class="navbar">
-        <nav>
+        <nav id="govph">
             <div class="nav-wrapper grey darken-4">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="hide-on-med-and-down nav-button-div">
@@ -184,7 +191,7 @@
                 </ul>
             </div>
         </nav>
-        <nav>
+        <nav id="nativepoultry">
             <div class="nav-wrapper blue-grey darken-1">
                 <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image" src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo"/></a>
             </div>
