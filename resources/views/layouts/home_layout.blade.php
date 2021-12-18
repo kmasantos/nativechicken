@@ -167,7 +167,7 @@
 <body id="home">
     <div class="navbar">
         <nav id="govph">
-            <div class="nav-wrapper grey darken-4">
+            <div class="nav-wrapper grey darken-3">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="hide-on-med-and-down nav-button-div">
                     <li class="tooltip"><a href="https://www.gov.ph">GOVPH</a></li>
