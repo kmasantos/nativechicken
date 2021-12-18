@@ -26,7 +26,7 @@
             height: 110px;
         }
         nav#nativepoultry {
-            height: 150px;
+            height: 160px;
         }
         #gicon{
             margin-top: -5px;
@@ -36,7 +36,7 @@
             padding-top: 5px;
         }
         nav#nativepoultry .nav-wrapper{
-            height: 150px;
+            height: 160px;
             padding-top: 5px;
         }
         .nav-button-div{
