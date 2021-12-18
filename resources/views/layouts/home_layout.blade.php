@@ -63,23 +63,21 @@
         }
         /* SLIDER CSS */
         .slideshow-container {
-            width: 100%;
+            width: 70%;
             position: relative;
             margin: auto;
         }
 
         .mySlides {
             display: none;
-            height: 600px;
+            height: 300px;
             width: 100%;
             margin: 0 auto;
-            padding-left: 12rem;
-            padding-right: 12rem;
         }
         .mySlides .img{
             background-color: #cccccc; 
-            width: 90%;
-            height:540px;
+            width: 100%;
+            height:300px;
             background-size: cover;
             background-repeat: no-repeat;
             margin: 0 auto;
@@ -91,7 +89,7 @@
             padding-bottom: 12px;
             position: absolute;
             bottom: 0;
-            width: 90%;
+            width: 100%;
             margin: 0 auto;
             text-align: center;
             background-color: #000000;
@@ -206,32 +204,34 @@
     </div>
 
     {{-- SLIDER --}}
-    <div class="slideshow-container grey darken-3">
+    <div class="grey darken-3">
+        <div class="slideshow-container">
 
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/FH2x3Gb/darag1-1.png')"></div>
-            <div class="text">Darag Native Chicken</div>
-        </div>
-        
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/qYDGLVP/boholano-2.png')"></div>
-            <div class="text">Boholano Native Chicken</div>
-        </div>
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/z5LnxzW/IMG-0600.png')"></div>
-            <div class="text">Camarines Native Chicken © T. Pequeña</div>
-        </div>
-        <div class="mySlides fade">
-                <div class="img" style="background-image:url('https://i.ibb.co/xFKfW8h/zampencarousel.png')"></div>
-                <div class="text">ZamPen Native Chicken © M.J. Cuadra</div>
+            <div class="mySlides fade">
+                <div class="img" style="background-image:url('https://i.ibb.co/FH2x3Gb/darag1-1.png')"></div>
+                <div class="text">Darag Native Chicken</div>
             </div>
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/7VX3NzN/khaki-1.png')"></div>
-            <div class="text">IP Khaki © Karen Dimaranan</div>
-        </div>
-        <div class="mySlides fade">
-            <div class="img" style="background-image:url('https://i.ibb.co/1JWyJFC/itimss.png')"></div>
-            <div class="text">IP Itim © Karen Dimaranan</div>
+            
+            <div class="mySlides fade">
+                <div class="img" style="background-image:url('https://i.ibb.co/qYDGLVP/boholano-2.png')"></div>
+                <div class="text">Boholano Native Chicken</div>
+            </div>
+            <div class="mySlides fade">
+                <div class="img" style="background-image:url('https://i.ibb.co/z5LnxzW/IMG-0600.png')"></div>
+                <div class="text">Camarines Native Chicken © T. Pequeña</div>
+            </div>
+            <div class="mySlides fade">
+                    <div class="img" style="background-image:url('https://i.ibb.co/xFKfW8h/zampencarousel.png')"></div>
+                    <div class="text">ZamPen Native Chicken © M.J. Cuadra</div>
+                </div>
+            <div class="mySlides fade">
+                <div class="img" style="background-image:url('https://i.ibb.co/7VX3NzN/khaki-1.png')"></div>
+                <div class="text">IP Khaki © Karen Dimaranan</div>
+            </div>
+            <div class="mySlides fade">
+                <div class="img" style="background-image:url('https://i.ibb.co/1JWyJFC/itimss.png')"></div>
+                <div class="text">IP Itim © Karen Dimaranan</div>
+            </div>
         </div>
     </div>
     <br/>
