@@ -72,11 +72,12 @@
             display: none;
             height: 600px;
             width: 100%;
+            margin: 0 auto;
         }
         .mySlides .img{
             background-color: #cccccc; 
-            width: 100%;
-            height:600px;
+            width: 90%;
+            height:540px;
             background-size: cover;
             background-repeat: no-repeat;
         }
@@ -201,7 +202,7 @@
     </div>
 
     {{-- SLIDER --}}
-    <div class="slideshow-container">
+    <div class="slideshow-container grey darken-3">
 
         <div class="mySlides fade">
             <div class="img" style="background-image:url('https://i.ibb.co/FH2x3Gb/darag1-1.png')"></div>
