@@ -156,7 +156,7 @@
     </style>
 </head>
 <body id="home">
-    <div class="navbar-fixed">
+    <div class="navbar">
         <nav>
             <div class="nav-wrapper grey darken-4">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
