@@ -80,6 +80,7 @@
             height:540px;
             background-size: cover;
             background-repeat: no-repeat;
+            margin: 0 auto;
         }
         .text {
             color: #ffffff;
