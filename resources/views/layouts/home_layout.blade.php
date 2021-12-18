@@ -70,8 +70,8 @@
 
         .mySlides {
             display: none;
-            height: 600px;
-            width: 100%;
+            height: 540px;
+            width: 90%;
             margin: 0 auto;
         }
         .mySlides .img{
