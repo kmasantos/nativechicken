@@ -70,9 +70,11 @@
 
         .mySlides {
             display: none;
-            height: 540px;
-            width: 90%;
+            height: 600px;
+            width: 100%;
             margin: 0 auto;
+            padding-left: 12rem;
+            padding-right: 12rem;
         }
         .mySlides .img{
             background-color: #cccccc; 
