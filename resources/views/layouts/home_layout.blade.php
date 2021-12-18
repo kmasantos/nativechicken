@@ -66,6 +66,8 @@
             width: 100%;
             position: relative;
             margin: auto;
+            margin-left: 12rem;
+            margin-right: 12rem;
         }
 
         .mySlides {
