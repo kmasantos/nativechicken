@@ -66,15 +66,14 @@
             width: 100%;
             position: relative;
             margin: auto;
-            margin-left: 12rem;
-            margin-right: 12rem;
         }
 
         .mySlides {
             display: none;
             height: 540px;
             width: 90%;
-            margin: 0 auto;
+            margin-left: 12rem;
+            margin-right: 12rem;
         }
         .mySlides .img{
             background-color: #cccccc; 
