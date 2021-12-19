@@ -5,12 +5,12 @@
         <div id="Home" class="col s12 m12 l12 scrollspy">
            <div class="row">
                <div class="col s12 l12">
-                   <h3 class="center-align" style="font-family: 'Poppins', sans-serif;">Philippine Native Chickens and Itik PINAS</h3>
+                   <h3 class="center-align" style="font-family: Arial, sans-serif;">Philippine Native Chickens and Itik PINAS</h3>
                </div>
             </div>
             <div class="row">
                 <div class="col s12 l12">
-                    <h5 style="font-family: 'Poppins', sans-serif;">What you need to know about the data available in the Philippine Native Chicken and Itik PINAS Information System</h5>
+                    <h5 style="font-family: Arial, sans-serif;">What you need to know about the data available in the Philippine Native Chicken and Itik PINAS Information System</h5>
                 </div>
                 <div class="col s12 l12">
                     
@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div id="Data" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-bar_chart"></i> Data</h5>
+                    <h5 style="font-family: Arial, sans-serif;">Data</h5>
                 </div>
                 <div class="col s12 l12">
                     <p>Data collected include the following:</p>
@@ -37,7 +37,7 @@
                                     <div class="card-panel custom-panel">
                                         <div class="row">
                                             <div class="col s12 l12">
-                                                <h5 class="center-align" style="font-family: 'Poppins', sans-serif;">Qualitative Data</h5>
+                                                <h5 class="center-align" style="font-family: Arial, sans-serif;">Qualitative Data</h5>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -74,8 +74,8 @@
                                     <div class="card-panel custom-panel">
                                         <div class="row">
                                             <div class="col s12 l12">
-                                                <h5 class="center-align" style="font-family: 'Poppins', sans-serif;">Quantitative Data</h5>
-                                                <h6 class="center-align" style="font-family: 'Poppins', sans-serif;">(Morphometric Characteristics)</h6>
+                                                <h5 class="center-align" style="font-family: Arial, sans-serif;">Quantitative Data</h5>
+                                                <h6 class="center-align" style="font-family: Arial, sans-serif;">(Morphometric Characteristics)</h6>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -106,8 +106,8 @@
                                     <div class="card-panel custom-panel">
                                         <div class="row">
                                             <div class="col s12 l12">
-                                                <h5 class="center-align" style="font-family: 'Poppins', sans-serif;">Quantitative Data</h5>
-                                                <h6 class="center-align" style="font-family: 'Poppins', sans-serif;">(Production Performance)</h6>
+                                                <h5 class="center-align" style="font-family: Arial, sans-serif;">Quantitative Data</h5>
+                                                <h6 class="center-align" style="font-family: Arial, sans-serif;">(Production Performance)</h6>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -128,7 +128,7 @@
             </div>
             <div class="row">
                 <div id="Summary" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-spiral_note_pad"></i> Summary Profile of the Philippine Native Chicken and Itik PINAS</h5>
+                    <h5 style="font-family: Arial, sans-serif;">Summary Profile of the Philippine Native Chicken and Itik PINAS</h5>
                 </div>
                 <div class="col s12 l12">
                     <p>Philippine Native Chickens are usually named after their locality. Boholano, Camarines and ZamPen are from the provinces of Bohol, Bicol and Zamboanga Peninsula, respectively, while Darag is the native chicken of Panay Island, Western Visayas.</p>
@@ -136,14 +136,14 @@
                     <p>In this information system, Boholano, Camarines, Darag, and ZamPen and Itik PINAS (IP) Itim and IP Khaki are described. Their physical characteristics, both qualitative and quantitative features, as well as their production performance are discussed below.</p>
                 </div>
                 <div id="PHNativeChickens" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-chicken"></i> Philippine Native Chickens</h5>
+                    <h5 style="font-family: Arial, sans-serif;">Philippine Native Chickens</h5>
                 </div>
                 <div class="col s12 l12">
                     <h6 style="font-size:1.3em;">Physical Characteristics</h6>
                 </div>
                 <div class="col s12 l12">
-                    <p><strong style="font-weight:bold; font-family: 'Poppins', sans-serif;">Philippine Native Chickens – Rooster.</strong> Unique to Camarines is its yellow-orange plumage with barred pattern. Darag and Boholano roosters have predominantly red plumage, though if in terms of shank color, Darag roosters have gray while most Boholano roosters have white shanks. ZamPen has red hackle, but the feathers in the body are predominantly black. All roosters, except ZamPen which has pea comb, have single comb type. In addition, ZamPen’s distinguishable feature is its body carriage – it stands upright like a royal!</p>
-                    <p><strong style="font-weight:bold; font-family: 'Poppins', sans-serif;">Philippine Native Chickens – Hens.</strong> Camarines and Darag both have brown feathers. In the locality, the color of Boholono native chickens are called “pula”. ZamPen hens are the easiest to identify, because it stands upright showing off its black plumage. Boholano, and most Darag and Camarines hens have laced plumage pattern.</p>
+                    <p><strong style="font-weight:bold; font-family: Arial, sans-serif;">Philippine Native Chickens – Rooster.</strong> Unique to Camarines is its yellow-orange plumage with barred pattern. Darag and Boholano roosters have predominantly red plumage, though if in terms of shank color, Darag roosters have gray while most Boholano roosters have white shanks. ZamPen has red hackle, but the feathers in the body are predominantly black. All roosters, except ZamPen which has pea comb, have single comb type. In addition, ZamPen’s distinguishable feature is its body carriage – it stands upright like a royal!</p>
+                    <p><strong style="font-weight:bold; font-family: Arial, sans-serif;">Philippine Native Chickens – Hens.</strong> Camarines and Darag both have brown feathers. In the locality, the color of Boholono native chickens are called “pula”. ZamPen hens are the easiest to identify, because it stands upright showing off its black plumage. Boholano, and most Darag and Camarines hens have laced plumage pattern.</p>
                 </div>
                 <div class="col s12 l12">
                     <h6 style="font-size:1.3em;">Production Performance</h6>
@@ -157,13 +157,13 @@
             </div>
             <div class="row">
                 <div id="ChickenBreeds" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-hatched_chick"></i> Philippine Native Chicken Breeds</h5>
+                    <h5 style="font-family: Arial, sans-serif;">Philippine Native Chicken Breeds</h5>
                 </div>
             </div>
             <chicken-breeds></chicken-breeds>
             <div class="row">
                 <div id="PHNativeDucks" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-duck"></i> Philippine Native Ducks (Itik PINAS)</h5>
+                    <h5 style="font-family: Arial, sans-serif;">Philippine Native Ducks (Itik PINAS)</h5>
                 </div>
                 <div class="col s12 l12">
                     <h6 style="font-size:1.3em;">History of Itik PINAS</h6>
@@ -191,17 +191,17 @@
             </div>
             <div class="row">
                 <div id="DuckBreeds" class="col s12 l12 scrollspy">
-                    <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-hatching_chick"></i> Philippine Native Duck (Itik PINAS) Breeds</h5>
+                    <h5 style="font-family: Arial, sans-serif;">Philippine Native Duck (Itik PINAS) Breeds</h5>
                 </div>
             </div>
             <duck-breeds></duck-breeds>
             <div class="row">
-                    <div id="breeders"  class="col s12 l12 scrollspy">
-                        <h5 style="font-family: 'Poppins', sans-serif;"><i class="em em-bookmark_tabs"></i> Breeder Directory</h5>
+                    <div id="breeders">
+                        <h5 style="font-family: Arial, sans-serif;margin-left:0;">Breeder Directory</h5>
                     </div>
                     <div class="row">
                         <div class="col s12 l6">
-                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of Boholano Breeder Farms</h5>
+                            <h5 style="font-family: Arial, sans-serif;">Directory of Boholano Breeder Farms</h5>
                             <div style="font-weight: bold">
                                 <i class="fas fa-certificate"></i> Department of Agriculture VII – Ubay Stock Farm
                             </div>
@@ -219,7 +219,7 @@
                             </div>
                         </div>
                         <div class="col s12 l6">
-                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of Camarines Breeder Farms</h5>
+                            <h5 style="font-family: Arial, sans-serif;">Directory of Camarines Breeder Farms</h5>
                             <div style="font-weight: bold">
                                 <i class="fas fa-certificate"></i> Bicol University College of Agriculture and Forestry
                             </div>
@@ -279,7 +279,7 @@
                     
                     <div class="row">
                         <div class="col s12 l6">
-                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of Darag Breeder Farms</h5>
+                            <h5 style="font-family: Arial, sans-serif;">Directory of Darag Breeder Farms</h5>
                             <div style="font-weight: bold">
                                 <i class="fas fa-certificate"></i> West Visayas State University Darag Center
                             </div>
@@ -297,7 +297,7 @@
                             </div>
                         </div>
                         <div class="col s12 l6">
-                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of ZamPen Breeder Farms</h5>
+                            <h5 style="font-family: Arial, sans-serif;">Directory of ZamPen Breeder Farms</h5>
                             <div style="font-weight: bold">
                                 <i class="fas fa-certificate"></i> WMSU-CA Native Chicken Project
                             </div>
@@ -396,7 +396,7 @@
 
                     <div class="row">
                         <div class="col s12 l12">
-                            <h5 style="font-family: 'Poppins', sans-serif;">Directory of Itik Pinas Breeder Farms</h5>
+                            <h5 style="font-family: Arial, sans-serif;">Directory of Itik Pinas Breeder Farms</h5>
                             <div style="font-weight: bold">
                                 <i class="fas fa-certificate"></i> Bureau of Animal Industry - National Swine And Poultry Research And Development Center
                             </div>
