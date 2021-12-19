@@ -34,12 +34,12 @@
         nav#govph .nav-wrapper{
             height: 110px;
             padding-top: 5px;
-            padding-left: 11rem;
+            padding-left: 12rem;
         }
         nav#nativepoultry .nav-wrapper{
             height: 160px;
             padding-top: 5px;
-            padding-left: 11rem;
+            padding-left: 12rem;
         }
         .nav-button-div{
             padding-top: 20px;
