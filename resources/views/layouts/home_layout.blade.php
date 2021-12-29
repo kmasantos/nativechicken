@@ -46,13 +46,15 @@
         nav#govph .nav-wrapper {
             height: 110px;
             padding-top: 5px;
-            padding-left: 12rem;
+            width: 70%;
+            margin: 0 auto;
         }
 
         nav#nativepoultry .nav-wrapper {
             height: 160px;
             padding-top: 5px;
-            padding-left: 12rem;
+            width: 70%;
+            margin: 0 auto;
         }
 
         .nav-button-div {
@@ -210,7 +212,7 @@
 
 <body id="home">
     <div class="navbar">
-        <nav id="govph">
+        <nav id="govph" class="grey darken-3">
             <div class="nav-wrapper grey darken-3">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="hide-on-med-and-down nav-button-div">
@@ -222,6 +224,7 @@
                     <li><a href="#PHNativeDucks" class="menu_links">Philippine Native Ducks</a></li>
                     <li><a href="#news" class="menu_links">News and Events</a></li>
                     <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
+                    <li><a href="http://www.pcaarrd.dost.gov.ph/home/portal/index.php/philippine-transparency-seal/" target="_blank" class="menu_links">Transparency Seal</a></li>
                     <li><a href="{{ route('google_login') }}">Log In</li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
@@ -233,14 +236,24 @@
                     <li><a href="{{ route('news') }}" class="menu_links">News & Events</a></li>
                     <li><a href="{{ route('reports') }}" class="menu_links">Yearly Reports</a></li>
                     <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
+                    <li><a href="http://www.pcaarrd.dost.gov.ph/home/portal/index.php/philippine-transparency-seal/" target="_blank" class="menu_links">Transparency Seal</a></li>
                     <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
                 </ul>
             </div>
         </nav>
-        <nav id="nativepoultry">
-            <div class="nav-wrapper blue-grey darken-1">
-                <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image"
-                        src="https://image.ibb.co/dBHtKq/logo-poultry.png" alt="poultry-logo" /></a>
+        <nav id="nativepoultry" style="background:#6d929b;">
+            <div class="nav-wrapper">
+                <div class="row">
+                    <div class="col s12 m10">
+                        <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image"
+                            src="{{asset('media/pcaarrd-header.png')}}" alt="DOST-PCAARRD" height="85" style="margin-top:10px;" /></a>
+                            <br />
+                            <h1 style="font-size:1.5em;text-align:left;margin-left:90px;text-transform:uppercase;letter-spacing:-0.05em">Philippine Native Chicken and Itik Pinas Breed Information System</h1>    
+                    </div>
+                    <div class="col s12 m2">
+                        <a href="http://www.pcaarrd.dost.gov.ph/home/portal/index.php/philippine-transparency-seal/" target="_blank"><img src="{{asset('media/transparency-seal.png')}}" width="100%" /></a>
+                    </div>
+                </div>
             </div>
         </nav>
     </div>
@@ -303,6 +316,7 @@
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
+                    <img src="https://image.ibb.co/dBHtKq/logo-poultry.png" height="175" />
                     <h5 class="black-text">Philippine Native Chicken and Itik Pinas Breed Information System</h5>
                     <p class="black-text">
                         The "Development of Philippine Native Chicken and Itik Pinas Information System" is a
