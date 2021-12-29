@@ -218,10 +218,10 @@
                     <li><a href="#Home">Home</a></li>
                     <li><a href="#Data" class="menu_links">Data</a></li>
                     <li><a href="#Summary" class="menu_links">Summary</a></li>
-                    <li><a href="#PHNativeChickens" class="menu_links">Philippine Native Chickens</a></li>
-                    <li><a href="#PHNativeDucks" class="menu_links">Philippine Native Ducks</a></li>
-                    <li><a href="#news" class="menu_links">News and Events</a></li>
-                    <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
+                    <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
+                    <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
+                    <li><a href="#news" class="menu_links">News</a></li>
+                    <li><a href="#breeders" class="menu_links">Breeders</a></li>
                     <li><a href="http://www.pcaarrd.dost.gov.ph/home/portal/index.php/philippine-transparency-seal/" target="_blank" class="menu_links">Transparency Seal</a></li>
                     <li><a href="{{ route('google_login') }}">Log In</li>
                 </ul>
@@ -231,11 +231,10 @@
                     <li><a href="#Summary" class="menu_links">Summary</a></li>
                     <li><a href="#PHNativeChickens" class="menu_links">PH Native Chickens</a></li>
                     <li><a href="#PHNativeDucks" class="menu_links">PH Native Ducks</a></li>
-                    <li><a href="{{ route('news') }}" class="menu_links">News & Events</a></li>
-                    <li><a href="{{ route('reports') }}" class="menu_links">Yearly Reports</a></li>
-                    <li><a href="#breeders" class="menu_links">Breeder Directory</a></li>
+                    <li><a href="{{ route('news') }}" class="menu_links">News</a></li>
+                    <li><a href="#breeders" class="menu_links">Breeders</a></li>
                     <li><a href="http://www.pcaarrd.dost.gov.ph/home/portal/index.php/philippine-transparency-seal/" target="_blank" class="menu_links">Transparency Seal</a></li>
-                    <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Login</a></li>
+                    <li><a href="{{ route('google_login') }}"><i class="fab fa-google left"></i>Log In</a></li>
                 </ul>
             </div>
         </nav>
@@ -246,7 +245,7 @@
                         <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image"
                             src="{{asset('media/pcaarrd-header.png')}}" alt="DOST-PCAARRD" height="85" style="margin-top:10px;" /></a>
                             <br />
-                            <h1 style="font-size:1.5em;text-align:left;margin-left:90px;text-transform:uppercase;letter-spacing:-0.05em">Philippine Native Chicken and Itik Pinas Breed Information System</h1>    
+                            <h1 style="font-size:1.5em;text-align:left;margin-left:100px;text-transform:uppercase;letter-spacing:-0.05em">Philippine Native Chicken and Itik Pinas Breed Information System</h1>    
                     </div>
                     <div class="col s12 m2">
                         <a href="http://www.pcaarrd.dost.gov.ph/home/portal/index.php/philippine-transparency-seal/" target="_blank"><img src="{{asset('media/transparency-seal.png')}}" width="100%" /></a>
