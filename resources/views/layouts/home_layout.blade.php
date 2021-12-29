@@ -245,7 +245,7 @@
                         <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image"
                             src="{{asset('media/pcaarrd-header.png')}}" alt="DOST-PCAARRD" height="85" style="margin-top:10px;" /></a>
                             <br />
-                            <h1 style="font-size:1.5em;text-align:left;margin-left:103px;text-transform:uppercase;letter-spacing:-0.05em;margin-top:15px;">Philippine Native Chicken and<br />Itik Pinas Breed Information System</h1>    
+                            <h1 style="font-size:1.5em;text-align:left;margin-left:103px;text-transform:uppercase;letter-spacing:-0.05em;padding-top:5px;">Philippine Native Chicken and<br />Itik Pinas Breed Information System</h1>    
                     </div>
                     <div class="col s12 m2">
                         <a href="http://www.pcaarrd.dost.gov.ph/home/portal/index.php/philippine-transparency-seal/" target="_blank"><img src="{{asset('media/transparency-seal.png')}}" width="100%" /></a>
