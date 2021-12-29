@@ -313,7 +313,7 @@
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <img src="https://image.ibb.co/dBHtKq/logo-poultry.png" height="175" />
+                    <img src="{{asset('media/logo-poultry.png')}}" height="175" />
                     <h5 class="black-text">Philippine Native Chicken and Itik Pinas Breed Information System</h5>
                     <p class="black-text">
                         The "Development of Philippine Native Chicken and Itik Pinas Information System" is a
