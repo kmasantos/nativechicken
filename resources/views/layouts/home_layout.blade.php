@@ -64,8 +64,6 @@
 
         #nav-logo-image {
             padding-left: 10px;
-            height: 150px;
-            width: 375px;
         }
 
         body {
