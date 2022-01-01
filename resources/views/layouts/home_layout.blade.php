@@ -36,7 +36,7 @@
         }
 
         nav#nativepoultry {
-            height: 160px;
+            height: 175px;
         }
 
         #gicon {
@@ -243,7 +243,7 @@
                 <div class="row">
                     <div class="col s12 m10">
                         <a href="{{ url('/') }}" class="brand-logo"><img id="nav-logo-image"
-                            src="{{asset('media/pcaarrd-native-chicken-header.png')}}" alt="Philippine Native Chicken and Itik Pinas Breed Information System" height="140" style="margin-top:10px;" /></a>   
+                            src="{{asset('media/pcaarrd-native-chicken-header.png')}}" alt="Philippine Native Chicken and Itik Pinas Breed Information System" height="160" style="margin-top:10px;" /></a>   
                     </div>
                     <div class="col s12 m2">
                         <a href="http://www.pcaarrd.dost.gov.ph/home/portal/index.php/philippine-transparency-seal/" target="_blank"><img src="{{asset('media/transparency-seal.png')}}" width="100%" /></a>
