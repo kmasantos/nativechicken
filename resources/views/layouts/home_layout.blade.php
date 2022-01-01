@@ -307,7 +307,7 @@
             </div>
         </div>
     </main>
-    <footer class="page-footer blue-grey lighten-3">
+    <footer class="page-footer" style="background:#6d929b;">
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
@@ -359,7 +359,7 @@
         <div class="container" style="margin-top:30px;">
             <div class="row">
                 <div class="m3 col">
-                    <img src="http://www.pcaarrd.dost.gov.ph/home/portal/images/govph-seal-mono-footer.png"
+                    <img src="{{ asset('media/govph-seal.png') }}"
                         width="200" />
                 </div>
                 <div class="m3 col">
