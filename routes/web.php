@@ -348,4 +348,10 @@ Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback
 Route::get('login/mimic/{code}', 'Auth\LoginController@loginByCode');
 Route::get('logout', 'Auth\LoginController@logout');
 
-Auth::routes(['register' => false, 'login' => false, 'verify' => false]);
+Route::match(['get', 'post'], 'register', function(){
+    return redirect('/');
+});
+
+Route::match(['get', 'post'], 'login', function(){
+    return redirect('/');
+});
