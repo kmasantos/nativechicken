@@ -35,6 +35,32 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
     }
+    
+    public function mimic()
+    {
+        echo '<html><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"><title>Mimic User</title></head><body>';
+        $users = User::all();
+        echo '<table border="1"><tr><td>Name</td><td>Email</td><td>Farm Code</td><td>Farm Name</td><td>Mimic User</td></tr>';
+        foreach ($users as $user) {
+            $farm = Farm::find($user->farm_id);
+            echo "<tr><td>{$user->name}</td><td>{$user->email}</td><td>{$farm->code}</td><td>{$farm->name}</td><td><a href=\"".url('/admin/mimic/' . $user->id)."\">Mimic User</a></td></tr>";
+        }
+        echo '</table></body></html>';
+    }
+
+    public function mimicUser($id, Request $request)
+    {
+        $user = User::findOrFail($id);
+        
+        $loginToken = str_random(40) . '-' . (time()+300);
+        $user->remember_token = $loginToken;
+        $user->save();
+
+        date_default_timezone_set('Asia/Manila');
+        echo 'You may log in as ' . $user->email . ' until ' . date('g:i A') . '.';
+        echo '<input type="text" readonly size="40" value="'.url('/login/mimic/' . $loginToken).'" onfocus="this.select();" onmouseup="return false;" />';
+    }
+
 
     /**
      * Show the application dashboard.

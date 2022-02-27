@@ -88,4 +88,25 @@ class LoginController extends Controller
         Auth::logout();
         return redirect('/');
     }
+
+    public function loginByCode($code, Request $request)
+    {
+        $user = User::where('remember_token', $code)->get()->first();
+        if (!empty($user) && strlen($code) > 40) {
+            $expiration = explode('-', $code);
+            $expiration = (int) array_pop($expiration);
+            if (time() < $expiration) {
+                $old = $user->last_active;
+                Auth::login($user);
+                $user->last_active = $old;
+                $user->remember_token = '';
+                $user->save();
+                return redirect()->action('FarmController@index');
+            } else {
+                die('Invalid login code. It is already expired.');
+            }
+        } else {
+            die('Invalid login code. Please try again.');
+        }
+    }
 }

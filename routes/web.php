@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Controllers\AdminController;
+
 Route::get('/', function () {
     return view('general/home');
 })->middleware('guest');
@@ -272,6 +274,8 @@ Route::group(['middleware' => ['web']], function ()
     Route::group(['prefix' => 'admin'], function()
     {
         Route::get('/',['as' => 'admin.index', 'uses' => 'AdminController@index']);
+        Route::get('/mimic', [AdminController::class, 'mimic']);
+        Route::get('/mimic/{id}', [AdminController::class, 'mimicUser']);
         Route::get('/user_management',['as' => 'admin.user_management', 'uses' => 'AdminController@userManagementPage']);
         Route::get('/news_management',['as' => 'admin.news_management', 'uses' => 'AdminController@newsManagementPage']);
         Route::get('/news_management/add_news',['as' => 'admin.add_news', 'uses' => 'AdminController@addNewsPage']);
@@ -341,4 +345,7 @@ Route::group(['middleware' => ['web']], function ()
 // Socialite Routes
 Route::get('login/google', 'Auth\LoginController@redirectToProvider')->name('google_login');
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('login/mimic/{code}', 'Auth\LoginController@loginByCode');
 Route::get('logout', 'Auth\LoginController@logout');
+
+Auth::routes(['register' => false, 'login' => false, 'verify' => false]);
