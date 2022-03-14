@@ -185,6 +185,7 @@ class ReplacementController extends Controller
         ->leftJoin('generations', 'generations.id', 'lines.generation_id')
         ->select('replacement_inventories.*', 'replacements.*', 'families.number as fam_number', 'lines.number as line_number',
         'families.id as fam_id', 'replacements.id as rep_id', 'replacement_inventories.id as inv_id', 'generations.number as gen_number')
+        ->where('families.is_active', true)
         ->orderBy('replacement_inventories.last_update', 'asc')
         ->paginate(10);
 
