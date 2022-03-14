@@ -219,7 +219,7 @@ class FarmController extends Controller
 
     public function fetchGenerations()
     {
-        $generations = Generation::where('farm_id', Auth::user()->farm_id)->orderBy('numerical_generation', 'asc')->get();
+        $generations = Generation::where('farm_id', Auth::user()->farm_id)->select('*')->selectRaw('CONCAT(number,IF(is_active=0," (inactive)","")) AS number')->orderBy('is_active', 'DESC')->orderBy('numerical_generation', 'asc')->get();
         return $generations;
     }
 
