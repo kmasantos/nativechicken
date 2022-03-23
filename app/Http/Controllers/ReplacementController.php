@@ -347,8 +347,14 @@ class ReplacementController extends Controller
     {
         $feedingrecords = ReplacementFeeding::
             leftJoin('replacement_inventories', 'replacement_feedings.replacement_inventory_id', 'replacement_inventories.id')
+            ->leftJoin('replacements', 'replacement_inventories.replacement_id', 'replacements.id')
+            ->leftJoin('families', 'families.id', 'replacements.family_id')
+            ->leftJoin('lines', 'lines.id', 'families.line_id')
+            ->leftJoin('generations', 'lines.generation_id', 'generations.id')
             ->select('replacement_feedings.*', 'replacement_inventories.*', 'replacement_inventories.id as inventory_id', 'replacement_feedings.id as feeding_id')
             ->where('replacement_inventories.pen_id', $pen_id)
+            ->where('families.is_active', true)
+            ->where('generations.is_active', true)
             ->orderBy('replacement_feedings.date_collected', 'desc')
             ->paginate(10);
         return $feedingrecords;
