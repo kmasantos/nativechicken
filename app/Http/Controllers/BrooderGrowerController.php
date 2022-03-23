@@ -129,6 +129,8 @@ class BrooderGrowerController extends Controller
         ->leftJoin('generations', 'generations.id', 'lines.generation_id')
         ->select('brooder_grower_inventories.*', 'brooder_growers.*', 'families.number as fam_number', 'lines.number as line_number',
         'families.id as fam_id', 'brooder_growers.id as bg_id', 'brooder_grower_inventories.id as inv_id', 'generations.number as gen_number')
+        ->where('families.is_active', true)
+        ->where('generations.is_active', true)
         ->orderBy('brooder_grower_inventories.last_update', 'asc')
         ->paginate(10);
 
