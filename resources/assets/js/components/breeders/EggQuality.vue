@@ -179,7 +179,7 @@
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="albumen_weight" type="number" class="validate" v-model="albumen_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label class="active" for="albumen_weight">Albumen Weight (mm) <i v-if="check_albumen_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <label class="active" for="albumen_weight">Albumen Weight (g) <i v-if="check_albumen_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
                                             <i v-if="((albumen_weight!=='' && egg_weight!=='') && albumen_weight>egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be less than the egg weight </i>
                                             <i v-if="((egg_weight!=='' && albumen_weight!=='' && yolk_weight !== '' && shell_weight !== '') && (albumen_weight+yolk_weight+shell_weight)>egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Total input for albumen weight, yolk weight and shell weight should be less than or equal to the egg weight</i>
                                             </label>
@@ -403,7 +403,7 @@
                                     <div class="row">
                                         <div class="input-field col s12 m6 l6">
                                             <input id="edit_albumen_weight" type="number" class="validate" v-model.lazy="edit_albumen_weight" step="0.001" pattern="^\d*(\.\d{0,3})?$">
-                                            <label class="active" for="edit_albumen_weight">Albumen Weight (mm) <i v-if="edit_check_albumen_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
+                                            <label class="active" for="edit_albumen_weight">Albumen Weight (g) <i v-if="edit_check_albumen_weight===false" class="red-text"><i class="fas fa-times-circle"></i> Input required</i>
                                             <i v-if="((edit_albumen_weight!=='' && edit_egg_weight!=='') && edit_albumen_weight>edit_egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Input should be less than the egg weight </i>
                                             <i v-if="((edit_egg_weight!=='' && edit_albumen_weight!=='' && edit_yolk_weight !== '' && edit_shell_weight !== '') && (edit_albumen_weight+edit_yolk_weight+edit_shell_weight)>=edit_egg_weight)" class="orange-text"><i class="fas fa-exclamation-circle"></i> Total input for albumen weight, yolk weight and shell weight should be less than or equal to the egg weight</i>
                                             </label>
