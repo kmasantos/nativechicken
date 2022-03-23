@@ -58,7 +58,7 @@
                                         <td v-else>{{inventory.number_female}}</td>
                                         <td>{{inventory.total}}</td>
                                         <td>{{inventory.last_update}}</td>
-                                        <td v-if="inventory.number_female===0 && inventory.number_male===0"><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;selected_total=inventory.total" href="#update_modal" class="modal-trigger"><i class="fas fa-edit"></i></a></td>
+                                        <td v-if="inventory.total>0"><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;selected_total=inventory.total" href="#update_modal" class="modal-trigger"><i class="fas fa-edit"></i></a></td>
                                         <td v-else><i class="fas fa-edit grey-text"></i></td>
                                         <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;getMortalitySale()" href="#mortality_sale" class="modal-trigger"><i class="fas fa-minus-circle"></i></a></td>
                                         <td><a @click="selected_inventory_id=inventory.inv_id;selected_inventory_tag=inventory.replacement_tag;" href="#cull_modal" class="modal-trigger"><i class="fas fa-times-circle"></i></a></td>
