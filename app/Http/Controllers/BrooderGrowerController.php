@@ -182,6 +182,8 @@ class BrooderGrowerController extends Controller
         ->select('brooder_grower_feedings.*', 'brooder_grower_inventories.*', 'brooder_grower_inventories.id as inventory_id', 'brooder_grower_feedings.id as record_id',
             'families.number as family_number', 'lines.number as line_number', 'generations.number as generation_number')
         ->where('brooder_grower_inventories.pen_id', $pen_id)
+        ->where('families.is_active', true)
+        ->where('generations.is_active', true)
         ->orderBy('brooder_grower_feedings.date_collected', 'desc')
         ->paginate(10);
         return $feedingrecords;
