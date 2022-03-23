@@ -1147,7 +1147,7 @@ class BreederController extends Controller
         }
         if($request->within){   
             $male_replacement_inventory = ReplacementInventory::where('id', $request->replacement_male_inventory)->first();
-            $female_replacement_inventory = ReplacementInventory::where('id', $request->replacement_male_inventory)->first();
+            $female_replacement_inventory = ReplacementInventory::where('id', $request->replacement_female_inventory)->first();
             $male_replacement_pen = Pen::where('id', $male_replacement_inventory->pen_id)->first();
             $female_replacement_pen = Pen::where('id', $female_replacement_inventory->pen_id)->first();
             
