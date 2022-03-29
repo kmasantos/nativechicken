@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                             <div id="grow">
-                                <div class="row" v-if="Object.entries(grower_feeding).length === 0 && grower_feeding.constructor === Object">
+                                <div class="row" v-if="Object.entries(grower_feeding_record).length === 0 && grower_feeding_record.constructor === Object">
                                     <div class="col s12 m12 l12 center-align">
                                         NO DATA
                                     </div>
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                             <div id="brood">
-                                <div class="row" v-if="Object.entries(brooder_feeding).length === 0 && brooder_feeding.constructor === Object">
+                                <div class="row" v-if="Object.entries(brooder_feeding_record).length === 0 && brooder_feeding_record.constructor === Object">
                                     <div class="col s12 m12 l12 center-align">
                                         NO DATA
                                     </div>
