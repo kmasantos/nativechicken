@@ -215,23 +215,18 @@ export default {
             .then(response => {
                 this.grower_feeding_record = response.data;
                 this.grower_feeding = {};
-                if(grower_feeding_record.length === 0){
-                    return;
-                }else{
-                    this.grower_feeding_record.forEach(element => {
-                        if((typeof this.grower_feeding[element.line_number] === 'undefined')){
-                            this.grower_feeding[element.line_number] = {};
-                        }          
-                        if((typeof this.grower_feeding[element.line_number][element.family_number] === 'undefined')){
-                            this.grower_feeding[element.line_number][element.family_number] = {};
-                            this.grower_feeding[element.line_number][element.family_number]['offered'] = [];
-                            this.grower_feeding[element.line_number][element.family_number]['refused'] = [];
-                        }
-                        this.grower_feeding[element.line_number][element.family_number]['offered'].push(element.amount_offered);
-                        this.grower_feeding[element.line_number][element.family_number]['refused'].push(element.amount_refused);
-                    });
-                }
-                
+                this.grower_feeding_record.forEach(element => {
+                    if((typeof this.grower_feeding[element.line_number] === 'undefined')){
+                        this.grower_feeding[element.line_number] = {};
+                    }          
+                    if((typeof this.grower_feeding[element.line_number][element.family_number] === 'undefined')){
+                        this.grower_feeding[element.line_number][element.family_number] = {};
+                        this.grower_feeding[element.line_number][element.family_number]['offered'] = [];
+                        this.grower_feeding[element.line_number][element.family_number]['refused'] = [];
+                    }
+                    this.grower_feeding[element.line_number][element.family_number]['offered'].push(element.amount_offered);
+                    this.grower_feeding[element.line_number][element.family_number]['refused'].push(element.amount_refused);
+                });                
             })
             .catch(error => {});
         },
@@ -240,23 +235,18 @@ export default {
             .then(response => {
                 this.brooder_feeding_record = response.data;
                 this.brooder_feeding = {};
-                 if(brooder_feeding_record.length === 0){
-                    return;
-                }else{
-                    this.brooder_feeding_record.forEach(element => {
-                        if((typeof this.brooder_feeding[element.line_number] === 'undefined')){
-                            this.brooder_feeding[element.line_number] = {};
-                        }          
-                        if((typeof this.brooder_feeding[element.line_number][element.family_number] === 'undefined')){
-                            this.brooder_feeding[element.line_number][element.family_number] = {};
-                            this.brooder_feeding[element.line_number][element.family_number]['offered'] = [];
-                            this.brooder_feeding[element.line_number][element.family_number]['refused'] = [];
-                        }
-                        this.brooder_feeding[element.line_number][element.family_number]['offered'].push(element.amount_offered);
-                        this.brooder_feeding[element.line_number][element.family_number]['refused'].push(element.amount_refused);
-                    });
-                }
-                
+                this.brooder_feeding_record.forEach(element => {
+                    if((typeof this.brooder_feeding[element.line_number] === 'undefined')){
+                        this.brooder_feeding[element.line_number] = {};
+                    }          
+                    if((typeof this.brooder_feeding[element.line_number][element.family_number] === 'undefined')){
+                        this.brooder_feeding[element.line_number][element.family_number] = {};
+                        this.brooder_feeding[element.line_number][element.family_number]['offered'] = [];
+                        this.brooder_feeding[element.line_number][element.family_number]['refused'] = [];
+                    }
+                    this.brooder_feeding[element.line_number][element.family_number]['offered'].push(element.amount_offered);
+                    this.brooder_feeding[element.line_number][element.family_number]['refused'].push(element.amount_refused);
+                }); 
             })
             .catch(error => {});
         },
