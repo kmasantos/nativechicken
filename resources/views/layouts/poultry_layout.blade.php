@@ -6,7 +6,7 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="{{ asset('/thirdparty/fontawesome-free-5.6.0-web/css/all.min.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('/thirdparty/materialize/css/materialize.min.css') }}"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="{{ asset('/css/application_materialize.css') }}}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/css/application_materialize.css') }}"  media="screen,projection"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     @yield('customcss')
