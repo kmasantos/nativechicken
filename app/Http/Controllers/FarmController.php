@@ -1306,7 +1306,7 @@ class FarmController extends Controller
                 ->join('lines', 'lines.id', 'families.line_id')
                 ->join('generations', 'generations.id', 'lines.generation_id')
                 ->where('generations.farm_id', Auth::user()->farm_id)
-                ->select('pheno_morpho_values.*', 'generations.number')
+                ->select('pheno_morpho_values.*', 'generations.number', 'lines.number as line_number', 'families.number as family_number')
                 ->withTrashed()->get();
         return $data;
     }
