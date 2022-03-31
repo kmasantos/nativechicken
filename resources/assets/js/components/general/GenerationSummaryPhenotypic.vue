@@ -143,10 +143,10 @@
                                                                                     </thead>
 
                                                                                     <tbody>
-                                                                                        <tr v-for="(freq, attr) in male_replacement_records[characteristic][index]" :key="attr">
+                                                                                        <tr v-for="(freq, attr) in female_replacement_records[characteristic][index]" :key="attr">
                                                                                             <td>{{attr}}</td>
                                                                                             <td>{{freq}}</td>
-                                                                                            <td>{{getPercentage(freq, male_replacement_records[characteristic][index])}}%</td>
+                                                                                            <td>{{getPercentage(freq, female_replacement_records[characteristic][index])}}%</td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 </table>
