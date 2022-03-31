@@ -1046,7 +1046,7 @@ export default {
                     this.female_replacement_records['presence_crest'] = {};
                     this.male_replacement_records['eye_color'] = {};
                     this.female_replacement_records['eye_color'] = {};
-                    this.replacement_data.forEach(element => {
+                    this.breeder_data.forEach(element => {
                         var values = JSON.parse(element.phenotypic);
                         if(element.gender === "male"){
                             if((typeof this.male_replacement_records['plumage_color'][element.number] === 'undefined')){
